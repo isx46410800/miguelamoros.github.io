@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Archivos Destacados - MKapuntes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Archivos Destacados";
+    var mkdocs_page_input_path = "files.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Archivos Destacados</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MKapuntes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Archivos Destacados</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/files.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="archivos-importantes-de-linux">Archivos importantes de Linux</h1>
+<ul>
+<li>Usuarios del sistema (user.pass,uid,gid,gecos,home,shell)<br />
+<code>/etc/passwd</code>  </li>
+<li>Grupos del sistema (gnamegroup,pass,gid,list users)<br />
+<code>/etc/group</code>  </li>
+<li>Contraseñas de los usuarios (user,pass,last passwd change,min dias para cambiar pass,max dias con misma pass,warning dias aviso pass,inactivity,expire account)<br />
+<code>/etc/shadow</code>  </li>
+<li>Dominio DNS<br />
+<code>/etc/resolv.conf</code>  </li>
+<li>Lo que monta el sistema al encenderse(filesystem,mountpoint,type,options,dump,check):<br />
+<code>/etc/fstab</code></li>
+<li>Hosts del sistema (IP-&gt;nombre)<br />
+<code>/etc/hosts</code> # #192.168.1.41 miguel</li>
+<li>Cambiar host de nombre:<br />
+<code>/etc/hostname</code> miguel  </li>
+<li>File para hacer crons:<br />
+<code>/etc/crontab</code>  </li>
+<li>Grub del sistema:<br />
+<code>/boot/grub2/grub.cfg</code></li>
+<li>Negar Ips ssh:<br />
+<code>/etc/hosts.deny</code></li>
+<li>Ficheros SSH
+<code>/etc/ssh/sshd_config</code> <code>/etc/ssh/ssh_config</code></li>
+<li>Ficheros xinetd:<br />
+<code>/etc/xinetd.d</code></li>
+<li>Cosas exportables:<br />
+<code>/etc/exports</code></li>
+<li>Samba:<br />
+<code>/etc/samba/smb.conf</code></li>
+<li>Named:<br />
+<code>/etc/named</code></li>
+<li>APACHE HTTP:<br />
+<code>/etc/httpd/conf/httpd.conf</code><br />
+<code>/var/www/html/index.html</code></li>
+<li>Mail:<br />
+<code>/var/spool/mail</code><br />
+<code>/etc/mail/sendmailcf-mc</code></li>
+<li>Volumenes en Docker:<br />
+<code>/var/lib/docker/volumes</code></li>
+<li>Usuarios con los que hemos hecho contacto SSH:<br />
+<code>/.ssh/known_hosts</code><br />
+<code>/.ssh/authorized_keys</code></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../bbdd/" class="btn btn-neutral" title="Base de datos"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../bbdd/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

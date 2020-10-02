@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Python - MKapuntes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Python";
+    var mkdocs_page_input_path = "python.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Python</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#shebang">Shebang</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mostrar-algo">Mostrar algo</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mostrar-algo-con-formato">Mostrar algo con formato</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#importar-librerias">Importar librerias</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#condicional">Condicional</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bucle-for-iterar-elementos">Bucle for (iterar elementos)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bucle-while">Bucle while</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#funciones">Funciones</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#test-main">Test main</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#objetos">Objetos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mayusculas-minusculas-letra-capital">Mayusculas, minusculas, letra capital</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ver-tipo-de-dato">Ver tipo de dato</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#listas">Listas</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tuplas">Tuplas</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#diccionarios">Diccionarios</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#rangos">Rangos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#list-comprension">List Comprension</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#len">Len</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#objetos_1">Objetos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ficheros">Ficheros</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modulos">Módulos</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MKapuntes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Python</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/python.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="programacion-python">Programación PYTHON</h1>
+<h2 id="shebang">Shebang</h2>
+<pre><code># !/usr/bin/python3
+# -*-coding: utf-8-*-
+</code></pre>
+
+<h2 id="mostrar-algo">Mostrar algo</h2>
+<pre><code>print(&quot;Uso windows&quot;)
+</code></pre>
+
+<h2 id="mostrar-algo-con-formato">Mostrar algo con formato</h2>
+<pre><code>print(&quot;Hello World, my name is {}&quot; .format(name))
+print(f'My Python version is {version}')
+</code></pre>
+
+<h2 id="importar-librerias">Importar librerias</h2>
+<pre><code>import platform
+from xxxx import xx
+</code></pre>
+
+<h2 id="variables">Variables</h2>
+<pre><code>x=100
+y=True
+z=&quot;Miguel&quot;
+</code></pre>
+
+<h2 id="condicional">Condicional</h2>
+<pre><code>x = 25
+y = 15
+if x &gt; y:
+    print(&quot;x is greater than y: where x is {} and y {}&quot; .format(x,y))
+elif x == y:
+    print(&quot;x and y are the same: where x is {} and y {}&quot; .format(x,y))
+else:
+    print(&quot;x is lesser than y: where x is {} and y {}&quot; .format(x,y))
+</code></pre>
+
+<pre><code>tengoHambre = True
+y = &quot;Necesito comer&quot; if tengoHambre else &quot;solo necesito beber&quot;
+</code></pre>
+
+<pre><code>a = True
+b = False
+# comparamos a y b
+if a and b:
+    print('Expresiones son TRUE')
+else:
+    print(&quot;Expresiones son False&quot;)
+</code></pre>
+
+<h2 id="bucle-for-iterar-elementos">Bucle for (iterar elementos)</h2>
+<pre><code>food = [&quot;breakfast&quot;, &quot;lunch&quot;, &quot;snack&quot;, &quot;dinner&quot;]
+for i in food:
+    print(i)
+</code></pre>
+
+<h2 id="bucle-while">Bucle while</h2>
+<pre><code>food = [&quot;breakfast&quot;, &quot;lunch&quot;, &quot;snack&quot;, &quot;dinner&quot;]
+while m &lt; 4:
+    print(food[m])
+    m +=1
+</code></pre>
+
+<h2 id="funciones">Funciones</h2>
+<pre><code>def message():
+    print(&quot;Mi version de python es la {}&quot; .format(platform.python_version()))
+message()
+def operation(n=25):
+    print(n)
+    return n*2
+</code></pre>
+
+<h2 id="test-main">Test main</h2>
+<pre><code>if __name__ == &quot;__main__&quot;:
+    runMe()
+    name(&quot;Miguel&quot;)
+    name(2)
+    print(x)
+</code></pre>
+
+<h2 id="objetos">Objetos</h2>
+<pre><code>class Time:
+    h = &quot;horas&quot;
+    m = &quot;minutos&quot;
+    s = &quot;segundos&quot;
+    def hours(self):
+        print(self.h)
+
+    def minuts(self):
+        print(self.m)
+
+    def seconds(self):
+        print(self.s)
+def main2():
+    how_time = Time()
+    how_time.hours()
+    how_time.minuts()
+    how_time.seconds()
+main2()
+</code></pre>
+
+<h2 id="mayusculas-minusculas-letra-capital">Mayusculas, minusculas, letra capital</h2>
+<pre><code>mayus = &quot;hello world&quot;.upper()
+minus = &quot;hello world&quot;.lower()
+capi = &quot;hello world&quot;.capitalize()
+</code></pre>
+
+<h2 id="ver-tipo-de-dato">Ver tipo de dato</h2>
+<pre><code>print(type(w)) #float
+</code></pre>
+
+<h2 id="listas">Listas</h2>
+<pre><code>x = [1,2,3,4]
+print(x[2])
+x[2] = 10
+for i in x:
+    print(i)
+</code></pre>
+
+<pre><code># LISTA ACCIONES -- TUPLAS SON INMUTABLES Y NO SE PUEDE
+def main():
+    lista = ['perro', 'gato', 'cerdo', 'caballo']
+    lista2 = ['perro', 'gato', 'cerdo', 'caballo']
+    print(lista[1]) # gato
+    print(lista[1:3]) # gato, cerdo
+    print(lista[0:5:2]) # perro, cerdo
+    print(lista.index('gato')) # 1, busca la posicion de esa palabra
+    lista.append('koala') # añade koala
+    lista.insert(0, 'vaca') # añade vaca en posicion 0
+    lista.remove(&quot;vaca&quot;) # borra de la lista vaca
+    lista.pop() # borra el ultimo elemento de la lista
+    lista.pop(1) # borra esa posicion de la lista
+    del lista[1] # borra de la lista ese elemento
+    del lista[0:1] # borra ese slicing
+    print(len(lista)) # cuenta en numero de elementos de la lista
+    lista.extend(lista2) # junta dos listas
+    print_lista(lista) # funcion de iterar la lista
+# funcion para iterar la lista pasada por argumento
+def print_lista(lista):
+    for i in lista:
+        print(i, end=' ', flush=True)
+    print()
+</code></pre>
+
+<h2 id="tuplas">Tuplas</h2>
+<pre><code>t = (1,2,3,4,5)
+# cosas con tuplas
+## t[2] = 10 NO SE PUEDE ASIGNAR PARA CAMBIAR
+print(t[2])
+for e in t:
+    print(e)
+</code></pre>
+
+<h2 id="diccionarios">Diccionarios</h2>
+<pre><code>dic = { 'x' : 5, 'y' : 'miguel', 'z' : False }
+# cosas con diccionarios
+print(dic['y'])
+dic['y'] = 'miguelito'
+for id, valor in dic.items():
+    print(f&quot;id: {id} valor: {valor}&quot;)
+for e in dic.values():
+    print(e)
+for e in dic:
+    print(f'el id es {e}')
+    print(f'el valor es {dic[e]}')
+</code></pre>
+
+<pre><code>gente = {'1': &quot;miguel&quot;, '2': &quot;cristina&quot;, '3': &quot;isabel&quot;}
+gente['4'] = 'maria'
+for k in gente:
+    print(k)
+for k,v in gente.items():
+    print(f'key: {k}   valor: {v}')
+for k in gente.keys():
+    print(f'key: {k}')
+for v in gente.values():
+    print(f'valor: {v}')
+</code></pre>
+
+<h2 id="rangos">Rangos</h2>
+<pre><code>r = range(5) # no se puede asignar sino es con una lista
+ra = list(range(5))
+ra[2] = 20
+rang = range(5,10,2) # del 5 al 10 de dos en dos
+# cosas con rangos
+for e in ra:
+    print(e)
+for e in rang:
+    print(e)
+</code></pre>
+
+<h2 id="list-comprension">List Comprension</h2>
+<pre><code># de una lista
+lista = range(11)
+tupla = ((0,1),(1,2),(2,3))
+# creas una lista,tupla iterando lista y operaciones
+lista2 = [ x * 2 for x in lista]
+tupla2 = [ (y*2, x*2) for x,y in tupla]
+# resultados
+print(lista2)
+print(tupla2)
+</code></pre>
+
+<h2 id="len">Len</h2>
+<pre><code>len(*args/lista)
+</code></pre>
+
+<h2 id="objetos_1">Objetos</h2>
+<pre><code># definimos una clase
+class mobile:
+    #definimos unas variables con contenido
+    old_phone = &quot;keypad&quot;
+    new_phone = &quot;touch screen&quot;
+
+    # definimos funciones que printes esas variables
+    def old_mobile(self):
+        print(self.old_phone)
+
+    def new_mobile(self):
+        print(self.new_phone)
+# creamos funcion,variable con objeto y sus dos partes de funciones
+def main():
+    x = mobile()
+    x.old_mobile()
+    x.new_mobile()
+</code></pre>
+
+<pre><code>class Animal:
+    def __init__(self, type, name, sound):
+        self._type = type
+        self._name = name
+        self._sound = sound
+
+    def type(self):
+        return self._type
+
+    def name(self):
+        return self._name
+
+    def sound(self):
+        return self._sound
+def print_animal(x):
+    if not isinstance(x, Animal):
+        raise TypeError(&quot;error, requiere un animal&quot;)
+    print(f'El {x.type()} se llama {x.name()} y dice {x.sound()}')
+# le pasamos a la funcion de hacer algo, los argumentos al objeto
+def main():
+    print_animal(Animal(&quot;Kitten&quot;, &quot;Fluffly&quot;, &quot;Meow&quot;))
+    print_animal(Animal(&quot;Duck&quot;, &quot;Donald&quot;, &quot;Quak&quot;))
+</code></pre>
+
+<h2 id="ficheros">Ficheros</h2>
+<ul>
+<li>Leer</li>
+</ul>
+<pre><code>def main():
+    file = open('lines.txt', 'r')
+    # file = open('lines.txt', 'r') # read only
+    # file = open('lines.txt', 'w') # write only (empties files)
+    # file = open('lines.txt', 'a') # añadir data in files
+    # file = open('lines.txt', 'r+') # optional + read or write
+    for line in file:
+        print(line.rstrip()) #rstrip elimina espacios o lo que se ponga en ()
+</code></pre>
+
+<ul>
+<li>Escribir</li>
+</ul>
+<pre><code>def main():
+    fileInput = open('lines.txt', 'rt') # r read t text
+    fileOutput = open('linesOutput.txt', 'wt') # w write t text
+    for line in fileInput:
+        print(line.rstrip(), file=fileOutput) # cada linea sin blancos la envia al nuevo file
+        print('.', end='', flush=True) # aqui solo printa esto por cada linea leida
+    fileOutput.close() # cierra el doc nuevo
+    print('\nDone.') # printa que se ha realizado todo
+</code></pre>
+
+<ul>
+<li>Copiar</li>
+</ul>
+<pre><code>def main():
+    fileInput = open('cat.jpg', 'rb') # r read b binario
+    fileOutput = open('cat_copy.jpg', 'wb') # w write b binario
+    # mientras todo se pueda
+    while True:
+        # leemos datos y lo metemos en un buffer
+        buffer = fileInput.read(102400)
+        # mientras haya buffer por leer
+        if buffer:
+            # copiamos del buffer en el file nuevo
+            fileOutput.write(buffer)
+            print('.', end='', flush=True) # aqui solo printa esto por cada linea leida
+        else:
+            break
+    fileOutput.close() # cierra el doc nuevo
+    print('\nDone.') # printa que se ha realizado todo
+</code></pre>
+
+<h2 id="modulos">Módulos</h2>
+<pre><code>import os, datetime, sys
+def main():
+    # modulo de system
+    v = sys.version_info
+    print('Mi version es {}.{}.{}' .format(*v))
+    # modulo de operating system
+    x = os.name
+    w = os.getcwdb()
+    print(v)
+    print(w)
+    # modulo de datetime
+    date = datetime.datetime.now() # fecha y hora de ahora
+    print(date)
+    print(date.year)
+    print(date.month)
+    print(date.day)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../bash_scripting/" class="btn btn-neutral float-right" title="BashScripting">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../gitlab/" class="btn btn-neutral" title="Gitlab"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../gitlab/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../bash_scripting/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -25,6 +25,10 @@
 * Copiamos la publica en repo git  
 * Comprobamos con `ssh -T xxx@gitlab.com`  
 
-## Git pages  
+## Github pages  
+[Tutorial GithHub pages](https://pages.github.com/)
 
+1. Creamos repositorio con extensión `github.io->https://github.com/isx46410800/miguelamoros.github.io`
+2. Clonamos, metemos la chicha de MKdocs.
+3. Hacemos un `mkdocs build` y un `mkdocs gh-deploy` y nos dará un link de nuestra web estática generada por mkdocs en Github. `https://isx46410800.github.io/miguelamoros.github.io`  
 

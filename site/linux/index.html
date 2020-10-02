@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Linux - MKapuntes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Linux";
+    var mkdocs_page_input_path = "linux.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Linux</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MKapuntes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Linux</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/linux.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="comandos-linux">Comandos LINUX</h1>
+<ul>
+<li>Hacer un listado:<br />
+<code>ls -la</code></li>
+<li>Manual de un comando(1-ordenes, 5-ficheros, 8-admin):<br />
+<code>man comando</code></li>
+<li>Ayuda de un comando:<br />
+<code>comando --help</code></li>
+<li>Crear/ver particiones:<br />
+<code>fdisk</code><br />
+<code>fdisck /dev/sda0</code>  </li>
+<li>Editor:<br />
+<code>vim file.txt</code></li>
+<li>Ver un archivo:<br />
+<code>cat file.txt</code></li>
+<li>Montar algo:<br />
+<code>mount</code><br />
+<code>mount -t type device dir</code>  #mount -t ext4 /dev/sda5 /mnt
+<code>mount /dir</code>  </li>
+<li>Montar todo lo que tenemos para montar:<br />
+<code>mount -a</code></li>
+<li>Ver tipo de cosas montadas o si está montado algo:<br />
+<code>mount -t ext4</code></li>
+<li>Cambiar directorio:<br />
+<code>cd dir</code><br />
+<code>cd ..</code><br />
+<code>cd dir/file.txt</code><br />
+<code>cd /var/tmp</code>  </li>
+<li>Ver path de donde estoy:<br />
+<code>pwd</code>  </li>
+<li>Crear directorio:<br />
+<code>mkdir dir</code><br />
+<code>mkdir -p /dir1/dir2/dir2/</code></li>
+<li>Borrar directorio(vacío):<br />
+<code>rmdir dir</code>  </li>
+<li>Borrar dir/ficheros:<br />
+<code>rm -rf dir/file</code></li>
+<li>Buscar una cadena, palabra..:<br />
+<code>grep [opciones] [el qué] [donde]</code> #grep -i web install.txt</li>
+<li>Fecha/hora:<br />
+<code>date</code></li>
+<li>Calendario:<br />
+<code>cal</code><br />
+<code>cal 3 2020</code></li>
+<li>Información de nuestro usuario:<br />
+<code>who</code></li>
+<li>Indica el usuario:<br />
+<code>whoami</code></li>
+<li>Información de la sesión:<br />
+<code>w</code>  </li>
+<li>Cual es el S.O.:<br />
+<code>uname -a</code></li>
+<li>Tiempo de la sesión:<br />
+<code>uptime</code></li>
+<li>Cual es nuestro host:<br />
+<code>hostname</code></li>
+<li>Info de los usuarios del sistema:<br />
+<code>finger</code></li>
+<li>Numero identificación del usuario en el sistema:<br />
+<code>id</code></li>
+<li>Ejecutable y man de un comando:<br />
+<code>whereis comando</code></li>
+<li>Lo que hace el ejecutable de un comando:<br />
+<code>which comando</code>  </li>
+<li>Buscar un fichero o algo de esa palabra en el sistema:<br />
+<code>locate palabra</code></li>
+<li>Primeras o ultimas 10 lineas de un fichero o busqueda:<br />
+<code>head -n10 /etc/passwd</code><br />
+<code>tail -n10 /etc/group</code>  </li>
+<li>Ver procesos en tiempo real:<br />
+<code>top</code><br />
+<code>htop</code></li>
+<li>Tipo de fichero:<br />
+<code>file</code>  </li>
+<li>Contar lineas de un archivo:<br />
+<code>nl file.txt</code>  </li>
+<li>Dar un numero aleatorio de un rango de numeros:<br />
+<code>shuf -i 10-20 -n 1</code>  </li>
+<li>Texto que imprime o carga el kernel:<br />
+<code>dmesg</code></li>
+<li>Procesos:<br />
+<code>ps</code><br />
+<code>ps -u isx46410800</code><br />
+<code>ps -ax</code> 
+<code>ps -p nºproces</code> #indica cual es el proceso<br />
+<code>pidof nameproceso</code> #pids de este proceso<br />
+<code>kill proceso</code> <code>kill -nº proceso</code> <code>killall proceso</code><br />
+<code>kill -l</code> #9 mata #15 termina  #19 para
+<code>jobs</code>  <code>kill %job</code><br />
+<code>ordre &amp;</code> #hacerlo en backgroung<br />
+<code>fg %job</code> #hacerlo en foreground<br />
+<code>nohup orden &amp;</code>  #desliga un proceso de la terminal
+<code>disown %job</code> # lo mismo  </li>
+<li>Contar palabras, lineas...
+<code>wc</code><br />
+<code>wc -l</code><br />
+<code>wc -c</code>  </li>
+<li>Ver estructura de árbol de directorios:<br />
+<code>tree</code></li>
+<li>Copiar ficheros:<br />
+<code>cp [cosas..] [a donde]</code><br />
+<code>cp -r [dir/(cosas)] [a donde]</code></li>
+<li>Cambiar nombre de fichero o directorio:<br />
+<code>mv nombre nuevonombre</code>  </li>
+<li>Meter cosas en ficheros:<br />
+<code>echo "hola" &gt; file.txt</code><br />
+<code>cat &gt; file.txt</code><br />
+<code>ls -la &gt; file.txt</code></li>
+<li>Pathname Expansion:  </li>
+</ul>
+<pre><code>* puede ser nada o muchas cosas
+ls *.txt
+? cada ? es un char
+ls ???.*
+[25] coge 2 o 5
+ls fit[25].txt
+[1-4] coge un char del 1 al 4
+ls fit[-4].txt
+[7am7-8][0-9] coge un char del primero y otro del segundo
+ls fit[7am7-8][0-9].txt # fita8.txt
+[^abc] que no sea ni a ni b ni c
+ls fit[^abc].txt
+</code></pre>
+
+<ul>
+<li>Info técnica de un file:<br />
+<code>stat file.txt</code></li>
+<li>Ver inodos:<br />
+<code>ls -i</code></li>
+<li>Crear hard link(no entre dirs ni entre file system diferentes, tamaño mismo):<br />
+<code>ln [de que cosa] [hacia donde cosa nueva]</code> # ln file.txt /tmp/filenou.txt (mismo inodo apuntan, misma xixa)</li>
+<li>Crear simbolic link(equivale a un acceso directo, tamaño es el nombre):<br />
+<code>ln -s [de que cosa] [simbolic link creas nuevo]</code> # ln -s file.txt file2.txt</li>
+<li>Renombre de muchos archivos:<br />
+<code>rename [donde dice tal cosa] [poner tal cosa] [a estos ficheros]</code> # rename foo foo0 foo*</li>
+<li>Comparar ficheros: <br />
+<code>cmp/diff/diff3 file1 file2</code></li>
+<li>Separar ficheros:<br />
+<code>split -n3/-b10k file prefijo</code></li>
+<li>Fichero ejecutable:<br />
+<code>chmod +x file</code></li>
+<li>Comprimir/descomprimir ficheros:  </li>
+</ul>
+<pre><code>gzip file -&gt;  file.gz
+gunzip file.gz
+bzip2 file -&gt; file.bzp2
+bunzip2 file.bzp2
+</code></pre>
+
+<ul>
+<li>Apagar o cerrar sesión:<br />
+<code>exit/poweroff/reboot/logout</code></li>
+<li>Instalar un paquete:<br />
+<code>dnf install paquete -y</code></li>
+<li>Buscar un paquete:<br />
+<code>dnf search paquete</code></li>
+<li>Donde esta el paquete:<br />
+<code>dnf provides paquete</code></li>
+<li>Lista contenido de un paquete:<br />
+<code>rpm -ql paquete</code> | grep bin #busca los ejecutables</li>
+<li>Lista de paquetes instalados:<br />
+<code>rpm -qa</code></li>
+<li>Acciones con paquetes:<br />
+<code>dnf upgrade/update/reinstall/info paquete</code></li>
+<li>Repositorios:<br />
+<code>dnf repolist --all</code></li>
+<li>Permisos(r-leer,mirar,copiar/w-leer,modificar/x-ejecutable):<br />
+<code>chmod 640 file/dir</code><br />
+<code>chmod +rx file/dir</code>  </li>
+<li>Cambiar el propietario de un file/dir(root):<br />
+<code>chown user.group file/dir</code>  </li>
+<li>Cambiar el grupo de un file/dir:<br />
+<code>chgrp grupo file</code></li>
+<li>Agregar usuario:<br />
+<code>useradd usuario</code>
+<code>useradd usuario -g gprincipal -G gsecundario</code></li>
+<li>Contraseña usuario:<br />
+<code>passwd usuario</code>  </li>
+<li>Crear grupo:<br />
+<code>groupadd grupo</code></li>
+<li>Borrar usuario y todo suyo:<br />
+<code>userdel -r usuario</code></li>
+<li>Redireccionamientos:  </li>
+</ul>
+<pre><code>0 - stdin
+1 - stdout
+2 - stderr
+2&gt; salida de errores
+&lt; entrada
+&gt; salida
+2&gt;&amp;1 donde esta la salida de errores rederiger a la stdout
+</code></pre>
+
+<ul>
+<li>Traducir:<br />
+<code>tr -s '[a-z]' '[A-Z]'</code><br />
+<code>tr -s '[:blanck:]' ' '</code></li>
+<li>Ver espacio ocupado en disco:<br />
+<code>du / du -sh /tmp</code></li>
+<li>Ver variables predefinidas del sistema:<br />
+<code>set</code></li>
+<li>Crear/eliminar variables, mayus SISTEMA, minus USUARIO:  </li>
+</ul>
+<pre><code>nom=valor
+nom=&quot;el valor&quot;
+usuario=$(id)
+unset nom
+</code></pre>
+
+<ul>
+<li>Crear subbash:<br />
+<code>bash</code></li>
+<li>Arbol de procesos:<br />
+<code>pstree</code></li>
+<li>Exportar variable a otros niveles ENVIROMENT:<br />
+<code>export variable</code></li>
+<li>Crear alias:  </li>
+</ul>
+<pre><code>alias listar='ls -la'
+alias quiensoy='id;whoami'
+unalias listar
+</code></pre>
+
+<ul>
+<li>Command substitution:<br />
+<code>$(orden)</code> # file $(ls)</li>
+<li>Brace expansion:  </li>
+</ul>
+<pre><code>mkdir dir{1..20}
+echo hisx{1,2}-{01-20}
+</code></pre>
+
+<ul>
+<li>Aritmetic expansion:<br />
+<code>echo $((2*8))</code></li>
+<li>Cron o tareas programadas:  </li>
+</ul>
+<pre><code>at 9:12 --&gt; &gt;cal, date.. #crear tarea programada
+atq # lista de tareas
+atrm # borra tareas
+cron (file /etc/crontab)
+(min-horas-dia-mes-diasemana(0-7)-ordre)
+15 14 1  * * script.sh
+crontab -l #lista
+crontab -e #crea o edita
+crontab -r #borra
+</code></pre>
+
+<ul>
+<li>Ordenar:  </li>
+</ul>
+<pre><code>sort
+sort -r
+sort -t: -k3 /etc/passwd #campo 3
+sort -t: -k3rg,3 /etc/passwd #descente y de numeric
+sort -u #unico
+</code></pre>
+
+<ul>
+<li>Lista hardware:<br />
+<code>lshw</code></li>
+<li>Hora del hardware clock:<br />
+<code>hwclock</code></li>
+<li>Ordens grub:</li>
+</ul>
+<pre><code>grub2-install /dev/sda
+grub2-mkconfig -o /boot/grub2/grub.cfg
+</code></pre>
+
+<ul>
+<li>Ordenes en debian:  </li>
+</ul>
+<pre><code>apt-get install paquete
+dpkg -i paquete
+</code></pre>
+
+<ul>
+<li>Compresión de archivos:  </li>
+</ul>
+<pre><code>tar -cvf nombreTar archivosAcomprimir
+-c crea
+-v verbose
+-x descomprimir
+-f nombre archivo
+-p permisos para dir
+tar -zcvf nombreGZIP ficheros
+tar -jcvf nombreBZIP2 ficheros
+tar -Jcvf nombreXZ ficheros
+</code></pre>
+
+<ul>
+<li>Backup:<br />
+<code>tar --listed-incremental fichero.snar -czpf fichero-incremental.tar.gz directorio/.</code></li>
+<li>SSH:</li>
+</ul>
+<pre><code>systemctl start sshd
+ssh hostname/ip #conectarte
+ssh user@server -P puerto
+ssh -p 22 i03/0.0.0.0 #conectarte
+ssh-keygen #crea llaves
+ssh -P puerto [fichero] [ip:a donde/.] #copiar fichero
+scp user@server:file  user@server:/dirdestino
+scp origen destino
+ssh-copy-id user@ip #copia mi publica a ese ip con ese usuario
+</code></pre>
+
+<ul>
+<li>FTP:  </li>
+</ul>
+<pre><code>ftp ip/host
+get file
+put filecopy filedesti
+wget schema://host-uri-ip/ruta-files #wget ftp://user10@localhost/file.txt
+</code></pre>
+
+<ul>
+<li>Routing:  </li>
+</ul>
+<pre><code>ifconfig
+ip a
+ip r
+nslookup host/web
+netstat -putano
+ping -c3 web/ip
+nmap ip/localhost/host #ver puertos abiertos
+telnet gost/ip puerto #GET / HTTP/1.0
+</code></pre>
+
+<ul>
+<li>Netcat conectar:  </li>
+</ul>
+<pre><code>nc -l puerto #conectarte ponte el tuyo a escuchar
+nc hostname puerto #conectarse al puerto tuyo
+</code></pre>
+
+<ul>
+<li>Activar servicios:<br />
+<code>systemctl start/stop/enable/disable servicio</code></li>
+<li>Cargar de nuevo los demonios:<br />
+<code>systemctl daemon-reload</code></li>
+<li>Culpa de lo que tarda cada cosa al encenderse:<br />
+<code>systemd-analyse blame</code></li>
+<li>Ver errores del sistema:<br />
+<code>journalctl / journalctl -u servicio</code></li>
+<li>Cargar las cosas montables:<br />
+<code>exportfs -rv</code></li>
+<li>SAMBA:  </li>
+</ul>
+<pre><code>meter lo compartido en smb.conf
+//server/recurso
+smbtree -L #lista
+smbtree -D #ver el dominio
+smbtree -S #ver el servicio
+smbclient //j17/manuals (-U marta)
+smbget smb://localhost/manuals/man1/ls
+mount -t -v cifs //localhost/manuals /mnt -o guest
+smbpasswd -a miguel #añade user samba
+pdbeddit -L #lista de cuentas samba
+</code></pre>
+
+<ul>
+<li>MAIL:<br />
+<code>mail -v -s asunto aquien</code><br />
+<code>sendmail -bv user</code><br />
+<code>mailq</code></li>
+<li>Conectarte a AMAZON AWS:<br />
+<code>ssh -i ~/ssh/key.pem fedora@IPamazon</code></li>
+<li>Servicios mas comunes:  </li>
+</ul>
+<pre><code>/sbin/httpd
+/sbin/sshd
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../gitlab/" class="btn btn-neutral float-right" title="Gitlab">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="MkDocs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../gitlab/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

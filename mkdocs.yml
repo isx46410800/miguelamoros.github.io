@@ -1,0 +1,17 @@
+site_name: MKapuntes
+site_author: Miguel Amorós
+repo_name: isx46410800/python
+repo_url: https://github.com/isx46410800/miguelamoros.github.io
+nav:
+        - MkDocs: index.md
+        - Linux: linux.md
+        - Gitlab: gitlab.md
+        - Python: python.md
+        - BashScripting: bash_scripting.md
+        - Docker: docker.md
+        - Jenkins: jenkins.md
+        - Markdown: markdown.md
+        - Base de datos: bbdd.md
+        - Archivos Destacados: files.md
+        
+theme: readthedocs

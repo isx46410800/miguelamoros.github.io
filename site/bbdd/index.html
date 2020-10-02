@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Base de datos - MKapuntes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Base de datos";
+    var mkdocs_page_input_path = "bbdd.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Base de datos</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#postgresql">POSTGRESQL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phppgadmin">PHPPGADMIN</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mariadb">MARIADB</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mongodb">MONGODB</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MKapuntes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Base de datos</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/bbdd.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="bases-de-datos">BASES DE DATOS</h1>
+<h2 id="postgresql">POSTGRESQL</h2>
+<ul>
+<li>Crear database y conectarnos:<br />
+<code>create database diccionari;</code><br />
+<code>\c diccionari;</code></li>
+<li>Crear tablas:  </li>
+</ul>
+<pre><code>create table exemplar_soci (
+        id_exemplar_soci serial primary key,
+        id_exemplar int not null,
+        id_soci int not null,
+        foreign key (id_exemplar) references exemplars(id_exemplar),
+        foreign key (id_soci) references socis(id_soci)
+        );
+create table exemplars (
+        id_exemplar serial primary key,
+        id_volum int not null,
+        num_exemplars int not null,     
+        foreign key (id_volum) references grup_volums(id_volum)
+);
+create table obres (
+        id_obra serial primary key,
+        nom_obra varchar(200) not null,
+        data_publicacio date not null,
+        descripcio varchar(500) not null,
+        id_autor int not null,
+        foreign key (id_autor) references autors(id_autor)
+        );      
+create table socis (
+        id_soci serial primary key,
+        nom_soci varchar(100) not null,
+        cognom_soci varchar(200) not null,
+        naixement date not null,
+        localitat varchar(100) not null,
+        unique(nom_soci, cognom_soci)
+);
+</code></pre>
+
+<ul>
+<li>
+<p>Consulta simple:<br />
+<code>select * from paraules where paraula='casa'</code></p>
+</li>
+<li>
+<p>Consultas con comparaciones:  </p>
+</li>
+</ul>
+<pre><code>training=# select objetivo, ventas, ciudad, region from oficinas where
+region='Este' order by ciudad;
+training=# select nombre, contrato from repventas where ventas&gt;300000;
+training=# select nombre from repventas where director=104;
+training=# select nombre, contrato from repventas where contrato &lt; '1988-1-
+1';
+training=# select id_fab, id_producto, descripcion from productos where
+id_fab like '%i';
+training=# select id_fab, descripcion, (existencias*precio) as valor_inventario
+from productos;
+training=# select num_pedido, importe from pedidos where importe between
+20000 and 29999;
+training=# select num_pedido, importe from pedidos where importe&gt;=20000
+and importe&lt;=29999;
+training=# select id_fab, descripcion from productos where (id_fab='imm' and
+existencias&gt;=200) or (id_fab='bic' and existencias&gt;=50);
+training=# select empresa from clientes where (empresa not like '%Corp.%' or
+empresa not like '%Inc.%') and limite_credito&gt;30000;
+practica1=# select nomalumne from alumnes where nomalumne like 'Ann_';
+</code></pre>
+
+<ul>
+<li>JOIN:  </li>
+</ul>
+<pre><code>training=# select ciudad, nombre, titulo from oficinas join repventas on dir=num_empl;
+training=# select ciudad, nombre, titulo from oficinas, repventas where dir=num_empl;
+training=# select num_pedido, descripcion from pedidos, productos where fab=id_fab and producto=id_producto;
+training=# select num_pedido, nombre, empresa from pedidos, clientes, repventas where clie=num_clie and rep=num_empl and importe&gt;25000;
+training=# select treballador.nombre, treballador.cuota, dir.nombre, dir.cuota from repventas treballador, repventas dir where treballador.director=dir.num_empl and treballador.cuota&gt;dir.cuota;
+</code></pre>
+
+<ul>
+<li>LEFT/RIGHT JOIN + GROUP BY: </li>
+</ul>
+<pre><code>&gt; EJERCICIO ENTENDER JOIN Y JOIN LEFT/RIGHT **CODI_VENDEDOR, NOM_VENDEDOR, CODI_CAP, NOM_CAP, OFICINA, CIUTAT, CODI_CAPOFICINA, NOM_CAPOFICINA**  
+&gt; CON JOIN LEFT MANDA LA COLUMNA QUE QUEREMOS Y SALEN TODOS LOS CAMPOS AUNQUE HAYA NULL
+se ha de coger la tabla principal, ver las relaciones manualmente como si tuvieramos una al lado de otra. coger el campo central y ver como se relaciona con la otra tabla. si es la misma tabla se ha de ir haciendo copias de tablas con cada tabla con un nombre predefinido.
+</code></pre>
+
+<p>SOLO CON JOIN TE SALDRÍA SIN LOS NULL</p>
+<pre><code>training=# select id_fab, sum(existencias) from productos where precio&gt;54 group by id_fab having sum(existencias)&gt;300;
+training=# select id_fab, id_producto, descripcion, sum(importe) from productos join pedidos on id_fab=fab and id_producto=producto where fecha_pedido&gt;='01-01-89' and fecha_pedido&lt;='12-31-89' group by id_fab, id_producto order by 4;
+training=# select id_fab, id_producto, descripcion, existencias, count(distinct clie) from productos join pedidos on id_fab=fab and id_producto=producto group by id_fab, id_producto order by 5 desc, 4 desc, 3 limit 5;
+training=# select oficina, ciudad, count(*) from oficinas right join repventas venedors on oficina=venedors.oficina_rep join pedidos on venedors.num_empl=rep group by oficina order by oficina;
+</code></pre>
+
+<ul>
+<li>UNION:  </li>
+</ul>
+<pre><code>training=# select 'producto individual', id_fab, id_producto, descripcion, importe from productos join pedidos on id_fab=fab and id_producto=producto where descripcion ilike 'Bisagra%' or descripcion ilike 'Articulo%' union select 'total', id_fab, id_producto, descripcion, sum(importe) from productos join pedidos on id_fab=fab and id_producto=producto where descripcion ilike 'Bisagra%' or descripcion ilike 'Articulo%' group by id_fab, id_producto, descripcion order by 2,3,1;
+</code></pre>
+
+<ul>
+<li>SUBQUERIES:  </li>
+</ul>
+<pre><code>training=# select id_fab, id_producto, descripcion, (select count(num_pedido) as num_comandes from pedidos where fab=id_fab and producto=id_producto), (select count(distinct clie) as clientes from pedidos where fab=id_fab and producto=id_producto), (select sum(importe) from pedidos where fab=id_fab and producto=id_producto) from productos where id_fab in (select fab from pedidos group by fab) or id_producto in (select producto from pedidos group by producto) or id_fab not in (select fab from pedidos group by fab) or id_producto not in (select producto from pedidos group by producto) order by 1,2;
+</code></pre>
+
+<ul>
+<li>INSERT/UPDATE/DELETE:  </li>
+</ul>
+<pre><code>INSERT
+training=# insert into copia_repventas values (1012, 'Enric Jimenez', 99, 18, 'Dir Ventas', '2012-01-02', 101, 0, 0);
+training=# insert into copia_clientes (num_clie, empresa, rep_clie) values (3001, 'C2', 1013);
+training=# insert into copia_repventas values (1013, 'Pere Mendoza', null, null, null, '2011-08-15', null, null, 0);
+DELETE
+training=# delete from copia_pedidos where rep=102;
+training=# delete from copia_repventas where nombre='Enric Jimenez';
+training=# delete from copia_pedidos where fecha_pedido&lt;'1989-11-15';
+training=# delete from copia_clientes where rep_clie=105 or rep_clie=109 or rep_clie=101; (rep_clie in (select num_empl from repventas where nombre like '%adams');
+training=# delete from copia_repventas where contrato&lt;'1988-07-01' and cuota is null;
+UPDATE
+training=# update copia_clientes set limite_credito=60000, rep_clie=109 where num_clie=2103;
+training=# update copia_clientes set limite_credito=60000, rep_clie=(select num_empl from repventas where nombre='Mary Jones') where empresa='Acme Mfg.';
+training=# update copia_repventas set oficina_rep=11, cuota=cuota-cuota*0.10 where oficina_rep=12;
+training=# update copia_clientes set rep_clie=102 where rep_clie in (105,106,107);
+training=# update copia_repventas set cuota= cuota + cuota*0.05;
+training=# update copia_oficinas set objetivo=2*(select sum(ventas) from copia_repventas where oficina_rep=oficina) where objetivo&lt;ventas;
+</code></pre>
+
+<ul>
+<li>ALTER TABLE:  </li>
+</ul>
+<pre><code>alter table oficinas add constraint director_de_la_oficina foreign key (dir) references repventas(num_empl)
+on delete set null --si un rep desapareix, la oficina quedara temporalmente vacia
+on update cascade -- si un rep canvia de codi, canviara tambe el codi a la oficina
+ALTER TABLE copia_clientes ADD tel numeric(9,0) unique not null check (tel &gt;=100000000 and tel&lt;=999999999);
+ALTER TABLE copia_repventas ADD CHECK(edad&gt;=18 and edad&lt;=65);
+ALTER TABLE copia_repventas DROP titulo;
+alter table oficinas 
+    add constraint director_de_la_oficina 
+    foreign key (dir) references repventas(num_empl);
+alter table pedidos 
+    add constraint cliente_que_ha_hecho_pedido
+    foreign (clie) references clientes(num_clie)
+    add constraint rep_que_atendido_pedido
+    foreign key (rep) references repventas(num_empl)
+    add constraint producto_del_pedido
+    foreign key (fab,producto) references productos(id_fab,id_producto);
+</code></pre>
+
+<ul>
+<li>Crear funciones:  </li>
+</ul>
+<pre><code>CREATE FUNCTION suma (INTEGER,INTEGER)
+RETURNS INTEGER
+AS $$
+BEGIN
+RETURN $1+$2;
+END;
+$$ LANGUAGE 'plpgsql';
+--------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION hola (TEXT)
+RETURNS TEXT
+AS $$
+BEGIN
+RETURN 'HOLA '|| $1;
+END;
+$$ LANGUAGE 'plpgsql';
+--------------------------------------------------------------------------------
+CREATE FUNCTION INS_ALUM()
+RETURNS VOID
+AS $$
+INSERT INTO prova(a,b) VALUES (100,200);
+$$ LANGUAGE sql;
+--------------------------------------------------------------------------------
+CREATE FUNCTION llista_Alum()
+RETURNS RECORD   -- RECORD DEVUELVE UNA LISTA CON CAMPOS
+AS $$            -- SI QUEREMOS QUE DEVUELVA MÁS &quot;RETURNS SETOF RECORD&quot;
+SELECT * FROM prova;
+$$ LANGUAGE sql;
+--------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION counter ()
+RETURNS SETOF INTEGER
+AS $$
+BEGIN
+   FOR counter IN 1..10 LOOP
+   RAISE NOTICE 'Counter: %', counter;
+   END LOOP;
+END;
+$$ LANGUAGE 'plpgsql';
+</code></pre>
+
+<ul>
+<li>Crear triggers:  </li>
+</ul>
+<pre><code>CREATE OR REPLACE FUNCTION afegeix_audit() RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO auditoria VALUES (DEFAULT, CURRENT_TIMESTAMP, TG_TABLE_NAME, 'D', CURRENT_USER);
+        RETURN OLD;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO auditoria VALUES (DEFAULT, CURRENT_TIMESTAMP, TG_TABLE_NAME, 'U', CURRENT_USER);
+        RETURN NEW;
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO auditoria VALUES (DEFAULT, CURRENT_TIMESTAMP, TG_TABLE_NAME, 'I', CURRENT_USER);
+        RETURN NEW;
+    END IF;
+    --Aquí no hauria d'arribar-hi mai:
+    RETURN NULL;    
+END
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER tauditresultats AFTER INSERT OR UPDATE OR DELETE ON resultats FOR EACH ROW EXECUTE PROCEDURE afegeix_audit();
+CREATE TRIGGER tauditanalitiques AFTER INSERT OR UPDATE OR DELETE ON analitiques FOR EACH ROW EXECUTE PROCEDURE afegeix_audit();
+</code></pre>
+
+<ul>
+<li>Crear Squema y roles:  </li>
+</ul>
+<pre><code>--crear roles
+CREATE ROLE lc_consultar NOLOGIN;
+CREATE ROLE lc_inserir NOLOGIN;
+CREATE ROLE lc_admin NOLOGIN;
+---
+--CREACION DE UN SCHEMA
+CREATE SCHEMA lcschema AUTHORIZATION postgres;
+--TODOS LOS SCHEMAS SE CREAN EN PUBLIC (PUBLIC-POSTGRES OWNER)
+REVOKE ALL PRIVILEGES ON SCHEMA lschema FROM public;
+-- todos los privilegios para los users:
+GRANT ALL PRIVILEGES ON SCHEMA lschema TO postgres, lc_admin;
+--privilegios para usar este schema para:
+GRANT USAGE ON SCHEMA lschema TO ROLE lc_consultar, lc_inserir, lc_admin;
+--s'hauria de crear un SCHEMA de lab_clinic i també fer aixo;
+GRANT USAGE ON SCHEMA lschema to lc_consultar, lc_inserir, lc_admin;
+GRANT CREATE ON SCHEMA lschema to lc_admin;
+--DAR LOS PRIVILEGIOS A CIERTOS USUARIOS
+---para poder conectarse a la bbdd
+GRANT CONNECT ON DATABASE lab_clinic to lschema to lc_consultar, lc_inserir, lc_admin;
+---para ver las tablas, y podra crear tablas y filas a su nombre
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO lc_consultar;
+---para poder ver y insertar (no borrar)
+GRANT SELECT, INSERT ON ALL TABLES IN SCHEMA public to lc_inserir;
+---para poder insertar, tambien necesita permisos de inserir secuencias
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public to lc_inserir;
+---para tener todos los privilegios en la bbdd
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to lc_admin;
+--creamos usuarios, para poder tener roles se necesita LOGIN con create role
+postgres=# create user miguel password 'miguel';
+CREATE ROLE
+--create role miguel login password 'miguel';
+postgres=# create user walid password 'walid';
+CREATE ROLE
+--asignar los roles a los usuarios
+GRANT lc_consultar to walid;
+GRANT lc_inserir to miguel;
+GRANT lc_admin to miguel with admin option;
+--permiso de superusuario
+postgres=# alter role miguel with superuser;
+ALTER ROLE
+--todos los privilegios en esta base de datos
+postgres=# grant all privileges on database lab_clinic to walid;
+GRANT
+--entrar a la bbdd como miguel
+[isx46410800@i05 ipc2019]$ su postgres
+Password: 
+bash-4.4$ psql lab_clinic miguel;
+Password for user miguel: 
+psql (9.6.10)
+</code></pre>
+
+<ul>
+<li>Ver tiempos de ejecucion:<br />
+<code>explain analyse select * from paraulesraw where paraula = 'comparar/00';</code>  </li>
+<li>Crear indices:<br />
+<code>create index index_paraula on paraulesraw using btree(paraula);</code>
+``</li>
+</ul>
+<h2 id="phppgadmin">PHPPGADMIN</h2>
+<ul>
+<li>
+<p>phpPgAdmin és una aplicació web que ens permet gestionar una BD Postgres SQL amb un entorn gràfic. Existeix un anàleg per a MariaDB (o MySQL) anomenat phpMySql. El primer pas és instal·lar l’aplicació al mateix ordinador que fa de servidor postgres.<br />
+<code>sudo dnf install phpPgAdmin</code>  </p>
+</li>
+<li>
+<p>Editant l'arxiu <code>/var/lib/pgsql/data/pg_hba.conf</code> i activant els mètodes d'autenticació md5 ).</p>
+</li>
+<li>
+<p>Editar l’arxiu <code>/etc/phpPgAdmin/config.inc.php</code> i posar a <strong>false</strong> la línia:<br />
+<code>$conf['extra_login_security'] = true;</code><br />
+<code>// use 'localhost' for TCP/IP connection on this computer\\ $conf['servers'][0]['host'] = 'localhost';</code></p>
+</li>
+<li>
+<p>Entrar: <code>http://localhost/phpPgAdmin</code>  </p>
+</li>
+</ul>
+<h2 id="mariadb">MARIADB</h2>
+<ul>
+<li>Instalar:<br />
+<code>sudo dnf install mariadb mariadeb-server</code><br />
+<code>sudo systemctl start mariadb</code></li>
+<li>Crear database:<br />
+<code>create database instagram;</code></li>
+<li>Entrar a una bbdd:<br />
+<code>USE Nom_BD;</code></li>
+<li>Crear Usuario:<br />
+<code>create user 'miguel'@'localhost' identified by "miguel14031993";</code></li>
+<li>Bloquear tablas:<br />
+<code>FLUSH TABLES WITH READ LOCK;</code><br />
+<code>UNLOCK TABLES;</code></li>
+<li>Agafem les dades del servidor mestre per replicar des d'aquest punt:<br />
+<code>show master status;</code></li>
+<li>Copiem la BD amb mydqldump:<br />
+<code>mysqldump -u root -p --routines --opt nomdb &gt; db-dump.sql</code></li>
+</ul>
+<h2 id="mongodb">MONGODB</h2>
+<ul>
+<li>Entrar:<br />
+<code>systemctl start mongod</code>
+<code>mongo</code></li>
+<li>Entrar bbdd:<br />
+<code>use database</code></li>
+<li>Ver bases:<br />
+<code>show databases</code></li>
+<li>Importar tablas:<br />
+<code>mongoimport --db foursquare --collection restaurants --file '/run/media/isx46410800/TOSHIBA EXT/HISX2/M10/UF2/json_dades_exemple/json/foursquare/restaurants.json'</code></li>
+<li>Entrar a una bbdd,tabla y ver algo:  </li>
+</ul>
+<pre><code>Database: imdb
+&gt; use imdb
+switched to db imdb
+&gt; db
+imdb
+&gt; db.createCollection(“movies”)
+{“ok”: 1}
+&gt; db.createCollection(“oscars”)
+{“ok”: 1}
+&gt; db.createCollection(“people”)
+{“ok”: 1}
+&gt; show collections
+movies oscars people
+</code></pre>
+
+<ul>
+<li>Consultas ejemplos:  </li>
+</ul>
+<pre><code>{
+        &quot;_id&quot; : &quot;0000002&quot;,
+        &quot;name&quot; : &quot;Lauren Bacall&quot;,
+        &quot;dob&quot; : &quot;1924-9-16&quot;,
+        &quot;pob&quot; : &quot;New York, New York, USA&quot;,
+        &quot;hasActed&quot; : true
+}
+{
+        &quot;_id&quot; : &quot;0000004&quot;,
+        &quot;name&quot; : &quot;John Belushi&quot;,
+        &quot;dob&quot; : &quot;1949-1-24&quot;,
+        &quot;pob&quot; : &quot;Chicago, Illinois, USA&quot;,
+        &quot;hasActed&quot; : true
+}
+</code></pre>
+
+<p><code>db.people.find({hasActed: true, hasDirected: { $exists: false}}).pretty().count()-&gt;1909</code></p>
+<pre><code>{
+        &quot;_id&quot; : 6,
+        &quot;name&quot; : {
+                &quot;first&quot; : &quot;Guido&quot;,
+                &quot;last&quot; : &quot;van Rossum&quot;
+        },
+        &quot;birthYear&quot; : 1931,
+        &quot;contribs&quot; : [
+                &quot;Python&quot;
+        ],
+        &quot;awards&quot; : [
+                {
+                        &quot;award&quot; : &quot;Award for the Advancement of Free Software&quot;,
+                        &quot;year&quot; : 2001,
+                        &quot;by&quot; : &quot;Free Software Foundation&quot;
+                },
+                {
+                        &quot;award&quot; : &quot;NLUUG Award&quot;,
+                        &quot;year&quot; : 2003,
+                        &quot;by&quot; : &quot;NLUUG&quot;
+                }
+        ]
+}
+&gt; db.bios.find({&quot;awards.year&quot; : 2001}).count()
+3
+</code></pre>
+
+<p><code>Buscar las personas que haya obtenido un premio del tipo 'National Medal of'</code>  </p>
+<pre><code>{
+        &quot;_id&quot; : 7,
+        &quot;name&quot; : {
+                &quot;first&quot; : &quot;Dennis&quot;,
+                &quot;last&quot; : &quot;Ritchie&quot;
+        },
+        &quot;birthYear&quot; : 1956,
+        &quot;deathYear&quot; : 2011,
+        &quot;contribs&quot; : [
+                &quot;UNIX&quot;,
+                &quot;C&quot;
+        ],
+        &quot;awards&quot; : [
+                {
+                        &quot;award&quot; : &quot;Turing Award&quot;,
+                        &quot;year&quot; : 1983,
+                        &quot;by&quot; : &quot;ACM&quot;
+                },
+                {
+                        &quot;award&quot; : &quot;National Medal of Technology&quot;,
+                        &quot;year&quot; : 1998,
+                        &quot;by&quot; : &quot;United States&quot;
+                },
+                {
+                        &quot;award&quot; : &quot;Japan Prize&quot;,
+                        &quot;year&quot; : 2011,
+                        &quot;by&quot; : &quot;The Japan Prize Foundation&quot;
+                }
+        ]
+}
+&gt; db.bios.find({ &quot;awards.award&quot; : /^National Medal of/}).pretty().count()
+4
+</code></pre>
+
+<p><code>//6.- Buscar las personas de la colección bios que destaquen en el terreno de Java, Ruby o Python (3)</code>  </p>
+<pre><code>{
+        &quot;_id&quot; : 9,
+        &quot;name&quot; : {
+                &quot;first&quot; : &quot;James&quot;,
+                &quot;last&quot; : &quot;Gosling&quot;
+        },
+        &quot;birthYear&quot; : 1965,
+        &quot;contribs&quot; : [
+                &quot;Java&quot;
+        ],
+        &quot;awards&quot; : [
+                {
+                        &quot;award&quot; : &quot;The Economist Innovation Award&quot;,
+                        &quot;year&quot; : 2002,
+                        &quot;by&quot; : &quot;The Economist&quot;
+                },
+                {
+                        &quot;award&quot; : &quot;Officer of the Order of Canada&quot;,
+                        &quot;year&quot; : 2007,
+                        &quot;by&quot; : &quot;Canada&quot;
+                }
+        ]
+}
+&gt; db.bios.find({ contribs : { $in: [ &quot;Java&quot;, &quot;Ruby&quot;, &quot;Python&quot; ] } }).pretty().count()
+3
+</code></pre>
+
+<pre><code>//9.- Buscar las personas de la colección bios con 1 premio conseguido (1)
+{
+        &quot;_id&quot; : 8,
+        &quot;name&quot; : {
+                &quot;first&quot; : &quot;Yukihiro&quot;,
+                &quot;aka&quot; : &quot;Matz&quot;,
+                &quot;last&quot; : &quot;Matsumoto&quot;
+        },
+        &quot;birthYear&quot; : 1941,
+        &quot;contribs&quot; : [
+                &quot;Ruby&quot;
+        ],
+        &quot;awards&quot; : [
+                {
+                        &quot;award&quot; : &quot;Award for the Advancement of Free Software&quot;,
+                        &quot;year&quot; : &quot;2011&quot;,
+                        &quot;by&quot; : &quot;Free Software Foundation&quot;
+                }
+        ]
+}
+#size sirve para que el tamaño del array de tal cosa sea la medida que indiquemos
+&gt; db.bios.find({ awards : { $size: 1}}).pretty().count()
+1
+</code></pre>
+
+<pre><code>//10.- Buscar las personas de la colección bios con 3 o más premios conseguidos (6)
+#que no tenga ni 2 ni 1 ni 0 ni no existe el campo
+&gt; db.bios.find({ $nor: [ {awards: {$exists: false}}, {awards: {$size: 2}}, {awards: {$size: 1}}, {awards: {$size: 0}}]}).pretty().count()
+6
+#que tenga o 4 o 3 o 2
+&gt; db.bios.find({ $or: [ {awards: {$size: 4}}, {awards: {$size: 3}}, {awards: {$size: 2}}]}).pretty().count()
+8
+</code></pre>
+
+<pre><code>//1.- Buscar todos los libros con precio superior a 100 USD (7)
+#COMPRUEBO SI TODOS LOS PRECIOS SON EN USD
+&gt; db.books.find().count()
+333
+&gt; db.books.find({&quot;price.currency&quot;: &quot;USD&quot;}).count()
+333
+&gt; db.books.find({&quot;price.msrp&quot;: {$gt: 100}}).pretty().count()
+7
+</code></pre>
+
+<pre><code>//3.- Buscar los libros que tengan el tag 'programming', 'agile' y &quot;java&quot; (5)
+#all para que salgan los 3 en los tags
+&gt; db.books.find({tags: {$all : [&quot;programming&quot;, &quot;agile&quot;, &quot;java&quot;]}}).pretty().count()
+5
+</code></pre>
+
+<pre><code>//5.- Buscar los libros escritos por 3 autores (17)
+&gt; db.books.find({author: {$size: 3}}).pretty().count()
+17
+</code></pre>
+
+<ul>
+<li>Insertar varios:  </li>
+</ul>
+<pre><code>&gt; db.stores.insertMany(
+[
+{ _id: 1, name: &quot;Java Hut&quot;, description: &quot;Coffee and cakes&quot; },
+{ _id: 2, name: &quot;Burger Buns&quot;, description: &quot;Gourmet hamburgers&quot; },
+{ _id: 3, name: &quot;Coffee Shop&quot;, description: &quot;Just coffee&quot; },
+{ _id: 4, name: &quot;Clothes Clothes Clothes&quot;, description: &quot;Discount
+clothing&quot; },
+{ _id: 5, name: &quot;Java Shopping&quot;, description: &quot;Indonesian goods&quot; }
+]
+)
+</code></pre>
+
+<ul>
+<li>Ver indices:<br />
+<code>&gt; db.stores.getIndexes()</code></li>
+<li>Crear indices:<br />
+<code>db.stores.createIndex( { name: "text", description: "text" } )</code></li>
+<li>Consulta una:<br />
+<code>&gt; db.tweets.findOne()</code></li>
+</ul>
+<pre><code>2.1) Buscar quants twits tenim amb Obama President
+&gt; db.tweets.find( { $text: { $search: &quot;Obama President&quot; } } ).count()
+52
+2.2) Buscar le textScore de cada twit amb Obama President
+&gt; db.tweets.find({ $text: { $search: &quot;Obama President&quot; } }, { puntuacio: { $meta:
+&quot;textScore&quot; } }).sort( { puntuacio: { $meta: &quot;textScore&quot; } } ).pretty()
+- frase exacta :&quot;Yes we can&quot;
+&gt; db.tweets.find( { $text: { $search: &quot;\&quot;Yes we can\&quot;&quot; } } ).count()
+2
+</code></pre>
+
+<pre><code>2.6) Busca les ciutats que estan a entre 20 i 50 km de Barcelona
+&gt; db.cities.find({ &quot;loc&quot;: { &quot;$near&quot;: { &quot;$geometry&quot;: { type: &quot;Point&quot; , coordinates: [2.15899,
+41.38879]}, &quot;$maxDistance&quot;: 50000, &quot;$minDistance&quot;: 20000 } } }).count()
+72
+</code></pre>
+
+<ul>
+<li>Update/delete/insert:  </li>
+</ul>
+<pre><code>Y los cambiamos por Miky
+&gt; db.students.updateMany( { name: &quot;Mikel&quot; }, { $set: { name: &quot;Miky&quot; } })
+Vemos cuantos usuarios tienen más de 50000 amigos:
+&gt; db.tweets.find({ &quot;user.friends_count&quot; : { $gt: 50000}}).pretty().count()
+Incrementamos +1 a estos usuarios el contador de amigos:
+&gt; db.tweets.updateMany({ &quot;user.friends_count&quot; : { $gt : 50000 }}, { $inc:
+{ &quot;user.friends_count&quot; : +1}})
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../files/" class="btn btn-neutral float-right" title="Archivos Destacados">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../markdown/" class="btn btn-neutral" title="Markdown"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../markdown/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../files/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

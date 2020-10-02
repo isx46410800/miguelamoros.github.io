@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Docker - MKapuntes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Docker";
+    var mkdocs_page_input_path = "docker.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Docker</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion">Instalación:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#comandos">Comandos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#redes-en-docker">Redes en Docker:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#volumes-en-docker">Volumes en Docker:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-compose">Docker Compose:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-swarm">Docker SWARM:</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MKapuntes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Docker</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/docker.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="docker">DOCKER</h1>
+<p><img alt="docker" src="../images/docker.png" /></p>
+<h2 id="instalacion">Instalación:</h2>
+<ul>
+<li>Instalar Docker:  </li>
+</ul>
+<pre><code>$ sudo dnf remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+$ sudo dnf -y install dnf-plugins-core
+$ sudo dnf config-manager \
+    --add-repo \
+    https://download.docker.com/linux/fedora/docker-ce.repo   
+$ sudo dnf install docker-ce docker-ce-cli containerd.io
+$ sudo systemctl start docker
+$ sudo docker run hello-world
+</code></pre>
+
+<h2 id="comandos">Comandos</h2>
+<ul>
+<li>Crear un container Docker:  </li>
+</ul>
+<pre><code>docker run --rm -it fedora:27//isx46410800/netcat:latest /bin/bash
+docker run --rm --name ldap -h ldap -d imagen
+</code></pre>
+
+<ul>
+<li>Descagar una imagen:<br />
+<code>docker pull fedora:27/imagen</code></li>
+<li>Ver imagenes de mi sistema:<br />
+<code>docker images</code></li>
+<li>Iniciar un container:<br />
+<code>docker start container</code></li>
+<li>Entrar dentro de un container en otra terminal:<br />
+<code>docker exec -it nomcontainer /bin/bash</code></li>
+<li>Entrar dentro de un container en detached:<br />
+<code>docker attach container</code></li>
+<li>Procesos de docker:<br />
+<code>docker ps -a</code><br />
+<code>docker top container</code></li>
+<li>Iniciar un container:<br />
+<code>docker start/stop IDcontainer</code></li>
+<li>Cambiar nombre container:<br />
+<code>docker rename IDcontainer NuevoNombre</code></li>
+<li>Docker version:<br />
+<code>docker version</code></li>
+<li>Info de un docker:<br />
+<code>docker info</code></li>
+<li>Lista de containers:<br />
+<code>docker container ls -a</code></li>
+<li>Borrar una imagen:<br />
+<code>docker rmi imagen</code></li>
+<li>Borrar un container:<br />
+<code>docker rm container</code></li>
+<li>Cambiar etiqueta de un container:<br />
+<code>docker tag imagen nombreNuevo:tag</code></li>
+<li>Crear y subir una imagen a DockerHub:  </li>
+</ul>
+<pre><code>docker login
+docker tag imagen nuevoimagen:tag
+docker push nuevoimagen:tag
+</code></pre>
+
+<ul>
+<li>Copiar un fichero a fuera del docker o dentro:  </li>
+</ul>
+<pre><code>docker cp file container:/opt/docker/.
+docker cp container:/opt/docker/. file
+</code></pre>
+
+<ul>
+<li>Docker con puerto mapeado para el exterior:<br />
+<code>docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash</code></li>
+</ul>
+<h2 id="redes-en-docker">Redes en Docker:</h2>
+<pre><code>docker network create NameRed
+docker network rm NameRed
+docker network inspect NameRed/container
+docker network create --subnet 172.19.0.0/16 NameRed
+</code></pre>
+
+<h2 id="volumes-en-docker">Volumes en Docker:</h2>
+<pre><code>docker volume create NOMBREVOLUMEN
+docker volume ls
+docker volume inspect NOMVOLUMEN
+ls /var/lib/docker/volumes
+--privileged
+-v volumen:contenido
+</code></pre>
+
+<p><code>docker run --rm --name ldap -h ldap -v NOMVOLUMEN:/var/lib/sambaloQueGuarda --privileged -it isx/ldap /bin/bash</code></p>
+<h2 id="docker-compose">Docker Compose:</h2>
+<pre><code>docker-compose up #enciende todos los dockers del file compose.yml
+docker-compose -f fileCompose.yml up (-d) #elegimos que fichero encendemos del compose
+docker-compose down #apaga todo
+docker-compose ps
+docker-compose images
+docker-compose top nom_servei
+docker-compose port ldap 389 #servicio y puerto elegido
+docker-compose push/pull #subir o bajar images
+docker-compose logs ldap #logs del servicio elegido
+docker-compose pause/unpause ldap #pausar el servicio
+docker-compose start/stop ldap #iniciar servicio
+docker-compose scale ldap=2 #dos container ldap
+</code></pre>
+
+<h2 id="docker-swarm">Docker SWARM:</h2>
+<pre><code>docker swarm init #inicia el docker swarm
+docker node ls # lista de nodos del swarm
+docker swarm join-tocken manager/worker #une workers o manager
+docker stack deploy -c docker_compose.yml nombreAPP #hace deploy
+docker stack ps NombreAPP #procesos
+docker stack ls #listado
+docker stack services nombreAPP #servicios
+docker stack rm NombreAPP #parar
+docker service ls
+docker service ps nombreservicio
+docker service inspect nomservicio
+docker service scale nomservicio=3
+docker swarm leave --force #se desune del swarm
+docker swarm init --advertise-addr IP
+docker node update --label-add tipus=valor nomNode
+docker node inspect nomNode
+docker node update --availability active/drain/pause nomNode
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../jenkins/" class="btn btn-neutral float-right" title="Jenkins">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../bash_scripting/" class="btn btn-neutral" title="BashScripting"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../bash_scripting/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../jenkins/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

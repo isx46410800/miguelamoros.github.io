@@ -1,4 +1,4 @@
-site_name: MKapuntes
+site_name: Miguel's Notes
 site_author: Miguel Amorós
 repo_name: isx46410800/python
 repo_url: https://github.com/isx46410800/miguelamoros.github.io
@@ -10,6 +10,7 @@ nav:
         - BashScripting: bash_scripting.md
         - Docker: docker.md
         - Jenkins: jenkins.md
+        - Ansible: ansible.md
         - Markdown: markdown.md
         - Base de datos: bbdd.md
         - Archivos Destacados: files.md

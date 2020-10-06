@@ -126,8 +126,158 @@ cat play.yml
       name: andy
       state: present
       shell: /bin/bash
-```
+  - name: create user miguel
+    user: name=andy state= present
+```  
 
 + ORDEN:  
 `ansible-playbook -i hosts playbook.yml --syntax`  
 `ansible-playbook -i hosts playbook.yml --check (solo simula)`  
+
+## Módulos  
++ Conocidos también task plugins o library plugins, son unidades discretas de código que se pueden utilizar desde linea de comandos o playbook.  
++ Se suelen utilizar en el nodo de destino remoto y recopila los valores de retorno. Se pueden utilizar en ad-hoc commands, playbooks y roles.  
+
++ Ejemplo módulo apt:  
+```
+- name: Demo Install Ansible
+  hosts: all
+  become: yes
+  tasks:
+  ## instalando ansible usando apt-get
+  - name: install ansible using apt
+    apt:
+      name: ansible
+      state: present
+```  
+
++ Ejemplo módulo authorized_keys:  
+
+```
+- hosts: master
+  become: yes # ser superuser
+  tasks:
+  - name: create user andy
+    user:
+      name: andy
+      state: present
+      shell: /bin/bash
+  - name: create ssh keys
+    authorized_keys:
+      user: andy
+      key: "{{ item }}"
+      state: present
+    with_file:
+      - ~/.ssh/id_rsa.pub
+      no_log: yes
+```  
+
+## Variables  
++ Ejemplo de variables para Ansible:  
+
+```
+- name: Demo Install Ansible
+  hosts: all
+  become: yes
+  ## definimos las variables
+  vars:
+    package: ansible
+    state: present
+  tasks:
+  ## instalando ansible usando apt-get
+  - name: install ansible using apt
+    apt:
+      name: "{{ package }}"
+      state: "{{ state }}"
+```  
+
+## Condicionales  
++ Realizar tareas segun ciertas cosas o parámetros:  
++ Ejemplo condicional:  
+
+```
+- name: Demo Install Ansible
+  hosts: all
+  become: yes
+  ## definimos las variables
+  vars:
+    package: ansible
+    state: present
+  tasks:
+  ## instalando ansible usando apt-get
+  - name: install ansible using apt
+    apt:
+      name: "{{ package }}"
+      state: "{{ state }}"
+    ## indicando la condicion de solo en master
+    when: "'master' in inventory_hostname"
+```  
+
+## Bucles  
++ Ejemplo de bucle:  
+
+```
+- name: Demo Install Ansible
+  hosts: all
+  become: yes
+  tasks:
+  ## instalando ansible usando apt-get
+  - name: install ansible using apt
+    apt:
+      name: "{{ item }}"
+      state: present
+    ## indicando bucle de paquetes a instalar
+    loop:
+    - ansible
+    - apache2
+```  
+
+```
+- name: Demo Install Ansible
+  hosts: all
+  become: yes
+  tasks:
+  - name: create users
+    user:
+      name: "{{ item }}"
+      state: present/absent
+    ## indicando bucle de crear users
+    with_items:
+    - andy
+    - miguel
+    - mario
+```  
+
+## Roles  
++ Los roles son formas de cargar automáticamente una estructura de archivos/directorios, archivos de variables, tareas y controladores basados en una estructura de archivos conocida.  
++ Agrupar contenido por roles permite compartir los roles con otros usuarios y poder reutilizar código.  
++ Los roles esperan que los archivos esten en ciertos directorios, deben incluir al menos uno de estos.  
+
++ Ejemplo de role:  
+
+```
+- name: Play to demo roles
+  hosts: all
+  become: yes
+  ## roles block
+  roles:
+  ## the role we want to install
+  - apache ## dentro de este directorio hay muchos files, playbooks, tasks...
+```  
+
+## Ansible Galaxy  
++ Es un sitio gratuito para buscar, descargar, calificar y revisar toto tipo de roles de Ansible desarrollados por la comunidad y puede ser una excelente manera de impulsar nuestros proyectos de automatización.  
++ El cliente __ansible-galaxy__ está incluido en Ansible.  
+
++ Ejemplo:  
+```
+## ansible-galaxy
+## install a role in 'roles' folder
+ansible-galaxy install "ansible.docker" -p roles/
+
+## create a role folders/files structure
+ansible-galaxy init "my-role"
+
+## search for a role
+ansible-galaxy search 'docker'
+```  

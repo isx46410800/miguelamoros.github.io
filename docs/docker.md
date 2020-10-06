@@ -24,7 +24,7 @@ $ sudo systemctl start docker
 $ sudo docker run hello-world
 ```
 
-## Comandos
+## Resumen Comandos  
 + Crear un container Docker:  
 ```
 docker run --rm -it fedora:27//isx46410800/netcat:latest /bin/bash
@@ -73,7 +73,7 @@ docker cp container:/opt/docker/. file
 + Docker con puerto mapeado para el exterior:  
 `docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash`
 
-## Redes en Docker:  
+### Redes en Docker:  
 ```
 docker network create NameRed
 docker network rm NameRed
@@ -81,7 +81,7 @@ docker network inspect NameRed/container
 docker network create --subnet 172.19.0.0/16 NameRed
 ```
 
-## Volumes en Docker:  
+### Volumes en Docker:  
 ```
 docker volume create NOMBREVOLUMEN
 docker volume ls
@@ -92,7 +92,7 @@ ls /var/lib/docker/volumes
 ```
 `docker run --rm --name ldap -h ldap -v NOMVOLUMEN:/var/lib/sambaloQueGuarda --privileged -it isx/ldap /bin/bash`
 
-## Docker Compose:  
+### Docker Compose:  
 ```
 docker-compose up #enciende todos los dockers del file compose.yml
 docker-compose -f fileCompose.yml up (-d) #elegimos que fichero encendemos del compose
@@ -106,8 +106,9 @@ docker-compose logs ldap #logs del servicio elegido
 docker-compose pause/unpause ldap #pausar el servicio
 docker-compose start/stop ldap #iniciar servicio
 docker-compose scale ldap=2 #dos container ldap
-```
-## Docker SWARM:  
+```  
+
+### Docker SWARM:  
 ```
 docker swarm init #inicia el docker swarm
 docker node ls # lista de nodos del swarm

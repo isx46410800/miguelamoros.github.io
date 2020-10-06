@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Docker - MKapuntes</title>
+  <title>Docker - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -72,21 +72,27 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#instalacion">Instalación:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#comandos">Comandos</a>
+    <li class="toctree-l2"><a class="reference internal" href="#resumen-comandos">Resumen Comandos</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#redes-en-docker">Redes en Docker:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#redes-en-docker">Redes en Docker:</a>
+    <li class="toctree-l3"><a class="reference internal" href="#volumes-en-docker">Volumes en Docker:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#volumes-en-docker">Volumes en Docker:</a>
+    <li class="toctree-l3"><a class="reference internal" href="#docker-compose">Docker Compose:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#docker-compose">Docker Compose:</a>
+    <li class="toctree-l3"><a class="reference internal" href="#docker-swarm">Docker SWARM:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#docker-swarm">Docker SWARM:</a>
+        </ul>
     </li>
     </ul>
                     </li>
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
                     </li>
                 </ul>
                 <ul>
@@ -110,7 +116,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">MKapuntes</a>
+        <a href="..">Miguel's Notes</a>
       </nav>
 
       
@@ -160,7 +166,7 @@ $ sudo systemctl start docker
 $ sudo docker run hello-world
 </code></pre>
 
-<h2 id="comandos">Comandos</h2>
+<h2 id="resumen-comandos">Resumen Comandos</h2>
 <ul>
 <li>Crear un container Docker:  </li>
 </ul>
@@ -216,14 +222,14 @@ docker cp container:/opt/docker/. file
 <li>Docker con puerto mapeado para el exterior:<br />
 <code>docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash</code></li>
 </ul>
-<h2 id="redes-en-docker">Redes en Docker:</h2>
+<h3 id="redes-en-docker">Redes en Docker:</h3>
 <pre><code>docker network create NameRed
 docker network rm NameRed
 docker network inspect NameRed/container
 docker network create --subnet 172.19.0.0/16 NameRed
 </code></pre>
 
-<h2 id="volumes-en-docker">Volumes en Docker:</h2>
+<h3 id="volumes-en-docker">Volumes en Docker:</h3>
 <pre><code>docker volume create NOMBREVOLUMEN
 docker volume ls
 docker volume inspect NOMVOLUMEN
@@ -233,7 +239,7 @@ ls /var/lib/docker/volumes
 </code></pre>
 
 <p><code>docker run --rm --name ldap -h ldap -v NOMVOLUMEN:/var/lib/sambaloQueGuarda --privileged -it isx/ldap /bin/bash</code></p>
-<h2 id="docker-compose">Docker Compose:</h2>
+<h3 id="docker-compose">Docker Compose:</h3>
 <pre><code>docker-compose up #enciende todos los dockers del file compose.yml
 docker-compose -f fileCompose.yml up (-d) #elegimos que fichero encendemos del compose
 docker-compose down #apaga todo
@@ -248,7 +254,7 @@ docker-compose start/stop ldap #iniciar servicio
 docker-compose scale ldap=2 #dos container ldap
 </code></pre>
 
-<h2 id="docker-swarm">Docker SWARM:</h2>
+<h3 id="docker-swarm">Docker SWARM:</h3>
 <pre><code>docker swarm init #inicia el docker swarm
 docker node ls # lista de nodos del swarm
 docker swarm join-tocken manager/worker #une workers o manager

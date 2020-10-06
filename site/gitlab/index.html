@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Gitlab - MKapuntes</title>
+  <title>Gitlab - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> MKapuntes</a>
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -62,6 +62,22 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#github-pages">Github pages</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gitkraken">GitKraken</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#git-tagsreleases">Git Tags/Releases</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gitflow">Gitflow</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#features">Features</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hotfix">Hotfix</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#releases">Releases</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#emulador-cmder">Emulador CMDER</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -79,6 +95,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
                     </li>
                 </ul>
                 <ul>
@@ -102,7 +122,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">MKapuntes</a>
+        <a href="..">Miguel's Notes</a>
       </nav>
 
       
@@ -134,6 +154,8 @@
 <li>git commit -m "..."  </li>
 <li>git init .  </li>
 <li>git config --global user.email  </li>
+<li>git config --global user.name "isx46410800" </li>
+<li>git config --global user.email "miguel14amoros@gmail.com"  </li>
 <li>git config --global --list  </li>
 <li>git branch -va  </li>
 <li>git checkout <code>branch</code>  </li>
@@ -143,12 +165,22 @@
 <li>git checkout head~3  </li>
 <li>git merge <code>branch</code>  </li>
 <li>git show <code>hash</code>  </li>
-<li>git log <code>branch</code>   </li>
+<li>git log <code>branch</code>/hash commit   </li>
 <li>git diff <code>branch...branch</code>  </li>
 <li>git remote remove/add origin master/branch  </li>
 <li>git push/pull/fetch -u origin master/branch  </li>
 <li>git reset ~2    </li>
 <li>git reset HEAD~1  </li>
+<li>git div #gestionar conflictos de archivos  </li>
+<li>git tag / git tag -l / git tag -l "v1.0.0"`  </li>
+<li>git tag -a v1.4 -m "my version 1.4"  </li>
+<li>git tag v1.4-lw  </li>
+<li>git show v1.4  </li>
+<li>git push origin v1.5 / git push origin --tags  </li>
+<li>git tag -d v1.4  </li>
+<li>git push origin --delete <tagname>  </li>
+<li>git checkout -b version2 v2.0.0  </li>
+<li>git blame file  </li>
 </ul>
 <h2 id="obtener-claves-para-git">Obtener claves para GIT</h2>
 <ul>
@@ -163,6 +195,157 @@
 <li>Clonamos, metemos la chicha de MKdocs.</li>
 <li>Hacemos un <code>mkdocs build</code> y un <code>mkdocs gh-deploy</code> y nos dará un link de nuestra web estática generada por mkdocs en Github. <code>https://isx46410800.github.io/miguelamoros.github.io</code>  </li>
 </ol>
+<h2 id="gitkraken">GitKraken</h2>
+<ul>
+<li>Aplicación de interfaz gráfica para gestionar Git. <a href="https://www.gitkraken.com/">Descargar GitKraken</a>  </li>
+</ul>
+<h2 id="git-tagsreleases">Git Tags/Releases</h2>
+<ul>
+<li>Sirve para poner hasta donde es de mi código las diferentes versiones.  </li>
+<li>Crear tag version:  </li>
+<li>
+<p>Ejemplo <strong>v.1.0.0</strong>:  </p>
+<ul>
+<li>Primer número es major number, cambio de número es cambio grande de versión.  </li>
+<li>Segundo número es minor number, cambio no tan trascendente, un cambio de alguna función, interfaz..  </li>
+<li>Tercer número es un patx, correción de bugs.  </li>
+</ul>
+</li>
+<li>
+<p>Listar tags:<br />
+<code>git tag / git tag -l / git tag -l "v1.0.0"</code>  </p>
+</li>
+<li>
+<p>Crear tags:<br />
+<code>git tag -a v1.4 -m "my version 1.4"</code><br />
+<code>git show v1.4</code><br />
+<code>git tag v1.4-lw</code>  # etiqueta en .git ligera  </p>
+</li>
+<li>
+<p>Subir tag porque el git push no sube los tags:<br />
+<code>git push origin v1.5</code><br />
+<code>git push origin --tags</code> #varios a la vez  </p>
+</li>
+<li>
+<p>Borrar tags:<br />
+<code>git tag -d v1.4</code><br />
+<code>git push origin --delete &lt;tagname&gt;</code>  </p>
+</li>
+<li>
+<p>Cambio de ramas a esa versión:<br />
+<code>git checkout -b version2 v2.0.0</code>  </p>
+</li>
+</ul>
+<h2 id="gitflow">Gitflow</h2>
+<ul>
+<li>Flujo de trabajo en las que se puede añadir nuevas características, funciones, releases,etc...  </li>
+<li>
+<p>Deben existir las dos ramas master y develop.  </p>
+</li>
+<li>
+<p>Creamos el GitFlow:<br />
+<code>git flow init</code>  </p>
+</li>
+<li>
+<p>Esto creará tres ramas auxiliares por defecto:  </p>
+</li>
+<li>feature/  </li>
+<li>release/  </li>
+<li>hotfix/  </li>
+</ul>
+<h3 id="features">Features</h3>
+<ul>
+<li>Añadir una nueva característica o función, lo crea como si fuera una nueva branch, feature/nameFeature:  </li>
+</ul>
+<pre><code># Crear característica
+git flow feature start create-contat-form
+# Confirmar los cambios que se hayan realizado
+git status
+git add -A
+git commit -m &quot;Create contact-form.php&quot;
+# Finalizar característica
+git flow feature finish create-contat-form
+</code></pre>
+
+<pre><code>#Creación de una rama de función
+-Sin las extensiones de git-flow:
+git checkout develop git checkout -b feature_branch 
+-Cuando se utiliza la extensión de git-flow:
+git flow feature start feature_branch
+#Finalizar feature
+-Sin las extensiones de git-flow:
+git checkout develop git merge feature_branch
+-Con las extensiones de git-flow:
+git flow feature finish feature_branch
+</code></pre>
+
+<h3 id="hotfix">Hotfix</h3>
+<ul>
+<li>
+<p>Las ramas de mantenimiento o "corrección" (hotfix) se utilizan para reparar rápidamente las publicaciones de producción. Las ramas de corrección son muy similares a las ramas de publicación y a las de función, salvo porque se basan en la maestra en vez de la de desarrollo. Es la única rama que debería bifurcarse directamente a partir de la maestra. Una vez que la solución esté completa, debería fusionarse en la maestra y la de desarrollo (o la rama de publicación actual), y la maestra debería etiquetarse con un número de versión actualizado.  </p>
+</li>
+<li>
+<p>Tener una línea de desarrollo específica para la solución de errores permite que tu equipo aborde las incidencias sin interrumpir el resto del flujo de trabajo ni esperar al siguiente ciclo de publicación. Puedes considerar las ramas de mantenimiento como ramas de publicación ad hoc que trabajan directamente con la maestra. Una rama de corrección puede crearse utilizando los siguientes métodos:  </p>
+</li>
+</ul>
+<pre><code># iniciar
+-Sin las extensiones de git-flow:
+git checkout master git checkout -b hotfix_branch
+-Cuando se utilizan las extensiones de git-flow:
+git flow hotfix start hotfix_branch
+# finalizar
+- sin 
+git checkout master git merge hotfix_branch git checkout develop git merge hotfix_branch git branch -D hotfix_branch
+-con 
+$ git flow hotfix finish hotfix_branch
+</code></pre>
+
+<h3 id="releases">Releases</h3>
+<ul>
+<li>Mandar una nueva versión a producción:  </li>
+</ul>
+<pre><code># Crear liberación
+git flow release start 1.0.0
+# Confirmar los cambios que se hayan realizado
+git status
+git add -A
+git commit -m &quot;Add release notes&quot;
+# Finalizar liberación
+git flow release finish 1.0.0
+# Subir cambios de la rama develop
+git checkout develop
+git push
+# Subir cambios de la rama master
+git checkout master
+git push
+</code></pre>
+
+<pre><code># iniciar release
+-Sin las extensiones de git-flow:
+git checkout develop git checkout -b release/0.1.0
+-Cuando se utilizan las extensiones de git-flow:
+git flow release start 0.1.0 Switched to a new branch 'release/0.1.0'
+# finalizar
+-Sin las extensiones de git-flow:
+git checkout master git merge release/0.1.0
+-con la extensión de git-flow:
+git flow release finish '0.1.0'
+</code></pre>
+
+<ul>
+<li>Conclusión:  </li>
+</ul>
+<pre><code>En cada máquina y directorio donde tengamos el repositorio la primera vez se debe inicializar el flujo de trabajo con git flow init.
+#
+Una vez finalizado un release o un hotfix se deben confirmar los cambios con un git push sobre develop y master
+#
+Se recomienda subir las etiquetas al repositorio con git push –tags para tener un control de versiones sobre la rama de master.
+</code></pre>
+
+<h2 id="emulador-cmder">Emulador CMDER</h2>
+<ul>
+<li><a href="https://cmder.net/">Descargar</a>  </li>
+</ul>
               
             </div>
           </div>

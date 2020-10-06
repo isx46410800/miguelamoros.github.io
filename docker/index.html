@@ -70,9 +70,9 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Docker</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#instalacion">Instalación:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion">INSTALACIÓN</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#resumen-comandos">Resumen Comandos</a>
+    <li class="toctree-l2"><a class="reference internal" href="#comandos">COMANDOS</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#redes-en-docker">Redes en Docker:</a>
     </li>
@@ -81,6 +81,18 @@
     <li class="toctree-l3"><a class="reference internal" href="#docker-compose">Docker Compose:</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#docker-swarm">Docker SWARM:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arquitectura">ARQUITECTURA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-images">DOCKER IMAGES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dockerfile">Dockerfile</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#cmd-vs-entrypoint">CMD VS ENTRYPOINT</a>
+    </li>
+        </ul>
     </li>
         </ul>
     </li>
@@ -143,7 +155,7 @@
               
                 <h1 id="docker">DOCKER</h1>
 <p><img alt="docker" src="../images/docker.png" /></p>
-<h2 id="instalacion">Instalación:</h2>
+<h2 id="instalacion">INSTALACIÓN</h2>
 <ul>
 <li>Instalar Docker:  </li>
 </ul>
@@ -166,7 +178,7 @@ $ sudo systemctl start docker
 $ sudo docker run hello-world
 </code></pre>
 
-<h2 id="resumen-comandos">Resumen Comandos</h2>
+<h2 id="comandos">COMANDOS</h2>
 <ul>
 <li>Crear un container Docker:  </li>
 </ul>
@@ -220,7 +232,11 @@ docker cp container:/opt/docker/. file
 
 <ul>
 <li>Docker con puerto mapeado para el exterior:<br />
-<code>docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash</code></li>
+<code>docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash</code><blockquote>
+<p>-p puertoMiMaquina:puertoContenedor<br />
+-x dirActivo dentro del container  </p>
+</blockquote>
+</li>
 </ul>
 <h3 id="redes-en-docker">Redes en Docker:</h3>
 <pre><code>docker network create NameRed
@@ -273,6 +289,120 @@ docker node update --label-add tipus=valor nomNode
 docker node inspect nomNode
 docker node update --availability active/drain/pause nomNode
 </code></pre>
+
+<h2 id="arquitectura">ARQUITECTURA</h2>
+<ul>
+<li>
+<p>Docker Host es el servidor físico/real donde se encuentra instalado Docker.  </p>
+</li>
+<li>
+<p>Docker servicio:  </p>
+</li>
+<li>Docker Client.  </li>
+<li>Rest API: es el intermediario encargado de comunicar al Docker client con el Docker server.  </li>
+<li>Docker Server.  </li>
+</ul>
+<p><img alt="" src="./images/docker0" />  </p>
+<ul>
+<li>Arquitectura Imagen docker (Dockerfile):  <ol>
+<li>Capa 1 - From: Sistema operativo minimo a elegir.  </li>
+<li>Capa 2 - Run: lo que se quiera instalar, ejemplo apache.  </li>
+<li>Capa 3 - CMD: lo que se tiene que poner para que cuando se arranque la imagen empiece con ese comando. Normalmente la activación de un servicio en detached.  <blockquote>
+<p>SON CAPAS DE SOLO LECTURA Y NO SE PUEDE MODIFICAR NI BORRAR </p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code>FROM centos:7
+RUN yum install -y httpd
+CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
+</code></pre>
+
+<p><img alt="" src="./images/docker2" />  </p>
+<ul>
+<li>Contenedor es una capa addicional en tiempo real de ejecución, el empaquetado de todo el dockerfile. CAPA DE ESCRITURA. Recuerda que la capa del contenedor es temporal y que al eliminar el contenedor, todo lo que haya dentro de ella desaparecerá.    </li>
+</ul>
+<p><img alt="" src="./images/docker3" /><br />
+<img alt="" src="./images/docker4" />  </p>
+<ul>
+<li>Se diferencia de una máquina virtual es que un contenedor es como un proceso más del sistema mientras que una MV hay que bajarse una ISO, instalar y agregar RAM, CPU y HD de nuestra propia máquina real.  </li>
+</ul>
+<h2 id="docker-images">DOCKER IMAGES</h2>
+<ul>
+<li>
+<p>Poniendo <code>docker + SistemaOperativo</code> podemos adquirir <a href="https://hub.docker.com/">imágenes oficiales</a> de los propios creadores para poder descargar del repositorio de <strong>DockerHub</strong> para nuestros contenedores.  </p>
+</li>
+<li>
+<p>Por defecto, sino podemos un tag a la distribución, nos cogerá el <code>tag latest</code> sino tendremos que poner la versión concreta como <code>docker pull mongo:3.6-jessie</code>. Se actualiza el tag si te bajas una imagen pero está recientemente actualizada y la antigua se queda en <em>none</em>.  </p>
+</li>
+<li>
+<p>Vemos las imágenes con:<br />
+<code>docker images</code>  </p>
+</li>
+</ul>
+<h3 id="dockerfile">Dockerfile</h3>
+<ul>
+<li>
+<p>El fichero para crear nuestra imagen Docker se llama <code>Dockerfile</code>.  </p>
+</li>
+<li>
+<p>Para construir la imagen es <code>docker build -t/--tag imagen:tag . ó -f /rutaDockerfile</code> .:<br />
+<code>docker build -t isx46410800/centos:inicial .</code>  </p>
+</li>
+<li>
+<p>Si modificamos algo del Dockerfile, hay que volver hacer el comando anterior.<br />
+<code>docker build -t isx46410800/centos:detached images/centos/.</code>  </p>
+</li>
+<li>
+<p>Ver el historial de construcción de capas de mi imagen:<br />
+<code>docker history -H imagen:tag</code>  </p>
+</li>
+<li>
+<p>Borrar una imagen:<br />
+<code>docker rmi idImagen</code>  </p>
+</li>
+<li>
+<p>Borrar un contenedor:<br />
+<code>docker rm contenedorName</code>  </p>
+</li>
+<li>
+<p>Ver los contenedores:<br />
+<code>docker ps / docker ps -a</code>  </p>
+</li>
+<li>
+<p>COMANDOS DOCKERFILE:  </p>
+<ul>
+<li>FROM: desde donde se baja la imagen de SO.  </li>
+<li>RUN: para instalar paquetes.  </li>
+<li>COPY: copia ficheros de fuera hacia el container, ponemos ruta absoluta o del directorio actual.  </li>
+<li>ADD: lo mismo que copy pero se puede pasar URLs y copiaría la info de la url a donde indiquemos.  </li>
+<li>ENV: crea variable de entorno.  </li>
+<li>WORKDIR: directorio activo al entrar.  </li>
+<li>EXPOSE: puertos por donde escucha y puedes indicar qué puertos va funcionar mi contenedor.</li>
+<li>CMD: comando por el cual se ejecuta el container, normalmente un servicio detached <code>CMD ["apachectl", "-DFOREGORUND"]</code>.  </li>
+</ul>
+</li>
+</ul>
+<pre><code></code></pre>
+
+<h4 id="cmd-vs-entrypoint">CMD VS ENTRYPOINT</h4>
+<ul>
+<li><strong>CMD</strong>: Este comando se encarga de pasar valores por defecto a un contenedor. Entre estos valores se pueden pasar ejecutables. Este comando tiene tres posibles formas de pasar los parámetros:  </li>
+</ul>
+<p><code>CMD [“parametro1”, “parametro2”, ….]</code><br />
+<code>CMD ["apachectl", "-DFOREGORUND"]</code>  </p>
+<ul>
+<li><strong>ENTRYPOINT</strong>: Este comando se ejecuta cuando se quiere ejecutar un ejecutable en el contenedor en su arranque. Los ejemplos tipo de su uso, son cuando se quiere levantar un servidor web, una base de datos, etc ….  </li>
+</ul>
+<p><code>ENTRYPOINT comando parametro1 parametro2</code><br />
+<code>ENTRYPOINT cal 2020</code><br />
+<code>ENTRYPOINT cal</code> # Y pasar por comando los parámetros  </p>
+<ul>
+<li>Como se ha comentado anteriormente el comando CMD se puede utilizar para pasar parámetros al comando ENRYPOINT. Una posible forma de realizarlo es:  </li>
+</ul>
+<p><code>ENTRYPOINT ["cal"]</code><br />
+<code>CMD ["2020"]</code>  </p>
               
             </div>
           </div>

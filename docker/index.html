@@ -88,13 +88,47 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#docker-images">DOCKER IMAGES</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#dockerfile">Dockerfile</a>
+    <li class="toctree-l3"><a class="reference internal" href="#dockerfile">DOCKERFILE</a>
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#cmd-vs-entrypoint">CMD VS ENTRYPOINT</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#centos-php-ssl">CENTOS-PHP-SSL</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#nginx-php">NGINX-PHP</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#multi-stage-build">MULTI-STAGE-BUILD</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#prueba-real">PRUEBA REAL</a>
+    </li>
         </ul>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-containers">DOCKER CONTAINERS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#listarmapeo-puertos">LISTAR/MAPEO PUERTOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#iniciardetenepausar">INICIAR/DETENE/PAUSAR</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#variables-de-entorno">VARIABLES DE ENTORNO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mysql">MYSQL</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-volumes">DOCKER VOLUMES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#volumes-host">VOLUMES HOST</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#volumes-anonymoys">VOLUMES ANONYMOYS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#volumes-named-volumes">VOLUMES NAMED VOLUMES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prueba-real_1">PRUEBA REAL</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-registry">DOCKER REGISTRY</a>
     </li>
     </ul>
                     </li>
@@ -215,7 +249,9 @@ docker run --rm --name ldap -h ldap -d imagen
 <li>Borrar un container:<br />
 <code>docker rm container</code></li>
 <li>Cambiar etiqueta de un container:<br />
-<code>docker tag imagen nombreNuevo:tag</code></li>
+<code>docker tag imagen nombreNuevo:tag</code>  </li>
+<li>Borrar imagenes none:<br />
+<code>docker images -f dangling=true | xargs docker rmi</code>  </li>
 <li>Crear y subir una imagen a DockerHub:  </li>
 </ul>
 <pre><code>docker login
@@ -341,7 +377,7 @@ CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
 <code>docker images</code>  </p>
 </li>
 </ul>
-<h3 id="dockerfile">Dockerfile</h3>
+<h3 id="dockerfile">DOCKERFILE</h3>
 <ul>
 <li>
 <p>El fichero para crear nuestra imagen Docker se llama <code>Dockerfile</code>.  </p>
@@ -379,12 +415,64 @@ CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
 <li>ADD: lo mismo que copy pero se puede pasar URLs y copiaría la info de la url a donde indiquemos.  </li>
 <li>ENV: crea variable de entorno.  </li>
 <li>WORKDIR: directorio activo al entrar.  </li>
-<li>EXPOSE: puertos por donde escucha y puedes indicar qué puertos va funcionar mi contenedor.</li>
+<li>LABEL: es una etiqueta que puede ir en cualquier sitio, son informativas, es metadata.  </li>
+<li>USER: quien ejecuta la tarea, por defecto es root.  </li>
+<li>EXPOSE: puertos por donde escucha y puedes indicar qué puertos va funcionar mi contenedor.  </li>
+<li>VOLUME: indica donde metemos la data cuando el container se muere.  </li>
 <li>CMD: comando por el cual se ejecuta el container, normalmente un servicio detached <code>CMD ["apachectl", "-DFOREGORUND"]</code>.  </li>
 </ul>
 </li>
+<li>
+<p>Ejemplo Dockerfile:  </p>
+</li>
 </ul>
-<pre><code></code></pre>
+<pre><code># De que sistema operativo partimos
+FROM centos:7
+# Labels de metadata extra
+LABEL author=&quot;Miguel Amorós&quot;
+LABEL description=&quot;Mi primer container con Dockerfile&quot;
+# Que paquetes a instalar
+RUN yum install -y httpd
+# Creamos variables de entorno
+ENV saludo &quot;Hola Miguel&quot;
+# Directorio activo
+WORKDIR /var/www/html
+# Copiamos un fichero de fuera
+COPY ./listaCompra.txt ~/listaCompra.txt
+# Prueba de la variable
+RUN echo &quot;$saludo&quot; &gt; ~/saludo.txt
+# Usuario que ejecuta la tarea
+RUN echo &quot;$(whoami)&quot; &gt; ~/user1.txt
+RUN useradd miguel 
+RUN useradd miguelito
+RUN echo &quot;miguel&quot; | passwd --stdin miguel
+RUN echo &quot;miguelito&quot; | passwd --stdin miguelito
+RUN chown miguel /var/www/html
+USER miguel
+RUN echo &quot;$(whoami)&quot; &gt; ~/user2.txt
+USER root
+# Volumen para meter la chicha de cuando se muere el container
+VOLUME /tmp/
+# Como arrancar el container
+CMD [&quot;apachectl&quot;, &quot;-DFOREGROUND&quot;]
+</code></pre>
+
+<ul>
+<li>
+<p>Podemos usar un fichero <code>.dockerignore</code> para ignorar ficheros que no queremos que copiemos en el container.  </p>
+</li>
+<li>
+<p>Para ver cualquier CMD para dejar por ejemplo un servicio encendido en detached se usa el comando:<br />
+<code>docker history -h SO / en docker hub</code>  </p>
+</li>
+<li>
+<p>Buenas prácticas, cuantas menos lineas de codigo, menos capas se utilizan al construir la imagen:  </p>
+</li>
+</ul>
+<pre><code>RUN \
+  useradd miguel &amp;&amp; \
+  useradd miguelito
+</code></pre>
 
 <h4 id="cmd-vs-entrypoint">CMD VS ENTRYPOINT</h4>
 <ul>
@@ -403,6 +491,501 @@ CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
 </ul>
 <p><code>ENTRYPOINT ["cal"]</code><br />
 <code>CMD ["2020"]</code>  </p>
+<h4 id="centos-php-ssl">CENTOS-PHP-SSL</h4>
+<ul>
+<li>
+<p>Crear unaas llaves para certificado SSL:<br />
+<code>openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout dockerssl.key -out dockerssl.crt</code>  </p>
+<blockquote>
+<p>Ponemos de commom name localhost</p>
+</blockquote>
+</li>
+<li>
+<p>Dockerfile:  </p>
+</li>
+</ul>
+<pre><code># SO
+FROM centos:7
+# paquetes de apache php y ssl 
+RUN \
+  yum -y install httpd php php-cli php-commom mod_ssl openssl
+# dir creado
+RUN mkdir /opt/docker
+# indice de comprobacion de php
+RUN echo &quot;&lt;?php phpinfo(); ?&gt;&quot; &gt; /var/www/html/hola.php
+# web de prueba
+COPY startbootstrap /var/www/html
+# conf del ssl en el fichero de apache de conf
+COPY ssl.conf /etc/httpd/conf.d/default.conf
+# copia de certificados y startup
+COPY dockerssl.crt /opt/docker/dockerssl.crt
+COPY dockerssl.key /opt/docker/dockerssl.key
+COPY startup.sh /opt/docker/startup.sh
+# permisos del startup
+RUN chmod +x /opt/docker/startup.sh
+# escuchar puerto 443
+EXPOSE 443
+# arranque
+CMD [&quot;/opt/docker/startup.sh&quot;]
+</code></pre>
+
+<ul>
+<li>Podemos eliminar imagenes none con el comando:<br />
+<code>docker images -f dangling=true | xargs docker rmi</code>  </li>
+</ul>
+<h4 id="nginx-php">NGINX-PHP</h4>
+<ul>
+<li>Dockerfile:  </li>
+</ul>
+<pre><code># SO
+FROM centos:7
+# copiar el repo de nginx
+COPY nginx.repo /etc/yum.repos.d/nginx.repo
+# instalar paquetes
+RUN \
+  yum -y install nginx --enablerepo=nginx                         &amp;&amp; \
+  yum -y install https://repo.ius.io/ius-release-el7.rpm          &amp;&amp; \
+  yum -y install                                              \
+    php71u-fpm \
+    php71u-mysqlnd \
+    php71u-soap \
+    php71u-xml \
+    php71u-zip \
+    php71u-jason \
+    php71u-mcrypt \
+    php71u-mbstring \
+    php71u-zip \
+    php71u-gd \
+      --enablerepo=ius-archive &amp;&amp; yum clean all
+# dir
+RUN mkdir /opt/docker
+# puertos escuchando
+EXPOSE 80 443
+# volumenes
+VOLUME /var/www/html /var/log/nginx /var/log/php-fpm /var/lib/php-fpm
+# copiamos files de conf
+COPY index.php /var/www/html/index.php
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY startup.sh  /opt/docker/startup.sh
+RUN chmod +x /opt/docker/startup.sh
+# arranque
+CMD /opt/docker/startup.sh
+</code></pre>
+
+<h4 id="multi-stage-build">MULTI-STAGE-BUILD</h4>
+<ul>
+<li>Ejemplo de instalar varias capas de sistemas operativos:  </li>
+</ul>
+<pre><code># SO
+FROM maven:3.5-alpine as builder
+# copiamos la carpeta dentro
+COPY app /app
+# entramos y empaquetamos
+RUN cd /app &amp;&amp; mvn package
+# desde java 
+FROM openjdk:8-alpine
+# copiamos desde maven y lanzamos la app
+COPY --from=builder /app/target/my-app-1.0-SNAPSHOT.jar /opt/app.jar
+# ejecutamos la app
+CMD java -jar /opt/app.jar
+</code></pre>
+
+<pre><code>[isx46410800@miguel multi]$ docker build -t isx46410800/java:app .
+</code></pre>
+
+<pre><code>[isx46410800@miguel multi]$ docker run -d isx46410800/java:app
+</code></pre>
+
+<pre><code>[isx46410800@miguel multi]$ docker logs trusting_galois
+Hello World!
+</code></pre>
+
+<ul>
+<li>Otro ejemplo:  </li>
+</ul>
+<pre><code>FROM centos as test
+RUN fallocate -l 10M /opt/file1
+RUN fallocate -l 20M /opt/file2
+RUN fallocate -l 30M /opt/file3
+FROM alpine
+COPY --from=test /opt/file2 /opt/myfile
+</code></pre>
+
+<blockquote>
+<p>El centos con los 3 files serian 260M pero solo coge de alpine que son 4 y coge el file que le interesa. El total de la imagen es 24M y no la suma de todo.  </p>
+</blockquote>
+<h4 id="prueba-real">PRUEBA REAL</h4>
+<ul>
+<li>
+<p>La idea de este articulo es que le des solución al siguiente problema utilizando lo que has aprendido.</p>
+</li>
+<li>
+<p>En donde trabajas, solicitan una imagen Docker base para ser reutilizada. Tu tarea es crear un Dockerfile con las siguientes especificaciones y entregarlo a tu jefe:</p>
+</li>
+<li>
+<p>Sistema Operativo Base: CentOs o Debian (A tu elección):</p>
+</li>
+<li>
+<p>Herramientas a instalar:  </p>
+</li>
+<li>Apache (Última versión)</li>
+<li>
+<p>PHP 7.0</p>
+</li>
+<li>
+<p>Debes usar buenas prácticas.</p>
+</li>
+<li>
+<p>Deberás comprobar su funcionamiento creando un index.php con la función de phpinfo.</p>
+</li>
+<li>
+<p>Dockerfile:  </p>
+</li>
+</ul>
+<pre><code># SO
+FROM centos:7
+# Instalar apache
+RUN yum install -y httpd
+# Añadir repo de php para centos7 e instalamos version 7.0
+RUN yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm &amp;&amp; \
+    yum update -y                                                         &amp;&amp; \
+    yum install -y yum-utils                                              &amp;&amp; \
+    yum install -y php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
+# Test de pagina index de php
+RUN echo &quot;&lt;?php phpinfo(); ?&gt;&quot; &gt; /var/www/html/index.php
+# Volumenes
+VOLUME /var/www/html /var/log/php-fpm /var/lib/php-fpm
+# copia del startup y permisos
+COPY startup.sh opt/docker/startup.sh
+RUN chmod +x opt/docker/startup.sh
+# Arrancamos el servicio apache en segundo plano
+CMD [&quot;opt/docker/startup.sh&quot;]
+</code></pre>
+
+<ul>
+<li>Startup.sh:  </li>
+</ul>
+<pre><code>#!/bin/bash
+# Iniciar contenedor
+echo &quot;iniciando container...&quot;
+# Encendiendo servicio apache
+apachectl -DFOREGROUND
+</code></pre>
+
+<ul>
+<li>
+<p>Imagen:<br />
+<code>docker build -t isx46410800/apache:php .</code>  </p>
+</li>
+<li>
+<p>Contenedor:<br />
+<code>docker run --name apache_php -p 80:80 -d isx46410800/apache:php</code>  </p>
+</li>
+<li>
+<p>Funcionamiento:  </p>
+</li>
+</ul>
+<pre><code>docker ps
+CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                NAMES
+abda827fb9f5        isx46410800/apache:php   &quot;opt/docker/startup.…&quot;   3 seconds ago       Up 1 second         0.0.0.0:80-&gt;80/tcp   apache_php
+</code></pre>
+
+<ul>
+<li>Entramos a <code>localhost:80</code> y nos saldrá la web <code>index.php</code>  </li>
+</ul>
+<h2 id="docker-containers">DOCKER CONTAINERS</h2>
+<ul>
+<li>Son una instancia de ejecución de una imagen  </li>
+<li>Son temporales  </li>
+<li>Capa de lectura y escritura  </li>
+<li>Podemos crear varios partiendo de una misma imagen  </li>
+</ul>
+<h3 id="listarmapeo-puertos">LISTAR/MAPEO PUERTOS</h3>
+<ul>
+<li>
+<p><code>docker ps / docker ps -a / docker ps -q(ids)</code>  </p>
+</li>
+<li>
+<p>PuertoLocal-PuertoContainer:<br />
+<code>docker run --name jenkins -p 8080:8080 -d jenkins</code>  </p>
+<blockquote>
+<p>0.0.0.0:8080 todas las interfaces de nuestra máquina están mapeadas al puerto 8080. Si mapeamos la misma imagen con otros puertos, tenemos varias imagenes en diferentes puertos.  </p>
+</blockquote>
+</li>
+<li>
+<p><code>docker run --name jenkins -p :8080 -d jenkins</code>  </p>
+<blockquote>
+<p>Cualquier primer puerto libre que coja mi maquina se mapea al 8080.  </p>
+</blockquote>
+</li>
+</ul>
+<h3 id="iniciardetenepausar">INICIAR/DETENE/PAUSAR</h3>
+<ul>
+<li>
+<p>Renombrar un contenedor:<br />
+<code>docker rename nombre_viejo nombre_nuevo</code>  </p>
+</li>
+<li>
+<p>Parar contenedor:<br />
+<code>docker stop nombre/id</code>  </p>
+</li>
+<li>
+<p>Iniciar contenedor:<br />
+<code>docker start nombre/id</code>  </p>
+</li>
+<li>
+<p>Reiniciar contenedor:<br />
+<code>docker restart nombre/id</code>  </p>
+</li>
+<li>
+<p>Entrar con una terminal al contenedor:<br />
+<code>docker exec -it nombre /bin/bash</code><br />
+<code>docker exec -u root/user -it nombre /bin/bash</code>  </p>
+<blockquote>
+<p>jenkins@bh45fdiu ---&gt; user@id  </p>
+</blockquote>
+</li>
+</ul>
+<h3 id="variables-de-entorno">VARIABLES DE ENTORNO</h3>
+<ul>
+<li>
+<p>En Dockerfile:<br />
+<code>ENV variable valor</code>  </p>
+</li>
+<li>
+<p>En la linea de construir container:<br />
+<code>docker run --name jenkins -e "varible=valor" -p :8080 -d jenkins</code>  </p>
+</li>
+</ul>
+<h3 id="mysql">MYSQL</h3>
+<ul>
+<li>
+<p>Se ha de instalar el mysql client en las versiones que descargamos de dockerhub, ya que nos falta eso para poder usarlo:<br />
+<code>yum install -y mysql / apt-get install mysql-client / dnf install mysql-community-server</code>  </p>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/mysql">AYUDA MYSQL</a>  </p>
+</li>
+<li>
+<p>Creamos contenedor MYSQL siguiendo las instrucciones:<br />
+<code>docker run --name mysql-db --rm -e "MYSQL_ROOT_PASSWORD=jupiter" -d mysql:5.7</code>  </p>
+</li>
+</ul>
+<pre><code>docker run --name mysql-db --rm -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -d mysql:5.7
+fc84bdb48a389c9e7183fd633c0edfb03a7867104e1e867ef321a223f044fe87
+docker ps
+CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                 NAMES
+fc84bdb48a38        mysql:5.7                &quot;docker-entrypoint.s…&quot;   3 seconds ago       Up 2 seconds        3306/tcp, 33060/tcp   mysql-db
+</code></pre>
+
+<ul>
+<li>
+<p>Para que arranque con todo lo necesario el container:<br />
+<code>docker logs -f mysql-db</code>  </p>
+<blockquote>
+<p>Mensaje final de ready for connections por tal puerto. </p>
+</blockquote>
+</li>
+<li>
+<p>Para conectarnos tendríamos que haber mapeado el puerto, no obstante podemos conectarnos sabiendo la IP de nuestro container y añadirsela al comando de mysql de conexion con <code>docker inspect mysql-db</code>:  </p>
+</li>
+</ul>
+<p><code>[isx46410800@miguel mysql]$ mysql -u root -h 172.17.0.3 -pjupiter</code>  </p>
+<p><img alt="" src="../images/mysql_1.png" />  </p>
+<ul>
+<li>Mapeando puerto(el de mysql del log) para también poder usarlo mi maquina local, con nuevas variables de entorno siguiendo la guía, creando una db con usuario y passwd:  </li>
+</ul>
+<p><code>docker run --name mysql-db2 --rm -e "MYSQL_ROOT_PASSWORD=jupiter" -e "MYSQL_DATABASE=docker-db" -e "MYSQL_USER=docker" -e "MYSQL_PASSWORD=docker" -p 3333:3306 -d mysql:5.7</code>  </p>
+<pre><code>[isx46410800@miguel mysql]$ docker run --name mysql-db2 --rm -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -e &quot;MYSQL_DATABASE=docker-db&quot; -e &quot;MYSQL_USER=docker&quot; -e &quot;MYSQL_PASSWORD=docker&quot; -p 3333:3306 -d mysql:5.7
+b24dff85293ef892f2f9033c231e7a594a1261e9b5924e2a955691cc403eee11
+[isx46410800@miguel mysql]$ docker ps
+CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                               NAMES
+b24dff85293e        mysql:5.7                &quot;docker-entrypoint.s…&quot;   4 seconds ago       Up 2 seconds        33060/tcp, 0.0.0.0:3333-&gt;3306/tcp   mysql-db2
+b3254fe3706b        mysql:5.7                &quot;docker-entrypoint.s…&quot;   3 minutes ago       Up 3 minutes        3306/tcp, 33060/tcp                 mysql-db
+</code></pre>
+
+<ul>
+<li>
+<p>Para que arranque con todo lo necesario el container:<br />
+<code>docker logs -f mysql-db2</code>  </p>
+</li>
+<li>
+<p>Comprobamos por localhost:<br />
+<code>[isx46410800@miguel mysql]$ mysql -u root -h 127.0.0.1 -pjupiter --port=3333</code>  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/mysql_2.png" />  </p>
+<h2 id="docker-volumes">DOCKER VOLUMES</h2>
+<ul>
+<li>Los volúmenes permiten almacenar data persistente del contenedor:  </li>
+<li>Host  </li>
+<li>Anonymous  </li>
+<li>Named Volumes  </li>
+</ul>
+<h3 id="volumes-host">VOLUMES HOST</h3>
+<ul>
+<li>Son los que se han de crear una carpeta antes y mapear a la carpeta del contenedor el cual queremos guardar la xixa:  </li>
+</ul>
+<pre><code>mkdir mysql
+docker run --name mysql-db -v mysql:/var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
+</code></pre>
+
+<h3 id="volumes-anonymoys">VOLUMES ANONYMOYS</h3>
+<ul>
+<li>Son los que no ponemos ningún volumen de host y se nos añade a cualquier directorio al azar:  </li>
+</ul>
+<pre><code>docker run --name mysql-db -v /var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
+</code></pre>
+
+<ul>
+<li>Lo podemos descubrir(Normalmente en <code>/var/lib/docker/volumes // /user/home/docker/volumes</code>):  </li>
+</ul>
+<p><code>docker inspect container | grep mount</code>  </p>
+<p><code>docker info | grep -i root</code>  </p>
+<h3 id="volumes-named-volumes">VOLUMES NAMED VOLUMES</h3>
+<ul>
+<li>Son los que creamos directamente con las ordenes:  </li>
+</ul>
+<p><code>docker volume create my-vol</code>  </p>
+<ul>
+<li>Lo vemos con:  </li>
+</ul>
+<p><code>docker volume ls</code>  </p>
+<ul>
+<li>Y se guardan en:  </li>
+</ul>
+<p><code>/var/lib/docker/volumes // /user/home/docker/volumes</code>  </p>
+<pre><code>docker run --name mysql-db -v my-vol:/var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
+</code></pre>
+
+<ul>
+<li>Lo podemos descubrir(Normalmente en <code>/user/home/docker/volumes</code>):  </li>
+</ul>
+<p><code>docker volume inspect volumenName</code>  </p>
+<p><code>docker inspect container | grep mount</code>  </p>
+<p><code>docker info | grep -i root</code>  </p>
+<h3 id="prueba-real_1">PRUEBA REAL</h3>
+<ul>
+<li>Dockerfile:  </li>
+</ul>
+<pre><code># SO
+FROM centos:7
+# Instalar apache
+RUN yum install -y httpd
+# Añadir repo de php para centos7 e instalamos version 7.0
+RUN yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm &amp;&amp; \
+    yum update -y                                                         &amp;&amp; \
+    yum install -y yum-utils                                              &amp;&amp; \
+    yum install -y php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
+# Test de pagina index de php
+RUN echo &quot;&lt;?php phpinfo(); ?&gt;&quot; &gt; /var/www/html/index.php
+# copia del startup y permisos
+COPY startup.sh /opt/docker/startup.sh
+RUN chmod +x /opt/docker/startup.sh
+# Arrancamos el servicio apache en segundo plano
+CMD [&quot;/opt/docker/startup.sh&quot;]
+</code></pre>
+
+<ul>
+<li>Startup.sh:  </li>
+</ul>
+<pre><code>[isx46410800@miguel prueba2]$ cat startup.sh 
+#!/bin/bash
+# Iniciar contenedor
+echo &quot;iniciando container...&quot;
+# Encendiendo servicio apache
+apachectl -DFOREGROUND
+</code></pre>
+
+<ul>
+<li>
+<p>Creación volumen:<br />
+<code>[isx46410800@miguel prueba2]$ mkdir data_apache</code>  </p>
+</li>
+<li>
+<p>Imagen:  </p>
+</li>
+</ul>
+<p><code>Sending build context to Docker daemon  4.096kB</code>  </p>
+<p><code>docker build -t apache_volume .</code>  </p>
+<ul>
+<li>Contenedor:  </li>
+</ul>
+<p><code>docker run --rm --name apache_volume -v $PWD/data_apache:/var/www/html/ -e "ENV=dev" -e "VIRTUALIZATION=docker" -p 80:80 -d apache_volume</code>  </p>
+<ul>
+<li>Resultados:  </li>
+</ul>
+<p><code>set</code>  </p>
+<pre><code>VIRTUALIZATION=docker
+ENV=dev
+</code></pre>
+
+<p><img alt="" src="../images/volume.png" /><br />
+<img alt="" src="../images/volume2.png" /><br />
+<img alt="" src="../images/volume3.png" /><br />
+<img alt="" src="../images/volume4.png" />  </p>
+<h2 id="docker-registry">DOCKER REGISTRY</h2>
+<ul>
+<li>Sería la misma función que crear una cuenta en <code>Dockerhub</code> y después hacer:  </li>
+<li><code>docker login</code>  </li>
+<li><code>docker tag nombre isx4610800/nombre:tag</code></li>
+<li><code>docker commit isx4610800/nombre:tag</code>  </li>
+<li>
+<p><code>docker push isx4610800/nombre:tag</code>  </p>
+</li>
+<li>
+<p><a href="https://docs.docker.com/registry/">Documentación Docker Registry</a>  </p>
+</li>
+<li>
+<p>Lo creamos:<br />
+<code>docker run --name registry -v $PWD/data:/var/lib/registry -p 5000:5000 registry:2</code>  </p>
+<blockquote>
+<p>Tenemos que crear un diretorio data donde estemos y podemos ponerle cualquier puerto.  </p>
+</blockquote>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel registry]$ ls
+data
+[isx46410800@miguel registry]$ docker run --name registry -v $PWD/data:/var/lib/registry -p 5000:5000 -d registry:2
+a52169f2861d43450071e5bedeb01380fc2a26fe9030975b127b4a2452e5f62e
+[isx46410800@miguel registry]$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a52169f2861d        registry:2          &quot;/entrypoint.sh /etc…&quot;   3 seconds ago       Up 1 second         0.0.0.0:5000-&gt;5000/tcp   registry
+</code></pre>
+
+<ul>
+<li>Subimos una imagen:  </li>
+</ul>
+<pre><code>[isx46410800@miguel registry]$ docker pull hello-world
+Using default tag: latest
+latest: Pulling from library/hello-world
+Digest: sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
+Status: Image is up to date for hello-world:latest
+[isx46410800@miguel registry]$ docker tag hello-world:latest localhost:5000/hello:registry
+[isx46410800@miguel registry]$ docker push localhost:5000/hello:registry
+The push refers to repository [localhost:5000/hello]
+9c27e219663c: Pushed 
+registry: digest: sha256:90659bf80b44ce6be8234e6ff90a1ac34acbeb826903b02cfa0da11c82cbc042 size: 525
+[isx46410800@miguel registry]$ ls data/docker/registry/v2/repositories/hello/
+_layers  _manifests  _uploads
+</code></pre>
+
+<ul>
+<li>
+<p>Bajar la imagen del registry:<br />
+<code>docker pull localhost:5000/hello:registry</code>  </p>
+</li>
+<li>
+<p>Subir/Bajar una imagen desde nuestra IP o hacía nuestra IP:</p>
+</li>
+</ul>
+<p><code>[isx46410800@miguel registry]$ sudo vi /lib/systemd/system/docker.service</code>  </p>
+<p><code>ExecStart=/usr/bin/dockerd -H unix:// --insecure-registry 192.168.1.144:5000</code>  </p>
+<p><code>systemctl daemon-reload</code>  </p>
+<p><code>[isx46410800@miguel registry]$ docker push 192.168.1.144:5000/hello:registry</code>  </p>
+<ul>
+<li>Ya podremos hacer pull/push a esta IP o por ejemplo a una IP de AWS donde tuvieramos el registry.  </li>
+</ul>
               
             </div>
           </div>

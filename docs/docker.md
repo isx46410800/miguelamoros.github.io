@@ -551,6 +551,151 @@ b3254fe3706b        mysql:5.7                "docker-entrypoint.s…"   3 minute
 ![](./images/mysql_2.png)  
 
 
+## DOCKER VOLUMES  
+
++ Los volúmenes permiten almacenar data persistente del contenedor:  
+   * Host  
+   * Anonymous  
+   * Named Volumes  
+
+
+### VOLUMES HOST  
+
++ Son los que se han de crear una carpeta antes y mapear a la carpeta del contenedor el cual queremos guardar la xixa:  
+
+```
+mkdir mysql
+docker run --name mysql-db -v mysql:/var/lib/sql -e "MYSQL_ROOT_PASSWORD=jupiter" -p 3306:3306 -d mysql:5-7
+```  
+
+### VOLUMES ANONYMOYS  
+
++ Son los que no ponemos ningún volumen de host y se nos añade a cualquier directorio al azar:  
+
+```
+docker run --name mysql-db -v /var/lib/sql -e "MYSQL_ROOT_PASSWORD=jupiter" -p 3306:3306 -d mysql:5-7
+```  
+
++ Lo podemos descubrir(Normalmente en `/var/lib/docker/volumes // /user/home/docker/volumes`):  
+
+`docker inspect container | grep mount`  
+
+`docker info | grep -i root`  
+
+
+### VOLUMES NAMED VOLUMES  
+
++ Son los que creamos directamente con las ordenes:  
+
+`docker volume create my-vol`  
+
++ Lo vemos con:  
+
+`docker volume ls`  
+
++ Y se guardan en:  
+
+`/var/lib/docker/volumes // /user/home/docker/volumes`  
+
+```
+docker run --name mysql-db -v my-vol:/var/lib/sql -e "MYSQL_ROOT_PASSWORD=jupiter" -p 3306:3306 -d mysql:5-7
+```  
+
++ Lo podemos descubrir(Normalmente en `/user/home/docker/volumes`):  
+
+`docker volume inspect volumenName`  
+
+`docker inspect container | grep mount`  
+
+`docker info | grep -i root`  
+
+
+### PRUEBA REAL  
+
++ Dockerfile:  
+
+```
+# SO
+FROM centos:7
+# Instalar apache
+RUN yum install -y httpd
+# Añadir repo de php para centos7 e instalamos version 7.0
+RUN yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    yum update -y                                                         && \
+    yum install -y yum-utils                                              && \
+    yum install -y php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
+# Test de pagina index de php
+RUN echo "<?php phpinfo(); ?>" > /var/www/html/index.php
+# copia del startup y permisos
+COPY startup.sh /opt/docker/startup.sh
+RUN chmod +x /opt/docker/startup.sh
+# Arrancamos el servicio apache en segundo plano
+CMD ["/opt/docker/startup.sh"]
+```  
+
++ Startup.sh:  
+
+```
+[isx46410800@miguel prueba2]$ cat startup.sh 
+#!/bin/bash
+# Iniciar contenedor
+echo "iniciando container..."
+# Encendiendo servicio apache
+apachectl -DFOREGROUND
+```  
+
++ Creación volumen:  
+`[isx46410800@miguel prueba2]$ mkdir data_apache`  
+
++ Imagen:  
+
+`Sending build context to Docker daemon  4.096kB`  
+
+`docker build -t apache_volume .`  
+
++ Contenedor:  
+
+`docker run --rm --name apache_volume -v $PWD/data_apache:/var/www/html/ -e "ENV=dev" -e "VIRTUALIZATION=docker" -p 80:80 -d apache_volume`  
+
++ Resultados:  
+
+`set`  
+
+```
+VIRTUALIZATION=docker
+ENV=dev
+```  
+
+![](./images/volume.png)  
+![](./images/volume2.png)  
+![](./images/volume3.png)  
+![](./images/volume4.png)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## DOCKER REGISTRY  
 

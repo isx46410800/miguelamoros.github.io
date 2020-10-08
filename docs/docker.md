@@ -42,11 +42,19 @@ docker run --rm --name ldap -h ldap -d imagen
 `docker attach container`
 + Procesos de docker:  
 `docker ps -a`  
-`docker top container`
+`docker top container`  
++ Último container creado:  
+`docker ps -l`  
++ Document Root:  
+`docker info | grep -i root`  
++ Memoria y cpu limitada y variables de entorno:  
+`docker run -m "MB" --cpuset-cpus 0-1 -e "NAME=miguel"`  
 + Iniciar un container:  
 `docker start/stop IDcontainer`
 + Cambiar nombre container:  
-`docker rename IDcontainer NuevoNombre`
+`docker rename IDcontainer NuevoNombre`  
++ Borrar varias cosas:  
+`docker rm $(docker ps -aq)`
 + Docker version:  
 `docker version`
 + Info de un docker:  
@@ -551,6 +559,148 @@ b3254fe3706b        mysql:5.7                "docker-entrypoint.s…"   3 minute
 ![](./images/mysql_2.png)  
 
 
+### MONGODB  
+
++ Descargamos imagen [mongodb](https://hub.docker.com/_/mongo)  
+
++ Encendemos dos containers:  
+`[isx46410800@miguel images]$ docker run --name mongodb -p 27017:27017 -d mongo`  
+`[isx46410800@miguel images]$ docker run --name mongodb2 -p 27018:27017 -d mongo`  
+
++ Para ver cuanta memoria usa, se utiliza la orden:  
+`docker stats mongodb`  
+
++ Con algun software de bbdd podemos conectarnos a este container poniendo la IP y el puerto y ya entraríamos remotamente.  
+
+`robomongo es un cliente de mondodb para estas conexiones`  
+
+
+### APACHE/NGINX/TOMCAT  
+
++ Creamos nuestro container nginx oficial mapeado:  
+`[isx46410800@miguel images]$ docker run --name nginx -p 8888:80 -d nginx`  
+
+![](./images/nginx.png)  
+
++ Creamos nuestro container apache(httpd) oficial mapeado:  
+`[isx46410800@miguel images]$ docker run --name apacheweb -p 9999:80 -d httpd`  
+
+![](./images/httpd.png)  
+
++ Creamos nuestro container tomcat version alpine oficial mapeado:  
+`[isx46410800@miguel images]$ docker run --name tomcat -p 7070:8080 -d tomcat:9.0.8-jre8-alpine`  
+
+![](./images/tomcat.png)  
+
+
+### POSTGRES  
+
++ Descargamos [imagen](https://hub.docker.com/_/postgres):  
+`docker pull postgres`  
+
++ Creamos container postgres creando user, pass y db:  
+`docker run --name postgres -e "POSTGRES_PASSWORD=jupiter" -e "POSTGRES_USER=docker" -e "POSTGRES_DB=docker-db" -p 5432:5432 -d postgres`  
+
++ Entramos y comprobamos:  
+```
+root@1ff7388f08b3:/# psql -d docker-db -U docker
+psql (13.0 (Debian 13.0-1.pgdg100+1))
+Type "help" for help.
+docker-db=# 
+docker-db=# \l
+                              List of databases
+   Name    | Owner  | Encoding |  Collate   |   Ctype    | Access privileges 
+-----------+--------+----------+------------+------------+-------------------
+ docker-db | docker | UTF8     | en_US.utf8 | en_US.utf8 | 
+ postgres  | docker | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | docker | UTF8     | en_US.utf8 | en_US.utf8 | =c/docker        +
+           |        |          |            |            | docker=CTc/docker
+ template1 | docker | UTF8     | en_US.utf8 | en_US.utf8 | =c/docker        +
+           |        |          |            |            | docker=CTc/docker
+(4 rows)
+```  
+
+### JENKINS  
+
++ Descargamos [imagen](https://hub.docker.com/_/postgres):  
+`docker pull jenkins`  
+
++ Creamos container jenkins:  
+`docker run --name jenkins -p 9090:8080 -d jenkins`  
+
++ Luego tendríamos que copiar la contraseña del fichero de password y arrancar la instalación de Jenkins.  
+
+### LIMITAR RECURSOS  
+
++ Ayuda con:  
+`docker --help | grep "xxxx"`  
+
+#### MEMORIA  
+
++ Para gestionar le memoria que puede usar mi docker se usa `-m "500Mb"`:  
+`docker run --name web -m "500Mb" -d httpd`  
+
++ Lo comprobamos con:  
+`docker stats web` --> LIMIT 10/500mb  
+
+
+#### CPU  
+
++ Vemos cuantas CPUs tenemos con:  
+`grep "model name" /proc/cpuinfo | wc -l` --> 4   
+
++ Indicar cual es la CPU que tiene usar `cpuset-cpus 0 /0-1/0-3`:  
+`docker run --name web -m "500Mb" cpuset-cpus 0-2 -d httpd`  
+> Comparte 3 cpus, la 0 , 1 y 2.  
+
+
+### COPIA DE ARCHIVOS  
+
++ De mi directorio al contenedor:  
+`docker cp index.html apache:/var/www/html`  
+
++ Del contenedor a mi directorio:  
+`docker cp apache:/var/www/html/index.html /var/www/html/.`  
+
+### CONTENEDOR A IMAGEN  
+
++ Para guardar todo lo añadido dentro de un contenedor y convertirlo en una imagen guardada y actualizada se hace:  
+`docker commit imagen imagen-nueva`  
+
+> Nota, todo lo que está dentro de un volumen NO SE GUARDARÁ!!
+
+
+### SOBREESCRIBIR CMD  
+
++ Para que el ultimo comando del docker no sea en la gran mayoria el `/bin/bash` o el servicio en foreground podemos poner otras órdenes y el CMD será diferente:  
+`docker run -p 8080:8080 -d centos python -m SimpleHTTPServer 8080`  
+`docker ps`  
+`docker logs centos`  
+
+### DESTRUIR CONTAINER  
+
++ Para destruir containers automáticamente se usa en la linea de docker:  
+`docker run --rm...`  
+
+
+### DOCUMENT ROOT  
+
++ El directorio root de Docker está en:  
+`docker info | grep -i root` --> `/var/libdocker`
+
++ Lo podemos cambiar añadiendo en el fichero `/var/lib/systemd/system/docker.service`:  
+
+linea `ExecStart: xxxxx --data-root /opt/docker`  
+> Tendriamos ahora en /opt/docker el nuevo document root.  
+
++ Cargamos y reiniciamos:  
+`systemctl daemon-reload`  
+
+`systemctl restart docker`
+
++ Podemos copiar todo el contenido de /var/lib/docker a la nueva carpeta y tendriamos todo ahi.  
+
+
 ## DOCKER VOLUMES  
 
 + Los volúmenes permiten almacenar data persistente del contenedor:  
@@ -653,10 +803,9 @@ apachectl -DFOREGROUND
 
 `docker build -t apache_volume .`  
 
-+ Contenedor:  
++ Contenedor con -m 500mb limite, uso en la cpu 0, -e las variables de entorno -v del volumen y -p del puerto indicado:  
 
-`docker run --rm --name apache_volume -v $PWD/data_apache:/var/www/html/ -e "ENV=dev" -e "VIRTUALIZATION=docker" -p 80:80 -d apache_volume`  
-
+`docker run --rm --name apache_volume -m 500Mb --cpuset-cpus 0 -v $PWD/data_apache:/var/www/html/ -e "ENV=dev" -e "VIRTUALIZATION=docker" -p 5555:80 -d apache_volume`  
 + Resultados:  
 
 `set`  
@@ -673,6 +822,247 @@ ENV=dev
 
 
 
+## DOCKER NETWORK  
+
++ Tipos:  
+  - Bridge  
+  - Host  
+  - None  
+  - Overlay  
+
++ La red por defecto es `docker0` que se obtiene de `ip -a`:  
+
+```
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN 
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+```  
+
++ La red por defecto de docker es `bridge`:  
+`docker network inspect bridge`  
+
++ Entre containers de misma red se pueden hacer `ping`  
+
+### CREAR REDES  
+
++ Para crear redes:  
+`docker network create netA`  
+
++ Para ver las redes:  
+`docker network ls | grep netA`  
+
++ Opción `-d` para el driver de gestión de la red bridge:  
+`docker network create -d bridge --subnet 172.124.10.0/24 --gateway 172.124.10.1 netB`  
+
+### VER REDES  
+
++ Para ver las redes creadas:  
+`docker network inspect netA`  
+
+### AGREGAR/CONECTAR REDES  
+
++ Para agregar una red a un contenedor se una `--net`:  
+`[isx46410800@miguel images]$ docker run --rm --name test1 --net netA -d nginx`  
+`[isx46410800@miguel images]$ docker run --rm --name test2 --net netB -d nginx`  
+`[isx46410800@miguel images]$ docker run --rm --name test3 --net netB -dit centos`  
+
++ Con contenedores de la misma red creadas con el network create, podemos hacer ping a la ip o al nombre del container:  
+
+```
+test1-----> 172.18.0.2 -------> netA
+test2-----> 172.124.10.2 -----> netB
+test3-----> 172.124.10.3 -----> netB
+```  
+
+```
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 test2"
+PING test2 (172.124.10.2) 56(84) bytes of data.
+64 bytes from test2.netB (172.124.10.2): icmp_seq=1 ttl=64 time=0.148 ms
+64 bytes from test2.netB (172.124.10.2): icmp_seq=2 ttl=64 time=0.090 ms
+64 bytes from test2.netB (172.124.10.2): icmp_seq=3 ttl=64 time=0.101 ms
+--- test2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 26ms
+rtt min/avg/max/mdev = 0.090/0.113/0.148/0.025 ms
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 172.124.10.2"
+PING 172.124.10.2 (172.124.10.2) 56(84) bytes of data.
+64 bytes from 172.124.10.2: icmp_seq=1 ttl=64 time=0.060 ms
+64 bytes from 172.124.10.2: icmp_seq=2 ttl=64 time=0.131 ms
+64 bytes from 172.124.10.2: icmp_seq=3 ttl=64 time=0.085 ms
+--- 172.124.10.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 53ms
+rtt min/avg/max/mdev = 0.060/0.092/0.131/0.029 ms
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 test1"
+ping: test1: Name or service not known
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 172.18.0.2"
+PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
+--- 172.18.0.2 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 61ms
+```  
+
++ Para conectar con diferentes redes se utiliza `connect` pero solo se conectan con el nombre del container y no por la ip:  
+`docker network connect netB test1`  
+> Quiere decir que conectamos a test1 a la red de netB.  
+
+```
+"Networks": {
+                "netA": {
+                    "IPAMConfig": null,
+                   ...
+                },
+                "netB": {
+                    "IPAMConfig": {},
+                    ....
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 test1"
+PING test1 (172.124.10.4) 56(84) bytes of data.
+64 bytes from test1.netB (172.124.10.4): icmp_seq=1 ttl=64 time=0.101 ms
+64 bytes from test1.netB (172.124.10.4): icmp_seq=2 ttl=64 time=0.086 ms
+64 bytes from test1.netB (172.124.10.4): icmp_seq=3 ttl=64 time=0.085 ms
+--- test1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 44ms
+rtt min/avg/max/mdev = 0.085/0.090/0.101/0.013 ms
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 172.18.0.2"
+PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
+--- 172.18.0.2 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 80ms
+```  
+
++ Para volver a desconectar se utiliza:  
+`docker network disconnect netB test1`  
+
+```
+[isx46410800@miguel images]$ docker exec test3 /bin/bash -c "ping -c3 test1"
+ping: test1: Name or service not known
+```  
+
+### ELIMINAR REDES  
+
++ Para eliminar redes:  
+`docker network remove netA netB`  
+
+### ASIGNAR IPs  
+
++ Creamos una red:  
+`docker network create -d bridge --subnet 172.124.10.0/24 --gateway 172.124.10.1 mynet`  
+
++ Asignamos una IP aleatoria que cogerá del rango que creamos:  
+`docker run --rm --name test3 --net mynet -dit centos`  
+
++ Asignar una IP concreta con el `--ip`:  
+`docker run --rm --name test3 --net mynet --ip 172.124.10.50 -dit centos`  
+
+
+### RED HOST  
+
++ Esta red ya existe por defecto con docker igual que la de brigde. Para conectarnos a esta red, que sería la misma que la IP real de mi máquina, tendría todo, como el hostname, sería:  
+`docker run --rm --name test3 --net host -dit centos`  
+
+```
+[root@miguel /]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether b4:b5:2f:cb:e2:65 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.104/24 brd 192.168.1.255 scope global dynamic enp4s0
+       valid_lft 66351sec preferred_lft 66351sec
+    inet6 fe80::227a:4836:6df:23b/64 scope link 
+       valid_lft forever preferred_lft forever
+3: wlp3s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether f2:aa:5b:7e:c0:70 brd ff:ff:ff:ff:ff:ff
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
+    link/ether 02:42:9f:2c:43:a0 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:9fff:fe2c:43a0/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@miguel /]# hostname
+miguel
+```  
+
+### RED NONE  
+
++ Esta red ya existe por defecto con docker igual que la de brigde. Sirve para que los container que creemos no tengan ninguna IP, no tendría apartado network:  
+`docker run --rm --name test3 --net none -dit centos`  
+
+### EXPONER IPs CONCRETAS  
+
++ Tomaremos como premisa que la IP de nuestro Docker Host es 192.168.100.2 
+
++ Al exponer un puerto en un contenedor, por defecto, este utiliza todas las interfaces de nuestra máquina. Veámos un ejemplo:  
+
+```
+docker run -d -p 8080:80 nginx
+196a13fe6198e1a3e8d55aedda90882f6abd80f4cdf41b2f29219a9632e5e3a1
+[docker ps -l
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+196a13fe6198        nginx               "nginx -g 'daemon of…"   5 seconds ago       Up 2 seconds        0.0.0.0:8080->80/tcp   frosty_jenning
+```
+
++ Si observamos la parte de ports, veremos un `0.0.0.0` . Esto significa que podremos acceder al servicio en el puerto `8080`  utilizando localhost:`8080` , o `127.0.0.1:8080` , `192.168.100.2:8080` .
+
++ Si quisiéramos que sea accesible solamente vía localhost  y no vía 192.168.100.2 , entonces haríamos lo siguiente:
+
+```
+docker run -d -p 127.0.0.1:8081:80 nginx
+1d7e82ff15da55b8c774baae56827aef12d59ab848a5f5fb7f883d1f6d1ee6e1
+docker ps -l
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+1d7e82ff15da        nginx               "nginx -g 'daemon of…"   3 seconds ago       Up 1 second         127.0.0.1:8081->80/tcp   musing_tesla
+```
+
++ Como observamos, ahora en vez de `0.0.0.0`  vemos un `127.0.0.1` , lo que indica que nuestro servicio es accesible sólo vía localhost  y no usando `192.168.100.2` 
+
+
+
+## DOCKER COMPOSE  
+
++ Herramienta de Docker de aplicaciones multicontenedor.  
+
++ El archivo es `docker-compose.yml` y contiene:  
+  - Contenedores  
+  - Imágenes  
+  - Volúmenes  
+  - Redes  
+
+### INSTALACIÓN  
+[Docker-compose del curso](https://github.com/ricardoandre97/docker-es-resources)  
+
++ Instalación:  
+`sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`  
+
+`sudo chmod +x /usr/local/bin/docker-compose`  
+
+### EJEMPLO  
+
+[Documentación](https://docs.docker.com/compose/compose-file/)  
+
++ Ejemplo:  
+
+```
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - "8080:80"
+```  
+
++ Para arrancarlo:  
+`docker-compose up -d`  
+
++ Para apagarlo:  
+`docker-compose down`  
+
+### VARIABLES ENTORNO  
+
++ Podemos poner las variables con la opción `environment` o a través de un ficheros con todas las variables de entono con la opción `env_file`:  
 
 
 
@@ -686,15 +1076,7 @@ ENV=dev
 
 
 
-
-
-
-
-
-
-
-
-
+## DOCKER SWARM  
 
 
 ## DOCKER REGISTRY  

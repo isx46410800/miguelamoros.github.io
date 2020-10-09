@@ -4,6 +4,10 @@
 # !/usr/bin/python3
 # -*-coding: utf-8-*-
 ```
+
+## Server Python  
+`python -m SimpleHTTPDServer 80`  
+
 ## Mostrar algo
 ```
 print("Uso windows")

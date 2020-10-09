@@ -9,6 +9,7 @@ nav:
         - Python: python.md
         - BashScripting: bash_scripting.md
         - Docker: docker.md
+        - Kubernetes: kubernetes.md
         - Jenkins: jenkins.md
         - Ansible: ansible.md
         - Markdown: markdown.md

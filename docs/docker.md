@@ -865,7 +865,7 @@ ENV=dev
 `[isx46410800@miguel images]$ docker run --rm --name test2 --net netB -d nginx`  
 `[isx46410800@miguel images]$ docker run --rm --name test3 --net netB -dit centos`  
 
-+ Con contenedores de la misma red creadas con el network create, podemos hacer ping a la ip o al nombre del container:  
++ Con contenedores de la misma red creadas con el network create, podemos hacer ping a la ip o al nombre del container, es como si tuviera un DNS resolver:  
 
 ```
 test1-----> 172.18.0.2 -------> netA
@@ -1042,6 +1042,12 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 [Documentación](https://docs.docker.com/compose/compose-file/)  
 
++ Siempre ha de ponerse si hay como secciones principales:  
+  1. Version
+  2. Services
+  3. Volumes
+  4. Networks
+
 + Ejemplo:  
 
 ```
@@ -1064,19 +1070,899 @@ services:
 
 + Podemos poner las variables con la opción `environment` o a través de un ficheros con todas las variables de entono con la opción `env_file`:  
 
+```
+version: '3'
+services:
+  db:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jupiter"
+```  
+
+```
+version: '3'
+services:
+  db:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    env_file: variables.env
+```  
+
+### VOLÚMENES  
+
++ Para los volúmenes, podemos crearlo añandiendolo en su sección y luego para asignarlo a un contenedor, añadimos la subsección volumes:  
+
+```
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - "my-vol:/usr/share/nginx/html"
+volumes:
+   my-vol:
+```  
+> Creamos el volumen Named my-vol y lo añadimos al contenedor de nginx.  
+
++ El volumen se crea en la ruta del `Document Root--> docker info | grep -i root`.  
+
+```
+[isx46410800@miguel nginx]$ docker-compose -f docker-compose_volumes.yml up -d
+Creating network "nginx_default" with the default driver
+Creating volume "nginx_my-vol" with default driver
+Creating nginx ... 
+Creating nginx ... done
+```  
+> se llama de prefijo nginx, porque siempre coge el nombre del directorio actual.  
+
++ Si vamos al volumen y cambiamos el contenido, al volver a formarse saldrá lo que hayamos puesto.  
+
++ Para un volumen de host, hemos de poner la ruta absoluta de la carpeta que usaremos como volumen, en este caso creamos el volumen de `html`:  
+
+```
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - "/home/isx46410800/Documents/curso_docker/docker-compose/nginx/html:/usr/share/nginx/html"
+```
+
+### REDES  
+
++ Para crear redes, se ha de crear la seccion de `networks` y de cada contenedor si son diferentes, indicar la subsección network indicando la red:  
+
+```
+version: '3'
+services:
+  web:
+    container_name: apache
+    image: httpd
+    ports:
+      - "8081:80"
+    volumes:
+      - "/home/isx46410800/Documents/curso_docker/docker-compose/apache/html:/var/www/html"
+    networks:
+      - my-net
+  web2: 
+    container_name: apache2
+    image: httpd
+    ports:
+      - "8082:80"
+    volumes:
+      - "/home/isx46410800/Documents/curso_docker/docker-compose/apache/html:/var/www/html"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+> Creamos la red `my-net` y al estar en una red creada tiene DNS y podemos contactar por nombre de container, por nombre de servicio o por IP.  
+
+```
+root@3893b20251af:/usr/local/apache2# ping web 
+PING web (172.21.0.2) 56(84) bytes of data.
+64 bytes from 3893b20251af (172.21.0.2): icmp_seq=1 ttl=64 time=0.056 ms
+64 bytes from 3893b20251af (172.21.0.2): icmp_seq=2 ttl=64 time=0.041 ms
+^C
+--- web ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 16ms
+rtt min/avg/max/mdev = 0.041/0.048/0.056/0.010 ms
+root@3893b20251af:/usr/local/apache2# ping apache 
+PING apache (172.21.0.2) 56(84) bytes of data.
+64 bytes from 3893b20251af (172.21.0.2): icmp_seq=1 ttl=64 time=0.046 ms
+64 bytes from 3893b20251af (172.21.0.2): icmp_seq=2 ttl=64 time=0.056 ms
+^C
+--- apache ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 65ms
+rtt min/avg/max/mdev = 0.046/0.051/0.056/0.005 ms
+root@3893b20251af:/usr/local/apache2# ping 172.21.0.2
+PING 172.21.0.2 (172.21.0.2) 56(84) bytes of data.
+64 bytes from 172.21.0.2: icmp_seq=1 ttl=64 time=0.080 ms
+^C
+--- 172.21.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.080/0.080/0.080/0.000 ms
+```  
+
+### BUILD DOCKERFILE  
+
++ Para poder poner en el docker-compose nuestra imagen personalizada de un `Dockerfile`:  
+
++ Podemos o solo construir la imagen indicando donde está según si se llama Dockerfile o con otro nombre y en qué carpeta.   
+
++ Si se llama Dockerfile y ruta del directorio ('.' si está aquí), ponemos la opción `build`. Le ponemos también nombre de la imagen a construir: 
+
+```
+version: '3'
+services:
+  web:
+    container_name: apache
+    image: isx46410800/httpd-build
+    build: .
+    ports:
+      - "8081:80"
+    volumes:
+      - "/home/isx46410800/Documents/curso_docker/docker-compose/build/html:/var/www/html"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Si se llama diferente a Dockerfile, ponemos `context` para ver en que directorio está y `dockerfile` y el nombre del archivo:  
+
+```
+web2:
+    container_name: apache2
+    image: isx46410800/httpd-build2
+    build: 
+      context: . (directorio donde está el dockerfile)
+      dockerfile: Dockerfile2
+    ports:
+      - "8082:80"
+    volumes:
+      - "/home/isx46410800/Documents/curso_docker/docker-compose/build/html:/var/www/html"
+    networks:
+      - my-net
+```  
+
+La construimos con `docker-compose build`:  
+
+```
+[isx46410800@miguel build]$ docker-compose build
+Building web
+Step 1/1 : FROM httpd
+ ---> 417af7dc28bc
+Successfully built 417af7dc28bc
+Successfully tagged isx46410800/httpd-build:latest
+```  
+
++ O construir image y hacer container de golpe con `docker-compose up -d`:  
+
+```
+[isx46410800@miguel build]$ docker-compose up -d
+apache is up-to-date
+Recreating apache2 ... 
+Recreating apache2 ... done
+[isx46410800@miguel build]$ docker ps
+CONTAINER ID        IMAGE                      COMMAND              CREATED             STATUS              PORTS                  NAMES
+240530fbf981        isx46410800/httpd-build2   "httpd-foreground"   4 seconds ago       Up 2 seconds        0.0.0.0:8082->80/tcp   apache2
+e8722f8e391d        isx46410800/httpd-build    "httpd-foreground"   29 seconds ago      Up 27 seconds       0.0.0.0:8081->80/tcp   apache
+```  
+
+### CMD CAMBIADO  
+
++ Para cambiar el CMD de por defecto cuando se crea un contenedor podemos cambiarlo añadiendo la subsección `command`:  
+
+```
+version: '3'
+services:
+  web:
+    container_name: centos
+    image: centos
+    command: python -m SimpleHTTPServer 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
+### LIMITAR RECURSOS  
+
++ Solo se puede en versión 2 con opciones como `mem_limit` o `cpuset`:  
+
+```
+version: '2'
+services:
+  web:
+    container_name: nginx
+    image: nginx:alpine
+    mem_limit: 20Mb
+    cpuset: "0"
+```  
+
+### POLÍTICA DE REINICIO  
+
++ Existe la subsección `restart` que indica cuando se reinicia un contenedor. Por defecto es `restart: no`, no se reinicie nunca pero están estas opciones:  
+
+  - `restart: no`
+  - `restart: always`: siempre se reinicie cuando muera.  
+  - `restart: unless-stopped`: siempre se reinicia a no ser que lo pare manualmente.  
+  - `restart: on failure`: a no ser que tenga fallos distinto a 0, no se reinicia nunca.  
 
 
+### NOMBRE PROYECTO  
+
++ Cuando haces un `docker-compose up -d` coge el nombre de proyecto, redes, etc por el nombre del directorio actual, para cambiarlo:  
+
+`docker-compose -p proyecto_web up -d`  
+
+### DIFERENTE DOCKER-COMPOSE  
+
++ Cuando haces un `docker-compose up -d` coge el nombre de docker-compose.yml, para cambiarlo por un diferente:  
+
+`docker-compose -f nombre_docker_compose.yml up -d`  
 
 
+### OTROS COMANDOS  
+
+```
+docker-compose up #enciende todos los dockers del file compose.yml
+docker-compose -f fileCompose.yml up (-d) #elegimos que fichero encendemos del compose
+docker-compose down #apaga todo
+docker-compose ps
+docker-compose images
+docker-compose top nom_servei
+docker-compose port ldap 389 #servicio y puerto elegido
+docker-compose push/pull #subir o bajar images
+docker-compose logs ldap #logs del servicio elegido
+docker-compose pause/unpause ldap #pausar el servicio
+docker-compose start/stop ldap #iniciar servicio
+docker-compose scale ldap=2 #dos container ldap
+```  
+
+## PROYECTOS DOCKER-COMPOSE  
+
+### MYSQL-WORDPRESS  
+
++ Podemos crear una base de datos mysql y un wordpress via web en el que la bbdd se comunique con el wordpress con la subsección `depends_on`:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  bbdd:
+    container_name: bd-mysql
+    image: mysql:5.7
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jupiter"
+      - "MYSQL_DATABASE=wordpress"
+      - "MYSQL_USER=wordpress"
+      - "MYSQL_PASSWORD=wordpress"
+    ports:
+      - "3306:3306"
+    networks:
+      - my-net
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    volumes:
+      - "$PWD/html:/var/www/html"
+    depends_on:
+      - bbdd
+    environment:
+      - "WORDPRESS_DB_HOST=bbdd:3306"
+      - "WORDPRESS_DB_USER=wordpress"
+      - "WORDPRESS_DB_PASSWORD=wordpress"
+    ports:
+      - "80:80"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/wordpress.png)  
+
+![](./images/wordpress2.png)  
 
 
+### DRUPAL-POSTGRESQL  
+
++ Podemos crear una base de datos postgres y un drupal via web en el que la bbdd se comunique con el drupal con la subsección `depends_on`. Al entrar en drupal nos pedirá la contraseña que le ponemos de variable y por defecto el user es `postgres`:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  postgresql:
+    container_name: postgres
+    image: postgres:11
+    volumes:
+      - "$PWD/postgresql:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRESQL_PASSWORD=jupiter"
+    networks:
+      - my-net
+  drupal:
+    container_name: drupal
+    image: drupal:8-apache
+    volumes:
+      - "drupal:/var/www/html"
+    ports:
+      - "81:80"
+    networks:
+      - my-net
+volumes:
+  drupal:
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/drupal.png)  
+
+![](./images/drupal2.png)  
 
 
+### PRESTASHOP-MYSQL  
+
++ Podemos crear una base de datos mysql y un prestashop via web en el que la bbdd se comunique con el prestashop con la subsección `depends_on`:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  bbdd:
+    container_name: bd-mysql
+    image: mysql:5.7
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jupiter"
+      - "MYSQL_DATABASE=prestashop"
+      - "MYSQL_USER=prestashop"
+      - "MYSQL_PASSWORD=prestashop"
+    ports:
+      - "3306:3306"
+    networks:
+      - my-net
+  prestashop:
+    container_name: prestashop
+    image: prestashop/prestashop
+    volumes:
+      - "$PWD/html:/var/www/html"
+    depends_on:
+      - bbdd
+    environment:
+      - "DB_SERVER=bbdd:3306"
+      - "DB_USER=presta"
+      - "DB_PASSWD=presta"
+      - "DB_NAME=presta"
+    ports:
+      - "80:80"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/prestashop.png)  
+
+![](./images/prestashop2.png)  
+
+![](./images/prestashop3.png)  
+
+![](./images/prestashop4.png)  
 
 
+### JOOMLA-MYSQL  
+
++ Podemos crear una base de datos mysql y un joomla via web en el que la bbdd se comunique con el joomla con la subsección `depends_on`:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  bbdd:
+    container_name: bd-mysql
+    image: mysql:5.7
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jupiter"
+      - "MYSQL_DATABASE=joomla"
+      - "MYSQL_USER=joomla"
+      - "MYSQL_PASSWORD=joomla"
+    ports:
+      - "3306:3306"
+    networks:
+      - my-net
+  joomla:
+    container_name: joomla
+    image: joomla
+    volumes:
+      - "$PWD/html:/var/www/html"
+    environment:
+      - "JOOMLA_DB_HOST=bbdd"
+      - "JOOMLA_DB_USER=joomla"
+      - "JOOMLA_DB_PASSWORD=joomla"
+      - "JOOMLA_DB_NAME=joomla"
+    ports:
+      - "80:80"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/joomla.png)  
+
+![](./images/jooomla2.png)  
+
+![](./images/joomla3.png)  
+
+
+### REACT-MONGODB-NODE.JS  
+
++ Podemos crear una base de datos mongo y un react ecommerce hecha en node.js via web en el que la bbdd se comunique con el react con la subsección `depends_on`:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - "$PWD/data:/data/db"
+    networks:
+      - my-net
+  react:
+    container_name: react-nodejs
+    image: reactioncommerce/reaction
+    depends_on:
+      - mongo
+    environment:
+      - "ROOT_URL=http://localhost"
+      - "MONGO_URL=mongodb://mongo:27017/reaction"
+    ports:
+      - "3000:3000"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/react.png)  
+
+![](./images/react2.png)  
+
+![](./images/react3.png)  
+
+
+### GUACAMOLE  
+
++ [DOCUMENTACIÓN](https://guacamole.apache.org/doc/gug/guacamole-docker.html)
+
++ Para sacar el fichero necesario de bbdd:  
+`$ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgres > initdb.sql`  
+
++ Sirve para que desde el navegador te puedes conectar a escritorios remotos por ssh:  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  db:
+    container_name: guacamole-db
+    networks:
+      - net
+    image: mysql:5.7
+    volumes:
+      - $PWD/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - $PWD/data:/var/lib/mysql
+    env_file: .env
+  daemon:
+    container_name: guacamole-daemon
+    networks:
+      - net
+    image: guacamole/guacd
+    depends_on:
+      - db
+  web:
+    container_name: guacamole-web
+    networks:
+      - net
+    image: guacamole/guacamole
+    env_file: .env
+    depends_on:
+      - daemon
+  proxy:
+    container_name: guacamole-proxy
+    networks:
+      - net
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - $PWD/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+networks:
+  net:
+```  
+
++ Resultados:  
+
+![](./images/guacamole.png)  
+
+![](./images/guacamole2.png)  
+
+
+### ZABBIX  
+
++ Sirve para monitorizar servidores:  
+
++ Dockerfile de Zabbix:  
+
+```
+FROM centos:7
+ENV ZABBIX_REPO http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm
+RUN                              \
+  yum -y install $ZABBIX_REPO && \
+  yum -y install                 \
+     zabbix-get                  \
+     zabbix-server-mysql         \
+     zabbix-web-mysql            \
+     zabbix-agent
+EXPOSE 80 443
+COPY ./bin/start.sh /start.sh
+COPY ./conf/zabbix-http.conf /etc/httpd/conf.d/zabbix.conf
+COPY ./conf/zabbix-server.conf  /etc/zabbix/zabbix_server.conf
+COPY ./conf/zabbix-conf.conf /etc/zabbix/web/zabbix.conf.php
+VOLUME /usr/share/zabbix /var/log/httpd
+RUN chmod +x /start.sh
+CMD /start.sh
+```  
+
++ `docker-compose.yml`:  
+
+```
+version: '3'
+services:
+  zabbix:
+    container_name: zabbix-web
+    image: zabbix
+    build: .
+    volumes:
+      - "$PWD/html:/usr/share/zabbix"
+    ports:
+      - "80:80"
+    networks:
+      - net
+  db:
+    container_name: zabbix-db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+      MYSQL_DATABASE: zabbix
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
+      - "$PWD/conf/create.sql:/docker-entrypoint-initdb.d/zabbix.sql"
+    ports:
+      - "3306:3306"
+    networks:
+      - net
+networks:
+  net:
+```  
+
++ Resultados:  
+
+![](./images/zabbix.png)  
+
+
+### PHPMYADMIN-MYSL  
+
++ Crear un docker-compose v3 con dos servicios:  
+  - db
+  - admin.
+
++ En el servicio DB, debe ir una db con mysql:5.7 y las credenciales de tu preferencia.  
+
++ En el admin, debes usar la imagen oficial de phpmyadmin, y por medio de redes, comunicarla con mysql. Debes exponer el puerto de tu preferencia y para validar que funcione, debes loguearte en el UI de phpmyadmin vía navegador, usando las credenciales del root de mysql.  
+
++ Docker-compose.yml:  
+
+```
+version: '3'
+services:
+  db:
+    container_name: mysql-db
+    image: mysql:5.7
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jupiter"
+      - "MYSQL_DATABASE=phpmyadmin"
+      - "MYSQL_USER=miguel"
+      - "MYSQL_PASSWORD=jupiter"
+    ports:
+      - "3306:3306"
+    networks:
+      - my-net
+  admin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - "PMA_HOST=db"
+      - "PMA_PASSWORD=jupiter"
+      - "PMA_USER=miguel"
+    ports:
+      - "9090:80"
+    networks:
+      - my-net
+networks:
+  my-net:
+```  
+
++ Resultados:  
+
+![](./images/phpmyadmin2.png)  
+
+![](./images/phpmyadmin3.png)  
+
+![](./images/phpmyadmin4.png)  
 
 
 ## DOCKER SWARM  
+
++ Orquestador de servicios en diferentes máquinas obteniendo así clusters en máquinas.  
+
++ Tiene que haber mínimo un __MANAGER__, el resto son __workers__.  
+
++ Los __nodos__ son los diferentes hosts que forman el swarm.  
+
++ Los __stacks__ son el conjunts de APPs.  
+
++ La __RED MESH__ es la red que hace que todos los nodes respondan a todos los servicios aunque no lo tengan en el suyo. Puerto 2377.  
+
+  - TCP port 2377 for cluster management communications
+  - TCP and UDP port 7946 for communication among nodes
+  - UDP port 4789 for overlay network traffic
+
++ El __routing Mesh__ hace el load balance en puertos 80 y 9000.  
+
++ Las órdenes `docker stack / services` solo se pueden hacer desde el manager.  
+
++ Los deploys se pueden hacer:  
+  - Modo global: un servicio se despliega a todos aleatoriamente.  
+  - Modo individual: para cada nodo, se despliega el servicio.  
+  - Modo replicas: varias veces el mismo servicio.  
+
+
+### COMANDOS BÁSICOS  
+
++ `docker swarm init`  
++ `docker swarm init --advertise-addr IP`  
++ `docker swarm join-token manager/worker`  
++ `docker swarm leave --force`  
++ `docker node ls`  
++ `docker node update --availability active/drain/pause nodeName`  
++ `docker node update --label-add tipo=valor nodeName`  
++ `docker node inspect nodeName`  
++ `docker stack deploy -c docker-compose.yml nombreApp`  
++ `docker stack ps nombreApp`  
++ `docker stack ls`  
++ `docker stack rm nombreApp`  
++ `docker stack services nombreApp`  
++ `docker service ls`  
++ `docker service ps nombreServicio`  
++ `docker service inspect nombreServicio`  
++ `docker service scale nombreServicio=2`  
+
+
+### INICIALIZAR  
+
++ Al que queremos como manager, le indicamos la siguiente orden con la IP pública, este caso en una AWS:  
+
+`docker swarm init --advertise-addr 35.177.139.97`  
+
+![](./images/swarm.png)  
+
+> Nos dará un token que para cualquier nodo worker que queramos agregar al cluster,tendremos que poner eso. En nuestro caso en una máquina AWS y otro el de mi casa:  
+
+`docker swarm join --token SWMTKN-1-2et2rzxn0kyfzsh8dmop8n2grqri001owhomhk7ggfr3tbls4b-587tzjo1dxtmpbpmrqldtddu1 35.177.139.97:2377`  
+
+![](./images/swarm2.png)  
+
+
+### DEPLOY SWARM  
+
++ Creamos un docker-compose.yml:  
+
+```
+version: "3"
+services:
+  hello:
+    image: isx46410800/k19:hello
+    deploy:
+      replicas: 6
+    ports:
+    - "80:80"
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+    - "8080:8080"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+```  
+
++ Desplegamos con la orden:  
+
+`docker stack deploy -c docker-compose.yml AppMiguel`  
+
+```
+[fedora@ip-172-31-18-60 swarm]$ sudo docker stack deploy -c docker-compose.yml AppMiguel
+Creating network AppMiguel_default
+Creating service AppMiguel_hello
+Creating service AppMiguel_visualizer
+```  
+
++ Comprobaciones de que estan los dos servicios `k19:hello(6) y visualizer`(1):  
+
+```
+[fedora@ip-172-31-18-60 swarm]$ docker stack ls
+NAME                SERVICES            ORCHESTRATOR
+AppMiguel           2                   Swarm
+[fedora@ip-172-31-18-60 swarm]$ docker stack ps AppMiguel
+ID                  NAME                     IMAGE                             NODE                                          DESIRED STATE       CURRENT STATE                ERROR               PORTS
+bdbfuun9q7my        AppMiguel_visualizer.1   dockersamples/visualizer:stable   ip-172-31-18-60.eu-west-2.compute.internal    Running             Running about a minute ago                       
+w9f3dkx7rqic        AppMiguel_hello.1        isx46410800/k19:hello             ip-172-31-19-185.eu-west-2.compute.internal   Running             Running about a minute ago                       
+og22dynjynb1        AppMiguel_hello.2        isx46410800/k19:hello             ip-172-31-18-60.eu-west-2.compute.internal    Running             Running about a minute ago                       
+9qk5v9nixvc5        AppMiguel_hello.3        isx46410800/k19:hello             miguel                                        Running             Running about a minute ago                       
+c0hgdykvxub7        AppMiguel_hello.4        isx46410800/k19:hello             ip-172-31-19-185.eu-west-2.compute.internal   Running             Running about a minute ago                       
+rx4khrovr84t        AppMiguel_hello.5        isx46410800/k19:hello             ip-172-31-18-60.eu-west-2.compute.internal    Running             Running about a minute ago                       
+fyxes66lquup        AppMiguel_hello.6        isx46410800/k19:hello             miguel                                        Running             Running about a minute ago                       
+```
+
+![](./images/swarm3.png)  
+![](./images/swarm4.png)  
+
+### ESCALAR SERVICIOS  
+
++ Como vemos los dos servicios que tenemos se llaman:  
+
+```
+[fedora@ip-172-31-18-60 swarm]$ docker service ls
+ID                  NAME                   MODE                REPLICAS            IMAGE                             PORTS
+p46df6579rup        AppMiguel_hello        replicated          6/6                 isx46410800/k19:hello             *:80->80/tcp
+9n3iyb7ofvfx        AppMiguel_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080->8080/tcp
+```  
+
++ Escalamos con `docker service scale AppMiguel_hello=3`:  
+
+```
+[fedora@ip-172-31-18-60 swarm]$ docker service ls
+ID                  NAME                   MODE                REPLICAS            IMAGE                             PORTS
+p46df6579rup        AppMiguel_hello        replicated          3/3                 isx46410800/k19:hello             *:80->80/tcp
+9n3iyb7ofvfx        AppMiguel_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080->8080/tcp
+```  
+
+![](./images/swarm5.png)  
+
+### MODO GLOBAL  
+
++ Para que haya un servicio en cada hosts:  
+```
+version: "3"
+services:
+  hello:
+    image: isx46410800/k19:hello
+    deploy:
+      mode: global
+    ports:
+    - "80:80"
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+    - "8080:8080"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+```  
+
+### NODO DRAIN/PAUSE/ACTIVE  
+
++ DRAIN: hace que el nodo, todos sus servicios se los pasa a otro.  
+
++ PAUSE: pausa el nodo, siguen sus servicios pero no acepta más.  
+
++ ACTIVE: volvemos activar el nodo. 
+
++ Orden:  
+
+`docker node update --availability active/drain/pause nodeName` 
+
+
+### LABELS  
+
++ Podemos poner etiquetas a los nodos y hacer deploy segun etiquetas.  
+
++ Orden:  
+
+`docker node update --label-add tipo=valor nodeName`  
+
+```
+[fedora@ip-172-31-18-60 swarm]$ docker node update --label-add sexo=hombre miguel
+miguel
+```  
+
++ Y hacemos deploy segun etiquetas:  
+
+```
+version: "3"
+services:
+  hello:
+    image: isx46410800/k19:hello
+    deploy:
+      replicas: 6
+      placement:
+        constraints: [node.labels.sexo == hombre]
+    ports:
+    - "80:80"
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+    - "8080:8080"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+```  
 
 
 ## DOCKER REGISTRY  

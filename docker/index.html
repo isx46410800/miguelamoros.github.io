@@ -462,7 +462,7 @@ docker node update --availability active/drain/pause nomNode
 <li>Rest API: es el intermediario encargado de comunicar al Docker client con el Docker server.  </li>
 <li>Docker Server.  </li>
 </ul>
-<p><img alt="" src="./images/docker0" />  </p>
+<p><img alt="" src="../images/docker0.png" />  </p>
 <ul>
 <li>Arquitectura Imagen docker (Dockerfile):  <ol>
 <li>Capa 1 - From: Sistema operativo minimo a elegir.  </li>
@@ -479,12 +479,12 @@ RUN yum install -y httpd
 CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
 </code></pre>
 
-<p><img alt="" src="./images/docker2" />  </p>
+<p><img alt="" src="../images/docker2.png" />  </p>
 <ul>
 <li>Contenedor es una capa addicional en tiempo real de ejecución, el empaquetado de todo el dockerfile. CAPA DE ESCRITURA. Recuerda que la capa del contenedor es temporal y que al eliminar el contenedor, todo lo que haya dentro de ella desaparecerá.    </li>
 </ul>
-<p><img alt="" src="./images/docker3" /><br />
-<img alt="" src="./images/docker4" />  </p>
+<p><img alt="" src="../images/docker3.png" /><br />
+<img alt="" src="../images/docker4.png" />  </p>
 <ul>
 <li>Se diferencia de una máquina virtual es que un contenedor es como un proceso más del sistema mientras que una MV hay que bajarse una ISO, instalar y agregar RAM, CPU y HD de nuestra propia máquina real.  </li>
 </ul>

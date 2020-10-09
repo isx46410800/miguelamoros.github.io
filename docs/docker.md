@@ -151,7 +151,7 @@ docker node update --availability active/drain/pause nomNode
   - Rest API: es el intermediario encargado de comunicar al Docker client con el Docker server.  
   - Docker Server.  
 
-![](./images/docker0)  
+![](./images/docker0.png)  
 
 + Arquitectura Imagen docker (Dockerfile):  
     1. Capa 1 - From: Sistema operativo minimo a elegir.  
@@ -165,12 +165,12 @@ RUN yum install -y httpd
 CMD["apachectl","-DFOREGROUND"]
 ```  
 
-![](./images/docker2)  
+![](./images/docker2.png)  
 
 + Contenedor es una capa addicional en tiempo real de ejecución, el empaquetado de todo el dockerfile. CAPA DE ESCRITURA. Recuerda que la capa del contenedor es temporal y que al eliminar el contenedor, todo lo que haya dentro de ella desaparecerá.    
 
-![](./images/docker3)  
-![](./images/docker4)  
+![](./images/docker3.png)  
+![](./images/docker4.png)  
 
 + Se diferencia de una máquina virtual es que un contenedor es como un proceso más del sistema mientras que una MV hay que bajarse una ISO, instalar y agregar RAM, CPU y HD de nuestra propia máquina real.  
 

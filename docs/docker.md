@@ -1524,7 +1524,7 @@ networks:
 
 ![](./images/joomla.png)  
 
-![](./images/jooomla2.png)  
+![](./images/joomla2.png)  
 
 ![](./images/joomla3.png)  
 

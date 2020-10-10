@@ -74,6 +74,12 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Kubernetes</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#arquitectura">ARQUITECTURA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion-minikubekubectl">INSTALACIÓN MINIKUBE/KUBECTL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pods-vs-contenedores">PODS VS CONTENEDORES</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -132,6 +138,177 @@
             <div class="section">
               
                 <h1 id="kubernetes">KUBERNETES</h1>
+<ul>
+<li>
+<p><code>K8S</code> Es una herramienta extensible y de código abierto para gestionar cargas de trabajo y servicios en contenedores, que facilita tanto la configuración declarativa como la automatización. Tiene un ecosistema grande y de rápido crecimiento. Los servicios, el soporte y las herramientas están ampliamente disponibles.  </p>
+</li>
+<li>
+<p>Funciones:  </p>
+<ul>
+<li>Service discovery: mira cuantos nodos hay, los escanea para saber de ellos.  </li>
+<li>Rollouts/Rollbacks: para desplegar versiones nuevas o volver a la misma.  </li>
+<li>Optimización de recursos en nodos: mira donde colocar el contenedor al host con menos carga.  </li>
+<li>Self-healing: crea automaticamente un contenedor cuando uno muere.  </li>
+<li>Configuración de secretos</li>
+<li>Escalamiento horizontal</li>
+</ul>
+</li>
+</ul>
+<h2 id="arquitectura">ARQUITECTURA</h2>
+<p><img alt="" src="../images/kubernetes.png" />  </p>
+<ul>
+<li>
+<p><strong>MASTER/NODE</strong>: Kubernetes se divide en master, es el cerebro, es la parte que se encarga de todo el procesamiento, es donde estan todas las herramientas, es el centro de operaciones. Los nodos son las máquinas, host, máquinas virutal.<br />
+El master es como la aduana y los nodes son  los barcos que se llevan los contenedores de la duana.  </p>
+</li>
+<li>
+<p><strong>API SERVER</strong>: Aplication Program Interface, significa que yo me puedo comunicar con un servicio a través de la API. Puedo hacerlo con la herramienta kubectl o directamente por fichero de programación. Ambos son en JSON, por lo que acaba procesando todo en código JSON.  </p>
+</li>
+<li>
+<p><strong>KUBE-SCHEDULE</strong>: es el que se encarga de colocar las cosas donde deben ir. Cuando comunico algo a la API, este le pasa las especificaciones al Schedule y éste busca a ver que nodo va mejor para poner todo, si hay muchos, mirar los 15 primeros aprox y lo pone donde mejor vea. Si no encuentra sitio, se espera hasta que quede uno libre correctamente para poder meter el contenedor.  </p>
+</li>
+<li>
+<p><strong>KUBE-CONTROLLER</strong>: dentro tiene el <em>node controler</em> (se encarga de ver nodos, si se cae uno, levanta otra máquina), el <em>replication</em>(encargado de mantener todas las réplicas especificadas), el <em>end point controller</em>(se encarga de la red y pods) y tenemos el <em>service account y tokens controller</em>(para la autenticación).  </p>
+</li>
+<li>
+<p><strong>ETCD</strong>: es la base de datos de kubernetes donde están todas las configuraciones, cambios, estados nuevos, anteriores, etc. Si ponemos algo en una versión nueva y queremos volver atrás, en el <em>etcd</em> está guardado el estado y configuración anterior.  </p>
+</li>
+<li>
+<p><strong>KUBELET</strong>: se encuentra en cada nodo y tienen dos funciones, en enviar y recibir información al master y por otro lado, habla con el run controller(normalmente docker),que tiene que estar instalado en cada nodo, para decirle las especificaciones que debe desplegar/montar en el POD del nodo.  </p>
+</li>
+<li>
+<p><strong>KUBE-PROXY</strong>:  se encuentra en cada nodo y se encarga de todo lo relacionado con la red del nodo y que se puedan comunicar entre contenedores/pods.  </p>
+</li>
+<li>
+<p><strong>CONTAINER-RUNTIME</strong>: el software de contenedores que tiene instalado el nodo: docker,etc.  </p>
+</li>
+</ul>
+<h2 id="instalacion-minikubekubectl">INSTALACIÓN MINIKUBE/KUBECTL</h2>
+<ul>
+<li>
+<p><strong>MINIKUBE</strong>: crea o simula un cluster pequeño que nos permite hacerlo en local.  </p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Documentación Kubernetes</a>  </p>
+</li>
+<li>
+<p>Ejecutamos esta orden y sino sale vacío , vamos bien:<br />
+<code>grep -E --color 'vmx|svm' /proc/cpuinfo</code>  </p>
+</li>
+<li>
+<p>Instalamos <code>kubectl</code>, la intermediario para hablar con kubernetes:  </p>
+<ul>
+<li>
+<p><code>curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"</code>  </p>
+</li>
+<li>
+<p><code>chmod +x ./kubectl</code>  </p>
+</li>
+<li>
+<p><code>sudo mv ./kubectl /usr/bin/kubectl</code>  </p>
+</li>
+<li>
+<p><code>kubectl version --client</code>  </p>
+</li>
+</ul>
+</li>
+<li>
+<p>Para usar minikube se necesita un <code>Hypervisor</code>(o monitor de máquina virtual (virtual machine monitor)1​ es una plataforma que permite aplicar diversas técnicas de control de virtualización para utilizar, al mismo tiempo, diferentes sistemas operativos en una misma computadora):  </p>
+<ul>
+<li>KVM</li>
+<li>VirtualBox</li>
+<li>Docker</li>
+</ul>
+</li>
+<li>
+<p>Descargamos <code>minikube</code>:  </p>
+<ul>
+<li>
+<p><code>curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &amp;&amp; chmod +x minikube</code>  </p>
+</li>
+<li>
+<p><code>sudo mv minikube /usr/bin/</code>  </p>
+</li>
+<li>
+<p><code>minikube status</code>  </p>
+</li>
+</ul>
+<p><code>[isx46410800@miguel curso_kubernetes]$ minikube status
+🤷  There is no local cluster named "minikube"
+👉  To fix this, run: "minikube start"
+[isx46410800@miguel curso_kubernetes]$ minikube start
+😄  minikube v1.13.1 on Fedora 27
+✨  Automatically selected the docker driver
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+💾  Downloading Kubernetes v1.19.2 preload ...
+    &gt; preloaded-images-k8s-v6-v1.19.2-docker-overlay2-amd64.tar.lz4: 486.36 MiB
+🔥  Creating docker container (CPUs=2, Memory=2200MB) ...
+🧯  Docker is nearly out of disk space, which may cause deployments to fail! (93% of capacity)
+💡  Suggestion: 
+    Try at least one of the following to free up space on the device:
+    1. Run "docker system prune" to remove unused docker data
+    2. Increase the amount of memory allocated to Docker for Desktop via
+    Docker icon &gt; Preferences &gt; Resources &gt; Disk Image Size
+    3. Run "minikube ssh -- docker system prune" if using the docker container runtime
+🍿  Related issue: https://github.com/kubernetes/minikube/issues/9024
+🐳  Preparing Kubernetes v1.19.2 on Docker 19.03.8 ...
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" by default</code>  </p>
+</li>
+<li>
+<p>Comprobamos de nuevo que sí funciona <code>minikube status</code>:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel curso_kubernetes]$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+</code></pre>
+
+<ul>
+<li>
+<p><strong>COMANDOS BÁSICOS MINIKUBE</strong>:  </p>
+<ul>
+<li><code>minikube status</code></li>
+<li><code>minikube stop/start/delete</code></li>
+</ul>
+</li>
+<li>
+<p>Repositorio <a href="https://github.com/ricardoandre97/k8s-resources">curso Kubernetes</a>  </p>
+</li>
+</ul>
+<h2 id="pods-vs-contenedores">PODS VS CONTENEDORES</h2>
+<p><img alt="" src="../images/kubernetes2.png" />  </p>
+<ul>
+<li>
+<p>Los <strong>contenedores</strong> se ejecutan de manera aislada en un namespace:  </p>
+<ul>
+<li>IPC (Inter Process Communication)</li>
+<li>Cgroup</li>
+<li>Network</li>
+<li>Mount</li>
+<li>PID</li>
+<li>User</li>
+<li>UTS (Unix Timesharing System)</li>
+</ul>
+</li>
+<li>
+<p>Los <strong>PODS</strong> sirven para compartir namespaces entre contenedores. Con docker permite que varios contenedores se puedan comunicar entre ellos por procesos, redes, files,etc. Kubernetes levanta un servicio y hace que el resto de contenedores compartan ese ID por ejemplo de red y se puedan comunicar y compartir namespaces como:  </p>
+<ul>
+<li>De red(verse en la misma red)</li>
+<li>IPC(verse los procesos)</li>
+<li>UTS</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Cuando hablamos de PODs entonces nos referimos a que solo tiene una unica IP para todo lo que haya dentro comunicado. Solo es una capa que agrupa estos contenedores.</p>
+</blockquote>
               
             </div>
           </div>

@@ -80,6 +80,50 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#pods-vs-contenedores">PODS VS CONTENEDORES</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pods">PODS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-pod">CREAR POD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#logs-pods">LOGS PODS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#api-resources">API-RESOURCES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#eliminar-pods">ELIMINAR PODS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#obtener-yaml-pod">OBTENER YAML POD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ip-pod">IP POD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#entrar-al-pod">ENTRAR AL POD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-pod-yaml">CREAR POD YAML</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-container-por-pod">2+ CONTAINER POR POD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#labels">LABELS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#problemas-pods">PROBLEMAS PODs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#replicasets">REPLICASETS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-replicaset">CREAR REPLICASET</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#eliminarmodificar">ELIMINAR/MODIFICAR</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#logs">LOGS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#owner-refernce">OWNER REFERNCE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#adopcion-de-pods-planos">ADOPCIÓN DE PODS PLANOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#problemas">PROBLEMAS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#deployments">DEPLOYMENTS</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -309,6 +353,505 @@ kubeconfig: Configured
 <blockquote>
 <p>Cuando hablamos de PODs entonces nos referimos a que solo tiene una unica IP para todo lo que haya dentro comunicado. Solo es una capa que agrupa estos contenedores.</p>
 </blockquote>
+<h2 id="pods">PODS</h2>
+<h3 id="crear-pod">CREAR POD</h3>
+<ul>
+<li>
+<p>Primero tenemos que tener encendido el simulador:<br />
+<code>minikube start</code>  </p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/reference/kubectl/conventions/">Documentación</a>:<br />
+<code>versión v1.19 la última</code>  </p>
+</li>
+<li>
+<p>Creamos un pod de prueba <code>kubectl run nombrePod --image:xxx:tag</code>:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel curso_kubernetes]$ kubectl run pod-test --image=nginx:alpine
+pod/pod-test created
+</code></pre>
+
+<ul>
+<li>Vemos que lo hemos creado y está corriendo:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_kubernetes]$ kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+pod-test   1/1     Running   0          22s
+</code></pre>
+
+<blockquote>
+<p>Normalmente hay un contenedor por pod, se suele asimilar a eso.  </p>
+</blockquote>
+<h3 id="logs-pods">LOGS PODS</h3>
+<ul>
+<li>
+<p>Un pod es la unidad más pequeña para poder trabajar en Kubernetes. Se le notifica a la API que hable con Schedule y Controller y busquen un nodo donde crear ese pod con ciertas especifiaciones. Lo que corre dentro es el contenedor, el POD no corre.   </p>
+</li>
+<li>
+<p>Creamos uno pod mal aposta para ver el error:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel curso_kubernetes]$ kubectl run pod-test2 --image=nginx:miguelllll
+pod/pod-test2 created
+[isx46410800@miguel curso_kubernetes]$ kubectl get pods
+NAME        READY   STATUS         RESTARTS   AGE
+pod-test    1/1     Running        0          5m19s
+pod-test2   0/1     ErrImagePull   0          14s
+</code></pre>
+
+<ul>
+<li>Para ver los ´logs´ usamos <code>kubectl describe pod nombrePod</code>:<br />
+<code>kubectl describe pod pod-test</code>  <blockquote>
+<p>En el apartado <code>events</code> nos describe los logs paso a paso.  </p>
+</blockquote>
+</li>
+</ul>
+<h3 id="api-resources">API-RESOURCES</h3>
+<ul>
+<li>Para ver todos los recursos que hay y los shortnames de comandos se usa:<br />
+<code>kubectl api-resources</code>  </li>
+</ul>
+<h3 id="eliminar-pods">ELIMINAR PODS</h3>
+<ul>
+<li>
+<p>Para eliminar pods usamos <code>kubectl delete pod podName ...</code>:<br />
+<code>kubectl delete pod pod-test2</code>  </p>
+</li>
+<li>
+<p>Todos:<br />
+<code>kubectl delete pod --all</code>  </p>
+</li>
+</ul>
+<h3 id="obtener-yaml-pod">OBTENER YAML POD</h3>
+<ul>
+<li>
+<p>Podemos obtener info solo del pod concreto:<br />
+<code>kubectl get pod pod-test</code></p>
+</li>
+<li>
+<p>Para más info para obtener el contenido YAML, lo que comunica al API de kubernetes en los request:<br />
+<code>kubectl get pod pod-test -o yaml</code>  </p>
+</li>
+<li>
+<p>Es mejor enviar las cosas por manifiestos en YAML ya que si quieres crear 50 pods, a través de un fichero será mejor que no ir poniendo una orden 50 veces.  </p>
+</li>
+</ul>
+<h3 id="ip-pod">IP POD</h3>
+<ul>
+<li>Para poder ver la IP del POD podemos usar cualquiera de estos comandos:<br />
+<code>kubectl describe pod pod-test</code><br />
+<code>kubectl get pod pod-test -o yaml</code>  </li>
+</ul>
+<blockquote>
+<p>En este caso es 172.18.0.3  </p>
+</blockquote>
+<p><img alt="" src="./images/kubernetes3.png" />  </p>
+<ul>
+<li>
+<p>Para verlo ingresamos directamente al navegador la ip.  </p>
+</li>
+<li>
+<p>Si no funciona tenemos que mapear el puerto:<br />
+<code>kubectl port-forward pod-test 7000:80</code>  </p>
+</li>
+</ul>
+<p><img alt="" src="./images/kubernetes4.png" />  </p>
+<ul>
+<li>Comprobamos la respuesta:<br />
+<code>curl 172.18.0.3:80</code>  </li>
+</ul>
+<h3 id="entrar-al-pod">ENTRAR AL POD</h3>
+<ul>
+<li>
+<p>Para ingresar a la consola del POD:<br />
+<code>kubectl exec -it pod-test -- sh</code>  </p>
+<blockquote>
+<p>Cuando solo hay un contenedor, no se especifica el nombre del pod.  </p>
+</blockquote>
+</li>
+<li>
+<p>Cuando hay más contenedores <code>c, --container=''</code>:<br />
+<code>kubectl exec -it pod-test -c containerName -- sh</code>  </p>
+</li>
+</ul>
+<h3 id="crear-pod-yaml">CREAR POD YAML</h3>
+<ul>
+<li>Ejemplo:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test2
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+</code></pre>
+
+<ul>
+<li>
+<p>Las api versions las podemos ver en:<br />
+<code>kubectl api-versions</code>  </p>
+</li>
+<li>
+<p>Los kind los podemos ver en:<br />
+<code>kubectl api-resources</code>  </p>
+</li>
+<li>
+<p>Para crearlo a través del fichero YAML:<br />
+<code>kubectl apply -f pod.yaml</code>  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel pods]$ kubectl apply -f pod.yaml
+pod/pod-test2 created
+[isx46410800@miguel pods]$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test    1/1     Running   0          6h54m
+pod-test2   1/1     Running   0          7s
+</code></pre>
+
+<ul>
+<li>
+<p>Para borrarlo:<br />
+<code>kubectl delete -f pod.yaml</code>  </p>
+</li>
+<li>
+<p>Para crear dos o más PODS, se pone <code>---</code> de separación:  </p>
+</li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test2
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test3
+spec:
+  containers:
+    - name: container2
+      image: nginx:alpine
+</code></pre>
+
+<h3 id="2-container-por-pod">2+ CONTAINER POR POD</h3>
+<ul>
+<li>Para crear dos o  más containers en un POD se añade en la subsección containers:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test2
+spec:
+  containers:
+    - name: container1
+      image: python:3.6-alpine
+      command: ['sh', '-c', 'echo &quot;cont1&quot; &gt; index.html &amp;&amp; python -m http.server 8082']
+    - name: container2
+      image: python:3.6-alpine
+      command: ['sh', '-c', 'echo &quot;cont2&quot; &gt; index.html &amp;&amp; python -m http.server 8082']
+</code></pre>
+
+<blockquote>
+<p>Nos dará error porque estamos levantando dos container en el mismo puerto. El problema es que en un POD todos los containers comparten la misma red , por lo que si se levanta uno en el puerto 8082, el otro tiene que ser diferente.  </p>
+</blockquote>
+<ul>
+<li>Vemos los <code>logs</code> en <code>kubectl logs podName -c container</code>:  </li>
+</ul>
+<pre><code>263dab[isx46410800@miguel pods]$ kubectl logs pod-test2 -c container2
+Traceback (most recent call last):
+...
+  File &quot;/usr/local/lib/python3.6/socketserver.py&quot;, line 470, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address in use
+</code></pre>
+
+<ul>
+<li>Arreglamos el fallo del puerto y comprobamos cada container del POD:  </li>
+</ul>
+<pre><code>[isx46410800@miguel pods]$ kubectl exec -it pod-test2 -c container1 -- sh
+/ # cat index.html 
+cont1
+/ # exit
+[isx46410800@miguel pods]$ kubectl exec -it pod-test2 -c container2 -- sh
+/ # cat index.html 
+cont2
+</code></pre>
+
+<h3 id="labels">LABELS</h3>
+<ul>
+<li>Los labels son etiquetas que se ponen debajo de los <code>metadata</code>:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test2
+  labels:
+    app: front-end
+    env: dev
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+---   
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test3
+  labels:
+    app: back-end
+    env: dev
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+</code></pre>
+
+<ul>
+<li>Los labels nos sirve para poder filtrar PODs con <code>kubectl get pods -l nombre=valor</code>:</li>
+</ul>
+<pre><code>[isx46410800@miguel pods]$ kubectl get pods -l app=back-end
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test3   1/1     Running   0          62s
+[isx46410800@miguel pods]$ kubectl get pods -l env=dev
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test2   1/1     Running   0          78s
+pod-test3   1/1     Running   0          78s
+</code></pre>
+
+<blockquote>
+<p>Los LABELS más usado es el de APP. Muy importantes para administrar replicas.  </p>
+</blockquote>
+<h3 id="problemas-pods">PROBLEMAS PODs</h3>
+<ul>
+<li>
+<p>Los PODS no se regeneran solos si lo eliminamos manualmente, aunque se diga que haya dos replicas siempre. Tiene que ser un objeto mayor quien lo haga.   </p>
+</li>
+<li>
+<p>Los PODs por si solo en un archivo YAML no puede indicarse que haya 50 replicas por ejemplo. Tiene que ser un objeto mayor quien lo haga.   </p>
+</li>
+<li>
+<p>Los PODs no se pueden actualizar directamente, tiene que hacerlo alguien externo. Como mucho solo se puede modificar la seccion <code>image</code> y al hacer el apply puede ser que te deje actualizar.  </p>
+</li>
+</ul>
+<h2 id="replicasets">REPLICASETS</h2>
+<ul>
+<li>
+<p>Es un objeto separado del POD a un nivel más alto(el replicaset crea PODs y es su dueño).  </p>
+</li>
+<li>
+<p>Si se le indica que haya dos, si se muere uno y solo queda un POD, levanta uno nuevo. Para ello es muy importante los LABELS para ver que PODs tiene que manejar.  </p>
+</li>
+<li>
+<p>En la metadata del POD mete el <code>OWNER REFERENCE</code> para indicar quien el propietario de los PODs y los suyos no los maneje otro ReplicaSet.  </p>
+</li>
+</ul>
+<h3 id="crear-replicaset">CREAR REPLICASET</h3>
+<ul>
+<li>
+<p>Vemos a donde pertenece la api-version y el kind de los replicasets en:<br />
+<code>kubectl api-resources</code>  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-test
+  labels:
+    app: rs-test
+spec:
+  # modify replicas according to your case
+  replicas: 5
+  selector:
+    matchLabels:
+      app: pod-label
+  # pertenece a los PODs que vas a crear
+  template:
+    metadata:
+      labels:
+        app: pod-label
+    spec:
+      containers:
+        - name: container1
+          image: python:3.6-alpine
+          command: ['sh', '-c', 'echo &quot;cont1&quot; &gt; index.html &amp;&amp; python -m http.server 8082']
+        - name: container2
+          image: python:3.6-alpine
+          command: ['sh', '-c', 'echo &quot;cont2&quot; &gt; index.html &amp;&amp; python -m http.server 8083']
+</code></pre>
+
+<ul>
+<li>
+<p>Lo creamos:<br />
+<code>kubectl apply -f replica-set.yaml</code>  </p>
+<blockquote>
+<p>Lo que creamos son 5 PODs con label(pod-label, sino está lo crea) y dentro de cada POD creamos dos containers con label(pod-label)  </p>
+</blockquote>
+</li>
+<li>
+<p>Comprobamos:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+rs-test-5tsfh   2/2     Running   0          105s
+rs-test-9jpjg   2/2     Running   0          105s
+rs-test-fbwjb   2/2     Running   0          105s
+rs-test-hz2kx   2/2     Running   0          105s
+rs-test-s6cxx   2/2     Running   0          105s
+[isx46410800@miguel replicaset]$ kubectl get pods -l app=pod-label
+NAME            READY   STATUS    RESTARTS   AGE
+rs-test-5tsfh   2/2     Running   0          119s
+rs-test-9jpjg   2/2     Running   0          119s
+rs-test-fbwjb   2/2     Running   0          119s
+rs-test-hz2kx   2/2     Running   0          119s
+rs-test-s6cxx   2/2     Running   0          119s
+</code></pre>
+
+<ul>
+<li>Ver los <code>replicasets</code> con <code>kubectl get rs</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl get rs
+NAME      DESIRED   CURRENT   READY   AGE
+rs-test   5         5         5       3m53s
+[isx46410800@miguel replicaset]$ kubectl get replicaset
+NAME      DESIRED   CURRENT   READY   AGE
+rs-test   5         5         5       3m56s
+</code></pre>
+
+<h3 id="eliminarmodificar">ELIMINAR/MODIFICAR</h3>
+<ul>
+<li>En un replicaset creado, si borramos un pod, vemos como actualiza directamente para mantener los 5 pods indicados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl delete pod rs-test-s6cxx
+pod &quot;rs-test-s6cxx&quot; deleted
+[isx46410800@miguel replicaset]$ kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+rs-test-5tsfh   2/2     Running   0          5m43s
+rs-test-9jpjg   2/2     Running   0          5m43s
+rs-test-b9lf4   2/2     Running   0          43s
+rs-test-fbwjb   2/2     Running   0          5m43s
+rs-test-hz2kx   2/2     Running   0          5m43s
+</code></pre>
+
+<ul>
+<li>Si modifico el replicaset a 2 copias, veremos como se eliminan 3, se quedan dos:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ vim replica-set.yaml 
+[isx46410800@miguel replicaset]$ kubectl apply -f replica-set.yaml 
+replicaset.apps/rs-test configured
+[isx46410800@miguel replicaset]$ kubectl get pods
+NAME            READY   STATUS        RESTARTS   AGE
+rs-test-5tsfh   2/2     Running       0          8m29s
+rs-test-9jpjg   2/2     Terminating   0          8m29s
+rs-test-b9lf4   2/2     Terminating   0          3m29s
+rs-test-fbwjb   2/2     Running       0          8m29s
+rs-test-hz2kx   2/2     Terminating   0          8m29s
+[isx46410800@miguel replicaset]$ kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+rs-test-5tsfh   2/2     Running   0          9m26s
+rs-test-fbwjb   2/2     Running   0          9m26s
+</code></pre>
+
+<h3 id="logs">LOGS</h3>
+<ul>
+<li>
+<p>Por describe:<br />
+<code>kubectl get rs rs-test -o yaml</code>  </p>
+</li>
+<li>
+<p>Por manifiesto YAML:<br />
+<code>kubectl describe rs rs-test</code>  </p>
+</li>
+</ul>
+<h3 id="owner-refernce">OWNER REFERNCE</h3>
+<ul>
+<li>Lo vemos en la metadata de un pod creado por ReplicaSet <code>kubectl get pod podName -o yaml</code>:  </li>
+</ul>
+<pre><code>kubectl get pod rs-test-5tsfh -o yaml
+name: rs-test-5tsfh
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: rs-test
+    uid: 646a4a62-6acc-41a7-b3d1-7fe095c441d0
+</code></pre>
+
+<ul>
+<li>Comprobamos que el <code>UID</code> anterior coincide con el replicaset creado <code>kubectl get rs rsName -o yaml</code>:  </li>
+</ul>
+<pre><code>kubectl get rs rs-test -o yaml
+name: rs-test
+  namespace: default
+  resourceVersion: &quot;22732&quot;
+  selfLink: /apis/apps/v1/namespaces/default/replicasets/rs-test
+  uid: 646a4a62-6acc-41a7-b3d1-7fe095c441d0
+</code></pre>
+
+<h3 id="adopcion-de-pods-planos">ADOPCIÓN DE PODS PLANOS</h3>
+<ul>
+<li>Vamos a crear primero dos PODs manualmente:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl run pod-test --image=nginx:alpine
+pod/pod-test created
+[isx46410800@miguel replicaset]$ kubectl run pod-test2 --image=nginx:alpine
+pod/pod-test2 created
+</code></pre>
+
+<ul>
+<li>Les creamos un LABEL a cada uno con <code>kubectl label pods podName label=valor</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl label pods pod-test app=pod-label
+pod/pod-test labeled
+[isx46410800@miguel replicaset]$ kubectl label pods pod-test2 app=pod-label
+pod/pod-test2 labeled
+</code></pre>
+
+<blockquote>
+<p>Tendran el nuevo label pero no tendrán ningun OWNER REFERENCE porque no han sido creados por ningun REPLICASET.  </p>
+</blockquote>
+<ul>
+<li>Ahora mediante replicaset cremos 3 replicas con mismo label:  </li>
+</ul>
+<pre><code>[isx46410800@miguel replicaset]$ kubectl apply -f replica-set.yaml
+replicaset.apps/rs-test created
+[isx46410800@miguel replicaset]$ kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+pod-test        1/1     Running   0          3m49s
+pod-test2       1/1     Running   0          3m45s
+rs-test-8mk72   2/2     Running   0          10s
+</code></pre>
+
+<blockquote>
+<p>Tenemos un GRAN PROBLEMA ya que adopta dos pods huerfanos sin owner y los coge pero los adopta y ellos solo tienen un container y no dos con la estructura del replicaset. Si borramos un pod de uno, el replicaset regenera uno nuevo con la estructura buena.  </p>
+</blockquote>
+<h3 id="problemas">PROBLEMAS</h3>
+<ul>
+<li>
+<p>Si modificamos cosas del container como la imagen, nombre container, etc. Si hacemos un apply no se actualiza nada, ya que como sigue con los mismos LABELS, el replicaset solo se guia por pods y labels y no de actualizar nada de lo que contiene.  </p>
+</li>
+<li>
+<p>NO se auto-actualizan solos.  </p>
+</li>
+<li>
+<p>Si modificamos por ejemplo la imagen de un container de un pod de python de 3.6 a 3.7, se actualiza el ReplicSet pero no los PODs. Si se borra un POD, entonces el nuevo POD si que tiene las nuevas actualizaciones.  </p>
+</li>
+</ul>
+<h2 id="deployments">DEPLOYMENTS</h2>
+<ul>
+<li>Es un objeto de nivel mayor que los replicaset. Es el dueño del replicaset que a su vez es de sus PODs.  </li>
+</ul>
               
             </div>
           </div>

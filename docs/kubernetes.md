@@ -2105,7 +2105,609 @@ Events:
 + Hay diferentes tipos de clases de estado en el que entra el POD:  
     -  __BestEffort__: No se definen los limites y request. Los asignará el schedule pero puede ser que este consuma y consuma recursos sin parar.
     - __Guaranteed__: Tiene los mismos limites que de request
-    - __Burstable__: cuando pueda aumentar el request. El limite es mayor que el request.
+    - __Burstable__: cuando pueda aumentar el request. El limite es mayor que el request.  
 
 
+
+## LIMITRANGE  
+
++ Es un objeto de kubernetes que nos permite controlar limites a nivel de objetos, a nivel de namespaces.  
+
++ Puedo indicar limites por defectos de los pods en el namespaces si no tiene asignado ninguno, podemos definir minimos y maxinos de recursos de los pods
+
+
+### VALORES POR DEFECTO  
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+# limit range para el namespace dev
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+  namespace: dev
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 1
+    defaultRequest:
+      memory: 256Mi
+      cpu: 0.5
+    type: Container
+```  
+> El objeto LIMITRANGE se crea en el namespace indicado, sino, se crea en el default.  
+
++ Comprobamos con `kubectl get limitrange -n namespaceName`:  
+```
+[isx46410800@miguel limitRange]$ kubectl apply -f default-cpu-ram.yaml 
+namespace/dev created
+limitrange/mem-limit-range created
+#
+[isx46410800@miguel limitRange]$ kubectl get limitrange -n dev
+NAME              CREATED AT
+mem-limit-range   2020-10-14T18:10:15Z
+```  
+
++ Comprobamos con `kubectl describe limitrange LRName -n NSName`:  
+```
+[isx46410800@miguel limitRange]$ kubectl describe limitrange mem-limit-range -n dev
+Name:       mem-limit-range
+Namespace:  dev
+Type        Resource  Min  Max  Default Request  Default Limit  Max Limit/Request Ratio
+----        --------  ---  ---  ---------------  -------------  -----------------------
+Container   cpu       -    -    500m             1              -
+Container   memory    -    -    256Mi            512Mi          -
+```  
+
+### VALORES POD  
+
++ Ejemplo:  
+```
+# namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+# limit range para el namespace dev
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+  namespace: dev
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 1
+    defaultRequest:
+      memory: 256Mi
+      cpu: 0.5
+    type: Container
+---
+# pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test3
+  namespace: dev
+  labels:
+    app: back-end
+    env: dev
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+```  
+
++ Comprobamos los resultados del pod y sus limites creados al asignarlo a este namespaces con el objeto de limitRange:  
+```
+[isx46410800@miguel limitRange]$ kubectl describe pods pod-test3 -n dev | grep -i limits -C3
+      Started:      Wed, 14 Oct 2020 20:21:43 +0200
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+[isx46410800@miguel limitRange]$ kubectl describe pods pod-test3 -n dev | grep -i requests -C3
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:        500m
+      memory:     256Mi
+    Environment:  <none>
+```  
+> Vemos que se han asignado la cpu de 0.5 y Ram 256M.  
+
+
+
+### LIMITES  
+
++ Ejemplo:  
+```
+# namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+# limit range para el namespace dev
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+  namespace: dev
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 1
+    defaultRequest:
+      memory: 256Mi
+      cpu: 0.5
+    type: Container
+---
+# pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test3
+  namespace: dev
+  labels:
+    app: back-end
+    env: dev
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+    resources:
+      limits:
+        memory: 500M
+        cpu: 0.5
+      requests:
+        memory: 400M
+        cpu: 0.3
+```  
+> Si se superan los limites en los PODs te dará error, ya que sobrepasa los limites de memoria y ram  
+
+
+
+## RESOURCE QUOTA  
+
++ Actua a nivel de namespace. Limita la sumatoria de todos los objetos individuales de lo que tiene dentro.  
+
++ Si el RQ tiene limite 3cpu, la suma de sus pods dentro del namespaces de no puede sobrepasar el uso de 3 cpus.  
+
++ El limitrange opera por objeto, por pod.  
+
+
+### CREAR RQ  
+
++ Ejemplo:  
+```
+---
+# creamos namespaces
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uat
+  labels:
+    name: uat
+---
+# creamos resoucequota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+  namespace: uat
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+```  
+
++ Comprobamos con `kubectl describe resourcequota -n nsName`:  
+```
+[isx46410800@miguel resource-quota]$ kubectl apply -f resource_quota.yaml 
+namespace/uat created
+resourcequota/mem-cpu-demo created
+[isx46410800@miguel resource-quota]$ kubectl describe resourcequota -n uat mem-cpu-demo
+Name:            mem-cpu-demo
+Namespace:       uat
+Resource         Used  Hard
+--------         ----  ----
+limits.cpu       0     2
+limits.memory    0     2Gi
+requests.cpu     0     1
+requests.memory  0     1Gi
+```
+
++ Resultados:  
+```
+[isx46410800@miguel resource-quota]$ kubectl describe ns uat 
+Name:         uat
+Labels:       name=uat
+Annotations:  <none>
+Status:       Active
+Resource Quotas
+ Name:            mem-cpu-demo
+ Resource         Used  Hard
+ --------         ---   ---
+ limits.cpu       0     2
+ limits.memory    0     2Gi
+ requests.cpu     0     1
+ requests.memory  0     1Gi
+No LimitRange resource.
+```  
+
+
+### DEPLOY RQ  
+
++ Ejemplo:  
+```
+---
+# creamos namespaces
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uat
+  labels:
+    name: uat
+---
+# creamos resoucequota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+  namespace: uat
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+--- 
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  namespace: uat
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: 500M
+            cpu: 0.5
+          limits:
+            memory: 500M
+            cpu: 0.5
+```  
+
++ Comprobamos lo creado:  
+```
+[isx46410800@miguel resource-quota]$ kubectl get pods -n uat
+NAME                               READY   STATUS    RESTARTS   AGE
+deployment-test-5f869977fb-84nqs   1/1     Running   0          2m40s
+deployment-test-5f869977fb-vg5cj   1/1     Running   0          2m45s
+[isx46410800@miguel resource-quota]$ kubectl get rs -n uat
+NAME                         DESIRED   CURRENT   READY   AGE
+deployment-test-5f869977fb   2         2         2       2m54s
+deployment-test-df54c6d6d    0         0         0       5m41s
+[isx46410800@miguel resource-quota]$ kubectl get deploy -n uat
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment-test   2/2     2            2           5m47s
+[isx46410800@miguel resource-quota]$ kubectl get resourcequota -n uat
+NAME           AGE     REQUEST                                      LIMIT
+mem-cpu-demo   5m57s   requests.cpu: 1/1, requests.memory: 1G/1Gi   limits.cpu: 1/2, limits.memory: 1G/2Gi
+```  
+
++ Con lo creado ahora podemos ver que hemos llegado a los limites `kubectl describe ns nsName`:  
+```
+[isx46410800@miguel resource-quota]$ kubectl describe ns uat
+Name:         uat
+Labels:       name=uat
+Annotations:  <none>
+Status:       Active
+Resource Quotas
+ Name:            mem-cpu-demo
+ Resource         Used  Hard
+ --------         ---   ---
+ limits.cpu       1     2
+ limits.memory    1G    2Gi
+ requests.cpu     1     1
+ requests.memory  1G    1Gi
+No LimitRange resource.
+```  
+
++ Si ahora modificamos el fichero y creamos 3 replicas, superará el limite indicado. Por lo que solo creará dos y no tres, ya que el 3 superará los limites asignados en el RESOURCE QUOTA.  
+
+
+### LIMITAR Nº PODS EN NS  
+
++ Vemos un ejemplo de como limitar el número de pods que se pueden crear en un namespace a través del ResourceQuota:  
+```
+---
+# creamos namespaces
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: qa
+  labels:
+    name: qa
+---
+# creamos resoucequota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: pod-demo
+  namespace: qa
+spec:
+  hard:
+    pods: "3"
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-qa
+  namespace: qa
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+```  
+
++ Comprobamos lo creado:  
+```
+[isx46410800@miguel resource-quota]$ kubectl apply -f resource_quota_limitarPods.yaml 
+namespace/qa created
+resourcequota/pod-demo created
+deployment.apps/deployment-qa created
+#
+[isx46410800@miguel resource-quota]$ kubectl get pods -n qa
+NAME                            READY   STATUS    RESTARTS   AGE
+deployment-qa-b7c99d94b-h5bxr   1/1     Running   0          10s
+deployment-qa-b7c99d94b-tttpn   1/1     Running   0          10s
+deployment-qa-b7c99d94b-xdl45   1/1     Running   0          10s
+[isx46410800@miguel resource-quota]$ kubectl get rs -n qa
+NAME                      DESIRED   CURRENT   READY   AGE
+deployment-qa-b7c99d94b   3         3         3       14s
+#
+[isx46410800@miguel resource-quota]$ kubectl get ns -n qa
+NAME              STATUS   AGE
+ci                Active   18h
+default           Active   4d19h
+kube-node-lease   Active   4d19h
+kube-public       Active   4d19h
+kube-system       Active   4d19h
+qa                Active   18s
+#
+[isx46410800@miguel resource-quota]$ kubectl get resourcequota -n qa
+NAME       AGE   REQUEST     LIMIT
+pod-demo   99s   pods: 3/3   
+```  
+
++ Más info `kubectl describe resourcequota pod-demo -n qa`:  
+```
+[isx46410800@miguel resource-quota]$ kubectl describe resourcequota pod-demo -n qa
+Name:       pod-demo
+Namespace:  qa
+Resource    Used  Hard
+--------    ----  ----
+pods        3     3
+```  
+
++ Si ponemos 4 replicas, solo se habrán creado 3 y el 4 veremos en errores de NS que no se pudo crear un 4 pod porque supera los limites asignados al Resource Quota.  
+
+
+
+## PROBES  
+
++ Es una prueba diagnostico que se ejecuta en un POD para saber el estado de un container.  
+
++ Cada cierto tiempo va ir preguntando al POD para ver como se encuentra y si tiene algun fallo sino contesta.  
+
++ Puede ser este PROBE por:  
+  - Comando
+  - TCP
+  - HTTP
+
+
+### TIPOS PROBES  
+
++ Liveness: es una prueba que se ejecuta en el contenedor cada N tiempo. Esperamos una respuesta de este contenedor. Asegurarnos que esté funcionando la aplicación del contenedor.  
+
++ Readiness:  nos ayuda a garantizar el servicio del pod está listo para el request.  
+
++ Startup: es una prueba que se sube para ver que esté todo configurado y este listo la aplicación para ejecutarse.  
+
+
+### CREAR LIVENESS PROBE  
+
++ Ejemplo:  
+```
+# probe liveness
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+```  
+> Cada 5 segundos crea un fichero, y al 35 se elimina. Va haciendo una prueba de que sigue vivo.  
+
++ Vemos resultados de lo que pasa en `kubectl describe pod podName`  
+
++ Pruebas:  
+```
+[isx46410800@miguel probes]$ kubectl apply -f liveness.yaml 
+pod/liveness-exec created
+[isx46410800@miguel probes]$ kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+liveness-exec   1/1     Running   0          9s
+#
+[isx46410800@miguel probes]$ kubectl describe pod liveness-exec
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  95s                default-scheduler  Successfully assigned default/liveness-exec to minikube
+  Normal   Pulled     90s                kubelet            Successfully pulled image "k8s.gcr.io/busybox" in 3.165552593s
+  Warning  Unhealthy  46s (x3 over 56s)  kubelet            Liveness probe failed: cat: can't open '/tmp/healthy': No such file or directory
+  Normal   Killing    46s                kubelet            Container liveness failed liveness probe, will be restarted
+  Normal   Pulling    15s (x2 over 93s)  kubelet            Pulling image "k8s.gcr.io/busybox"
+  Normal   Pulled     15s                kubelet            Successfully pulled image "k8s.gcr.io/busybox" in 751.39074ms
+  Normal   Created    14s (x2 over 89s)  kubelet            Created container liveness
+  Normal   Started    14s (x2 over 88s)  kubelet            Started container liveness
+```  
+
+### LIVENESS TCP  
+
++ Una probe con liveness TCP:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: k8s.gcr.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+```  
+
++ Vemos resultados de lo que pasa en `kubectl describe pod podName`  
+
+
+
+### LIVENESS HTTP  
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 5
+      periodSeconds: 3
+```  
+
++ Vemos resultados de lo que pasa en `kubectl describe pod podName`  
+
+
+### READINESS PROBE  
+
++ Una probe con readiness TCP:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: k8s.gcr.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+```  
+> La diferencia es que el readiness no reinicia el contenedor, sino que desenregistra el puerto para que no entren más peticiones de request y por lo tanto no se le de más carga a este contenedor/pod.  
 

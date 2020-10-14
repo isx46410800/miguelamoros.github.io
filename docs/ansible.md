@@ -1,5 +1,9 @@
-# Comandos para GIT
 # ANSIBLE  
+
++ [Apuntes Ansible](https://elpuig.xeill.net/Members/vcarceler/articulos/ansible/index_html)  
+
++ [Libros Ansible](https://www.ansible.com/resources/ebooks)  
+
 + Es un software de gestión de la configuración automática y remota.  
 + Nos permite centralizar la configuración de numerosas servidores, dispositivos de red y Cloud Providers de una forma sencilla y automatizada.  
 + Podremos aprovisionar servidores en AWS, Azure o VMWARE y automatizar la configuración de dichos servidores.  

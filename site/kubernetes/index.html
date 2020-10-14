@@ -123,6 +123,88 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#deployments">DEPLOYMENTS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-deployment">CREAR DEPLOYMENT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rolling-update">ROLLING UPDATE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#historial-de-deployments">HISTORIAL DE DEPLOYMENTS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#roll-backs">ROLL BACKS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#servicios">SERVICIOS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-servicio">CREAR SERVICIO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#info-servicio">INFO SERVICIO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#endpoints">ENDPOINTS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dns">DNS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#servicio-cluster-ip">SERVICIO CLUSTER-IP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#servicio-node-port">SERVICIO NODE-PORT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#servicio-load-balancer">SERVICIO LOAD BALANCER</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#golang">GOLANG</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-api-rest-go">CREAR API REST GO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cambios-mensaje-respuesta">CAMBIOS MENSAJE RESPUESTA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mensaje-1">MENSAJE 1</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#mensaje-2">MENSAJE 2</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dockerfile-golang">DOCKERFILE GOLANG</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#deployment-golang">DEPLOYMENT GOLANG</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#consumo-del-servicio">CONSUMO DEL SERVICIO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fronted">FRONTED</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#manifiesto-fronted">MANIFIESTO FRONTED</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#namespaces">NAMESPACES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-namespace">CREAR NAMESPACE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#asignar-namespaces">ASIGNAR NAMESPACES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#borrar-namespaces">BORRAR NAMESPACES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#deploy-namespaces">DEPLOY NAMESPACES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dns-namespaces">DNS NAMESPACES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#contextos-namespaces">CONTEXTOS NAMESPACES</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#limitar-ramcpu">LIMITAR RAM/CPU</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#limitsrequest">LIMITS/REQUEST</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#ram">RAM</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#cpu">CPU</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qosquality-of-service">QOS(Quality of Service)</a>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -446,7 +528,6 @@ pod-test2   0/1     ErrImagePull   0          14s
 <blockquote>
 <p>En este caso es 172.18.0.3  </p>
 </blockquote>
-<p><img alt="" src="./images/kubernetes3.png" />  </p>
 <ul>
 <li>
 <p>Para verlo ingresamos directamente al navegador la ip.  </p>
@@ -456,7 +537,7 @@ pod-test2   0/1     ErrImagePull   0          14s
 <code>kubectl port-forward pod-test 7000:80</code>  </p>
 </li>
 </ul>
-<p><img alt="" src="./images/kubernetes4.png" />  </p>
+<p><img alt="" src="../images/kubernetes4.png" />  </p>
 <ul>
 <li>Comprobamos la respuesta:<br />
 <code>curl 172.18.0.3:80</code>  </li>
@@ -850,7 +931,1651 @@ rs-test-8mk72   2/2     Running   0          10s
 </ul>
 <h2 id="deployments">DEPLOYMENTS</h2>
 <ul>
-<li>Es un objeto de nivel mayor que los replicaset. Es el dueño del replicaset que a su vez es de sus PODs.  </li>
+<li>
+<p>Es un objeto de nivel mayor que los replicaset. Es el dueño del replicaset que a su vez es de sus PODs.  </p>
+</li>
+<li>
+<p>Al deployment se le da una imagen o una nueva versión: genera un replicaset con sus pods. Si se actualiza algo, se crea un segundo replicaset con un primer POD, y luego va matando del primer POD el pod viejo de v1 y crea otro POD en el nuevo replicaset con V2, y así succesivamente.  </p>
+</li>
+<li>
+<p>Esto se logra porque los deployments tienen dos valores: Uno de máximo extra y otra de un máximo de inutilizado. Normalmente este valor por defecto es un 25%. Por lo que en el ejemplo anterior podemos hacer 1 pod más y solo dejar 1 pod inutilizado.    </p>
+</li>
+<li>
+<p>Los deployments pueden mantener un máximo de 10 replicasets  </p>
+</li>
+</ul>
+<h3 id="crear-deployment">CREAR DEPLOYMENT</h3>
+<ul>
+<li>
+<p>Vemos a donde pertenece la api-version y el kind de los deployments en:<br />
+<code>kubectl api-resources</code>  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+</code></pre>
+
+<ul>
+<li>Lo creamos con <code>kubectl apply -f deployment.yaml</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl apply -f deployment.yaml 
+deployment.apps/deployment-test created
+</code></pre>
+
+<ul>
+<li>Vemos el deployment creado <code>kubectl get deployment</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl get deployment
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment-test   3/3     3            3           8s
+</code></pre>
+
+<ul>
+<li>Vemos los labels del deployment <code>kubectl get deployment --show-labels</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl get deployment --show-labels
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE   LABELS
+deployment-test   3/3     3            3           21s   app=front
+</code></pre>
+
+<ul>
+<li>Vemos el estado del deployment <code>kubectl rollout status deployment deploymentName</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl rollout status deployment deployment-test
+deployment &quot;deployment-test&quot; successfully rolled out
+</code></pre>
+
+<ul>
+<li>Vemos que se ha creado un replicaset y tiene los mismo labels:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl get replicaset
+NAME                         DESIRED   CURRENT   READY   AGE
+deployment-test-659b64d66c   3         3         3       4m28s
+[isx46410800@miguel deployments]$ kubectl get replicaset --show-labels
+NAME                         DESIRED   CURRENT   READY   AGE    LABELS
+deployment-test-659b64d66c   3         3         3       5m8s   app=front,pod-template-hash=659b64d66c
+</code></pre>
+
+<ul>
+<li>Vemos que se ha creado 3 replicas del pod y tiene los mismo labels:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+deployment-test-659b64d66c-n5qgr   1/1     Running   0          4m32s
+deployment-test-659b64d66c-pzdct   1/1     Running   0          4m32s
+deployment-test-659b64d66c-thknz   1/1     Running   0          4m32s
+[isx46410800@miguel deployments]$ kubectl get pods --show-labels
+NAME                               READY   STATUS    RESTARTS   AGE     LABELS
+deployment-test-659b64d66c-n5qgr   1/1     Running   0          5m14s   app=front,pod-template-hash=659b64d66c
+deployment-test-659b64d66c-pzdct   1/1     Running   0          5m14s   app=front,pod-template-hash=659b64d66c
+deployment-test-659b64d66c-thknz   1/1     Running   0          5m14s   app=front,pod-template-hash=659b64d66c
+</code></pre>
+
+<ul>
+<li>Vemos la jerarquía de lo creado para saber quien es el <code>owner reference</code> de cada cosa con <code>kubectl get rs/pod/deployment NAME -o yaml</code>:  </li>
+<li>Deployment no tiene dueño</li>
+<li>Replicaset su dueño es deployment</li>
+<li>Pod su dueño es replicaset</li>
+</ul>
+<h3 id="rolling-update">ROLLING UPDATE</h3>
+<ul>
+<li>Actualizamos por ejemplo la imagen de un container del POD en vez de <code>nginx:alpine</code> ponemos <code>nginx</code> y hacemos de nuevo el <code>kubectl apply -f deployment.yaml</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl apply -f deployment.yaml 
+deployment.apps/deployment-test configured
+[isx46410800@miguel deployments]$ kubectl get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+deployment-test-659b64d66c-n5qgr   1/1     Running             0          13m
+deployment-test-659b64d66c-pzdct   1/1     Running             0          13m
+deployment-test-659b64d66c-thknz   1/1     Running             0          13m
+deployment-test-69b674677d-2cq4l   0/1     ContainerCreating   0          5s
+[isx46410800@miguel deployments]$ kubectl get deployment
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment-test   3/3     1            3           14m
+[isx46410800@miguel deployments]$ kubectl get replicaset
+NAME                         DESIRED   CURRENT   READY   AGE
+deployment-test-659b64d66c   3         3         3       14m
+deployment-test-69b674677d   1         1         0       18s
+[isx46410800@miguel deployments]$ kubectl get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+deployment-test-659b64d66c-n5qgr   0/1     Terminating         0          14m
+deployment-test-659b64d66c-pzdct   1/1     Running             0          14m
+deployment-test-659b64d66c-thknz   1/1     Terminating         0          14m
+deployment-test-69b674677d-2cq4l   1/1     Running             0          25s
+deployment-test-69b674677d-dwdlr   0/1     ContainerCreating   0          1s
+deployment-test-69b674677d-dwspw   1/1     Running             0          6s
+[isx46410800@miguel deployments]$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+deployment-test-69b674677d-2cq4l   1/1     Running   0          43s
+deployment-test-69b674677d-dwdlr   1/1     Running   0          19s
+deployment-test-69b674677d-dwspw   1/1     Running   0          24s
+</code></pre>
+
+<ul>
+<li>Vemos el estado en directo de lo que hace con <code>ubectl rollout status deployment deploymentName</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl rollout status deployment deployment-test
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 old replicas are pending termination...
+deployment &quot;deployment-test&quot; successfully rolled out
+</code></pre>
+
+<ul>
+<li>También podemos ver el resultado en <code>kubectl describe deployment deploymentName</code>:  </li>
+</ul>
+<pre><code>Events:
+  Type    Reason             Age                    From                   Message
+  ----    ------             ----                   ----                   -------
+  Normal  ScalingReplicaSet  19m                    deployment-controller  Scaled up replica set deployment-test-659b64d66c to 3
+  Normal  ScalingReplicaSet  5m18s                  deployment-controller  Scaled up replica set deployment-test-69b674677d to 1
+  Normal  ScalingReplicaSet  4m59s                  deployment-controller  Scaled down replica set deploy
+</code></pre>
+
+<ul>
+<li>Aquí vemos también la estrategía de los valores que comentamos en la introducción:<br />
+<code>RollingUpdateStrategy:  25% max unavailable, 25% max surge</code>  </li>
+</ul>
+<h3 id="historial-de-deployments">HISTORIAL DE DEPLOYMENTS</h3>
+<ul>
+<li>Podemos ver las actualizaciones o revisiones en el historial de deployments en <code>kubectl rollout history deployment deployment</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl rollout history deployment deployment-test
+deployment.apps/deployment-test 
+REVISION  CHANGE-CAUSE
+2         &lt;none&gt;
+3         &lt;none&gt;
+4         &lt;none&gt;
+</code></pre>
+
+<ul>
+<li>Podemos con esto volver a cualquier versión anterior. Por defecto es 10 replicasets que guarda pero podemos cambiarlo añadiento en la parte de replicaset del manifiesto YAML <code>revisionHistoryLimit: 5</code>:  </li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  revisionHistoryLimit: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+</code></pre>
+
+<ul>
+<li>
+<p>Para poner un motivo en el <code>change-cause</code> cuando hacemos una versión de deployments indicamos dos maneras:  </p>
+</li>
+<li>
+<p>Con la linea de desplegar <code>kubectl apply -f deployment.yaml --record</code>:<br />
+<code>[isx46410800@miguel deployments]$ kubectl apply -f deployment.yaml --record
+  deployment.apps/deployment-test configured
+  [isx46410800@miguel deployments]$ kubectl rollout history deployment deployment-test
+  deployment.apps/deployment-test 
+  REVISION  CHANGE-CAUSE
+  1         &lt;none&gt;
+  2         &lt;none&gt;
+  3         kubectl apply --filename=deployment.yaml --record=true</code>  </p>
+</li>
+<li>
+<p>Con una subsección en el manifiesto deployment.yaml <code>annotations-&gt; kubernetes.io/change-cause: "message"</code>:<br />
+<code>esto es del deployment
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: deployment-test
+    annotations:
+      kubernetes.io/change-cause: "changes port to 110"
+    labels:
+      app: front</code><br />
+<code>kubectl rollout history deployment deployment-test
+  deployment.apps/deployment-test 
+  REVISION  CHANGE-CAUSE
+  1         &lt;none&gt;
+  2         &lt;none&gt;
+  3         kubectl apply --filename=deployment.yaml --record=true
+  4         changes port to 110</code>  </p>
+</li>
+<li>
+<p>Para luego ver una revisión en concreta usamos <code>kubectl rollout history deployment deployment-test --revision=3</code>:  </p>
+</li>
+</ul>
+<pre><code>deployment.apps/deployment-test with revision #3
+Pod Template:
+  Labels:   app=front
+    pod-template-hash=fd8445c88
+  Annotations:  kubernetes.io/change-cause: kubectl apply --filename=deployment.yaml --record=true
+  Containers:
+   nginx:
+    Image:  nginx:alpine
+    Port:   90/TCP
+    Host Port:  0/TCP
+    Environment:    &lt;none&gt;
+    Mounts: &lt;none&gt;
+  Volumes:  &lt;none&gt;
+</code></pre>
+
+<h3 id="roll-backs">ROLL BACKS</h3>
+<ul>
+<li>Se utiliza para volver a un estado bien porque por ejemplo ha ido mal una actualización de la imagen:  </li>
+</ul>
+<pre><code>containers:
+      - name: nginx
+        image: nginx:fake
+        ports:
+        - containerPort: 110
+</code></pre>
+
+<ul>
+<li>Vemos el nuevo historial y su fallo:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl rollout history deployment deployment-test
+deployment.apps/deployment-test 
+REVISION  CHANGE-CAUSE
+1         &lt;none&gt;
+2         &lt;none&gt;
+3         kubectl apply --filename=deployment.yaml --record=true
+4         changes port to 110
+5         new version nginx
+#
+[isx46410800@miguel deployments]$ kubectl get pods
+NAME                               READY   STATUS         RESTARTS   AGE
+deployment-test-5c6896bcd5-h5qts   0/1     ErrImagePull   0          32s
+deployment-test-74fb9c6d9f-7dwnr   1/1     Running        0          6m50s
+deployment-test-74fb9c6d9f-f5qs8   1/1     Running        0          6m45s
+deployment-test-74fb9c6d9f-lsmzj   1/1     Running        0          6m54s
+</code></pre>
+
+<ul>
+<li>Volvemos haciendo un <code>rollback</code> a una versión anterior con <code>kubectl rollout undo deployment deployment-test --to-revision=4</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel deployments]$ kubectl rollout undo deployment deployment-test --to-revision=4
+deployment.apps/deployment-test rolled back
+#
+[isx46410800@miguel deployments]$ kubectl rollout status deployment deployment-test
+deployment &quot;deployment-test&quot; successfully rolled out
+#
+[isx46410800@miguel deployments]$ kubectl describe deployment deployment-test
+Name:                   deployment-test
+Namespace:              default
+CreationTimestamp:      Sun, 11 Oct 2020 19:21:04 +0200
+Labels:                 app=front
+Annotations:            deployment.kubernetes.io/revision: 6
+                        kubernetes.io/change-cause: changes port to 110
+Selector:               app=front
+Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=front
+  Containers:
+   nginx:
+    Image:        nginx:alpine
+    Port:         110/TCP
+    Host Port:    0/TCP
+#
+[isx46410800@miguel deployments]$ kubectl describe deployment deployment-test 
+Normal  ScalingReplicaSet  117s (x12 over 15m)  deployment-controller  (combined from similar events): Scaled down replica set deployment-test-5c6896bcd5 to 0
+</code></pre>
+
+<h2 id="servicios">SERVICIOS</h2>
+<ul>
+<li>
+<p>Los servicios es una cosa aparte en el que el usuario se comunica a su IP del servicio y éste observar todos los pods que tienen un label con ese servicio y actua como balanzador de carga para ver a donde llamar para que le de la data. Siempre va a tener la misma data con cualquier que se comunique.  </p>
+</li>
+<li>
+<p>Los PODs tienen una IP unica cada uno, que si se muere, se regenera con otra IP. El servicio también tiene su IP unica en el que kubernetes se encarga de que siempre tenga la misma con el tiempo.  </p>
+</li>
+<li>
+<p>Los <code>endpoints</code> se crean automaticamente cuando se crea un servicio. Todas las IPs de los PODs se van guardando en el endpoint y así el servicio sabe a que IPs se puede comunicar para los PODs con su mismo label de servicio.  </p>
+</li>
+</ul>
+<h3 id="crear-servicio">CREAR SERVICIO</h3>
+<ul>
+<li>
+<p>Vemos a donde pertenece la api-version y el kind de los servicios en:<br />
+<code>kubectl api-resources</code>  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+---       
+# añadimos el servicio que observará los FRONT
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: front
+spec:
+  selector:
+    app: front
+  ports:
+    - protocol: TCP
+      port: 8888 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+</code></pre>
+
+<blockquote>
+<p>El puerto del servicio MY-SERVICE es el 8888 y se comunica a la IP de cada POD por el 80.  </p>
+</blockquote>
+<h3 id="info-servicio">INFO SERVICIO</h3>
+<ul>
+<li>Vemos lo creado con <code>kubectl get services/svc</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl get services
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+kubernetes   ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP    41h
+my-service   ClusterIP   10.97.182.119   &lt;none&gt;        8888/TCP   63s
+[isx46410800@miguel services]$ kubectl get deployment
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment-test   3/3     3            3           79s
+</code></pre>
+
+<ul>
+<li>Vemos por el label que le indicamos en el YAML:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl get services -l app=front
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+my-service   ClusterIP   10.97.182.119   &lt;none&gt;        8888/TCP   3m35s
+</code></pre>
+
+<blockquote>
+<p>El cluster-ip se lo da kubernetes si no se lo asignamos directamente  </p>
+</blockquote>
+<ul>
+<li>Profundizamos el servicio con <code>kubectl describe svc my-service</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl describe svc my-service
+Name:              my-service
+Namespace:         default
+Labels:            app=front
+Annotations:       &lt;none&gt;
+Selector:          app=front
+Type:              ClusterIP
+IP:                10.97.182.119
+Port:              &lt;unset&gt;  8888/TCP
+TargetPort:        80/TCP
+Endpoints:         172.18.0.2:80,172.18.0.4:80,172.18.0.5:80
+Session Affinity:  None
+Events:            &lt;none&gt;
+</code></pre>
+
+<blockquote>
+<p>Vemos nuestra IP como antes y la lista de IPs de los pods que nos podemos comunicar en el endpoint.  </p>
+</blockquote>
+<h3 id="endpoints">ENDPOINTS</h3>
+<ul>
+<li>
+<p>Lista de IPs de los pods que tienen el label de mi servicio creado.  </p>
+</li>
+<li>
+<p>Vemos la lista de endpoints con <code>kubectl get endpoints</code>:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl get endpoints
+NAME         ENDPOINTS                                   AGE
+kubernetes   172.17.0.2:8443                             41h
+my-service   172.18.0.2:80,172.18.0.4:80,172.18.0.5:80   10m
+</code></pre>
+
+<ul>
+<li>Comprobamos que son las mismas de los PODS:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl get pods -l app=front -o wide
+NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deployment-test-b7c99d94b-cgds6   1/1     Running   0          10m   172.18.0.4   minikube   &lt;none&gt;           &lt;none&gt;
+deployment-test-b7c99d94b-fmpdc   1/1     Running   0          10m   172.18.0.2   minikube   &lt;none&gt;           &lt;none&gt;
+deployment-test-b7c99d94b-t8bdz   1/1     Running   0          10m   172.18.0.5   minikube   &lt;none&gt;           &lt;none&gt;
+</code></pre>
+
+<ul>
+<li>Si eliminamos un Pod, se crea uno nuevo con otra ip y se actualiza el endpoint:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl delete pod deployment-test-b7c99d94b-cgds6
+pod &quot;deployment-test-b7c99d94b-cgds6&quot; deleted
+[isx46410800@miguel services]$ kubectl get endpoints
+NAME         ENDPOINTS                                   AGE
+kubernetes   172.17.0.2:8443                             41h
+my-service   172.18.0.2:80,172.18.0.5:80,172.18.0.6:80   13m
+[isx46410800@miguel services]$ kubectl get pods -l app=front -o wide
+NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deployment-test-b7c99d94b-fmpdc   1/1     Running   0          14m   172.18.0.2   minikube   &lt;none&gt;           &lt;none&gt;
+deployment-test-b7c99d94b-kcdnx   1/1     Running   0          39s   172.18.0.6   minikube   &lt;none&gt;           &lt;none&gt;
+deployment-test-b7c99d94b-t8bdz   1/1     Running   0          14m   172.18.0.5   minikube   &lt;none&gt;           &lt;none&gt;
+</code></pre>
+
+<h3 id="dns">DNS</h3>
+<ul>
+<li>
+<p>Creamos un POD nuevo:<br />
+<code>[isx46410800@miguel services]$ kubectl run --rm -it podtest2 --image=nginx_alpine -- sh</code>  </p>
+</li>
+<li>
+<p>Funciona que escucha al servicio:  </p>
+</li>
+</ul>
+<pre><code># curl 10.97.182.119:8888
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+&lt;p&gt;If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.&lt;/p&gt;
+&lt;p&gt;For online documentation and support please refer to
+&lt;a href=&quot;http://nginx.org/&quot;&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
+Commercial support is available at
+&lt;a href=&quot;http://nginx.com/&quot;&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;/em&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<blockquote>
+<p>Con esto hacemos que desde un pod llamamos al servicio web de nginx que lo coge de sus pods de label web.  </p>
+</blockquote>
+<ul>
+<li>Se crea como un tipo de DNS ya que por el nombre del servicio también se comunica y obtiene respuesta:<br />
+<code># curl my-service:8888</code>  </li>
+</ul>
+<h3 id="servicio-cluster-ip">SERVICIO CLUSTER-IP</h3>
+<ul>
+<li>
+<p>IP permanente que le da kubernetes y es solo para ambito privado, no desde el exterior.  </p>
+</li>
+<li>
+<p>Le podemos poner un tipo de servicio a los servicios que creamos:  </p>
+</li>
+</ul>
+<pre><code># añadimos el servicio que observará los FRONT
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: front
+spec:
+  type: ClusterIP
+  selector:
+    app: front
+  ports:
+    - protocol: TCP
+      port: 8888 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+</code></pre>
+
+<h3 id="servicio-node-port">SERVICIO NODE-PORT</h3>
+<ul>
+<li>
+<p>IP que nos permite conectar la IP desde el exterior exponendo su puerto abriendose desde el nodo. A la vez se crea también un ClusterIP.  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test2
+  labels:
+    app: backend
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+---
+# añadimos el servicio que observará los FRONT
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service2
+  labels:
+    app: backend
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8888 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+</code></pre>
+
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ kubectl get services -l app=backend
+NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+my-service2   NodePort   10.101.52.193   &lt;none&gt;        8888:30072/TCP   21s
+[isx46410800@miguel services]$ kubectl get pods -l app=backend
+NAME                                READY   STATUS    RESTARTS   AGE
+deployment-test2-77448c6d65-gj6l7   1/1     Running   0          36s
+deployment-test2-77448c6d65-n8td7   1/1     Running   0          36s
+deployment-test2-77448c6d65-sd6zq   1/1     Running   0          36s
+</code></pre>
+
+<ul>
+<li>
+<p>Si pusiera mi IP y el puerto que redirige el nodo, veriamos el servicio:<br />
+<code>http://192.168.1.104:30072</code>  </p>
+</li>
+<li>
+<p>Si no hace en minikube podemos hacer lo siguiente y lo veremos:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel services]$ minikube service my-service2
+|-----------|-------------|-------------|-------------------------|
+| NAMESPACE |    NAME     | TARGET PORT |           URL           |
+|-----------|-------------|-------------|-------------------------|
+| default   | my-service2 |        8888 | http://172.17.0.2:30072 |
+|-----------|-------------|-------------|-------------------------|
+</code></pre>
+
+<blockquote>
+<p>Esa url nos dará el servicio web a través del node port.  </p>
+</blockquote>
+<h3 id="servicio-load-balancer">SERVICIO LOAD BALANCER</h3>
+<ul>
+<li>
+<p>Hace referencia a un servicio de balanzador de carga.  </p>
+</li>
+<li>
+<p>Se crea un load balancer, que a su vez crea un node port para poder conectarnos desde la nube por ejemplo y a su vez crea un cluster IP.  </p>
+</li>
+</ul>
+<h2 id="golang">GOLANG</h2>
+<ul>
+<li>Queremos crear dos deployments, uno de backend y otro de front, uno con servicio clusterip y otro nodeip. Queremos que el usuario de fuera haga una petición al front y este le devuelva el servicio que está en backend.  </li>
+</ul>
+<h3 id="crear-api-rest-go">CREAR API REST GO</h3>
+<ul>
+<li>
+<p><a href="https://dev.to/moficodes/build-your-first-rest-api-with-go-2gcj">DOCUMENTACIÓN</a>  </p>
+</li>
+<li>
+<p>Creamos un fichero simple de API REST en Goland:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel src]$ cat main.go 
+package main
+import (
+    &quot;log&quot;
+    &quot;net/http&quot;
+)
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    w.WriteHeader(http.StatusOK)
+    w.Write([]byte(`{&quot;message&quot;: &quot;hello world&quot;}`))
+}
+func main() {
+    http.HandleFunc(&quot;/&quot;, ServerHTTP)
+    http.ListenAndServe(&quot;:9090&quot;, nil))
+}
+</code></pre>
+
+<blockquote>
+<p>Esto crea una funcion principal de que corra el servicio http cuando encuentre la /, nos contestará a la petición el hello wolld como respuesta.  </p>
+</blockquote>
+<ul>
+<li>Descargamos la imagen Goland y construimos un docker con el volumen del main.go creado para probarlo:<br />
+<code>[isx46410800@miguel k8s-hands-on]$ docker pull golang</code>  </li>
+</ul>
+<p><code>[isx46410800@miguel src]$ docker run --rm --name goland -v $PWD/:/go --net host -dti golang /bin/bash</code>  </p>
+<ul>
+<li>Iniciamos el fichero y comprobamos el resultado:  </li>
+</ul>
+<pre><code>[isx46410800@miguel src]$ docker exec -it goland /bin/bash
+root@miguel:/go# go run main.go 
+</code></pre>
+
+<p>![./images/kubernetes4.png]  </p>
+<h3 id="cambios-mensaje-respuesta">CAMBIOS MENSAJE RESPUESTA</h3>
+<h3 id="mensaje-1">MENSAJE 1</h3>
+<ul>
+<li>Añadimos unas variables para cambiar el mensaje de respuesta a la petición de request:  </li>
+</ul>
+<pre><code>package main
+import (
+    &quot;net/http&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;time&quot;
+)
+func ServerHTTP(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    w.WriteHeader(http.StatusOK)
+    resp := fmt.Sprintf(&quot;La hora es %v y el hostname es %v&quot;, time.Now(), os.Getenv(&quot;HOSTNAME&quot;))
+    w.Write([]byte(resp))
+}
+func main() {
+    http.HandleFunc(&quot;/&quot;, ServerHTTP)
+    http.ListenAndServe(&quot;:9090&quot;, nil)
+}
+</code></pre>
+
+<p>![./images/kubernetes5.png]  </p>
+<h4 id="mensaje-2">MENSAJE 2</h4>
+<ul>
+<li>Añadimos unas variables para cambiar el mensaje de respuesta a la petición de request:  </li>
+</ul>
+<pre><code>package main
+import (
+    &quot;net/http&quot;
+    &quot;os&quot;
+    &quot;time&quot;
+    &quot;encoding/json&quot;
+)
+type HandsOn struct {
+   Time     time.Time   `json:&quot;time&quot;`
+   Hostname string      `json:&quot;hostname&quot;`
+}
+func ServerHTTP(w http.ResponseWriter, r *http.Request) {
+    if r.URL.Path != &quot;/&quot; {
+        http.NotFound(w, r)
+        return
+    }
+    resp := HandsOn{
+        Time:       time.Now(),
+        Hostname:   os.Getenv(&quot;HOSTNAME&quot;),
+    }
+    jsonResp, err := json.Marshal(&amp;resp)
+    if err != nil {
+        w.Write([]byte(&quot;Error&quot;))
+        return
+    }
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    w.WriteHeader(http.StatusOK)
+    w.Write(jsonResp)
+}
+func main() {
+    http.HandleFunc(&quot;/&quot;, ServerHTTP)
+    http.ListenAndServe(&quot;:9090&quot;, nil)
+}
+</code></pre>
+
+<blockquote>
+<p>Hemos creado una estructura con type y luego hemos creado un objetivo y convertido a string para cambiar el mensaje y también darle un mensaje de error si no acaba en /.  </p>
+</blockquote>
+<p>![./images/kubernetes6.png]  </p>
+<p>![./images/kubernetes7.png]  </p>
+<h3 id="dockerfile-golang">DOCKERFILE GOLANG</h3>
+<ul>
+<li>Ejemplo:  </li>
+</ul>
+<pre><code># IMAGEN DE GOLAND
+FROM golang:1.13 as builder
+# DIRECTORIO A TRABAJAR
+WORKDIR /app
+# COPIAMOS FICHERO MAIN
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOPROXY=https://proxy.golang.org go build -o app ./main.go
+# DESDE IMAGEN ALPINE
+FROM alpine:latest
+# mailcap adds mime detection and ca-certificates help with TLS (basic stuff)
+WORKDIR /app
+COPY --from=builder /app/app .
+# PARA EJECUTARLO
+ENTRYPOINT [&quot;./app&quot;]
+</code></pre>
+
+<ul>
+<li>
+<p>Construimos imagen:<br />
+<code>[isx46410800@miguel src]$ docker build -t isx46410800/k8s-hands-on .</code>  </p>
+</li>
+<li>
+<p>Encendemos:<br />
+<code>[isx46410800@miguel src]$ docker run --rm --name k8s-hands-on -p 9091:9090 -d isx46410800/k8s-hands-on</code>  </p>
+</li>
+</ul>
+<p>![./images/kubernetes8.png]  </p>
+<blockquote>
+<p>Ahora nuestra aplicación de golang ya puede correr en un contenedor y entramos a localhost:9091 y lo vemos.  </p>
+</blockquote>
+<h3 id="deployment-golang">DEPLOYMENT GOLANG</h3>
+<ul>
+<li>Ejemplo:  </li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-k8s-hands-on
+  labels:
+    app: backend
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: isx46410800/k8s-hands-on
+        imagePullPolicy: IfNotPresent
+---
+# añadimos el servicio
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-k8s-hands-on
+  labels:
+    app: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80 # servicio por donde escucha
+      targetPort: 9090
+</code></pre>
+
+<blockquote>
+<p>Ponemos lo de <code>imagePullPolicy: IfNotPresent</code> para que primero busque si la imagen está constuida localmente antes de mirar en los repos de internet de dockerhub.  </p>
+</blockquote>
+<ul>
+<li>Comprobaciones:  </li>
+</ul>
+<pre><code>[isx46410800@miguel backend]$ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+backend-k8s-hands-on-5d548949c7-dgw9l   1/1     Running   0          15m
+backend-k8s-hands-on-5d548949c7-fg8wr   1/1     Running   0          15m
+backend-k8s-hands-on-5d548949c7-q9s6g   1/1     Running   0          15m
+[isx46410800@miguel backend]$ kubectl get rs
+NAME                              DESIRED   CURRENT   READY   AGE
+backend-k8s-hands-on-5d548949c7   3         3         3       15m
+[isx46410800@miguel backend]$ kubectl get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+backend-k8s-hands-on   3/3     3            3           15m
+[isx46410800@miguel backend]$ kubectl get svc
+NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+backend-k8s-hands-on   ClusterIP   10.101.44.56   &lt;none&gt;        80/TCP    16m
+kubernetes             ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP   3d19h
+</code></pre>
+
+<ul>
+<li>Visual cambiando a nodeport, nos contestará unos de los PODs la respuesta a la request del usuario:  </li>
+</ul>
+<p>![./images/kubernetes9.png]  </p>
+<h3 id="consumo-del-servicio">CONSUMO DEL SERVICIO</h3>
+<ul>
+<li>Si creamos un POD aparte como si fuera de FRONT, comprobamos que nos podemos conectar tanto por la IP como por el nombre como si tuviera un DNS y nos darán las respuestas los PODs del servicio:  </li>
+</ul>
+<pre><code>[isx46410800@miguel backend]$ kubectl run --rm -ti pod-test2 --image=nginx:alpine -- sh
+/ # apk add -U curl
+/ # curl 10.111.54.241:80
+{&quot;time&quot;:&quot;2020-10-13T19:57:49.446174694Z&quot;,&quot;hostname&quot;:&quot;backend-k8s-hands-on-5d548949c7-9qp82&quot;}/ # 
+/ # curl 10.111.54.241:80
+{&quot;time&quot;:&quot;2020-10-13T19:58:10.218346403Z&quot;,&quot;hostname&quot;:&quot;backend-k8s-hands-on-5d548949c7-9qp82&quot;}/ # 
+{&quot;time&quot;:&quot;2020-10-13T19:58:25.365295183Z&quot;,&quot;hostname&quot;:&quot;backend-k8s-hands-on-5d548949c7-66dgx&quot;}/ # 
+</code></pre>
+
+<h3 id="fronted">FRONTED</h3>
+<ul>
+<li>Creamos ahora un index.html de respuesta en un fronted/src/index.html:  </li>
+</ul>
+<pre><code>[isx46410800@miguel backend]$ kubectl run pod-test2 --image=nginx:alpine
+vi /usr/share/nginx/html/index.html
+&lt;div id=&quot;id01&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+var xmlhttp = new XMLHttpRequest();
+var url = &quot;http://backend-k8s-hands-on&quot;;
+
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 &amp;&amp; this.status == 200) {
+        var resp = JSON.parse(this.responseText);
+        document.getElementById(&quot;id01&quot;).innerHTML = &quot;&lt;h2&gt;La hora es &quot; + resp.time + &quot;y el hostname es&quot; + resp.hostname &quot;&lt;/h2&quot;&gt;;
+    }
+};
+xmlhttp.open(&quot;GET&quot;, url, true);
+xmlhttp.send();
+&lt;/script&gt;
+</code></pre>
+
+<ul>
+<li>Dockerfile:  </li>
+</ul>
+<pre><code># IMAGEN DE GOLAND
+FROM nginx:alpine
+# COPIAMOS FICHERO MAIN
+COPY ./src/index.html /usr/share/nginx/html/index.html
+</code></pre>
+
+<h3 id="manifiesto-fronted">MANIFIESTO FRONTED</h3>
+<ul>
+<li>Despliegue del fronted:  </li>
+</ul>
+<pre><code># esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fronted-k8s-hands-on
+  labels:
+    app: fronted
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fronted
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: fronted
+    spec:
+      containers:
+      - name: fronted
+        image: isx46410800/k8s-hands-on:fronted
+        imagePullPolicy: IfNotPresent
+---
+# añadimos el servicio
+apiVersion: v1
+kind: Service
+metadata:
+  name: fronted-k8s-hands-on
+  labels:
+    app: fronted
+spec:
+  type: NodePort
+  selector:
+    app: fronted
+  ports:
+    - protocol: TCP
+      port: 80 # servicio por donde escucha
+      targetPort: 80
+</code></pre>
+
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel k8s-hands-on]$ kubectl get svc
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+backend-k8s-hands-on   NodePort    10.111.54.241   &lt;none&gt;        80:30740/TCP   78m
+fronted-k8s-hands-on   NodePort    10.105.156.14   &lt;none&gt;        80:30159/TCP   9m22s
+kubernetes             ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP        3d20h
+[isx46410800@miguel k8s-hands-on]$ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+backend-k8s-hands-on-7d5b6dc559-lzrr4   1/1     Running   0          51m
+backend-k8s-hands-on-7d5b6dc559-mdjh7   1/1     Running   0          51m
+backend-k8s-hands-on-7d5b6dc559-qxzdv   1/1     Running   0          51m
+fronted-k8s-hands-on-78f59c5f77-dpvck   1/1     Running   0          9m27s
+fronted-k8s-hands-on-78f59c5f77-q7h9r   1/1     Running   0          9m27s
+fronted-k8s-hands-on-78f59c5f77-r7fnm   1/1     Running   0          9m27s
+[isx46410800@miguel k8s-hands-on]$ kubectl cluster-info
+Kubernetes master is running at https://172.17.0.2:8443
+KubeDNS is running at https://172.17.0.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+</code></pre>
+
+<h2 id="namespaces">NAMESPACES</h2>
+<ul>
+<li>
+<p>Son como ambientes separados dentro del cluster de kubernetes.  </p>
+</li>
+<li>
+<p>Cada uno de estos ambientes tienen su deployment, replicaset, pods...  </p>
+</li>
+<li>
+<p>Pueden haber namespaces de dev, test, de finanzas...son identicos y se pueden usar para hacer pruebas sin tener que crear otro cluster.  </p>
+</li>
+<li>
+<p>En cada namespace se puede limitar los pods, la memoria, usuarios...</p>
+</li>
+<li>
+<p>Ordenes básicas:<br />
+<code>kubectl get namespaces</code>  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel k8s-hands-on]$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   3d23h
+kube-node-lease   Active   3d23h
+kube-public       Active   3d23h
+kube-system       Active   3d23h
+</code></pre>
+
+<ul>
+<li>
+<p>Especifica por namespace:<br />
+<code>kubectl get pods --namespace default</code>  </p>
+</li>
+<li>
+<p>El default van todos los recursos, lo creado donde no se asignan ningun namespace.  </p>
+</li>
+<li>Todos los usuarios pueden ver este namespace kube-public.  </li>
+<li>
+<p>El kube-system tiene todos los objetos del kubernetes.  </p>
+</li>
+<li>
+<p>Si cuando queremos mirar pods, rs, deploys no ponemos nada, seran los defaults y no saldrán los asignados. Habrá que poner -n/--namespace namespaceName</p>
+</li>
+</ul>
+<h3 id="crear-namespace">CREAR NAMESPACE</h3>
+<ul>
+<li>Por comando <code>kubectl create namespace nameNamespace</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel k8s-hands-on]$ kubectl create namespace test-ns
+namespace/test-ns created
+</code></pre>
+
+<ul>
+<li>Para verlo <code>kubectl get namespaces</code> y <code>kubectl describe namespaces test-ns</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel k8s-hands-on]$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   4d
+kube-node-lease   Active   4d
+kube-public       Active   4d
+kube-system       Active   4d
+test-ns           Active   4s
+[isx46410800@miguel k8s-hands-on]$ kubectl describe namespaces test-ns
+Name:         test-ns
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+Status:       Active
+No resource quota.
+No LimitRange resource.
+</code></pre>
+
+<ul>
+<li>Por manifiesto YAML:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+  labels:
+    name: development
+</code></pre>
+
+<ul>
+<li>Comprobamos <code>kubectl get namespaces --show-labels</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl apply -f namespace.yaml 
+namespace/development created
+[isx46410800@miguel namespaces]$ kubectl get namespaces --show-labels
+NAME              STATUS   AGE     LABELS
+default           Active   4d      &lt;none&gt;
+development       Active   19s     name=development
+kube-node-lease   Active   4d      &lt;none&gt;
+kube-public       Active   4d      &lt;none&gt;
+kube-system       Active   4d      &lt;none&gt;
+test-ns           Active   6m33s   &lt;none&gt;
+</code></pre>
+
+<h3 id="asignar-namespaces">ASIGNAR NAMESPACES</h3>
+<ul>
+<li>Creamos un pod y lo asignamos:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl run podtest2 --image=nginx:alpine --namespace test-ns
+pod/podtest2 created
+[isx46410800@miguel namespaces]$ kubectl get pods -n test-ns
+NAME       READY   STATUS    RESTARTS   AGE
+podtest2   1/1     Running   0          22s
+</code></pre>
+
+<h3 id="borrar-namespaces">BORRAR NAMESPACES</h3>
+<ul>
+<li>
+<p>Borramos POD asignado a namespace:<br />
+<code>[isx46410800@miguel namespaces]$ kubectl delete pods podtest2 -n test-ns</code>  </p>
+</li>
+<li>
+<p>Borrar manifiesto:<br />
+<code>[isx46410800@miguel namespaces]$ kubectl delete -f namespace.yaml</code>  </p>
+</li>
+<li>
+<p>Borrar namespace:<br />
+<code>[isx46410800@miguel namespaces]$ kubectl delete namespaces test-ns</code>  </p>
+</li>
+</ul>
+<h3 id="deploy-namespaces">DEPLOY NAMESPACES</h3>
+<ul>
+<li>Creamos dos namespaces:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+--- 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    name: prod
+</code></pre>
+
+<ul>
+<li>Lo vemos <code>kubectl get namespaces --show-labels</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl get namespaces --show-labels
+NAME              STATUS   AGE   LABELS
+default           Active   4d    &lt;none&gt;
+dev               Active   6s    name=dev
+kube-node-lease   Active   4d    &lt;none&gt;
+kube-public       Active   4d    &lt;none&gt;
+kube-system       Active   4d    &lt;none&gt;
+prod              Active   6s    name=prod
+</code></pre>
+
+<ul>
+<li>Creamos un deployment con los namespaces:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    name: prod
+--- 
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-dev
+  namespace: dev
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+---     
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-prod
+  namespace: prod
+  labels:
+    app: back
+# aqui viene el replicaset
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: back
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+</code></pre>
+
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl apply -f deploy-namespace.yaml 
+namespace/dev unchanged
+namespace/prod unchanged
+deployment.apps/deploy-dev created
+deployment.apps/deploy-prod created
+[isx46410800@miguel namespaces]$ kubectl get deploy -n dev
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-dev   1/1     1            1           26s
+[isx46410800@miguel namespaces]$ kubectl get deploy -n prod
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-prod   5/5     5            5           29s
+[isx46410800@miguel namespaces]$ kubectl get rs -n dev
+NAME                   DESIRED   CURRENT   READY   AGE
+deploy-dev-b7c99d94b   1         1         1       36s
+[isx46410800@miguel namespaces]$ kubectl get rs -n prod
+NAME                     DESIRED   CURRENT   READY   AGE
+deploy-prod-7bfb7875fd   5         5         5       38s
+[isx46410800@miguel namespaces]$ kubectl get pods -n dev
+NAME                         READY   STATUS    RESTARTS   AGE
+deploy-dev-b7c99d94b-xc696   1/1     Running   0          50s
+[isx46410800@miguel namespaces]$ kubectl get pods -n prod
+NAME                           READY   STATUS    RESTARTS   AGE
+deploy-prod-7bfb7875fd-49kzd   1/1     Running   0          54s
+deploy-prod-7bfb7875fd-9m7x8   1/1     Running   0          54s
+deploy-prod-7bfb7875fd-nbhfd   1/1     Running   0          54s
+deploy-prod-7bfb7875fd-tl5gs   1/1     Running   0          54s
+deploy-prod-7bfb7875fd-wxrwc   1/1     Running   0          54s
+[isx46410800@miguel namespaces]$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   4d
+dev               Active   10m
+kube-node-lease   Active   4d
+kube-public       Active   4d
+kube-system       Active   4d
+prod              Active   10m
+</code></pre>
+
+<h3 id="dns-namespaces">DNS NAMESPACES</h3>
+<ul>
+<li>Creamos un namespace y un deploy asignados:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Namespace
+metadata:
+  name: ci
+  labels:
+    name: ci
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-k8s-hands-on
+  namespace: ci
+  labels:
+    app: backend
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: isx46410800/k8s-hands-on:v2
+        imagePullPolicy: IfNotPresent
+---
+# añadimos el servicio
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-k8s-hands-on
+  namespace: ci
+  labels:
+    app: backend
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80 # servicio por donde escucha
+      targetPort: 9090
+</code></pre>
+
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl apply -f dns-namespace.yaml 
+namespace/ci created
+deployment.apps/backend-k8s-hands-on created
+service/backend-k8s-hands-on created
+[isx46410800@miguel namespaces]$ kubectl get namespaces
+NAME              STATUS   AGE
+ci                Active   15s
+default           Active   4d
+kube-node-lease   Active   4d
+kube-public       Active   4d
+kube-system       Active   4d
+[isx46410800@miguel namespaces]$ kubectl get deploy -n ci
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+backend-k8s-hands-on   3/3     3            3           32s
+[isx46410800@miguel namespaces]$ kubectl get svc -n ci
+NAME                   TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+backend-k8s-hands-on   NodePort   10.105.98.188   &lt;none&gt;        80:31030/TCP   38s
+[isx46410800@miguel namespaces]$ kubectl get rs -n ci
+NAME                              DESIRED   CURRENT   READY   AGE
+backend-k8s-hands-on-7d5b6dc559   3         3         3       46s
+[isx46410800@miguel namespaces]$ kubectl get pods -n ci
+NAME                                    READY   STATUS    RESTARTS   AGE
+backend-k8s-hands-on-7d5b6dc559-7xv59   1/1     Running   0          49s
+backend-k8s-hands-on-7d5b6dc559-b4sqq   1/1     Running   0          49s
+backend-k8s-hands-on-7d5b6dc559-bdktk   1/1     Running   0          49s
+</code></pre>
+
+<ul>
+<li>
+<p>Ahora creamos un POD con el namespace default:<br />
+<code>[isx46410800@miguel namespaces]$ kubectl run --rm -it podtest2 --image=nginx:alpine --namespace default -- sh</code>  </p>
+</li>
+<li>
+<p>Por defecto, cuando los dns que se crean en un namespace siguen esta regla:<br />
+<code>serviceName + namespaceName + service.cluster.local</code>  </p>
+</li>
+<li>
+<p>Así desde un pod fuera del namespace se comunicaria al namespaces del deploy backend siguiendo lo anterior:<br />
+<code>/ # curl backend-k8s-hands-on.ci.svc.cluster.local</code><br />
+<code>{"time":"2020-10-14T01:09:56.22990857Z","hostname":"backend-k8s-hands-on-7d5b6dc559-7xv59"}/</code>  </p>
+</li>
+<li>
+<p>Si no daría error:  </p>
+</li>
+</ul>
+<pre><code>/ # curl backend-k8s-hands-on
+curl: (6) Could not resolve host: backend-k8s-hands-on
+</code></pre>
+
+<h3 id="contextos-namespaces">CONTEXTOS NAMESPACES</h3>
+<ul>
+<li>
+<p>Esto significa que cuando creamos algo lo creamos en default y todas las ordenes se refieren aqui, si creamos cosas en otros namespaces, podemos cambiarnos y asi no tenemos que poner el --namespace nsName todo el rato.  </p>
+</li>
+<li>
+<p>Para ver en que contexto estamos usamos:<br />
+<code>kubectl config current-context</code>  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl config current-context
+minikube
+</code></pre>
+
+<ul>
+<li>Vemos el archivo de configuración <code>./kube/config</code> que es de donde lee el current-context:  </li>
+</ul>
+<pre><code>[root@miguel ~]# cat /home/isx46410800/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/isx46410800/.minikube/ca.crt
+    server: https://172.17.0.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
+    client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
+</code></pre>
+
+<ul>
+<li>Mejor con este comando <code>kubectl config view</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/isx46410800/.minikube/ca.crt
+    server: https://172.17.0.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
+    client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
+</code></pre>
+
+<ul>
+<li>Crear un nuevo contexto <code>ubectl config set-context Namecontext --namespace=nsName --cluster=clusterName --user=userName</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl config set-context ci-context --namespace=ci --cluster=minikube --user=minikube
+Context &quot;ci-context&quot; created.
+</code></pre>
+
+<ul>
+<li>Ahora vemos que tenemos dos contextos y uno apuntando al namespace creado de ci:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/isx46410800/.minikube/ca.crt
+    server: https://172.17.0.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    namespace: ci
+    user: minikube
+  name: ci-context
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
+    client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
+</code></pre>
+
+<ul>
+<li>Para cambiar de contexto usamos <code>kubectl config use-context Namecontext</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel namespaces]$ kubectl config use-context ci-context
+Switched to context &quot;ci-context&quot;.
+[isx46410800@miguel namespaces]$ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+backend-k8s-hands-on-7d5b6dc559-7xv59   1/1     Running   0          19m
+backend-k8s-hands-on-7d5b6dc559-b4sqq   1/1     Running   0          19m
+backend-k8s-hands-on-7d5b6dc559-bdktk   1/1     Running   0          19m
+[isx46410800@miguel namespaces]$ kubectl get deploy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+backend-k8s-hands-on   3/3     3            3           19m
+[isx46410800@miguel namespaces]$ kubectl get rs
+NAME                              DESIRED   CURRENT   READY   AGE
+backend-k8s-hands-on-7d5b6dc559   3         3         3       20m
+[isx46410800@miguel namespaces]$ kubectl get services
+NAME                   TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+backend-k8s-hands-on   NodePort   10.105.98.188   &lt;none&gt;        80:31030/TCP   20m
+[isx46410800@miguel namespaces]$ kubectl config use-context minikube
+Switched to context &quot;minikube&quot;.
+[isx46410800@miguel namespaces]$ kubectl get pods
+No resources found in default namespace.
+[isx46410800@miguel namespaces]$ kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   4d
+</code></pre>
+
+<h2 id="limitar-ramcpu">LIMITAR RAM/CPU</h2>
+<ul>
+<li>
+<p>La RAM se puede limitar en B, MB y G.  </p>
+</li>
+<li>
+<p>La CPU: 1 cpu es 1000 milicores/milicpus.  </p>
+</li>
+</ul>
+<h3 id="limitsrequest">LIMITS/REQUEST</h3>
+<ul>
+<li>
+<p>Los <strong>LIMITS</strong> es la cifra marcada de cantidad que tiene de limite. Puede tener 30M y un pod con 20M podría tener más si tiene ese espacio libre. Si lo sobrepasa el pod ese limite, kubernetes eliminará o reiniciará el pod y lo pondrá en otro sitio que le garantice esa cantidad de recursos indicada.  </p>
+</li>
+<li>
+<p>Los <strong>REQUESTS</strong> es la cantidad de recursos que el pod siempre va a poder disponer. Estará garantizado la cantidad que se le indique.  </p>
+</li>
+</ul>
+<h4 id="ram">RAM</h4>
+<ul>
+<li>Creamos un ejemplo de limite de RAM:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-demo
+spec:
+  containers:
+  - name: memory-demo-ctr
+    image: polinux/stress
+    resources:
+      limits:
+        memory: &quot;200Mi&quot;
+      requests:
+        memory: &quot;100Mi&quot;
+    command: [&quot;stress&quot;]
+    # se indica que le va a dar 150Megas
+    args: [&quot;--vm&quot;, &quot;1&quot;, &quot;--vm-bytes&quot;, &quot;150M&quot;, &quot;--vm-hang&quot;, &quot;1&quot;]
+</code></pre>
+
+<blockquote>
+<p>Garantizamos que va a tener 100Megas seguras y un limite maximo de 200. Se le asignar a crear un pod de 150M.  </p>
+</blockquote>
+<ul>
+<li>Comprobamos que lo ha creado <code>kubectl apply -f limit-request.yaml</code>:  </li>
+</ul>
+<pre><code>[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+memory-demo   1/1     Running   0          38s
+</code></pre>
+
+<ul>
+<li>Si ponemos el ejemplo anterior con 250M vemos los errores:  </li>
+</ul>
+<pre><code>[isx46410800@miguel limits-requests]$ kubectl apply -f limit-request2.yaml 
+pod/memory-demo created
+[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME          READY   STATUS              RESTARTS   AGE
+memory-demo   0/1     ContainerCreating   0          4s
+[isx46410800@miguel limits-requests]$ kubectl get pods --watch
+NAME          READY   STATUS             RESTARTS   AGE
+memory-demo   0/1     CrashLoopBackOff   1          12s
+memory-demo   0/1     OOMKilled          2          25s
+memory-demo   0/1     CrashLoopBackOff   2          26s
+^C[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME          READY   STATUS             RESTARTS   AGE
+memory-demo   0/1     CrashLoopBackOff   2          48s
+</code></pre>
+
+<ul>
+<li>Si ponemos un limit y request de 1000G de Ram (algo imposible), veremos los errores:  </li>
+</ul>
+<pre><code>[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+memory-demo   0/1     Pending   0          5s
+[isx46410800@miguel limits-requests]$ kubectl describe pod memory-demo
+Events:
+  Type     Reason            Age                From               Message
+  ----     ------            ----               ----               -------
+  Warning  FailedScheduling  25s (x2 over 25s)  default-scheduler  0/1 nodes are available: 1 Insufficient memory.
+</code></pre>
+
+<h4 id="cpu">CPU</h4>
+<ul>
+<li>Ejemplo de limitar CPU:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-demo
+spec:
+  containers:
+  - name: cpu-demo-ctr
+    image: vish/stress
+    resources:
+      limits:
+        cpu: &quot;1&quot;
+      requests:
+        cpu: &quot;0.5&quot;
+    args:
+    - -cpus
+    - &quot;2&quot;
+    # se le pide 2 cpus y hay limite de 1
+</code></pre>
+
+<blockquote>
+<p>Aunque se le pida 2, no se eliminará como la RAM sino que soolo tendrá de máximo el LIMIT indicado(1).  </p>
+</blockquote>
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel limits-requests]$ kubectl apply -f limitar-cpu.yaml 
+pod/cpu-demo created
+[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME       READY   STATUS              RESTARTS   AGE
+cpu-demo   0/1     ContainerCreating   0          7s
+[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+cpu-demo   1/1     Running   0          11s
+</code></pre>
+
+<ul>
+<li>Si vemos la capacidad total de mi cluster <code>kubectl describe node minikube</code>: </li>
+</ul>
+<pre><code>Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests     Limits
+  --------           --------     ------
+  cpu                1150m (28%)  1 (25%)
+  memory             70Mi (0%)    170Mi (2%)
+  ephemeral-storage  0 (0%)       0 (0%)
+  hugepages-2Mi      0 (0%)       0 (0%)
+</code></pre>
+
+<blockquote>
+<p>Siempre hay un poco más para que no sobrepase el limite y me vaya todo lento.  </p>
+</blockquote>
+<ul>
+<li>Nuestra cantidad de CPU <code>kubectl describe node minikube</code>:  </li>
+</ul>
+<pre><code>kubectl describe node minikube
+Capacity:
+  cpu:                4
+</code></pre>
+
+<ul>
+<li>Si le ponemos limite y request 100 cpu veremos que nos sale los mismos errores que la RAM:  </li>
+</ul>
+<pre><code>[isx46410800@miguel limits-requests]$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+cpu-demo   0/1     Pending   0          5s
+[isx46410800@miguel limits-requests]$ kubectl describe pod cpu-demo
+Events:
+  Type     Reason            Age                From               Message
+  ----     ------            ----               ----               -------
+  Warning  FailedScheduling  25s (x2 over 25s)  default-scheduler  0/1 nodes are available: 1 Insufficient cpu.
+</code></pre>
+
+<h3 id="qosquality-of-service">QOS(Quality of Service)</h3>
+<ul>
+<li>
+<p>Es una propiedad que se le asigna a los pods.  </p>
+</li>
+<li>
+<p>Podemos ver el estado de QoS con:<br />
+<code>kubectl get pod podName -o yaml | grep -i qos</code>  </p>
+</li>
+<li>
+<p>Hay diferentes tipos de clases de estado en el que entra el POD:  </p>
+<ul>
+<li><strong>BestEffort</strong>: No se definen los limites y request. Los asignará el schedule pero puede ser que este consuma y consuma recursos sin parar.</li>
+<li><strong>Guaranteed</strong>: Tiene los mismos limites que de request</li>
+<li><strong>Burstable</strong>: cuando pueda aumentar el request. El limite es mayor que el request.</li>
+</ul>
+</li>
 </ul>
               
             </div>

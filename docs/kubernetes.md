@@ -143,7 +143,8 @@ kubeconfig: Configured
 
 + Creamos un pod de prueba `kubectl run nombrePod --image:xxx:tag`:  
 ```
-[isx46410800@miguel curso_kubernetes]$ kubectl run pod-test --image=nginx:alpine
+[isx46410800@miguel curso_kubernetes]$ 
+
 pod/pod-test created
 ```  
 
@@ -1023,7 +1024,7 @@ deployment-test-b7c99d94b-t8bdz   1/1     Running   0          14m   172.18.0.5 
 ### DNS  
 
 + Creamos un POD nuevo:  
-`[isx46410800@miguel services]$ kubectl run --rm -it podtest2 --image=nginx_alpine -- sh`  
+`[isx46410800@miguel services]$ kubectl run --rm -it podtest2 --image=nginx:alpine -- sh`  
 
 + Funciona que escucha al servicio:  
 ```
@@ -2711,3 +2712,600 @@ spec:
 ```  
 > La diferencia es que el readiness no reinicia el contenedor, sino que desenregistra el puerto para que no entren más peticiones de request y por lo tanto no se le de más carga a este contenedor/pod.  
 
+
+## VARIABLES Y CONFIGMAP  
+
+### CREAR VARIABLES  
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envar-demo
+spec:
+  containers:
+  - name: envar-demo-container
+    image: nginx:alpine
+    env:
+    - name: VAR1
+      value: "valor de prueba 1"
+    - name: VAR2
+      value: "valor de prubea 2"
+    - name: VAR3
+      value: "valor de prubea 3"
+```  
+
++ Prueba:  
+```
+[isx46410800@miguel env_variables]$ kubectl apply -f env.yaml 
+pod/envar-demo created
+#
+[isx46410800@miguel env_variables]$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+envar-demo   1/1     Running   0          12s
+#
+[isx46410800@miguel env_variables]$ kubectl exec -it envar-demo -- sh
+/ # env
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT=tcp://10.96.0.1:443
+HOSTNAME=envar-demo
+SHLVL=1
+HOME=/root
+VAR1=valor de prueba 1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+VAR2=valor de prubea 2
+VAR3=valor de prubea 3
+PWD=/
+#
+/ # echo $VAR1
+valor de prueba 1
+```  
+
+
+### VARIABLES REFERENCIADAS  
+
++ Se crearian a partir de conseguir la info del pod a partir del `[isx46410800@miguel env_variables]$ kubectl get pods envar-demo -o yaml`:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-envars-fieldref
+spec:
+  containers:
+    - name: test-container
+      image: ngix:alpine
+      env:
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+  restartPolicy: Never
+```  
+> Dentro del POD tendremos estas variables con el valor obtenido de su spec, metadata,etc.  
+
+
+### CONFIGMAP  
+
++ Es un objeto de kubernetes distinto a un POD en el cual tienes configuraciones que un POD puede consumir de el para su creación.  
+
++ Se forma con la estructura `clave: valor`. Desde el POD se indica que llave quiere consumir del configmap.  
+
++ Se puede crear mediante un file.conf o en un objeto configmap.  
+
++ Copiamos en un subdirectorio el fichero de conf de nginx y creamos un confimap a partir de este fichero.
+
++ Lo creamos con `kubectl create configmap nginx-config --from-file=examples/nginx.conf` y lo vemos con `kubectl get cm`:  
+
+```
+[isx46410800@miguel configmap]$ kubectl create configmap nginx-config --from-file=examples/nginx.conf
+configmap/nginx-config created
+#
+[isx46410800@miguel configmap]$ kubectl get cm
+NAME           DATA   AGE
+nginx-config   1      14s
+#
+[isx46410800@miguel configmap]$ kubectl describe configmaps nginx-config
+Name:         nginx-config
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+Data
+====
+nginx.conf:
+----
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+Events:  <none>
+```  
+> Vemos que se ha creado en formato llave(nginx.conf) y valor la configuración.  
+
++ Ejemplo con todos los archivos del subdirectorio y vemos que se crean más llaves-valor:  
+```
+[isx46410800@miguel configmap]$ kubectl create configmap nginx-config2 --from-file=examples
+configmap/nginx-config2 created
+#
+[isx46410800@miguel configmap]$ kubectl get cm
+NAME            DATA   AGE
+nginx-config    1      4m27s
+nginx-config2   2      4s
+#
+[isx46410800@miguel configmap]$ kubectl describe configmaps nginx-config2
+Name:         nginx-config2
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+Data
+====
+index.html:
+----
+hola nginx
+nginx.conf:
+----
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+Events:  <none>
+```  
+
+### MONTANDO VOLUMEN CONFIGMAP  
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  labels:
+    app: front
+  data:
+    test: hola
+    nginx: |
+      server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+                root   /usr/share/nginx/html;
+                index  index.html index.htm;
+         }
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+                root   /usr/share/nginx/html;
+         }
+      }
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  annotations:
+    kubernetes.io/change-cause: "new version nginx"
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: dapi-test-pod
+        spec:
+          containers:
+            - name: nginx
+              image: nginx:alpine
+              volumeMounts:
+              - name: nginx-volume
+                mountPath: /etc/nginx/conf.d/ ## la ruta que va a tener, solo carpetas
+          volumes:
+            - name: nginx-volume
+              configMap:
+                name: nginx-config
+                items:
+                - key: nginx
+                  path: default.conf
+```  
+> En la data son las llaves-valor del configmap. Volumemount el volumen a crear y a que carpeta ira sin coger la ruta de los archivos. Volumes el que se crea a raiz del nombre de configmap y items son que llave coge y path el nombre que le pondremos al valor de la llave. Si no se pone items, creara varios archivos con los nombres de las keys y su contenido como archivo.  
+
+
+### VOLUMEN-ENV CONFIGMAP  
+
++ Ejemplo de montar un volumen y variables de entorno referenciando otro configmap con las variables y creando otro volumen para montar una llave que es un script:  
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  labels:
+    app: front
+data:
+  nginx: |
+    server {
+        listen       9090;
+        server_name  localhost;
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vars
+  labels:
+    app: front
+data:
+  db_host: dev.host.local
+  db_user: dev_user
+  script: |
+    echo DB host es $DB_HOST y DB user es $DB_USER > /usr/share/nginx/html/test.html
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-test
+  labels:
+    app: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: vars
+                  key: db_host
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: vars
+                  key: db_user
+          volumeMounts:
+          - name: nginx-vol
+            mountPath: /etc/nginx/conf.d
+          - name: script-vol
+            mountPath: /opt
+      volumes:
+        - name: nginx-vol
+          configMap:
+            name: nginx-config
+            items:
+            - key: nginx
+              path: default.conf
+        - name: script-vol
+          configMap:
+            name: vars
+            items:
+            - key: script
+              path: script.sh
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel configmap]$ kubectl exec -it deployment-test-56457d48c5-7sg8z -- sh
+/ # ls /opt
+script.sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+KUBERNETES_PORT_443_TCP_PORT=443
+NJS_VERSION=0.4.4
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_SERVICE_HOST=10.96.0.1
+PWD=/
+DB_HOST=dev.host.local
+DB_USER=dev_user
+/ # echo $DB_HOST
+dev.host.local
+/ # apk add python
+/ # sh /opt/script.sh 
+/ # cat /usr/share/nginx/html/test.html
+DB host es dev.host.local y DB user es dev_user
+```  
+
+
+## SECRETS  
+
++ Un secreto es un objeto que nos ayuda a guardar data sensible, aquella que no debería de verse. Funciona al estilo configmap.  
+
++ Lo podemos montar como una variable de entorno o como un volumen.  
+
+
+### CREAR  
+
++ Ejemplo de como crearlo:  
+`kubectl create secret generic mysecret --from-file=secret-files/text.txt`  
+`kubectl get secrets`  
+
+```
+[isx46410800@miguel secrets]$ cat secret-files/text.txt 
+secret1=hola
+#
+[isx46410800@miguel secrets]$ kubectl create secret generic mysecret --from-file=secret-files/text.txt
+secret/mysecret created
+#
+[isx46410800@miguel secrets]$ kubectl get secrets
+NAME                  TYPE                                  DATA   AGE
+default-token-xbv2l   kubernetes.io/service-account-token   3      7d
+mysecret              Opaque                                1      7s
+#
+[isx46410800@miguel secrets]$ kubectl describe secrets mysecret
+Name:         mysecret
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+Type:  Opaque
+Data
+====
+text.txt:  26 bytes
+#
+secret2=adios[isx46410800@miguel secrets]$ kubectl get secrets mysecret -o yaml
+apiVersion: v1
+data:
+  text.txt: c2VjcmV0MT1ob2xhCnNlY3JldDI9YWRpb3M=
+kind: Secret
+metadata:
+  creationTimestamp: "2020-10-17T00:55:07Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:text.txt: {}
+      f:type: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2020-10-17T00:55:07Z"
+  name: mysecret
+  namespace: default
+  resourceVersion: "72991"
+  selfLink: /api/v1/namespaces/default/secrets/mysecret
+  uid: 46d433c6-2c0f-4646-aa9d-b165c6abfee2
+type: Opaque
+```  
+> Vemos que el contenido de los secretos no se ven, están cifrados en BASE64, que se puede descrifrar poniendo `| base65 -decode`  
+
+
+### MANIFIESTOS  
+
++ Creando SECRETS con manifiesto:  
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm
+```  
+> Para descrifrarlo hay que pasarlo de base64.  
+
++ Con Datastring para que lo codifique en base64:  
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: opaque
+stringData:
+  username: usertest
+  password: test
+```  
+
+
+### ENVSUBTS  
+
++ Herramienta para poder reemplazar contenido de variables por el contenido:  
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret2
+type: opaque
+data:
+  username: $VAR1
+  password: $VAR2
+```  
+
+```
+[isx46410800@miguel secrets]$ export VAR1=miguel
+[isx46410800@miguel secrets]$ export VAR2=amoros
+[isx46410800@miguel secrets]$ envsubst < secret-secure.yaml > tmp.yaml
+[isx46410800@miguel secrets]$ cat tmp.yaml 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret2
+type: opaque
+data:
+  username: miguel
+  password: amoros
+[isx46410800@miguel secrets]$ kubectl apply -f tmp.yaml
+```  
+> Luego podemos decode con base64 y obtenemos el resultado.  
+
+
+### VOLUME SECRETS  
+
++ Un ejemplo de crear un secreto y montarlo como volumen:  
+```
+# creamos el secreto
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret1
+type: opaque
+stringData:
+  username: admin
+  password: "123456"
+---
+# montamos el secreto
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:alpine
+    volumeMounts:
+    - name: test
+      #donde montamos el secreto
+      mountPath: "/opt"
+      readOnly: true
+  volumes:
+  - name: test
+    secret:
+      secretName: secret1
+```  
+> En lo ultimo tambien podemos crearlo poniendo items e indicarle el path. ahora nos creara dos files al no ponerlo.  
+
++ Comprobamos:  
+```
+[isx46410800@miguel secrets]$ kubectl apply -f pod-vol-secret.yaml 
+secret/secret1 created
+pod/mypod created
+#
+[isx46410800@miguel secrets]$ kubectl get secrets
+NAME                  TYPE                                  DATA   AGE
+default-token-xbv2l   kubernetes.io/service-account-token   3      7d
+secret1               opaque                                2      6s
+#
+[isx46410800@miguel secrets]$ kubectl exec -it mypod -- sh
+/ # ls /opt/
+password  username
+/ # cat /opt/password 
+123456/ # 
+/ # cat /opt/username 
+admin/ # 
+```  
+
+### ENV SECRETS  
+
++ Un ejemplo de crear un secreto y montarlo como varibale de entorno:  
+```
+# creamos el secreto
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret1
+type: opaque
+stringData:
+  username: admin
+  password: "123456"
+---
+# montamos el secreto
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:alpine
+    env:
+      - name: USERTEST
+        valueFrom:
+          secretKeyRef:
+            name: secret1
+            key: username
+      - name: PASSWORDTEST
+        valueFrom:
+          secretKeyRef:
+            name: secret1
+            key: password
+    volumeMounts:
+    - name: test
+      #donde montamos el secreto
+      mountPath: "/opt"
+      readOnly: true
+  volumes:
+  - name: test
+    secret:
+      secretName: secret1
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel secrets]$ kubectl apply -f pod-vol-env-secret.yaml 
+secret/secret1 created
+pod/mypod created
+[isx46410800@miguel secrets]$ kubectl exec -it mypod -- sh
+/ # ls /opt/
+password  username
+/ # echo $USERTEST $PASSWORDTEST
+admin 123456
+```  
+
+
+## VOLUMES  
+
++ Sirven para persistir data de los container y no se pierdan cuando se borran.  
+
++ Tipos de volumenes:  
+  1. __EMPTYDIR__: es un directorio vacio que se crea cuando se crea el pod. Si se elimina el container se pierde la xixa, pero esta xixa se queda como en un directorio de pod y cuando se crea de nuevo el container, el container puede recuperar esta xixa montandola.  
+  2. __HOSTPATH__: nos ayuda a crear un volumen en el nodo donde corre el pod. Si se elimina el pod no se pierde todo como en el anterior, sino que solo se pierde si se elimina el nodo.  
+  3. __CLOUDVOLS__: en amazon son discos que se llaman EBS y en GCP se llaman PD. Busca el contenido en la nube. Así si se elimina el POD puede construirse de nuevo y la info sigue apuntando en el volumen de la nube.  
+  4. __PV y PVC__: es la reclamación de un PV. El PV contiene un mount y un volume de origen. A través del PVC accedemos al PV, reclamando los recursos que necesita, y éste accede al cloud.  
+  5. __RECLAIM__: un PV se puede hacer un retain(se mantiene la data en el cloud y se ha de crear otro PV vacio para reclamarlo); Recycle(se elimina el contenido del cloud) y Delete(que elimina el pV y la data).  
+
+  

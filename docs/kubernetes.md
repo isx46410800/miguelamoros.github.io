@@ -5203,7 +5203,7 @@ aws-cli/1.18.160 Python/3.6.6 Linux/4.18.19-100.fc27.x86_64 botocore/1.19.0
 ```
 [isx46410800@miguel ingress]$ aws configure
 AWS Access Key ID [None]: AKIA5RIFOUI3OMSWWHNM
-AWS Secret Access Key [None]: 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
+AWS Secret Access Key [None]: xxxx
 Default region name [None]: eu-west-2
 Default output format [None]: 
 ```  
@@ -5233,4 +5233,467 @@ Default output format [None]:
 0.30.0
 ```  
 
-### CREAR CLUSTER AWS EKSCTL
+### CREAR CLUSTER AWS EKSCTL  
+
++ [docs install](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)  
+
++ Creamos cluster master sin nodos:  
+`eksctl create cluster --name test-cluster --without-nodegroup --region eu-west-2 --zones eu-west-2a,eu-west-2b`  
+
++ Vemos lo creado en el apartado [EKS](https://eu-west-2.console.aws.amazon.com/eks/home?region=eu-west-2#/clusters) y [CloudFormation](https://eu-west-2.console.aws.amazon.com/cloudformation/home?region=eu-west-2#/stacks?filteringText=&filteringStatus=active&viewNested=true&hideStacks=false):  
+
+![](./images/kubernetes16.png)  
+![](./images/kubernetes17.png)  
+
++ Eksctl lee de estos archivos para comunicarse:  
+```
+[isx46410800@miguel ~]$ cat .aws/credentials 
+[default]
+aws_access_key_id = AKIA5RIFOUI3OMSWWHNM
+aws_secret_access_key = xxxxx
+[isx46410800@miguel ~]$ cat .aws/config 
+[default]
+region = eu-west-2
+```  
+
++ Al crear el cluster nos crea un directorio `~/.kube/config`  
+
++ Si eliminamos este directorio, como si no lo tuvieramos y nos queremos conectar a este cluster usamos la orden:  
+`aws eks --region eu-west-2 update-kubeconfig --name test-cluster`  
+
++ Ahora si hacemos `kubectl get svc` y `kubectl cluster-info` vemos que estamos conectados y referenciados al cluster de AWS:  
+```
+[isx46410800@miguel ~]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   7m11s
+[isx46410800@miguel ~]$ kubectl cluster-info
+Kubernetes master is running at https://5CE8052655A3A5961205F0A612B79D00.gr7.eu-west-2.eks.amazonaws.com
+CoreDNS is running at https://5CE8052655A3A5961205F0A612B79D00.gr7.eu-west-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```  
+
++ Ahora intentamos crear un POD pero vemos que no se acaba de crear porque no tenemos ningun nodo unido a nuestro CLUSTER:  
+```
+[isx46410800@miguel ~]$ kubectl run pod-test --image=nginx:alpine
+pod/pod-test created
+#
+[isx46410800@miguel ~]$ kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+pod-test   0/1     Pending   0          10s
+#
+[isx46410800@miguel ~]$ kubectl describe pod pod-test
+  Type     Reason            Age   From               Message
+  ----     ------            ----  ----               -------
+  Warning  FailedScheduling  15s   default-scheduler  no nodes available to schedule pods
+```  
+
++ Ahora creamos nodos con eksctl con ami version kubernetes auto y asg access para ser escalable:  
+`eksctl create nodegroup --cluster test-cluster --region eu-west-2 --name test-workers --node-type t3.medium --node-ami auto --nodes 1 --nodes-min 1 --nodes-max 3 --asg-access`  
+
+![](./images/kubernetes18.png)  
+![](./images/kubernetes19.png)  
+
++ Comprobamos que el pod de prueba está ahora running y asignado al nodo creado:  
+```
+[isx46410800@miguel ~]$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-38-128.eu-west-2.compute.internal   Ready    <none>   68s   v1.17.11-eks-cfdc40
+#
+[isx46410800@miguel ~]$ kubectl get pods
+NAME       READY   STATUS    RESTARTS   AGE
+pod-test   1/1     Running   0          6m38s
+#
+[isx46410800@miguel ~]$ kubectl describe pod pod-test
+Name:         pod-test
+Namespace:    default
+Priority:     0
+Node:         ip-192-168-38-128.eu-west-2.compute.internal/192.168.38.128
+```
+
+
+### INGRESS AWS EKS  
+
++ Para exponerlo, crearemos un balanzador de carga, un ingress y un ingress controller.  
+
++ [DOCS](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html) para crear el ingress controller nos dice que nuestro servicio(VPC) tiene que seguir una estructura de tag. Vemos los servicios VPC que se crearon automaticamente al crear el cluster y los nodos.  
+
+![](./images/kubernetes20.png)  
+
++ Las subnets tambien tienen que seguir una estructura de tags. No obstante todos estos pasos al crearlos con EKSCTL ya vienen por defecto.  
+
+![](./images/kubernetes21.png)  
+
++ IAM OIDC 
+
+`eksctl utils associate-iam-oidc-provider --region eu-west-2 --cluster test-cluster --approve`  
+
++ Politica para crear recursos de balanceador de carga:  
+```
+[isx46410800@miguel ~]$ aws iam create-policy \
+>     --policy-name ALBIngressControllerIAMPolicy \
+>     --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/iam-policy.json
+{
+    "Policy": {
+        "PolicyName": "ALBIngressControllerIAMPolicy",
+        "PolicyId": "ANPA5RIFOUI3IFJHOR5SB",
+        "Arn": "arn:aws:iam::930408735286:policy/ALBIngressControllerIAMPolicy",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 0,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "CreateDate": "2020-10-21T17:06:33Z",
+        "UpdateDate": "2020-10-21T17:06:33Z"
+    }
+}
+```  
+
++ Creamos un service account para ingress con un clusterrole y un clusterrolebinding de ingress controller para balanceador de carga:  
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml`  
+
++ Creamos un service account para que nuestro ingress controller sea capaz de crear recursos en AWS:  
+```
+eksctl create iamserviceaccount \
+    --region eu-west-2 \
+    --name alb-ingress-controller \
+    --namespace kube-system \
+    --cluster test-cluster \
+    --attach-policy-arn arn:aws:iam::930408735286:policy/ALBIngressControllerIAMPolicy \
+    --override-existing-serviceaccounts \
+    --approve
+```  
+> La policy la vemos en IAM-POLICIES
+
++ Resumen: creamos un service account que tiene un clusterrolebinding para ver los permisos de ingress y de balanzador de carga, por esto, de este ultimo, creamos una politica para que pueda crear recursos en AWS y en balanceador de carga.  
+
+
+### DEPLOY INGRESS CONTROLLER AWS  
+
++ Creamos un deployment que crea un pod de ingress controller con una imagen de aws ingress controller que lo que hará es que si ve cambios, los modifica en el balanceador de carga:  
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml`  
+
++ Cambiamos unas lineas del deploy:  
+`kubectl edit deployment.apps/alb-ingress-controller -n kube-system`  
+
+```
+spec:
+      containers:
+      - args:
+        - --ingress-class=alb
+        - --cluster-name=test-cluster
+```  
+
++ Comprobamos que esto funciona:  
+```
+[isx46410800@miguel ~]$ kubectl get pods -n kube-system
+NAME                                      READY   STATUS    RESTARTS   AGE
+alb-ingress-controller-868ddb9874-gzsvx   1/1     Running   0          41s
+aws-node-gcd69                            1/1     Running   0          35m
+coredns-6ddcfb5bcf-h7qrx                  1/1     Running   0          48m
+coredns-6ddcfb5bcf-t7wnz                  1/1     Running   0          48m
+kube-proxy-jdnj5                          1/1     Running   0          35m
+```  
+
+### DEPLOY APP  
+
++ Creamos el ejemplo de aplicación que es un juego, creamos un servicio, un deploy y namespaces:  
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel ~]$ kubectl get all -n 2048-game
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/2048-deployment-dd74cc68d-88w46   1/1     Running   0          29s
+pod/2048-deployment-dd74cc68d-gc9pp   1/1     Running   0          29s
+pod/2048-deployment-dd74cc68d-lw72w   1/1     Running   0          29s
+pod/2048-deployment-dd74cc68d-wk8tp   1/1     Running   0          29s
+pod/2048-deployment-dd74cc68d-zlshx   1/1     Running   0          29s
+#
+NAME                   TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+service/service-2048   NodePort   10.100.179.203   <none>        80:30798/TCP   20s
+#
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/2048-deployment   5/5     5            5           30s
+#
+NAME                                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/2048-deployment-dd74cc68d   5         5         5       30s
+```  
+
++ Para comprobar que funciona la app internamente usamos:  
+```
+[isx46410800@miguel ~]$ kubectl port-forward pod/2048-deployment-dd74cc68d-88w46 -n 2048-game 7000:80
+Forwarding from 127.0.0.1:7000 -> 80
+Forwarding from [::1]:7000 -> 80
+```  
+
+![](./images/kubernetes22.png)  
+
+
+### EXPONER LA APP EXTERNAMENTE  
+
++ Enrutamos con el ingress la app:  
+```
+[isx46410800@miguel ~]$ kubectl get ingress -n 2048-game
+NAME           HOSTS   ADDRESS                                                                 PORTS   AGE
+2048-ingress   *       d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com   80      14s
+```  
+
++ Si vamos a nuestro EC2 de amazon. a nuestro balanceador de carga veremos que nos sale la url en la que podemos ir a la aplicación ya que la regla estaba asignada.  
+
+![](./images/kubernetes23.png)  
+
+
+### MODIFICANDO REGLAS INGRESS  
+
++ Vemos que IPs apuntan al balanceador de carga que nos da la url del juego:  
+```
+[isx46410800@miguel ~]$ nslookup d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com
+Server:		192.168.1.1
+Address:	192.168.1.1#53
+Non-authoritative answer:
+Name:	d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com
+Address: 18.134.190.250
+Name:	d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com
+Address: 18.133.107.232
+```  
+
++ Las añadimos a nuestro /etc/hosts:  
+```
+18.134.190.250 app.aws.game.test
+18.133.107.232 app.aws.game.test
+```  
+
++ Cambiamos reglas para que utilicen el nombre y no la ip ni dns:  
+```
+kubectl edit ingress 2048-ingress -n 2048-game
+spec:
+  rules:
+  - host: app.aws.game.test
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: service-2048
+          servicePort: 80
+```  
+> Ahora entraremos solo por nombre  
+
+![](./images/kubernetes24.png)  
+
+
+### BORRAR TODO  
+
++ Borramos todo y vemos que no hay el balanceador de carga:  
+```
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
+```  
+
+![](./images/kubernetes25.png)  
+
+
+### AWS HPA INSTALL  
+
++ HPA(Horizontal Pod Autoescaler) consulta unas metricas y se asocia a un deployment.  
+
++ Basado a unas metricas dice cuanta cantidad de pods creas, segun la carga que se pueda ir soportando. Solo escala por CPU.  
+
++ Se ha de instalar el `Metrics Server`:  
+`kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml`  
+```
+[isx46410800@miguel ~]$ kubectl get deployment metrics-server -n kube-system
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   1/1     1            1           6s
+```  
+
+
+### CREAR UN HPA  
+
++ Ejemplo de una app:  
+```
+[isx46410800@miguel ~]$ kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+deployment.apps/php-apache created
+service/php-apache created
+[isx46410800@miguel ~]$ kubectl get deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+php-apache   0/1     1            0           15s
+[isx46410800@miguel ~]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP   105m
+php-apache   ClusterIP   10.100.137.253   <none>        80/TCP    19s
+[isx46410800@miguel ~]$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+php-apache-79544c9bd9-h2xhh   1/1     Running   0          50s
+```  
+
++ Ahora Escalamos. Esto quiere decir que si la carga pasa del 50% creee pods hasta un maximo de 10 pods:  
+`kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10`  
+
++ Comprobamos con `kubectl get hpa`:  
+```
+[isx46410800@miguel ~]$ kubectl get hpa
+NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+php-apache   Deployment/php-apache   0%/50%    1         10        1          74s
+[isx46410800@miguel ~]$ kubectl get hpa -o yaml
+apiVersion: v1
+items:
+- apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+```  
+
+
+### AUTOESCALAR HPA  
+
++ Nuestra maquina de AWS es un t3.medium y tiene 2 cpus y 4 de ram.  
+
++ Creamos un container y dentro de el le hacemos muchas peticiones, veremos como se va cargando y se van creando pods para balancear esta carga:  
+```
+kubectl run -it --rm load-generator --image=busybox /bin/sh --generator=run-pod/v1
+# while true; do wget -q -O- http://php-apache; done
+```  
+
++ Vemos los pods y los hpa:  
+```
+[isx46410800@miguel ~]$ kubectl get pods -w
+NAME                          READY   STATUS    RESTARTS   AGE
+apache-bench                  1/1     Running   1          21m
+httpd                         1/1     Running   0          2m10s
+load-generator                1/1     Running   0          20s
+php-apache-79544c9bd9-cnq6h   1/1     Running   0          43s
+php-apache-79544c9bd9-xs4tl   0/1     Pending   0          0s
+php-apache-79544c9bd9-xs4tl   0/1     Pending   0          0s
+php-apache-79544c9bd9-ckcgb   0/1     Pending   0          0s
+php-apache-79544c9bd9-m29bz   0/1     Pending   0          0s
+php-apache-79544c9bd9-ckcgb   0/1     Pending   0          0s
+php-apache-79544c9bd9-m29bz   0/1     Pending   0          0s
+php-apache-79544c9bd9-xs4tl   0/1     ContainerCreating   0          0s
+php-apache-79544c9bd9-ckcgb   0/1     ContainerCreating   0          0s
+php-apache-79544c9bd9-m29bz   0/1     ContainerCreating   0          0s
+#
+[isx46410800@miguel ~]$ kubectl get hpa -w
+NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+php-apache   Deployment/php-apache   0%/50%    1         10        1          35m
+php-apache   Deployment/php-apache   54%/50%   1         10        1          35m
+
+php-apache   Deployment/php-apache   250%/50%   1         10        1          36m
+php-apache   Deployment/php-apache   250%/50%   1         10        4          36m
+php-apache   Deployment/php-apache   250%/50%   1         10        5          36m
+php-apache   Deployment/php-apache   74%/50%    1         10        5          37m
+php-apache   Deployment/php-apache   74%/50%    1         10        8          37m
+php-apache   Deployment/php-apache   68%/50%    1         10        8          38m
+php-apache   Deployment/php-apache   68%/50%    1         10        8          39m
+php-apache   Deployment/php-apache   0%/50%     1         10        8          40m
+```  
+
+
+### CLUSTER AUTOSCALER  
+
++ Se dispara cuando el HPA dispara pods y no hay nodos donde colocarlos. Entonces se autoescala en nodos para ponerlos.  
+
++ Se dispara cuando desde fuera se hace un deploy y se llena el nodo. Si se dispara otro deploy, como no hay espacio, el cluster autoescaler crea otro nodo para poner los pods que falten por poner.  
+
++ La politica que se tiene que agregar al cluster de cluster autoscale se crea de por sí cuando creamos el cluster con la herramienta eksctl con la opcion --asg-access.  
+
++ [DOCS autoscaler](https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html)  
+
++ Trabaja como otro pod corriendo en mi cluster.  
+
++ Lo desplegamos:  
+```
+[isx46410800@miguel ~]$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+serviceaccount/cluster-autoscaler created
+clusterrole.rbac.authorization.k8s.io/cluster-autoscaler created
+role.rbac.authorization.k8s.io/cluster-autoscaler created
+clusterrolebinding.rbac.authorization.k8s.io/cluster-autoscaler created
+rolebinding.rbac.authorization.k8s.io/cluster-autoscaler created
+deployment.apps/cluster-autoscaler created
+#
+[isx46410800@miguel ~]$ kubectl get deploy -n kube-system
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+alb-ingress-controller   1/1     1            1           5h18m
+cluster-autoscaler       1/1     1            1           13s
+coredns                  2/2     2            2           6h2m
+metrics-server           1/1     1            1           4h25m
+```  
+
++ Editamos el deploy:  
+```
+kubectl -n kube-system edit deploy cluster-autoscaler
+- --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/test-cluster
+- --balance-similar-node-groups
+- --skip-nodes-with-system-pods=false
+```  
+
++ Borramos el HPA para que no haya conflictos.
+
++ Editamos el deploy y ponemos 3 replicas:
+```
+[isx46410800@miguel ~]$ kubectl get deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+php-apache   1/1     1            1           3h55m
+[isx46410800@miguel ~]$ kubectl edit deploy php-apache
+deployment.apps/php-apache edited
+#
+[isx46410800@miguel ~]$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+php-apache-79544c9bd9-6zqcc   1/1     Running   0          5s
+php-apache-79544c9bd9-cnq6h   1/1     Running   0          3h56m
+php-apache-79544c9bd9-pfsrq   1/1     Running   0          5s
+```
+
++ Si editamos el deploy y añadimos mas replicas, veremos que se nos crean varias maquinas, varios nodes.  
+`kubectl edit deploy php-apache`  
+
++ Comprobamos:
+```
+[isx46410800@miguel ~]$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+php-apache-79544c9bd9-5slhp   1/1     Running   0          114s
+php-apache-79544c9bd9-6zqcc   1/1     Running   0          6m59s
+php-apache-79544c9bd9-cnq6h   1/1     Running   0          4h3m
+php-apache-79544c9bd9-dlmrz   1/1     Running   0          114s
+php-apache-79544c9bd9-dq8f2   1/1     Running   0          3m29s
+php-apache-79544c9bd9-hbxnr   1/1     Running   0          3m29s
+php-apache-79544c9bd9-n594l   1/1     Running   0          114s
+php-apache-79544c9bd9-pfsrq   1/1     Running   0          6m59s
+php-apache-79544c9bd9-pv5cl   1/1     Running   0          114s
+php-apache-79544c9bd9-pzz4w   1/1     Running   0          114s
+php-apache-79544c9bd9-x4czh   1/1     Running   0          4m19s
+php-apache-79544c9bd9-zm7fj   1/1     Running   0          114s
+#
+[isx46410800@miguel ~]$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-22-127.eu-west-2.compute.internal   Ready    <none>   41s     v1.17.11-eks-cfdc40
+ip-192-168-38-128.eu-west-2.compute.internal   Ready    <none>   6h11m   v1.17.11-eks-cfdc40
+```  
+
+![](./images/kubernetes26.png)  
+![](./images/kubernetes27.png)  
+
++ Ahora comprobamos que cuando no usa un nodo, el autoscale lo elimine automaticamente y va pasando pods a un solo nodo y dejar el minimo de maquinas running:  
+```
+[isx46410800@miguel ~]$ kubectl edit deploy php-apache
+deployment.apps/php-apache edited
+#
+[isx46410800@miguel ~]$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+php-apache-79544c9bd9-5slhp   1/1     Running   0          5m47s
+php-apache-79544c9bd9-dlmrz   1/1     Running   0          5m47s
+php-apache-79544c9bd9-n594l   1/1     Running   0          5m47s
+php-apache-79544c9bd9-pv5cl   1/1     Running   0          5m47s
+php-apache-79544c9bd9-pzz4w   1/1     Running   0          5m47s
+#
+[isx46410800@miguel ~]$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-38-128.eu-west-2.compute.internal   Ready    <none>   6h14m   v1.17.11-eks-cfdc40
+```  
+
+
+### ELIMINAMOS TODO DE LA NUBE  
+
++ Vamos a AWS - CLOUD FORMATION y eliminamos todo.  

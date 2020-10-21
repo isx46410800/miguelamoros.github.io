@@ -3309,3 +3309,1928 @@ admin 123456
   5. __RECLAIM__: un PV se puede hacer un retain(se mantiene la data en el cloud y se ha de crear otro PV vacio para reclamarlo); Recycle(se elimina el contenido del cloud) y Delete(que elimina el pV y la data).  
 
   
+
+### EMPTYDIR  
+
++ Si creamos un pod solo y lo reiniciamos, el contenido creado dentro se pierde.  
+
++ Si creamos un pod con un volume emptydir, cuando se reinicia el contenedor, seguimos manteniendo la xixa dentro, ya que _emptydir_ te crea un directorio a la altura del pod con la xixa del contenedor.  
+
++ Solo si se elimina el pod es cuando perdemos este directorio y por tanto la xixa.  
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test2
+spec:
+  containers:
+    - name: cont-emptydir
+      image: nginx:alpine
+      volumeMounts:
+        - name: vol-emptydir
+          mountPath: var/log/nginx
+  volumes:
+  - name: vol-emptydir
+    emptyDir: {}
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel volumes]$ kubectl apply -f emptydir.yaml 
+pod/pod-test2 created
+#
+[isx46410800@miguel volumes]$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test2   1/1     Running   0          5s
+#
+[isx46410800@miguel volumes]$ kubectl exec -it pod-test2 -- sh
+#
+/ # touch /var/log/nginx/empytdir.txt
+#
+/ # ps aix
+PID   USER     TIME  COMMAND
+    1 root      0:00 nginx: master process nginx -g daemon off;
+   29 nginx     0:00 nginx: worker process
+   30 nginx     0:00 nginx: worker process
+   31 nginx     0:00 nginx: worker process
+   32 nginx     0:00 nginx: worker process
+   33 root      0:00 sh
+   39 root      0:00 ps aix
+/ # pkill nginx
+/ # command terminated with exit code 137
+#
+[isx46410800@miguel volumes]$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test2   1/1     Running   1          47s
+#
+[isx46410800@miguel volumes]$ kubectl exec -it pod-test2 -- sh
+/ # ls /var/log/nginx/
+access.log    empytdir.txt  error.log
+/ # 
+```  
+
+
+### HOSTPATH-PV  
+
++ En el hostpath la carpeta con el contenido se guarda en altura de nodo.  
++ El pv es el trozo de hardware que se crea con recursos indicados. Es el disco de recursos y se guarda la xixa en este caso en hostpath que es una carpeta.   
+
++ Ejemplo:  
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/test" # donde esta el storage real d mi pv
+```
+
++ Comprobar con `kubectl get pv` y `kubectl describe pv pvName`:  
+```
+[isx46410800@miguel volumes]$ kubectl get pv --show-labels
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE   LABELS
+task-pv-volume   10Gi       RWO            Retain           Available           manual                  18s   type=local
+#
+[isx46410800@miguel volumes]$ kubectl describe pv task-pv-volume
+Name:            task-pv-volume
+Labels:          type=local
+Annotations:     <none>
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    manual
+Status:          Available
+Claim:           
+Reclaim Policy:  Retain
+Access Modes:    RWO
+VolumeMode:      Filesystem
+Capacity:        10Gi
+Node Affinity:   <none>
+Message:         
+Source:
+    Type:          HostPath (bare host directory volume)
+    Path:          /test
+    HostPathType:  
+Events:            <none>
+```  
+
+### PVC  
+
++ El PVC sirve para reclamar el espacio necesario para nuestro PV que queremos crear.  
+
++ Cuando no se especifica el PV a unirse, el PVC reclama un PV que reuna las caracteristicas que se indican.  
+
++ Ejemplo:  
+```
+# PV
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/test" # donde esta el storage real d mi pv
+---
+# PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel volumes]$ kubectl get pvc
+NAME            STATUS   VOLUME           CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+task-pv-claim   Bound    task-pv-volume   10Gi       RWO            manual         5s
+#
+[isx46410800@miguel volumes]$ kubectl get pv
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                   STORAGECLASS   REASON   AGE
+task-pv-volume   10Gi       RWO            Retain           Bound    default/task-pv-claim   manual                  5m14s
+```  
+> El estado ahora del PV es `bound` que significa que se ha unido a un PVC.  
+
+
+### PVC-PV  
+
++ Para unir un PVC a un PV concreto, se hace con selectors.  
+
++ Ejemplo:  
+```
+# PV
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/test" # donde esta el storage real d mi pv
+---
+# PV con selector para un PVC concreto
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume2
+  labels:
+    mysql: ready
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mysql" # donde esta el storage real d mi pv
+---
+# PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+        mysql: ready
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel volumes]$ kubectl apply -f pv-pvc.yaml 
+persistentvolume/task-pv-volume created
+persistentvolume/task-pv-volume2 created
+persistentvolumeclaim/task-pv-claim created
+#
+[isx46410800@miguel volumes]$ kubectl get pvc
+NAME            STATUS   VOLUME            CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+task-pv-claim   Bound    task-pv-volume2   10Gi       RWO            manual         3s
+#
+[isx46410800@miguel volumes]$ kubectl get pv --show-labels
+NAME              CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                   STORAGECLASS   REASON   AGE   LABELS
+task-pv-volume    10Gi       RWO            Retain           Available                           manual                  19s   type=local
+task-pv-volume2   10Gi       RWO            Retain           Bound       default/task-pv-claim   manual                  19s   mysql=ready
+```  
+> Vemos que se ha unido el PV2 con el PVC como indicamos en los selector.  
+
+
+
+### PVC-PODS  
+
++ De esta manera sin indicar en el POD los volumenes, no persiste la información. Por ejemplo si creamos una base de datos y eliminamos el POD, el nuevo pod no tendrá esa base de datos:  
+```
+# PV
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+  labels:
+    mysql: ready
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mysql" # donde esta el storage real d mi pv
+---
+# PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+        mysql: ready
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  annotations:
+    kubernetes.io/change-cause: "new version nginx"
+  labels:
+    app: mysql
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "12345678"
+```  
++ Ahora lo creamos con volumenes para que persista la data:  
+```
+# PV
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+  labels:
+    mysql: ready
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mysql" # donde esta el storage real d mi pv
+---
+# PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+        mysql: ready
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  annotations:
+    kubernetes.io/change-cause: "new version nginx"
+  labels:
+    app: mysql
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "12345678"
+        volumeMounts: # montamos dentro del contenedor, lo que queremos guardar
+          - mountPath: "/var/lib/mysql"
+            name: vol-mysql
+      volumes:
+        - name: vol-mysql
+          persistentVolumeClaim:
+            claimName: test-pvc
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel volumes]$ kubectl apply -f pod-pvc-volumen.yaml 
+persistentvolume/test-pv created
+persistentvolumeclaim/test-pvc created
+deployment.apps/mysql created
+#
+[isx46410800@miguel volumes]$ kubectl get pvc
+NAME       STATUS   VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+test-pvc   Bound    test-pv   10Gi       RWO            manual         7s
+#
+[isx46410800@miguel volumes]$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM              STORAGECLASS   REASON   AGE
+test-pv   10Gi       RWO            Retain           Bound    default/test-pvc   manual                  9s
+#
+[isx46410800@miguel volumes]$ kubectl get rs
+NAME               DESIRED   CURRENT   READY   AGE
+mysql-555cf6cd95   1         1         1       16s
+[isx46410800@miguel volumes]$ kubectl get deploy
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+mysql   1/1     1            1           19s
+#
+[isx46410800@miguel volumes]$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-555cf6cd95-nj8xd   1/1     Running   0          22s
+#
+[isx46410800@miguel volumes]$ kubectl describe pv test-pv
+Name:            test-pv
+Labels:          mysql=ready
+Annotations:     pv.kubernetes.io/bound-by-controller: yes
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    manual
+Status:          Bound
+Claim:           default/test-pvc
+Reclaim Policy:  Retain
+Access Modes:    RWO
+VolumeMode:      Filesystem
+Capacity:        10Gi
+Node Affinity:   <none>
+Message:         
+Source:
+    Type:          HostPath (bare host directory volume)
+    Path:          /mysql
+    HostPathType:  
+Events:            <none>
+```  
+
++ Vemos que persiste la data creada en el pod original y al eliminarlo y crear otro está la bbdd creada de antes:  
+```
+[isx46410800@miguel volumes]$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-555cf6cd95-nj8xd   1/1     Running   0          56m
+#
+[isx46410800@miguel volumes]$ kubectl delete pod mysql-555cf6cd95-nj8xd
+pod "mysql-555cf6cd95-nj8xd" deleted
+#
+[isx46410800@miguel volumes]$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-555cf6cd95-6ns2n   1/1     Running   0          12s
+#
+[isx46410800@miguel volumes]$ kubectl exec -it mysql-555cf6cd95-6ns2n -- sh
+# mysql -u root -p12345678
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+mysql> 
+```  
+
+### CLOUD VOLUMES  
+
++ Son los storages que estan en la nube.  
+
++ Son de provisionamiento dinámico, no hace falta crear manualmente el PV para unirlo al PVC.  
+
++ Para verlos se usa `kubectl get sc|storageclass`, por defecto en minikube es el _standard_:  
+```
+[isx46410800@miguel volumes]$ kubectl get sc
+NAME                 PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  7d18h
+```  
+
++ Creamos un PVC con cloud:  
+```
+# PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sc-pvc
+spec:
+  #storageClassName: standard(por defecto)  
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel volumes]$ kubectl get sc
+NAME                 PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  7d18h
+#
+[isx46410800@miguel volumes]$ kubectl get pvc
+NAME       STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+sc-pvc     Bound    pvc-61def8c2-64a3-4f88-a7f1-e1572b1477f8   20Gi       RWO            standard       11s
+test-pvc   Bound    test-pv                                    10Gi       RWO            manual         67m
+#
+[isx46410800@miguel volumes]$ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM              STORAGECLASS   REASON   AGE
+pvc-61def8c2-64a3-4f88-a7f1-e1572b1477f8   20Gi       RWO            Delete           Bound    default/sc-pvc     standard                14s
+test-pv                                    10Gi       RWO            Retain           Bound    default/test-pvc   manual                  67m
+```  
+> Crea dinamicamente un PV al PVC.  
+
+
+### RECLAIM POLICY  
+
++ Por defecto, si creamos un PVC manualmente es `retain` y si lo creamos dinamicamente es `delete`.  
+
++ Si es retain y eliminamos el PVC, el PV se mantiene vivo con la xixa dentro.  
+
++ Para cambiar el estado del reclaim policy se usa `kubectl edit pv pvName` y lo cambiamos a recycle.  
+
++ El `kubectl edit cualquiercosa` se pueda usar para editar la gran mayoria de cosas.  
+
++ __RECLAIM__: un PV se puede hacer un retain(se mantiene la data en el cloud y se ha de crear otro PV vacio para reclamarlo); Recycle(se elimina el contenido del cloud) y Delete(que elimina el pV y la data).  
+
+
+
+## USERS/GROUPS RBAC  
+
++ RBAC(Role Base Access Control) control basado en roles.  
+
++ Nos permite dar/crear ciertos permisos para usuarios mediante roles.  
+
++ En un role definimos reglas que se enlazarán a usuarios para lo que puedan hacer en el cluster.  
+
+
+### ROLES vs CLUSTERROLES  
+
++ En un role se definen Resources(objetos) y Verbs(acciones) especificando el namespace.  
+
++ El clusterRole es lo mismo pero sin definir ningun namespace, por lo tanto, se podrá conectar a todo.  
+
+
+### ROLEBINDING vs CLUSTERROLEBINDING  
+
++ Son otro documento YAML en el que se espeficia el ROLE y el subject, es decir, usuarios,grupos o service account que enlazarán este role con el sujeto que lo utilizará.  
+
+
+### CREAR USERS & GROUPS  
+
++ Se basa en la autenticación de certificados para la C.A(Certification Authority) de kubernetes.  
+
++ Se necesita:  
+  - Creamos el certificado
+  - Creamos el file de petición de firma CSR. El CommonName y Organization serán el user y el group.
+  - La firma
+  - Kubectl
+
+`PASOS: CREAMOS CERTIFICADOS DE UN USER/GROUP`  
++ Creamos las keys:  
+`openssl genrsa -out miguel.key 2048`  
+
++ Creamos el certificado pasando la key e indicando el nombre de user CN y el grupo O:  
+`openssl req -new -key miguel.key -out miguel.csr -subj "/CN=miguel/O=dev"`  
+
++ Vemos nuestro CA con `kubectl config view` para poder firmar nuestro certificado:  
+```
+[isx46410800@miguel rbac]$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/isx46410800/.minikube/ca.crt
+    server: https://172.17.0.2:8443
+```  
+
++ Lo firmamos:  
+`sudo openssl x509 -req -in miguel.csr -CA /home/isx46410800/.minikube/ca.crt -CAkey /home/isx46410800/.minikube/ca.key -CAcreateserial -out miguel.crt -days 500`  
+```
+[isx46410800@miguel rbac]$ sudo openssl x509 -req -in miguel.csr -CA /home/isx46410800/.minikube/ca.crt -CAkey /home/isx46410800/.minikube/ca.key -CAcreateserial -out miguel.crt -days 500
+[sudo] password for isx46410800: 
+Signature ok
+subject=CN = miguel, O = dev
+Getting CA Private Key
+``` 
+
++ Comprobamos el certificado:  
+`openssl x509 -in  miguel.crt  -noout -text`  
+```
+[isx46410800@miguel rbac]$ openssl x509 -in  miguel.crt  -noout -text
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number:
+            a5:c7:06:8f:8f:4c:ec:4e
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN = minikubeCA
+        Validity
+            Not Before: Oct 19 17:28:14 2020 GMT
+            Not After : Mar  3 17:28:14 2022 GMT
+        Subject: CN = miguel, O = dev
+```  
+
+`PASOS: CREAMOS UN CONTAINER DE PRUEBA`  
++ Configuramos kubectl en modo de prueba en un container, creando un contexto nuevo a través de mis credenciales y mis llaves/certificados:  
+```
+kubectl config view  | grep server
+docker run --rm -ti -v $PWD:/test -w /test  -v /home/isx46410800/.minikube/ca.crt:/ca.crt -v /usr/bin/kubectl:/usr/bin/kubectl alpine sh
+```  
+
++ Configuramos el kubectl con el usuario CN indicado(miguel):  
+`kubectl config set-cluster minikube --server=https://172.17.0.2:8443 --certificate-authority=/ca.crt`  
+`kubectl config set-credentials miguel --client-certificate=miguel.crt --client-key=miguel.key`  
+`kubectl config set-context miguel --cluster=minikube --user=miguel`  
+`kubectl config use-context miguel`  
+
++ Comprobamos lo creado con `kubectl config view`:  
+```
+/test # kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /ca.crt
+    server: https://172.17.0.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: miguel
+  name: miguel
+current-context: miguel
+kind: Config
+preferences: {}
+users:
+- name: miguel
+  user:
+    client-certificate: /test/miguel.crt
+    client-key: /test/miguel.key
+#
+/test # kubectl config current-context
+miguel
+```  
+
++ Vemos que como usuario nuevo y sin tener ningun RBAC asignado, que no tenemos permisos para ver pods ni nada de objetos:  
+```
+/test # kubectl get pods
+Error from server (Forbidden): pods is forbidden: User "miguel" cannot list resource "pods" in API group "" in the namespace "default"
+```  
+
+
+### HABILITAR RBAC  
+
++ Vemos si está:  
+```
+[isx46410800@miguel rbac]$ kubectl cluster-info dump | grep autho
+"--authorization-mode=Node,RBAC",
+```  
+
++ Sino, lo habitamos así:  
+`minikube start --vm-driver=none  --extra-config=apiserver.authorization-mode=RBAC`  
+
+
+### SIMPLIFICAMOS CONTEXTO  
+
++ Ahora lo hacemos en real y así simplificamos trabajo y ordenes en nuestro contexto creado:  
+```
+kubectl config set-cluster minikube --server=https://172.17.0.2:8443 --certificate-authority=/ca.crt
+kubectl config set-credentials miguel --client-certificate=miguel.crt --client-key=miguel.key
+kubectl config set-context miguel --cluster=minikube --user=miguel
+kubectl config use-context miguel
+```  
+
+
+### CREAR ROLES  
+
++ Ejemplo:  
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+```
+
++ Comprobamos `kubectl get roles`:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f miguel-pods.yaml
+role.rbac.authorization.k8s.io/pod-reader created
+#
+[isx46410800@miguel rbac]$ kubectl get roles -n default
+NAME         CREATED AT
+pod-reader   2020-10-19T18:01:37Z
+#
+[isx46410800@miguel rbac]$ kubectl describe role pod-reader -n default
+Name:         pod-reader
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+  pods       []                 []              [get watch list]
+```  
+> No podemos hacer con el usuario miguel kubectl get pods porque todavia no está enlazado el role con el user.
+
+
+### ENLAZAR ROLE & USER  
+
++ Para ver el tipo de `api groups` recordamos que es mirando `kubectl api-resources`  
+
++ Verbs o acciones que se pueden hacer:   
+  - GET
+  - LIST
+  - WATCH
+  - DELETE
+  - UPDATE
+  - PATCH
+
++ Hacemos el RoleBinding de enlazar el role con el user creado:  
+```
+# CREAR ROLE
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+---
+# ROLEBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: miguel # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos lo creado con `kubectl get rolebinding`:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f miguel-pods.yaml 
+role.rbac.authorization.k8s.io/pod-reader unchanged
+rolebinding.rbac.authorization.k8s.io/read-pods created
+#
+[isx46410800@miguel rbac]$ kubectl get roles
+NAME         CREATED AT
+pod-reader   2020-10-19T18:01:37Z
+#
+[isx46410800@miguel rbac]$ kubectl get rolebinding
+NAME        ROLE              AGE
+read-pods   Role/pod-reader   21s
+#
+[isx46410800@miguel rbac]$ kubectl describe rolebinding read-pods
+Name:         read-pods
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  Role
+  Name:  pod-reader
+Subjects:
+  Kind  Name    Namespace
+  ----  ----    ---------
+  User  miguel  
+```  
+
++ Comprobamos ahora con el usuario `miguel` sí puedo hacer esas acciones que antes no me dejaban(este caso con pods). Eso sí, unicamente en el namespace por default que fue el que indicamos:  
+```
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get pods
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get pods -n ci
+Error from server (Forbidden): pods is forbidden: User "miguel" cannot list resource "pods" in API group "" in the namespace "ci"
+#
+[isx46410800@miguel rbac]$ kubectl get rs
+Error from server (Forbidden): replicasets.apps is forbidden: User "miguel" cannot list resource "replicasets" in API group "apps" in the namespace "default"
+#
+[isx46410800@miguel rbac]$ kubectl get svc
+Error from server (Forbidden): services is forbidden: User "miguel" cannot list resource "services" in API group "" in the namespace "default"
+``` 
+
++ Ahora creamos otro role con que también podamos ver deploys. Para ver el tipo de `api groups` recordamos que es mirando `kubectl api-resources`:  
+```
+# CREAR ROLE
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-deploy-reader #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+- apiGroups: ["apps"] # "" indicates the core API group
+  resources: ["deployments"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+---
+# ROLEBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-deploy-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: miguel # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: pod-deploy-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f miguel-deploy-pods.yaml 
+role.rbac.authorization.k8s.io/pod-deploy-reader created
+rolebinding.rbac.authorization.k8s.io/read-deploy-pods created
+#
+[isx46410800@miguel rbac]$ kubectl get roles
+NAME                CREATED AT
+pod-deploy-reader   2020-10-19T18:20:23Z
+pod-reader          2020-10-19T18:01:37Z
+#
+[isx46410800@miguel rbac]$ kubectl get rolebinding
+NAME               ROLE                     AGE
+read-deploy-pods   Role/pod-deploy-reader   14s
+read-pods          Role/pod-reader          10m
+#
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get pods
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get deploy
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get svc
+Error from server (Forbidden): services is forbidden: User "miguel" cannot list resource "services" in API group "" in the namespace "default"
+#             
+[isx46410800@miguel rbac]$ kubectl apply -f ../pods/pod-2containers.yaml 
+Error from server (Forbidden): error when creating "../pods/pod-2containers.yaml": pods is forbidden: User "miguel" cannot create resource "pods" in API group "" in the namespace "default"
+```  
+
+### CONFIG MAPS  
+
++ Un ejemplo de crear un namespace y un configmaps y que el usuario pueda moverse en estos objetos:  
+```
+# CREAR NAMESPACE
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+# CREAR ROLE
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: cm-role #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["configmaps"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+---
+# ROLEBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cm-role
+  namespace: dev
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: miguel # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: cm-role # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+---
+# CREAR CONFIGMAP
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dev
+  name: vars
+  labels:
+    app: front
+data:
+  db_host: dev.host.local
+  db_user: dev_user
+```  
+
++ Comprobamos resultados:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f configmap-role.yaml 
+namespace/dev created
+role.rbac.authorization.k8s.io/cm-role created
+rolebinding.rbac.authorization.k8s.io/cm-role created
+configmap/vars created
+#
+[isx46410800@miguel rbac]$ kubectl get roles -n dev
+NAME      CREATED AT
+cm-role   2020-10-19T18:35:07Z
+#
+[isx46410800@miguel rbac]$ kubectl get rolebinding -n dev
+NAME      ROLE           AGE
+cm-role   Role/cm-role   27s
+#
+[isx46410800@miguel rbac]$ kubectl describe role cm-role -n dev
+Name:         cm-role
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources   Non-Resource URLs  Resource Names  Verbs
+  ---------   -----------------  --------------  -----
+  configmaps  []                 []              [get watch list]
+#
+[isx46410800@miguel rbac]$ kubectl describe rolebinding cm-role -n dev
+Name:         cm-role
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  Role
+  Name:  cm-role
+Subjects:
+  Kind  Name    Namespace
+  ----  ----    ---------
+  User  miguel  
+#
+[isx46410800@miguel rbac]$ kubectl get cm -n dev
+NAME   DATA   AGE
+vars   2      43s
+```  
+
++ Como usuario miguel:  
+```
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get cm
+Error from server (Forbidden): configmaps is forbidden: User "miguel" cannot list resource "configmaps" in API group "" in the namespace "default"
+#
+[isx46410800@miguel rbac]$ kubectl get cm -n dev
+NAME   DATA   AGE
+vars   2      2m50s
+#
+[isx46410800@miguel rbac]$ kubectl edit cm vars
+Error from server (Forbidden): configmaps "vars" is forbidden: User "miguel" cannot get resource "configmaps" in API group "" in the namespace "default"
+#
+[isx46410800@miguel rbac]$ kubectl edit cm vars -n dev
+error: configmaps "vars" could not be patched: configmaps "vars" is forbidden: User "miguel" cannot patch resource "configmaps" in API group "" in the namespace "dev"
+You can run `kubectl replace -f /tmp/kubectl-edit-jum69.yaml` to try this update again.
+```  
+
+
+### CREAR CLUSTEROLE  
+
++ Creamos un clusterRole teniendo en cuenta que aquí no se ponen namespaces:  
+```
+# CREAR ROLE
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-pod-reader #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+---
+# CLUSTERBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-pod-reader
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: miguel # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: cluster-pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos con el usuario miguel:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f clusterrole-miguel.yaml 
+role.rbac.authorization.k8s.io/cluster-pod-reader created
+rolebinding.rbac.authorization.k8s.io/cluster-pod-reader created
+#
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get pods -n dev
+No resources found in dev namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get pods -n ci
+No resources found in ci namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get pods
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get pods -n kube-system
+NAME                               READY   STATUS    RESTARTS   AGE
+coredns-f9fd979d6-lgrd4            1/1     Running   0          49m
+etcd-minikube                      1/1     Running   0          49m
+kube-apiserver-minikube            1/1     Running   0          49m
+kube-controller-manager-minikube   1/1     Running   0          49m
+kube-proxy-22t6g                   1/1     Running   0          49m
+kube-scheduler-minikube            1/1     Running   0          49m
+storage-provisioner                1/1     Running   0          50m
+```
+
+
+### CREAR USER ADMIN  
+
++ Miramos los clusteroles que hay con `kubectl get clusterroles` y vemos el de `cluster-admin`:  
+```
+[isx46410800@miguel rbac]$ kubectl get clusterroles
+NAME                                                                   CREATED AT
+admin                                                                  2020-10-19T18:00:44Z
+cluster-admin                                                          2020-10-19T18:00:44Z
+cluster-pod-reader                                                     2020-10-19T18:50:22Z
+edit                                                                   2020-10-19T18:00:44Z
+kubeadm:get-nodes                                                      2020-10-19T18:00:48Z
+system:aggregate-to-admin                                              2020-10-19T18:00:44Z
+system:aggregate-to-edit                                               2020-10-19T18:00:44Z
+system:aggregate-to-view                                               2020-10-19T18:00:44Z
+```  
+
++ Creamos un cluster-admin enlazando solo al usuario miguel al grupo:  
+```
+# CLUSTERBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-admin-miguel
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: miguel # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: cluster-admin # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos ahora que como usuario miguel podemos hacer de todo y ver de todo:  
+```
+[isx46410800@miguel rbac]$ kubectl apply -f cluster-admin.yaml 
+clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-miguel created
+#
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get pods
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get cm
+No resources found in default namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get cm -n dev
+NAME   DATA   AGE
+vars   2      24m
+#
+[isx46410800@miguel rbac]$ kubectl get roles
+NAME                CREATED AT
+pod-deploy-reader   2020-10-19T18:20:23Z
+pod-reader          2020-10-19T18:01:37Z
+#
+[isx46410800@miguel rbac]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   59m
+```  
+
+### ROLES A GRUPOS  
+
++ Veremos como crear un grupo y como asignar roles a grupos.  
+
++ Creamos un nuevo usuario como miguel pero ahora como juan:
+```  
+[isx46410800@miguel rbac]$ kubectl config get-contexts
+CURRENT   NAME         CLUSTER    AUTHINFO   NAMESPACE
+          ci-context   minikube   minikube   ci
+          juan         minikube   juan       
+          miguel       minikube   miguel     
+*         minikube     minikube   minikube 
+```  
+
++ Creamos un clusterrole para el grupo dev y que pueda hacer todo en servicios:  
+```
+# CREAR CLUSTERROLE
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: svc-clusterrole #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services"] #objetos
+  verbs: ["*"] # acciones
+---
+# CLUSTERBINDING-ENLAZAR ROLE-USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-svc
+subjects:
+# You can specify more than one "subject"
+- kind: Group
+  name: dev # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: svc-clusterrole # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos como juan y miguel podemos ver todo de services:  
+```
+[isx46410800@miguel rbac]$ kubectl get clusterroles
+NAME                                                                   CREATED AT
+admin                                                                  2020-10-19T18:00:44Z
+cluster-admin                                                          2020-10-19T18:00:44Z
+cluster-pod-reader                                                     2020-10-19T18:50:22Z
+edit                                                                   2020-10-19T18:00:44Z
+kubeadm:get-nodes                                                      2020-10-19T18:00:48Z
+svc-clusterrole                                                        2020-10-19T19:09:44Z
+#
+[isx46410800@miguel rbac]$ kubectl config use-context juan
+Switched to context "juan".
+#
+[isx46410800@miguel rbac]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   70m
+#
+[isx46410800@miguel rbac]$ kubectl get svc -n dev
+No resources found in dev namespace.
+#
+[isx46410800@miguel rbac]$ kubectl config use-context miguel
+Switched to context "miguel".
+#
+[isx46410800@miguel rbac]$ kubectl get svc -n dev
+No resources found in dev namespace.
+#
+[isx46410800@miguel rbac]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   70m
+```  
+
+## SERVICES ACCOUNT  
+
++ Tiene un token que lo crea kubernetes. Cada pod tiene asociado un service account.  
+
++ El pod quiere preguntar el estado de otros pods; pregunta a la API y este se conecta con el token del Service Acount en el cual se ha dado un role y un rolebinding para poder acceder a esta petición.  
+
++ Todos los namespaces tienen un service account por defecto.  
+
++ Lo podemos ver con `kubectl get serviceaccount`:  
+```
+[isx46410800@miguel services_account]$ kubectl get sa
+NAME      SECRETS   AGE
+default   1         23h
+[isx46410800@miguel services_account]$ kubectl get serviceaccount
+NAME      SECRETS   AGE
+default   1         23h
+[isx46410800@miguel services_account]$ kubectl get serviceaccount -n default
+NAME      SECRETS   AGE
+default   1         23h
+```  
+
++ Lo exploramos y vemos que tienen el token que se crea del SA por cada namespace:  
+```
+[isx46410800@miguel services_account]$ kubectl describe sa default
+Name:                default
+Namespace:           default
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   default-token-6ccpr
+Tokens:              default-token-6ccpr
+Events:              <none>
+```  
+```
+[isx46410800@miguel services_account]$ kubectl get sa default -o yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: "2020-10-19T18:00:54Z"
+  name: default
+  namespace: default
+  resourceVersion: "346"
+  selfLink: /api/v1/namespaces/default/serviceaccounts/default
+  uid: 562a0b3d-1696-4b4e-b6cc-42b895f3a19b
+secrets:
+- name: default-token-6ccpr
+```  
+
+### SECRET SA  
+
++ Vemos que el token de un SA es un secreto y lo podemos investigar `kubectl get secret TOKEN`:  
+```
+[isx46410800@miguel services_account]$ kubectl get secret
+NAME                  TYPE                                  DATA   AGE
+default-token-6ccpr   kubernetes.io/service-account-token   3      23h
+[isx46410800@miguel services_account]$ kubectl get secret default-token-6ccpr -o yaml
+...
+```  
+> El token contiene el certificado de kubernetes, la llave publica y el contenido del namespace, seervica account,etc
+
+
+### CREAR SA  
+
++ Ejemplo de crear un service account:  
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-sa
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel services_account]$ kubectl apply -f sa.yaml 
+serviceaccount/my-sa created
+[isx46410800@miguel services_account]$ kubectl get serviceaccount
+NAME      SECRETS   AGE
+default   1         23h
+my-sa     1         6s
+[isx46410800@miguel services_account]$ kubectl describe sa my-sa
+Name:                my-sa
+Namespace:           default
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   my-sa-token-5lv4s
+Tokens:              my-sa-token-5lv4s
+Events:              <none>
+[isx46410800@miguel services_account]$ kubectl get sa my-sa -o yaml
+apiVersion: v1
+kind: ServiceAccount
+secrets:
+- name: my-sa-token-5lv4s
+```  
+
+### RELACION POD-SA  
+
++ Cuando creamos un pod sin especificar un SA, se asigna al por defecto:  
+```
+[isx46410800@miguel services_account]$ kubectl apply -f ../pods/pod-2containers.yaml 
+pod/pod-test2 created
+[isx46410800@miguel services_account]$ kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+pod-test2   2/2     Running   0          29s
+[isx46410800@miguel services_account]$ kubectl get pods pod-test2 -o yaml
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-6ccpr
+    secret:
+      defaultMode: 420
+      secretName: default-token-6ccpr
+```  
+
++ Dentro del pod podemos encontrar la info del SA y su token en:  
+`/var/run/secrets/kubernetes.io/serviceaccount/`  
+
+
+### REQUESTS  
+
++ A través del servicio de kubernetes podemos llamar a objetos a través de la api de kubernetes sin pasar por el comando kubectl:  
+```
+[isx46410800@miguel services_account]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   23h
+```  
+
++ Podemos hacer request a la api con esta [DOCS](https://v1-15.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.15/#-strong-read-operations-pod-v1-core-strong-) como por ejemplo querer listar los pods del namespace por defecto:  
+`/api/v1/namespaces/{namespace}/pods/{name}`  
+
+```
+[isx46410800@miguel services_account]$ kubectl apply -f ../pods/pod-labels.yaml 
+pod/pod-test2 created
+pod/pod-test3 created
+[isx46410800@miguel services_account]$ kubectl exec -it pod-test2 -- sh
+/ # apk add curl
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
+OK: 25 MiB in 42 packages
+/ # curl /api/v1/namespaces/default/pods
+curl: (3) URL using bad/illegal format or missing URL
+/ # curl https://10.96.0.1/api/v1/namespaces/default/pods --insecure
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {
+    
+  },
+  "status": "Failure",
+  "message": "pods is forbidden: User \"system:anonymous\" cannot list resource \"pods\" in API group \"\" in the namespace \"default\"",
+  "reason": "Forbidden",
+  "details": {
+    "kind": "pods"
+  },
+  "code": 403
+}/ # 
+```  
+> nos sale error como de permisos ya que es como si fuesemos un usuario que no tiene la autenticación para poder hacer estas acciones.  
+
+
+### REQUEST JWT  
+
++ Peticiones Jason Web Token autenticadas con el token/secret del service account.  
+
++ Dentro del pod podemos encontrar la info del SA y su token en:  
+`/var/run/secrets/kubernetes.io/serviceaccount/` 
+
++ Guardamos el token del POD en una variable:  
+`# TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)`  
+
++ [DOCS](https://medium.com/@nieldw/using-curl-to-authenticate-with-jwt-bearer-tokens-55b7fac506bd):  
+`/ # curl -H "Authorization: Bearer ${TOKEN}" https://10.96.0.1/api/v1 --insecure`  
+> Ahora nos da una respuesta de todos los recursos que hay en v1, pero este token no tienen tantos permisos para llegar a mas adelante.  
+
+
+### SA DEPLOYMENT  
+
++ Ejemplo de crear un deploy asignando un service account creado:  
+```
+# CREAMOS SERVICE ACCOUNT
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-sa
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      serviceAccountName: my-sa
+      containers:
+      - name: nginx
+        image: nginx:alpine
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel services_account]$ kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+test-7bb9d96578-v6x5m   1/1     Running   0          15s
+[isx46410800@miguel services_account]$ kubectl get pods test-7bb9d96578-v6x5m -o yaml
+spec:
+  containers:
+  - image: nginx:alpine
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: my-sa-token-5lv4s
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: my-sa
+  serviceAccountName: my-sa
+```  
+
+### ROLE SA  
+
++ Creamos un rol y un rolebinding para que un serviceaccount sea capaz de leer pods del namespace. Asignamos este role al SA del deployment y pods creados:  
+```
+# CREAMOS SERVICE ACCOUNT
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-sa
+---
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      serviceAccountName: my-sa
+      containers:
+      - name: nginx
+        image: nginx:alpine
+---
+# CREAR ROLE SA
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: sa-reader #nombre role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"] #objetos
+  verbs: ["get", "watch", "list"] # acciones
+---
+# ROLEBINDING-ENLAZAR ROLE-SA
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sa-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: ServiceAccount
+  name: my-sa # "name" is case sensitive
+  apiGroup: 
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: sa-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```  
+
++ Comprobamos:  
+```
+[isx46410800@miguel services_account]$ kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+test-7bb9d96578-v6x5m   1/1     Running   0          12m
+[isx46410800@miguel services_account]$ kubectl get roles
+NAME                CREATED AT
+pod-deploy-reader   2020-10-19T18:20:23Z
+pod-reader          2020-10-19T18:01:37Z
+sa-reader           2020-10-20T18:05:58Z
+[isx46410800@miguel services_account]$ kubectl get rolebinding
+NAME                 ROLE                             AGE
+cluster-pod-reader   ClusterRole/cluster-pod-reader   23h
+read-deploy-pods     Role/pod-deploy-reader           23h
+read-pods            Role/pod-reader                  23h
+sa-pods              Role/sa-reader                   3m39s
+[isx46410800@miguel services_account]$ kubectl get sa
+NAME      SECRETS   AGE
+default   1         24h
+my-sa     1         44m
+```  
+
++ Comprobamos que ahora entramos al POD y podemos comunicarnos a través de la api con JWT para listar los pods del namespace:  
+`/ # curl -H "Authorization: Bearer ${TOKEN}" https://10.96.0.1/api/v1/namespaces/default/pods --insecure`  
+```
+"hostIP": "172.17.0.2",
+        "podIP": "172.18.0.3",
+        "podIPs": [
+          {
+            "ip": "172.18.0.3"
+          }
+        ],
+        "startTime": "2020-10-20T17:56:32Z",
+```  
+
++ Si añadimos el permiso de ver tambien deployments despues hariamos:  
+` # curl -H "Authorization: Bearer ${TOKEN}" https://10.96.0.1/apis/apps/v1/namespaces/default/deployments --insecure`  
+
+```
+"restartPolicy": "Always",
+            "terminationGracePeriodSeconds": 30,
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccountName": "my-sa",
+            "serviceAccount": "my-sa",
+            "securityContext": {
+      "status": {
+        "observedGeneration": 1,
+        "replicas": 1,
+        "updatedReplicas": 1,
+        "readyReplicas": 1,
+        "availableReplicas": 1,
+```  
+
+
+## INGRESS  
+
++ Es un componente de kubernetes que se coloca en la entrada de nuestro cluster que recibe las solicitudes de los usuarios.  
+
++ Crea unas reglas en esta entrada redireccionando cada petición por el servicio que le toca.  
+
++ Con esto evitamos usar diferentes nodes port o diferentes balanceos de carga a la hora de contestar las solicitudes de los usuarios.  
+
++ También se puede crear reglas de DNS, IPs, servicios...que se definen en un único punto de entrada.  
+
+
+### INGRESS CONTROLLER  
+
++ Ingress es unicamente el sitio donde se definen las reglas. El que aplica las reglas lo hace el Ingress Controller.  
+
++ Normalmente está en un deployment que apunta a este ingress para leer las reglas.  
+
++ Puede ser de dos tipos: nginx o cloud. 
+
++ Nginx define un node port para las peticiones del usuario y después leer las reglas del ingress.  
+
++ Si es con balanzador de cloud, el ingress controler crea un balanzador de carga en la nube y la entrada la tiene en el cloud. Cuando se comunica el usuario, el ingress controller se comunica con el ingress y despues le envia la respuesta al balanzador de carga con la API de cloud.  
+
+
+### CREAR INGRESS CONTROLLER  
+
++ [Documentacion](https://kubernetes.github.io/ingress-nginx/deploy/)  
+
++ Creamos un ingress-controller de nginx y comprobamos que lo tenemos funcionando:  
+```
+[isx46410800@miguel ingress]$ kubectl get pods -n ingress-nginx
+NAME                                        READY   STATUS    RESTARTS   AGE
+nginx-ingress-controller-54b86f8f7b-s7vzl   1/1     Running   0          81s
+```  
+
++ Creamos el servicio de ingress-controller nginx de tipo node-port:  
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+```  
+
++ Comprobamos que funciona:  
+```
+[isx46410800@miguel ingress]$ kubectl get svc -n ingress-nginx
+NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx   NodePort   10.109.126.218   <none>        80:30540/TCP,443:32602/TCP   29s
+```  
+
+### IP INGRESS CONTROLLER  
+
++ Ip del cluster:  
+```
+Kubernetes master is running at https://172.17.0.2:8443
+KubeDNS is running at https://172.17.0.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
+
++ Ip del servicio node-port del IController Nginx:  
+```
+[isx46410800@miguel ingress]$ kubectl get svc -n ingress-nginx
+NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx   NodePort   10.109.126.218   <none>        80:30540/TCP,443:32602/TCP   4m43s
+```
+
++ Obtenemos la url con la ip para conectarnos:  
+```
+[isx46410800@miguel ingress]$ minikube service ingress-nginx --url -n ingress-nginx
+http://172.17.0.2:30540
+http://172.17.0.2:32602
+```  
+
+![](./images/kubernetes10.png)  
+
+
+### APP INGRESS-CONTROLLER  
+
++ Creamos un servicio con nuestra app de cambiar el index al nginx y hacemos un deployment con 3 replicas:  
+```
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-deploy
+  labels:
+    app: front
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        command: ["sh","-c", "echo VERSION 1.0 desde $HOSTNAME > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"]
+---
+# añadimos el servicio que observará los FRONT
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-v1-svc
+  labels:
+    app: front
+spec:
+  type: ClusterIP
+  selector:
+    app: front
+  ports:
+    - protocol: TCP
+      port: 8080 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+```  
+
++ Comprobamos:  
+```
+# añadimos el servicio que observará los FRONT
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: front
+spec:
+  selector:
+    app: front
+  ports:
+    - protocol: TCP
+      port: 8888 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+```  
+
++ Entramos a un pod y comprobamos que cuando llamamos al servicio, nos contesta algunos de los pods con nuestra app que es la ejecución del index.html:  
+```
+[isx46410800@miguel ingress]$ kubectl exec -it ingress-deploy-7cd6549d66-26cwb -- sh
+/ # apk add curl
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
+OK: 25 MiB in 42 packages
+/ # curl app-v1-svc:8080
+VERSION 1.0 desde ingress-deploy-7cd6549d66-ncjpv
+/ # curl 10.96.97.25:8080
+VERSION 1.0 desde ingress-deploy-7cd6549d66-ncjpv
+```  
+
+
+### EXPONER EL PUERTO AL EXTERIOR  
+
++ Ahora queremos exponer el puerto externamente. Para ello creamos unas reglas para el controller:  
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /appv1
+        backend:
+          serviceName: app-v1-svc # nombre del servicio de la app
+          servicePort: 8080
+```  
+
++ Comprobamos que ahora con la url(ip/appv1) vemos también la respuesta al servicio:  
+
+![](./images/kubernetes11.png)  
+
+
++ Podemos añadirlo un dominio tambien en el apartado hosts. Probamos haciendo un dominio en /etc/hosts `172.17.0.2 app1.mydomain.com`:  
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: app1.mydomain.com
+    http:
+      paths:
+      - path: /appv1
+        backend:
+          serviceName: app-v1-svc # nombre del servicio de la app
+          servicePort: 8080
+  - http:
+      paths:
+      - path: /appv1
+        backend:
+          serviceName: app-v1-svc # nombre del servicio de la app
+          servicePort: 8080
+```  
+
+![](./images/kubernetes12.png)  
+
+
+### 2 APPS EN IC  
+
++ Ejemplo:  
+```
+# esto es del deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-deploy2
+  labels:
+    app: backend
+# aqui viene el replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  # aqui viene el pod
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        command: ["sh","-c", "echo Soy app2 desde $HOSTNAME > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"]
+---
+# añadimos el servicio que observará los backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-v1-svc
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 9090 # servicio por donde escucha
+      targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
+```  
+
++ Comprobamos que funcionan:  
+```
+[isx46410800@miguel ingress]$ kubectl get svc
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+app-v1-svc    ClusterIP   10.96.97.25     <none>        8080/TCP   34m
+app2-v1-svc   ClusterIP   10.106.106.71   <none>        9090/TCP   10s
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP    30h
+[isx46410800@miguel ingress]$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+ingress-deploy-7cd6549d66-26cwb    1/1     Running   0          34m
+ingress-deploy-7cd6549d66-9b9d4    1/1     Running   0          34m
+ingress-deploy-7cd6549d66-ncjpv    1/1     Running   0          34m
+ingress-deploy2-69fcf646dd-m8zn4   1/1     Running   0          13s
+ingress-deploy2-69fcf646dd-nnn89   1/1     Running   0          13s
+ingress-deploy2-69fcf646dd-xq977   1/1     Running   0          13s
+```  
+
++ Agregamos nueva regla para la app2:  
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: app1.mydomain.com
+    http:
+      paths:
+      - path: /appv1
+        backend:
+          serviceName: app-v1-svc # nombre del servicio de la app
+          servicePort: 8080
+  - host: app2.mydomain.com
+    http:
+      paths:
+      - path: /appv2
+        backend:
+          serviceName: app2-v1-svc # nombre del servicio de la app
+          servicePort: 9090
+```  
+
++ Comprobamos:  
+
+![](./images/kubernetes13.png)  
+![](./images/kubernetes14.png)  
+
++ Ahora cambiando varios paths:  
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: app1.mydomain.com
+    http:
+      paths:
+      - path: /myservice1
+        backend:
+          serviceName: app-v1-svc # nombre del servicio de la app
+          servicePort: 8080
+      paths:
+      - path: /myservice2
+        backend:
+          serviceName: app2-v1-svc # nombre del servicio de la app
+          servicePort: 9090
+```  
+
++ Comprobamos:  
+
+![](./images/kubernetes15.png)  
+
+
+## AWS KUBERNETES  
+
++ Tenemos que crear cuenta en AWS.  
+
++ Instalar pip3 de python.  
+
++ Tenemos que instalar la herramienta AWS CLI:  
+`pip3 install -U awscli`  
+
++ Comprobamos la version:  
+```
+[isx46410800@miguel ingress]$ aws --version
+aws-cli/1.18.160 Python/3.6.6 Linux/4.18.19-100.fc27.x86_64 botocore/1.19.0
+```  
+
++ Creamos un usuario administrador en IAM de AWS.  
+
++ COnfiguramos en nuestra máquina real el AWS con el usuario creado:  
+```
+[isx46410800@miguel ingress]$ aws configure
+AWS Access Key ID [None]: AKIA5RIFOUI3OMSWWHNM
+AWS Secret Access Key [None]: 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
+Default region name [None]: eu-west-2
+Default output format [None]: 
+```  
+
++ Nos crea un home de AWS en nuestro home:  
+```
+[isx46410800@miguel .aws]$ pwd
+/home/isx46410800/.aws
+```  
+
++ Testeamos con una petición para saber quien es el que hace el request:  
+```
+[isx46410800@miguel .aws]$ aws sts get-caller-identity
+{
+    "UserId": "AIDA5RIFOUI3IP6OESXCW",
+    "Account": "930408735286",
+    "Arn": "arn:aws:iam::930408735286:user/miguel"
+}
+```  
+
++ Instalamos la herramienta `eksctl` que es para gestionar los cluster de kubernetes en AWS:  
+```
+[isx46410800@miguel .aws]$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+[isx46410800@miguel .aws]$ sudo mv /tmp/eksctl /usr/local/bin
+[isx46410800@miguel .aws]$ sudo chmod +x /usr/local/bin/eksctl 
+[isx46410800@miguel .aws]$ eksctl version
+0.30.0
+```  
+
+### CREAR CLUSTER AWS EKSCTL

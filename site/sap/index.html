@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>SAP - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "SAP";
+    var mkdocs_page_input_path = "sap.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">SAP</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#erp">ERP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sap">SAP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arquitectura">ARQUITECTURA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modulos-sap">MODULOS SAP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conceptos-basicos">CONCEPTOS BASICOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#estructura-organizativa">ESTRUCTURA ORGANIZATIVA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conexion-a-sap">CONEXION A SAP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pantalla-eassy-sap">PANTALLA EASSY SAP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#favoritos">FAVORITOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#barra-herramientas">BARRA HERRAMIENTAS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#barra-de-menu">BARRA DE MENU</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modos">MODOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#comandos-de-uso-frecuente">COMANDOS DE USO FRECUENTE</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#campos-diferentes">CAMPOS DIFERENTES</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>SAP</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/sap.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="sap-curso">SAP CURSO</h1>
+<ul>
+<li>
+<p>Systeme Anwendungen und Produkte que significa en español 'sistemas, aplicaciones y productos'.  </p>
+</li>
+<li>
+<p>SAP ERP​ es un software de planificación de recursos empresariales desarrollado por la compañía alemana SAP SE. SAP ERP incorpora las funciones empresariales claves de una organización.  </p>
+</li>
+<li>
+<p>Así, si tuviéramos que definir qué es SAP diríamos que es un software ERP (Enterprise Resource Planning), que permite planificar y gestionar los recursos de todas las áreas de la empresa: desde logística a contabilidad, pasando por el departamento comercial y de márketing, finanzas, producción, gestión de proyectos, de la calidad, mantenimiento o dirección y administración general.  </p>
+</li>
+</ul>
+<h2 id="erp">ERP</h2>
+<ul>
+<li>
+<p>Enterprise Resource Planning, planificación de recursos empresariales.  </p>
+</li>
+<li>
+<p>Es un conjunto de programas integrados que apoya las principales actividades organizacionales tales como finanza, contabilidad, logística, producción, ventas y recursos humanos.  </p>
+</li>
+<li>
+<p>Caracteristicas:  </p>
+<ul>
+<li>Procesos estandatizados</li>
+<li>En linea</li>
+<li>Bases de datos unica</li>
+<li>Integrar todos los datos y procesos en un sistema único.</li>
+<li>Configurable</li>
+<li>Modular</li>
+</ul>
+</li>
+</ul>
+<h2 id="sap">SAP</h2>
+<ul>
+<li>System Applications and Products in data processing. Sistema, aplicaciones y productos en el procesamiento de datos.  </li>
+</ul>
+<h2 id="arquitectura">ARQUITECTURA</h2>
+<ul>
+<li>
+<p>Estructura cliente - servidor</p>
+</li>
+<li>
+<p>Estrucutra de ambiente de desarrollo - calidad - producción.  </p>
+</li>
+<li>
+<p>SAP GUI es el programa que se instala el ordenador para porder acceder en remoto al servidor en una empresa.  </p>
+</li>
+<li>
+<p>SAP LOGON es el programa que se utiliza para entrar o loguearse en SAP. Es como el iconito al clicar dos veces para conectarse y elegir a que servidor conectarse.  </p>
+</li>
+</ul>
+<h2 id="modulos-sap">MODULOS SAP</h2>
+<ul>
+<li>
+<p>Formado por varios modulos interconectados entre ellos y que si hay datos en uno se referencian en los otros automaticamente.  </p>
+</li>
+<li>
+<p>Modulos:  </p>
+<ul>
+<li>FI (Finanzas)</li>
+<li>CO (controling de costes)</li>
+<li>MM (Materiales)</li>
+<li>SD (venta y distribucion)</li>
+<li>PP ( Produccion)</li>
+<li>PM (mantemiento planta)</li>
+<li>QM (calidad)</li>
+<li>PS (proyectos)</li>
+<li>HR (rrhh)</li>
+<li>ABAP (programacion y desarrollo) </li>
+</ul>
+</li>
+</ul>
+<h2 id="conceptos-basicos">CONCEPTOS BASICOS</h2>
+<ul>
+<li>
+<p>Customizing: configuración que representa la estructura legal y los procesos de negocio de la empresa.  </p>
+</li>
+<li>
+<p>Unidad Organizativa: representa la estructura jerarquica de la empresa en el sistema.  </p>
+</li>
+<li>
+<p>Datos maestros: datos requeridos para realizar transacciones del proceso en el sistema(clientes, materiales, proveedores...)  </p>
+</li>
+<li>
+<p>Batch Input: para la entrada de grandes cantidades de registros.  </p>
+</li>
+<li>
+<p>Documentos: cada transacción registra datos en la bbdd, crea un documento con id unico.  </p>
+</li>
+<li>
+<p>Transacción: procesos de negocio en el sistema SAP.  </p>
+</li>
+<li>
+<p>Sistemas de información: transacciones guardadas.  </p>
+</li>
+<li>
+<p>Z: programas desarrollados aparte.  </p>
+</li>
+<li>
+<p>MODO SAP: cada pantalla del SAP.  </p>
+</li>
+<li>
+<p>WORKFLOW: flujo de trabajo para optimizar procesos.  </p>
+</li>
+<li>
+<p>DATOS MAESTROS: info que cambia poco y son campos obligatorios para rellenar(clientes, precios, proveedores..)  </p>
+</li>
+</ul>
+<h2 id="estructura-organizativa">ESTRUCTURA ORGANIZATIVA</h2>
+<p><img alt="" src="../images/sap.png" />  </p>
+<h2 id="conexion-a-sap">CONEXION A SAP</h2>
+<p><img alt="" src="../images/sap2.png" /><br />
+<img alt="" src="../images/sap3.png" />  </p>
+<h2 id="pantalla-eassy-sap">PANTALLA EASSY SAP</h2>
+<p><img alt="" src="../images/sap4.png" /><br />
+<img alt="" src="../images/sap5.png" />  </p>
+<h2 id="favoritos">FAVORITOS</h2>
+<p><img alt="" src="../images/sap6.png" /><br />
+<img alt="" src="../images/sap7.png" />  </p>
+<h2 id="barra-herramientas">BARRA HERRAMIENTAS</h2>
+<p><img alt="" src="../images/sap8.png" />  </p>
+<h2 id="barra-de-menu">BARRA DE MENU</h2>
+<p><img alt="" src="../images/sap9.png" />  </p>
+<h2 id="modos">MODOS</h2>
+<p><img alt="" src="../images/sap10.png" /><br />
+<img alt="" src="../images/sap11.png" />  </p>
+<h2 id="comandos-de-uso-frecuente">COMANDOS DE USO FRECUENTE</h2>
+<ul>
+<li>En el cuadro de busqueda:  <ul>
+<li>/N - termina la transacción</li>
+<li>/O - ver modos abiertos</li>
+<li>/I - cierra la transaccion abierta</li>
+<li>/Ntransacción - lleva a la trans indicada y cierra la actual.  </li>
+<li>/NEND - salir del sistema pero avisa de cosas abiertas.</li>
+<li>/NEX - cierra totalmente</li>
+</ul>
+</li>
+</ul>
+<h2 id="campos-diferentes">CAMPOS DIFERENTES</h2>
+<p><img alt="" src="../images/sap12.png" /><br />
+<img alt="" src="./images/sap13.png" />  </p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../files/" class="btn btn-neutral float-right" title="Archivos Destacados">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../bbdd/" class="btn btn-neutral" title="Base de datos"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../bbdd/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../files/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

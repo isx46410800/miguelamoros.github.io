@@ -1,0 +1,213 @@
+# ADMINISTRAR WINDOWS SERVER 2019  
+
+## INSTALACIÓN  
+
++ Para probar lo haremos con una maquina virtual. En este caso probaremos con __HYPER-V__, una herramienta de virtualización propia de windows que utiliza un hypervisor.  
+
++ Hyper-V es un programa de virtualización de Microsoft basado en un hipervisor para los sistemas de 64 bits​ con los procesadores basados en AMD-V o Tecnología de virtualización Intel.  
+
++ Un hipervisor o monitor de máquina virtual ​ es una plataforma que permite aplicar diversas técnicas de control de virtualización para utilizar, al mismo tiempo, diferentes sistemas operativos en una misma computadora.  
+
++ Los windows 10 home no lo tienen, no obstante con este fichero lo podremos aplicar: [Enable HYPER-V](https://mega.nz/file/BNQDkA5D#uBn_TK3Yw5DF_VK3GZFaQ2mQqsRZLq_r0KwmvMEvWT4)  
+
++ Al reiniciar si no funciona directamente tendremos que hacer las siguientes opciones:  
+    1. Habilitar virtualización en la BIOS
+    2. En la powershell comando `bcdedit /set hypervisorlaunchtype auto`
+    3. En la powershell comando `dism /online /enable-feature /featurename:Microsoft-Hyper-V -All`  
+
++ Iniciamos maquina virtual y configuramos:  
+    - Idioma/Región
+    - S.O. versión standard evaluation con experiencia de escritorio para que tenga ventanas y no solo consola
+    - Instalación personalizada (si le damos a SHIFT+F10 nos abre una consola de cmd para poder hacer cosas también)
+    - Varios reinicios
+    - Contraseña administrador
+
++ El controlador de dominio es el centro neurálgico de un dominio Windows, tal como un servidor Network Information Service (NIS) lo es del servicio de información de una red Unix.
+
++ Los controladores de dominio tienen una serie de responsabilidades, y una de ellas es la autenticación, que es el proceso de garantizar o denegar a un usuario el acceso a recursos compartidos o a otra máquina de la red, normalmente a través del uso de una contraseña. Esto permite validar a los usuarios de una red para ser partes de la plataforma de clientes que recibirán los servicios de información.
+
++ Cada controlador de dominio usa un security account manager (SAM), o NTDS en Windows 2003 Server (que es la forma promovida de la SAM, al pasar como controlador de dominio), para mantener una lista de pares de nombre de usuario y contraseña. El controlador de dominio entonces crea un repositorio centralizado de contraseñas, que están enlazados a los nombres de usuarios (una clave por usuario), lo cual es más eficiente que mantener en cada máquina cliente centenares de claves para cada recurso de red disponible.
+
++ En un dominio Windows, cuando un cliente no autorizado solicita un acceso a los recursos compartidos de un servidor, el servidor actúa y pregunta al controlador de dominio si ese usuario está autentificado. Si lo está, el servidor establecerá una conexión de sesión con los derechos de acceso correspondientes para ese servicio y usuario. Si no lo está, la conexión es denegada.
+
++ Una vez que el controlador de dominio autentifica a un usuario, se devuelve al cliente una ficha especial (token) de autenticación, de manera que el usuario no necesitará volver a iniciar sesión para acceder a otros recursos en dicho dominio, ya que el usuario se considera autentificado en el dominio.
+
+
+## SERVER MANAGER  
+
++ El server manager(administrador del servidor) es el aplicativo para configurar todas las cosas del server.
+
++ Antes miramos las tarjetas de red con el comando `ncpa.cpl`. Elegimos la tarjeta - propiedades - ipv4 - propiedades y indicamos la IP que queremos ponerle. 
+
+![](./images/win.png)
+
++ Cambiar nombre en `servidor local` y lo ponemos como un control de dominio(domain controller):  
+
+![](./images/win02.png)
+
++ En servidor local activamos el escritorio remoto y desactivamos aqui solo(en produccion no) la seguridad de Iexplorer.
+
++ En servidor local abajo en rendimiento, iniciamos contador y a la dercha configuramos las alertas para 7 dias.
+
++ En servidor local , parte arriba derecha en administrar le damos a agregar roles y caracteristicas. Seleccionamos el servidor y despues en roles de servidor, seleccionamos `servicios de dominio de Active Directory`. Siguiente, siguiente e instalamos.
+
+    - En powershell sería con el comando `install-windowsfeature` y para ver los que hay `get-windowsfeature`
+
+![](./images/win03.png)
+
++ Despues de instalar le damos a promover servicio para configurar el AD:  
+
+![](./images/win04.png)  
+
+![](./images/win05.png)  
+> Si se trabaja con aparatos mas antiguos, el nivel funcional hay que bajarlos.  
+
+Siguiente pantalla
+![](./images/win06.png)  
+![](./images/win07.png)  
+![](./images/win08.png)  
+
++ En Panel - derecha Herramientas - DNS:  
+    - En DC01 boton derecho ejecutar nslookup(nos sale unkown)
+    - Solucinamos dandole a zona inversa crear nueva. Siguiente hasta encontrar el cajon de poner ip, ponemos 192.168.1
+    - Ahora actualizamos el puntero PTR en la directa dando boton derecho a la de la ip y le damos a actualizar y nos sale
+    - En boton derecho DC01 propiedades - reenviadores le ponemos los DNS. En revisión hacemos la prueba
+
+![](./images/win09.png)  
+![](./images/win10.png)  
+![](./images/win11.png)  
+![](./images/win12.png)  
+
+
+## ESTRUCTURANDO EL AD  
+
++ Representaremos este ejemplo:  
+![](./images/win13.png)  
+
++ Vamos al Panel - derecha Herramientas - Usuarios y equipos de Active Directory.  
+
++ Entramos a la organización creada de miguel.local y dentro creamos la organización global `Miguel` con boton derecho - nuevo - organización.
+> Hemos creado un global porque luego para crear directivas de grupo, afectará a todo lo de abajo y sino tendriamos problemas porque afectaria a cosas que estan en la misma altura que no queremos que tengan esto.
+
+![](./images/win14.png)  
+![](./images/win15.png)  
+
++ Ahora entramos en esta y vamos creando dentro nuevos deparamentos:  
+
+![](./images/win16.png)  
+
++ Si tenemos algun error, al tener la casilla marcada de no poder eliminar. Vamos al menu ver - caracteriticas avanzadas - buscamos el departamento - propiedades - recursos y eliminamos la casilla y luego ya podremos mover o eliminar ese departamento.  
+
+![](./images/win17.png)  
+
++ Ahora entramos en cada departamento y vamos creando usuarios en cada uno con una misma contraseña.  
+
+![](./images/win18.png)  
+![](./images/win19.png)  
+
++ Ahora dentro de cada departamento , creamos un grupo con el mismo nombre. Esto se hace para poder luego compartir recursos, ya que por unidades organizativas no se puede.  
+
+![](./images/win20.png)  
+
++ El departamento global de `Miguel` tambien tiene que tener un grupo creado. Porque asi si creamos un recurso o algo global, si se lo damos a esto, se lo aplica a todos los de su union:  
+
+![](./images/win21.png)  
+
++ Ahora en cada departamento, seleccionamos todos los usuarios que hayan, boton derecho asignar un nuevo grupo. Escribimos el nombre del grupo, le damos a comprobar nombres y aceptamos. Si entramos a las propiedades del grupo, veremos que están como miembros.  
+
+![](./images/win22.png)  
+![](./images/win23.png)  
+![](./images/win24.png)  
+
+
++ Despues de cada grupo, lo asignamos al grupo general `Miguel`.
+
+![](./images/win25.png)  
+
+
+## GPO  
+
++ Cpanel - Herramientas - Administracion de directivas de grupo. Todas las directivas se guardan en objetos de directivas de grupo.  
+
++ Vemos la que hay y las configuraciones que tienen:  
+
+![](./images/win26.png)  
+![](./images/win27.png)  
+
++ Para editar una vamos a boton derecho y editar. Desde aquí para modificar algo se busca siguiendo la misma ruta que en la configuración.  
+
+![](./images/win28.png)  
+
++ Para crear una directiva de grupo(GPO) vamos a objetos y boton derecho crear. Todas las GPO para vincularlas necesitan una unidad organizativa. Para ello, vamos a la unidad de Contabilidad, boton derecho y vincular a la creada.  
+
+![](./images/win29.png)  
+![](./images/win30.png)  
+![](./images/win31.png)  
+
++ Tambien se puede crear directamente yendo a la unidad y boton derecho crear GPO y vincular:  
+
+![](./images/win32.png)  
+![](./images/win33.png)  
+
++ GPO de inicio: sirve para que esa directiva sea comun para todos. Vamos a GPO de inicio y crear. Unas de las más comunes es el fondo de escritorio o que no usen los USB. Para crear una, en contenido boton derecho nuevo.
+
+![](./images/win34.png)  
+
++ Ahora si creamos una directiva de grupo, le podemos indicar que sea como base la de inicio:  
+
+![](./images/win35.png)  
+
++ Para editar una GPO de inicio, entramos vamos a configuracion boton derecho edicion. Tocamos lo que sea y en la proxima GPO que creemos veremos que tiene estas configuraciones, partirá con la reciente modificación. Siempre parten de como esten en ese momento, los cambios no afectan a todas las que esten asignadas.  
+
+![](./images/win36.png)  
+![](./images/win37.png)  
+![](./images/win38.png)  
+
++ Se puede crear GPO para la raiz y hereda para todos. No obstante, si queremos que algun departamento no herede, vamos a la unidad organizativa, boton derecho eliminar herencia:  
+
+![](./images/win39.png)  
+![](./images/win40.png)  
+
++ No obstante, aunque se quita la herencia. Si las GPO de la raiz le doy boton derecho y exigido. La van a tener si o si:  
+
+![](./images/win41.png)  
+![](./images/win42.png)  
+
++ La parte ultima de resultados de directivas de grupo, se puede generar un informe de un usuario/grupo de todas las directivas que tiene.  
+
+![](./images/win43.png)  
+> Se puede hacer por consola con la orden `gpresult /h file.html`  
+
+
+## RAS(Remote Access Server)  
+
++ Primero instalamos el servicio de enrutamiento. Cpanel - administrar - roles y caracteristicas. En este caso seleccionamos acceso remoto que es donde esta y en los servicios agregamos enrutamiento. Todo siguiente hasta instalar.  
+
+![](./images/win44.png)  
+![](./images/win45.png)  
+
++ Una vez instalado vamos a herramientas - enrutamiento y acceso remoto
+![](./images/win46.png)  
+
++ Vamos a boton derecho en DC01 y configurar, despues a tradducion de NAT y elegimos cual es la interfaz a la que conectarse y aceptar.  
+
++ NAT permite que con una solo IP publica puedan varios dispositivos salir a internet por esta IP
+
+## DHCP  
+
++ Primero instalamos el servicio de enrutamiento. Cpanel - administrar - roles y caracteristicas. En este caso seleccionamos DHCP que es donde esta y en los servicios agregamos enrutamiento. Todo siguiente hasta instalar.  
+
+![](./images/win47.png)  
+
++ Despues de con configuración posterior, vamos a herramientas - dhcp. En ipv4 creamos ambito nuevo, ponemos la ip del servidor y le damos un rango a partir de la siguiente a esa ip.    
+
+![](./images/win48.png)  
+
+
+## VPN  
+
+
+
+
+
+

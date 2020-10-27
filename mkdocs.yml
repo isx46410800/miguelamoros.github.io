@@ -16,5 +16,6 @@ nav:
         - Base de datos: bbdd.md
         - SAP: sap.md
         - Archivos Destacados: files.md
+        - Windows: windows.md
         
 theme: readthedocs

@@ -15,6 +15,13 @@ nav:
         - Markdown: markdown.md
         - Base de datos: bbdd.md
         - SAP: sap.md
+        - LDAP: ldap.md
+        - PAM: pam.md
+        - SAMBA: samba.md
+        - KERBEROS: kerberos.md
+        - LVM/RAID: lvm.md
+        - Backup: backup.md
+        - Routing: routing.md
         - Archivos Destacados: files.md
         - Windows: windows.md
         

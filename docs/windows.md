@@ -204,7 +204,53 @@ Siguiente pantalla
 ![](./images/win48.png)  
 
 
-## VPN  
+## NOTAS  
+
+Nat
+
+Red interna
+
+Dhcp el del otro adaptador
+
+
+Crear equipos en herramientas de directivas de grupo, y en los usuarios creados cuando inicien sesión, en propiedades del sistema, agregar al dominio creado. En Linux en admin - autenticació - cuentas de usuarios de winbind. Controladores es la IP y dominio con nombre corto
+
+Agregar características para recursos compartidos y creamos una carpeta que sea compartida por los usuarios que digamos
+
+Si conectamos otro pc cn sistema en la misma Red interna del Dhcp como adaptador, le da la IP el dhcp
+
+
+Comandos cmd.:
+
+D:
+
+dir
+
+hostname
+
+sconfig
+
+cd c:\Windows\ruta
+
+shutdown 
+
+Comandos powershell:
+
+dsadd agregar objetos, cuentas... 
+
+
+
+Crear vlans:
+
+En Dhcp creamos ámbitos con diferentes rangos de ups y después activamos ámbito. 
+
+En opciones de servidores se crean los registros que serán comunes para todos los ambitos: se añaden registros ips d dns, correo, enrutador
+
+Se puede crear superambito para unir zonas de ámbito como por ejemplo pisos de un sitio. 
+
+Las reservas sirven para reservar la misma IP al que se conecta 
+
+En dns se crean las zonas inversas de cada Red añadida
 
 
 

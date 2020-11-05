@@ -204,24 +204,50 @@ Siguiente pantalla
 ![](./images/win48.png)  
 
 
+## PRACTICA DC Y 3 SERVERS
+
+- Nombre servidor: dc01
+-Tarjetas de Red propia y privada(ip/dnd 192.168.16.100
+- Instalar active directory y configurar nuevo bosque 
+- Hacer dns inverso de la red 192.168.16
+- Instalar acceso remoto y enruntamiento, configurar enruntamiento, opción Nat con la Red wan  
+- instalar Dhcp y configurar. Creamos ámbito, rango de ips 1-50 ejemplo. Puerta enlace será nuestra ip del server
+- abrimos otra máquina de Windows y probamos que se pueda conectar x Dhcp del server y pueda navegar. No conectar directo a la Red que sale. 
+- crear unidades/usuarios con centro de administración de AD o en grupo de unidades organizativas o usuarios y equipos AD. Siempre creamos una raíz. Los usuarios gestionamos su horario de conexión. Podemos hacer uno de modo plantilla y el resto copiar a partir de ahí. Creamos un grupo tmb de cada cosa. Agregamos cada usuario a su grupo. Y grupo con subgrupos
+-  instalamos en servicio de archivos - scsi - desduplicacion de datos. En configuración luego en volúmenes seleccionamos que unidad queremos hacerlo y su programación. Esto ahorra mucho espacio y junta fragmentos de mismo archivos.
+- crear una GPO de política en objetos de administración de unidades organizativas y editamos. Habilitamos directiva de redes y el ping(firewall permitir excepciones compartir archivos e impresoras entrantes y ponemos la ip de la Red global) y la de (firewallbpermir excepciones icmp). Tmb inicio de sesión interactivo título mensaje al iniciar y luego el de texto mensaje. Vinculamos esta política a la unidad general creada para que solo afecte a ellos.  
+- instalamos en servicios archivos de almacenamiento - scsi - administrador de recursos del servidor de archivos. Dentro en características añadimos copias de seguridad de Windows server.  
+- creamos una copia de seguridad - programamos personalizada todo lo que queremos hacer de copia y donde guardarlo. 
+- en recursos compartidos - tarea nuevo recurso y seleccionar carpeta a compartir y seleccionar quién puede acceder y sus permisos.  
+Podemos decir que en la carpeta compartida los users no puedan almacenar cierto tipo de archivos. Vamos a herramientas - administrador de recursos compartidos del servidor - filtrado - filtros. Seleccionamos carpeta y ponemos po ejemplo bloquear archivos d audio y vídeo. 
+También podemos crear cuota para ponerle límites a las carpetas
+- abrimos otro Windows y cambiamos nombre del equipo y lueg lo añadimos al dominio creado. 
+- se puede hacer una prueba de reiniciar remotamente el equipo desde cmd server. 
+- de un volumen o disco podemos ir a propiedades y habilitar instantáneas para poder volver a Estados anteriores. 
+- recuperar servidor desde una copia de seguridad. Arrancamos con la iso, reparar equipo, solucionar problemas, recuperar de una imagen del sistema y elegimos la copia. 
+- vpn modo sencillo: enrutamienti y acceso remoto. Botón derecho y en mi dc01 y configurar. Seleccionar vpn y elegimos interfaz que da Internet wan. Automáticamente elegimos, no radius. Vamos a otro equipo,configuración de vpn
+- vpn manual. Lo mismo pero elegimos Nat la interfaz. Propiedades de dc01, enrutador de la y servidor remoto. En ipv4 creamos interfaz /protó igmp(wan proxy y lan enrutador). Interfaz /protó Nat (wan interfaz Internet y habilitar;puertos de puerta enlace y de seguridad 4,ip loop, lan interfaz privada). Puertos/clientes propiedades (enrutador enrutamienti y servidor ipv4. Puertos propiedades activamos las dos opciones. 
+
+- 3 servers; ras, Dhcp, AD.  
+AD en dominio con puerta enlace ras y dns el mismo 192.168.16.200 // 254//200
+Ras dis interfaces. 192.168.100. 254 se instala enrutamiento y acceso remoto. 
+Dhcp instala Dhcp puerta enlace ras //251 //254
+En el ad se añade d servidor el dhcp
+Cliente coge IP del dhcp k coge Internet por el ras 
+
+
 ## NOTAS  
 
-Nat
++ Nat Y Red interna. Dhcp el del otro adaptador
 
-Red interna
++ Crear equipos en herramientas de directivas de grupo, y en los usuarios creados cuando inicien sesión, en propiedades del sistema, agregar al dominio creado. En Linux en admin - autenticació - cuentas de usuarios de winbind. Controladores es la IP y dominio con nombre corto
 
-Dhcp el del otro adaptador
++ Agregar características para recursos compartidos y creamos una carpeta que sea compartida por los usuarios que digamos
 
++ Si conectamos otro pc cn sistema en la misma Red interna del Dhcp como adaptador, le da la IP el dhcp
 
-Crear equipos en herramientas de directivas de grupo, y en los usuarios creados cuando inicien sesión, en propiedades del sistema, agregar al dominio creado. En Linux en admin - autenticació - cuentas de usuarios de winbind. Controladores es la IP y dominio con nombre corto
-
-Agregar características para recursos compartidos y creamos una carpeta que sea compartida por los usuarios que digamos
-
-Si conectamos otro pc cn sistema en la misma Red interna del Dhcp como adaptador, le da la IP el dhcp
-
-
-Comandos cmd.:
-
++ Comandos cmd.:
+```
 D:
 
 dir
@@ -237,20 +263,19 @@ shutdown
 Comandos powershell:
 
 dsadd agregar objetos, cuentas... 
+```
 
++ Crear vlans:
 
+    En Dhcp creamos ámbitos con diferentes rangos de ups y después activamos ámbito. 
 
-Crear vlans:
+    En opciones de servidores se crean los registros que serán comunes para todos los ambitos: se añaden registros ips d dns, correo, enrutador
 
-En Dhcp creamos ámbitos con diferentes rangos de ups y después activamos ámbito. 
+    Se puede crear superambito para unir zonas de ámbito como por ejemplo pisos de un sitio. 
 
-En opciones de servidores se crean los registros que serán comunes para todos los ambitos: se añaden registros ips d dns, correo, enrutador
+    Las reservas sirven para reservar la misma IP al que se conecta 
 
-Se puede crear superambito para unir zonas de ámbito como por ejemplo pisos de un sitio. 
-
-Las reservas sirven para reservar la misma IP al que se conecta 
-
-En dns se crean las zonas inversas de cada Red añadida
+    En dns se crean las zonas inversas de cada Red añadida
 
 
 

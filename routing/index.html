@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Routing - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Routing";
+    var mkdocs_page_input_path = "routing.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Routing</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#datos-redes">DATOS REDES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ips-publicasprivadas">IPS PUBLICAS/PRIVADAS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#calculo-de-ip-de-red-bits-de-hosts-y-bits-de-red">CALCULO DE IP DE RED, BITS DE HOSTS Y BITS DE RED</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subnetting">SUBNETTING</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vlsm-vlans">VLSM - VLANS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conf-router">CONF ROUTER</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#router-pc-dhcp">ROUTER / PC / DHCP</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Routing</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/routing.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="routing">ROUTING</h1>
+<h2 id="datos-redes">DATOS REDES</h2>
+<ul>
+<li>
+<p>Switch: permite conectar muchos PCs en una misma red Local.  </p>
+</li>
+<li>
+<p>Router: permite conectar a otras redes</p>
+</li>
+<li>
+<p>Patch Panel: ayuda al montaje de los switch</p>
+</li>
+<li>
+<p>LAN: Local Area Network, red individual o local</p>
+</li>
+<li>
+<p>WAN: Wide Area Network, conecta dos o más LAN con TSP</p>
+</li>
+<li>
+<p>Internet: interconexion de redes por ISP</p>
+</li>
+<li>
+<p>Modelo TCP/IP: capa acceso a la red(MAC), capa internet(IP), capa transporte(puertos O y D - TCP/UDP) y capa de aplicación(-/HTTP/FTP)</p>
+</li>
+<li>
+<p>ip a / ip r</p>
+</li>
+<li>
+<p>ifconfig</p>
+</li>
+<li>
+<p>/etc/resolv.conf // nslookup ip/web</p>
+</li>
+<li>
+<p>netstat -putano</p>
+</li>
+<li>
+<p>nc -l 2000 // nc ip/host 2000</p>
+</li>
+<li>
+<p>traceroute ip/dominio</p>
+</li>
+<li>
+<p>Entre router cables serials y entre router y pc fast ethernet.</p>
+</li>
+</ul>
+<h2 id="ips-publicasprivadas">IPS PUBLICAS/PRIVADAS</h2>
+<ul>
+<li>Estas direcciones IP privadas son:   </li>
+</ul>
+<p><code>10.0.0.0 – 10.255.255.255</code>  </p>
+<p><code>172.16.0.0 – 172.31.255.255</code>  </p>
+<p><code>192.168.0.0 – 192.168.255.255</code>  </p>
+<p><code>169.254.0.0 – 169.254.255.255</code>  </p>
+<ul>
+<li>
+<p>Máscaras: 255.0.0.0 / 255.255.0.0 / 255.255.255.0  </p>
+</li>
+<li>
+<p>Cuando una máquina con una dirección IP privada quiere conectarse a Internet, deberá sustituir esa dirección IP privada en una IP pública. Este proceso es conocido como NAT (Network Address Translation). Si tenemos una red con muchos dispositivos con direcciones IP privadas, los routers o los firewalls se encargan de hacer salir a todos esos dispositivos que lo requieran por la misma dirección IP pública (a veces puede ser un pool). Cuando el tráfico vuelve, estos son capaces de deshacer el cambio de manera que pueden mantenerse todas las comunicaciones.  </p>
+</li>
+<li>
+<p>Cuando un dispositivo de red quiere conectarse a través de Internet normalmente tendrá un router para salir a Internet. Este router tiene una dirección IP y a esta dirección IP del router (o firewall) se le denomina «Default Gateway» (Puerta de enlace Predeterminada).  </p>
+</li>
+</ul>
+<h2 id="calculo-de-ip-de-red-bits-de-hosts-y-bits-de-red">CALCULO DE IP DE RED, BITS DE HOSTS Y BITS DE RED</h2>
+<ul>
+<li>
+<p>Cálculo es IP / MASCARA = RED</p>
+</li>
+<li>
+<p>Se corta el bit para la red hasta que es diferente el bit de mascara y de la ip. Se pone 1 cuando hay 1 arriba y abajo, 0 si no coindicen</p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># red 10.20.192.7/19
+10 . 20.110|00000.00000111
+255.255.111|00000.00000000
+--------------------------
+10.255.11000000.00000000
+10.255.192.0 / 19
+---------------------------
+primer host 10.255.192.1 /19    10.255.110|00000.00000001 /19
+ultimo host 10.255.223.254 /19  10.255.110|11111.11111110 /19
+red 10.255.192.0/19
+broadcast 10.255.223.255/19
+</code></pre>
+
+<h2 id="subnetting">SUBNETTING</h2>
+<ul>
+<li>Numero de dispositivos por red: 2**bitsHosts - 2  </li>
+<li>
+<p>Numero de bits para redes: 2**x = numero de subredes  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># red 192.168.100.32/20 se quiere 3 subredes(2**2=4)
+# se necesitaran 2 bits mas de redes para hacer las subredes
+192.168.0110|01 00.00100000 /20
+192.168.0110|00|00.00000000 /22 &gt;&gt; 192.168.96.0  /22
+192.168.0110|01|00.00000000 /22 &gt;&gt; 192.168.100.0 /22
+192.168.0110|10|00.00000000 /22 &gt;&gt; 192.168.104.0 /22
+192.168.0110|11|00.00000000 /22 &gt;&gt; 192.168.108.0 /22
+</code></pre>
+
+<h2 id="vlsm-vlans">VLSM - VLANS</h2>
+<ul>
+<li>
+<p>Mascaras de subred de tamaño variable. Division de subredes con diferentes dispositivos por cada subred.  </p>
+</li>
+<li>
+<p>A partir de una red madre, se va dividiendo seguidamente  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code># red 192.168.224.0 /20 para dispositivos de 700,200,200,50,2,2
+700 &gt;&gt; 2**10-2
+200 &gt;&gt; 2**8-2
+200 &gt;&gt; 2**8-2
+50  &gt;&gt; 2**6-1
+2   &gt;&gt; 2**2-2
+2   &gt;&gt; 2**2-2
+--700--
+192.168.1110|00 00.00000000 /20
+192.168.1110 00|00.00000000 /22 &gt;&gt; 192.168.224.0 /22 red
+192.168.1110 00|11.11111111 /22 &gt;&gt; 192.168.227.255 /22 broadcast
+--200--
+192.168.11100100.|00000000  /24 &gt;&gt; 192.168.228.0 /24 red
+192.168.11100100.|11111111  /24 &gt;&gt; 192.168.228.255 /24 broadcast
+--200--
+192.168.11100101.|00000000  /24 &gt;&gt; 192.168.229.0 /24 red
+192.168.11100101.|11111111  /24 &gt;&gt; 192.168.229.255 /24 broadcast
+--50--
+192.168.11100110.00|000000  /26 &gt;&gt; 192.168.230.0 /26 red
+192.168.11100110.00|111111  /26 &gt;&gt; 192.168.230.63 /26 broadcast
+--2--
+192.168.230.010000|00       /30 &gt;&gt; 192.168.230.64 /30 red
+192.168.230.010000|11       /30 &gt;&gt; 192.168.230.67 /30 broadcast
+--2--
+192.168.230.010001|00       /30 &gt;&gt; 192.168.230.68 /30 red
+192.168.230.010001|11       /30 &gt;&gt; 192.168.230.71 /30 broadcast
+</code></pre>
+
+<h2 id="conf-router">CONF ROUTER</h2>
+<ul>
+<li>
+<p>De una red, ponemos la .1 para el router y la .2 para el primer PC.  </p>
+</li>
+<li>
+<p>De una red entre 2 routers, la .1 para uno la .2 para otro.</p>
+</li>
+<li>
+<p>Para configurar la ruta de un router a otro, se indica la red y mascara de la red de destino y la ip del siguiente router por el que tiene que pasar en su entrada de este router.</p>
+</li>
+</ul>
+<pre><code>CONFIGURACION ROUTER
+**CONFIGURACION DE LAS INTERFACES**
+#
+//PUERTO SERIAL ENTRE ROUTERS\\
+Router&gt;enable
+Router#configure terminal
+Router(config)#interface serial 0/1/0 (1/0 tambien)
+Router(config-if)#ip address 192.168.1.2 255.255.255.0
+Router(config-if)#no shutdown
+#
+#
+//PUERTO FAST ETHERNET ROUTERS-PCS\\
+Router&gt;enable
+Router#configure terminal
+Router(config)#interface fa0/0
+Router(config-if)#ip address 192.168.1.2 255.255.255.0
+Router(config-if)#no shutdown
+#
+#
+##PARA MANTENER GRABADA LA INFO DEL ROUTER##
+Router#copy running-config startup-config
+#
+#
+**CONFIGURACION DHCP PARA IP PCS**
+Router&gt;enable
+Router#configure terminal
+Router(config)#ip dhcp excluded-address 172.16.3.1
+Router(config)#ip dhcp pool xarxa1
+Router(dhcp-config)#network 172.16.3.0 255.255.255.0
+Router(dhcp-config)#default-router 172.16.3.1
+Router#copy running-config startup-config
+#
+#
+**VER TABLAS DE ENRUTAMIENTO DEL ROUTER**
+Router#show ip route
+**CREAR LAS TABLAS DE ENRUTAMIENTO**
+Router(config)#ip route 172.16.3.0 255.255.255.0 172.16.2.1
+(RED DE DESTINO, MASCARA DESTINO, ROUTER POR EL QUE PASAR)
+#
+#
+**COMPROBACION CONEXIONES**
+ping + ip destino, desde pc origen
+**VER INTERFACES CONFIGURADAS**
+router1#show interfaces fastEthernet 0/0
+router1#show interfaces serial 0/0/0
+</code></pre>
+
+<ul>
+<li>Pautas:  </li>
+</ul>
+<pre><code>-VLSM(NUMERO HOSTS 2N-2 O SUBXARXES) Y RUTES RESUM
+- CONFIGURACION DE SWITCHOS CERRANDO PUERTOS Y HABILITANDO LOS QUE SE USAN PARA PC/ROUTER
+  A TRAVES DE LAS MACS CREANDO VLAN POR CADA PUERTO EN CONCRETO
+- CONECTAMOS TODOS LOS CABLES SIGUIENDO EL ESQUEMA DE LOS SWITCHOS
+- PONEMOS LAS IPS DE CADA INTERFAZ Y DHCP EN LOS PCS, NO SERVIDOR.
+- TABLAS DE ENRUTAMIENTO ESTATICAS( TODAS LAS REDES POR ROUTER Y POR DEFECTO)
+  DINAMICAS(RIP/RIP2) PARA CADA LO QUE TIENE CONECTADA A CADA EXTREMO
+</code></pre>
+
+<h2 id="router-pc-dhcp">ROUTER / PC / DHCP</h2>
+<ul>
+<li>Ejemplo:  </li>
+</ul>
+<pre><code>ROUTER 7:
+PC0:
+Router&gt;enable
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface fa1/0
+Router(config-if)#ip address 192.168.12.129 255.255.255.192
+Router(config-if)#no shutdown
+router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet1/0, changed state to up
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+#
+PC1:
+Router(config)#interface fa6/0
+%Invalid interface type and number
+Router(config)#interface ethernet 6/0
+Router(config-if)#ip address 192.168.0.1 255.255.248.0
+Router(config-if)#no shutdown
+Router(config-if)#
+%LINK-5-CHANGED: Interface Ethernet6/0, changed state to up
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet6/0, changed state to up
+#
+WAN2:
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.   
+Router(config)#interface fa0/0
+Router(config-if)#ip address 172.16.240.5 255.255.255.252
+Router(config-if)#no shutdown
+Router(config-if)#
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+#
+WAN3:
+Router(config-if)#interface serial 2/0
+Router(config-if)#ip address 172.16.240.9 255.255.255.252
+Router(config-if)#no shutdown
+%LINK-5-CHANGED: Interface Serial2/0, changed state to down
+#
+DHCP:
+DEP.CF
+Router(config)#ip dhcp excluded-address 192.168.12.129
+Router(config)#ip dhcp pool depcf
+Router(dhcp-config)#network 192.168.12.128 255.255.255.192
+Router(dhcp-config)#default-router 192.168.12.129
+Router(dhcp-config)#exit
+Router(config)#exit
+Router#
+%SYS-5-CONFIG_I: Configured from console by console
+Router#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+#
+AULESCF
+Router(config)#ip dhcp excluded-address 192.168.0.1
+Router(config)#ip dhcp pool aulescf
+Router(dhcp-config)#network 192.168.0.0 255.255.248.0
+Router(dhcp-config)#default-router 192.168.0.1
+Router(dhcp-config)#exit
+Router(config)#exit
+Router#
+%SYS-5-CONFIG_I: Configured from console by console
+Router#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../files/" class="btn btn-neutral float-right" title="Archivos Destacados">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../backup/" class="btn btn-neutral" title="Backup"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../backup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../files/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

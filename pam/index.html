@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>PAM - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "PAM";
+    var mkdocs_page_input_path = "pam.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">PAM</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion">INSTALACION</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ficheros">FICHEROS</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>PAM</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/pam.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="pam">PAM</h1>
+<p><img alt="" src="../images/pam.png" />  </p>
+<ul>
+<li>
+<p>Conjunto de librerias que permiten la autenticación de aplicaciones en el sistema. Dan una API para dar ciertos privilegios a programas para su autenticacación.  </p>
+</li>
+<li>
+<p>Los clientes de PAM son las aplicaciones que necesitan la autenticación.  </p>
+</li>
+<li>
+<p>API cuando se proporcionan preguntas y te retorna respuestas.  </p>
+</li>
+<li>
+<p>APP Pam Aware es una aplicación construida para utilizar pam a traves de su API. Irá a mirar el fichero de /etc/pam.d</p>
+</li>
+<li>
+<p>Modulos plugables en /usr/lib64/security  </p>
+</li>
+<li>
+<p>Linea de un file PAM: <code>type - control - module_path - module_arguments</code>  </p>
+</li>
+<li>
+<p>Types: auth, account, password, session.  </p>
+</li>
+<li>
+<p>Control: required, requisite, sufficient, optional, include, substack.  </p>
+</li>
+<li>
+<p>pam_echo: siempre da SUCCESS  </p>
+</li>
+<li>pam_permit: permite cambiar chfn sin poner paasswd  </li>
+<li>pam_deny: niega que puedas cambiar</li>
+<li>
+<p>pam_unix: permite si es un user valid  </p>
+</li>
+<li>
+<p>ldd /usr/lib/chfn ver dependencias  </p>
+</li>
+<li>
+<p>Calidad de un password: /etc/pam.d/passwd // /etc/security/pwquality.conf  </p>
+</li>
+<li>
+<p>Time: /etc/security/time.conf  </p>
+</li>
+<li>
+<p>Definimos volumen a compartir en: /etc/security/pam_mount.conf.xml  </p>
+</li>
+<li>
+<p>Comprobamos conexion con LDAP con <code>getent passwd user/ getent group group</code>  </p>
+</li>
+<li>
+<p>Ficheros importantes de nscd.conf, nslcd.conf y nsswitch.conf</p>
+</li>
+</ul>
+<h2 id="instalacion">INSTALACION</h2>
+<ul>
+<li>Dockerfile:  </li>
+</ul>
+<pre><code># hostpam
+FROM fedora:27
+LABEL version=&quot;1.0&quot;
+LABEL author=&quot;Miguel Amorós&quot;
+LABEL subject=&quot;hostpam:scratch&quot;
+RUN dnf install -y vim util-linux-user-2.30.2-3.fc27.x86_64 finger passwd pam_mount nss-pam-ldapd authconfig
+RUN mkdir /opt/docker
+COPY * /opt/docker/
+RUN chmod +x /opt/docker/startup.sh
+WORKDIR /opt/docker
+</code></pre>
+
+<ul>
+<li>Startup.sh:  </li>
+</ul>
+<pre><code>#! /bin/bash
+bash /opt/docker/install.sh
+/sbin/nscd
+/sbin/nslcd -d
+</code></pre>
+
+<ul>
+<li>Install.sh:  </li>
+</ul>
+<pre><code>#! /bin/bash
+useradd local1
+useradd local2
+useradd local3
+echo &quot;local1&quot; | passwd --stdin local1
+echo &quot;local2&quot; | passwd --stdin local2
+echo &quot;local3&quot; | passwd --stdin local3
+cp /opt/docker/login.defs /etc/login.defs
+cp /opt/docker/nslcd.conf /etc/nslcd.conf
+cp /opt/docker/nslcd.conf /etc/nscd.conf
+cp /opt/docker/nsswitch.conf /etc/nsswitch.conf
+authconfig --enableshadow --enablelocauthorize --enableldap --enableldapauth --enablemkhomedir --ldapserver='ldapserver' --ldapbase='dc=edt,dc=org' --updateall
+#bash /opt/docker/auth.sh
+</code></pre>
+
+<h2 id="ficheros">FICHEROS</h2>
+<ul>
+<li>nsswitch.conf:  </li>
+</ul>
+<pre><code>#
+# /etc/nsswitch.conf
+#
+# An example Name Service Switch config file. This file should be
+# sorted with the most-used services at the beginning.
+#
+# The entry '[NOTFOUND=return]' means that the search for an
+# entry should stop if the search in the previous entry turned
+# up nothing. Note that if the search failed due to some other reason
+# (like no NIS server responding) then the search continues with the
+# next entry.
+#
+# Valid entries include:
+#
+#   nisplus         Use NIS+ (NIS version 3)
+#   nis         Use NIS (NIS version 2), also called YP
+#   dns         Use DNS (Domain Name Service)
+#   files           Use the local files
+#   db          Use the local database (.db) files
+#   compat          Use NIS on compat mode
+#   hesiod          Use Hesiod for user lookups
+#   [NOTFOUND=return]   Stop searching if not found so far
+#
+# To use db, put the &quot;db&quot; in front of &quot;files&quot; for entries you want to be
+# looked up first in the databases
+#
+# Example:
+#passwd:    db files nisplus nis
+#shadow:    db files nisplus nis
+#group:     db files nisplus nis
+passwd:     files ldap systemd
+shadow:     files ldap
+group:      files ldap systemd
+#hosts:     db files nisplus nis dns
+hosts:      files dns myhostname
+# Example - obey only what nisplus tells us...
+#services:   nisplus [NOTFOUND=return] files
+#networks:   nisplus [NOTFOUND=return] files
+#protocols:  nisplus [NOTFOUND=return] files
+#rpc:        nisplus [NOTFOUND=return] files
+#ethers:     nisplus [NOTFOUND=return] files
+#netmasks:   nisplus [NOTFOUND=return] files
+bootparams: nisplus [NOTFOUND=return] files
+ethers:     files
+netmasks:   files
+networks:   files
+protocols:  files
+rpc:        files
+services:   files sss
+netgroup:   nisplus sss
+publickey:  nisplus
+automount:  files nisplus
+aliases:    files nisplus
+</code></pre>
+
+<ul>
+<li>nslcd.conf:  </li>
+</ul>
+<pre><code># This is the configuration file for the LDAP nameservice
+# switch library's nslcd daemon. It configures the mapping
+# between NSS names (see /etc/nsswitch.conf) and LDAP
+# information in the directory.
+# See the manual page nslcd.conf(5) for more information.
+# The user and group nslcd should run as.
+uid nslcd
+gid ldap
+# The uri pointing to the LDAP server to use for name lookups.
+# Multiple entries may be specified. The address that is used
+# here should be resolvable without using LDAP (obviously).
+#uri ldap://127.0.0.1/
+#uri ldaps://127.0.0.1/
+#uri ldapi://%2fvar%2frun%2fldapi_sock/
+# Note: %2f encodes the '/' used as directory separator
+uri ldap://ldapserver
+# The LDAP version to use (defaults to 3
+# if supported by client library)
+#ldap_version 3
+# The distinguished name of the search base.
+base dc=edt,dc=org
+</code></pre>
+
+<ul>
+<li>
+<p>nscd.conf no hacemos nada  </p>
+</li>
+<li>
+<p>Login.defs.conf:  </p>
+</li>
+</ul>
+<pre><code>#
+# Please note that the parameters in this configuration file control the
+# behavior of the tools from the shadow-utils component. None of these
+# tools uses the PAM mechanism, and the utilities that use PAM (such as the
+# passwd command) should therefore be configured elsewhere. Refer to
+# /etc/pam.d/system-auth for more information.
+#
+# *REQUIRED*
+#   Directory where mailboxes reside, _or_ name of file, relative to the
+#   home directory.  If you _do_ define both, MAIL_DIR takes precedence.
+#   QMAIL_DIR is for Qmail
+#
+#QMAIL_DIR  Maildir
+MAIL_DIR    /var/spool/mail
+#MAIL_FILE  .mail
+# Password aging controls:
+#
+#   PASS_MAX_DAYS   Maximum number of days a password may be used.
+#   PASS_MIN_DAYS   Minimum number of days allowed between password changes.
+#   PASS_MIN_LEN    Minimum acceptable password length.
+#   PASS_WARN_AGE   Number of days warning given before a password expires.
+#
+PASS_MAX_DAYS   99999
+PASS_MIN_DAYS   0
+PASS_MIN_LEN    5
+PASS_WARN_AGE   7
+#
+# Min/max values for automatic uid selection in useradd
+#
+UID_MIN                  1000
+UID_MAX                 60000
+# System accounts
+SYS_UID_MIN               201
+SYS_UID_MAX               999
+#
+# Min/max values for automatic gid selection in groupadd
+#
+GID_MIN                  1000
+GID_MAX                 60000
+# System accounts
+SYS_GID_MIN               201
+SYS_GID_MAX               999
+#
+# If defined, this command is run when removing a user.
+# It should remove any at/cron/print jobs etc. owned by
+# the user to be removed (passed as the first argument).
+#
+#USERDEL_CMD    /usr/sbin/userdel_local
+#
+# If useradd should create home directories for users by default
+# On RH systems, we do. This option is overridden with the -m flag on
+# useradd command line.
+#
+CREATE_HOME yes
+# The permission mask is initialized to this value. If not specified, 
+# the permission mask will be initialized to 022.
+UMASK           077
+# This enables userdel to remove user groups if no members exist.
+#
+USERGROUPS_ENAB yes
+# Use SHA512 to encrypt password.
+ENCRYPT_METHOD SHA512 
+CHFN_RESTRICT no
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../samba/" class="btn btn-neutral float-right" title="SAMBA">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../ldap/" class="btn btn-neutral" title="LDAP"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../ldap/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../samba/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

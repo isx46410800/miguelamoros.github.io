@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Windows - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Windows";
+    var mkdocs_page_input_path = "windows.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Windows</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion">INSTALACIÓN</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#server-manager">SERVER MANAGER</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#estructurando-el-ad">ESTRUCTURANDO EL AD</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gpo">GPO</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#rasremote-access-server">RAS(Remote Access Server)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dhcp">DHCP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#practica-dc-y-3-servers">PRACTICA DC Y 3 SERVERS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notas">NOTAS</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Windows</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/windows.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="administrar-windows-server-2019">ADMINISTRAR WINDOWS SERVER 2019</h1>
+<h2 id="instalacion">INSTALACIÓN</h2>
+<ul>
+<li>
+<p>Para probar lo haremos con una maquina virtual. En este caso probaremos con <strong>HYPER-V</strong>, una herramienta de virtualización propia de windows que utiliza un hypervisor.  </p>
+</li>
+<li>
+<p>Hyper-V es un programa de virtualización de Microsoft basado en un hipervisor para los sistemas de 64 bits​ con los procesadores basados en AMD-V o Tecnología de virtualización Intel.  </p>
+</li>
+<li>
+<p>Un hipervisor o monitor de máquina virtual ​ es una plataforma que permite aplicar diversas técnicas de control de virtualización para utilizar, al mismo tiempo, diferentes sistemas operativos en una misma computadora.  </p>
+</li>
+<li>
+<p>Los windows 10 home no lo tienen, no obstante con este fichero lo podremos aplicar: <a href="https://mega.nz/file/BNQDkA5D#uBn_TK3Yw5DF_VK3GZFaQ2mQqsRZLq_r0KwmvMEvWT4">Enable HYPER-V</a>  </p>
+</li>
+<li>
+<p>Al reiniciar si no funciona directamente tendremos que hacer las siguientes opciones:  </p>
+<ol>
+<li>Habilitar virtualización en la BIOS</li>
+<li>En la powershell comando <code>bcdedit /set hypervisorlaunchtype auto</code></li>
+<li>En la powershell comando <code>dism /online /enable-feature /featurename:Microsoft-Hyper-V -All</code>  </li>
+</ol>
+</li>
+<li>
+<p>Iniciamos maquina virtual y configuramos:  </p>
+<ul>
+<li>Idioma/Región</li>
+<li>S.O. versión standard evaluation con experiencia de escritorio para que tenga ventanas y no solo consola</li>
+<li>Instalación personalizada (si le damos a SHIFT+F10 nos abre una consola de cmd para poder hacer cosas también)</li>
+<li>Varios reinicios</li>
+<li>Contraseña administrador</li>
+</ul>
+</li>
+<li>
+<p>El controlador de dominio es el centro neurálgico de un dominio Windows, tal como un servidor Network Information Service (NIS) lo es del servicio de información de una red Unix.</p>
+</li>
+<li>
+<p>Los controladores de dominio tienen una serie de responsabilidades, y una de ellas es la autenticación, que es el proceso de garantizar o denegar a un usuario el acceso a recursos compartidos o a otra máquina de la red, normalmente a través del uso de una contraseña. Esto permite validar a los usuarios de una red para ser partes de la plataforma de clientes que recibirán los servicios de información.</p>
+</li>
+<li>
+<p>Cada controlador de dominio usa un security account manager (SAM), o NTDS en Windows 2003 Server (que es la forma promovida de la SAM, al pasar como controlador de dominio), para mantener una lista de pares de nombre de usuario y contraseña. El controlador de dominio entonces crea un repositorio centralizado de contraseñas, que están enlazados a los nombres de usuarios (una clave por usuario), lo cual es más eficiente que mantener en cada máquina cliente centenares de claves para cada recurso de red disponible.</p>
+</li>
+<li>
+<p>En un dominio Windows, cuando un cliente no autorizado solicita un acceso a los recursos compartidos de un servidor, el servidor actúa y pregunta al controlador de dominio si ese usuario está autentificado. Si lo está, el servidor establecerá una conexión de sesión con los derechos de acceso correspondientes para ese servicio y usuario. Si no lo está, la conexión es denegada.</p>
+</li>
+<li>
+<p>Una vez que el controlador de dominio autentifica a un usuario, se devuelve al cliente una ficha especial (token) de autenticación, de manera que el usuario no necesitará volver a iniciar sesión para acceder a otros recursos en dicho dominio, ya que el usuario se considera autentificado en el dominio.</p>
+</li>
+</ul>
+<h2 id="server-manager">SERVER MANAGER</h2>
+<ul>
+<li>
+<p>El server manager(administrador del servidor) es el aplicativo para configurar todas las cosas del server.</p>
+</li>
+<li>
+<p>Antes miramos las tarjetas de red con el comando <code>ncpa.cpl</code>. Elegimos la tarjeta - propiedades - ipv4 - propiedades y indicamos la IP que queremos ponerle. </p>
+</li>
+</ul>
+<p><img alt="" src="../images/win.png" /></p>
+<ul>
+<li>Cambiar nombre en <code>servidor local</code> y lo ponemos como un control de dominio(domain controller):  </li>
+</ul>
+<p><img alt="" src="../images/win02.png" /></p>
+<ul>
+<li>
+<p>En servidor local activamos el escritorio remoto y desactivamos aqui solo(en produccion no) la seguridad de Iexplorer.</p>
+</li>
+<li>
+<p>En servidor local abajo en rendimiento, iniciamos contador y a la dercha configuramos las alertas para 7 dias.</p>
+</li>
+<li>
+<p>En servidor local , parte arriba derecha en administrar le damos a agregar roles y caracteristicas. Seleccionamos el servidor y despues en roles de servidor, seleccionamos <code>servicios de dominio de Active Directory</code>. Siguiente, siguiente e instalamos.</p>
+<ul>
+<li>En powershell sería con el comando <code>install-windowsfeature</code> y para ver los que hay <code>get-windowsfeature</code></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../images/win03.png" /></p>
+<ul>
+<li>Despues de instalar le damos a promover servicio para configurar el AD:  </li>
+</ul>
+<p><img alt="" src="../images/win04.png" />  </p>
+<p><img alt="" src="../images/win05.png" />  </p>
+<blockquote>
+<p>Si se trabaja con aparatos mas antiguos, el nivel funcional hay que bajarlos.  </p>
+</blockquote>
+<p>Siguiente pantalla
+<img alt="" src="../images/win06.png" /><br />
+<img alt="" src="../images/win07.png" /><br />
+<img alt="" src="../images/win08.png" />  </p>
+<ul>
+<li>En Panel - derecha Herramientas - DNS:  <ul>
+<li>En DC01 boton derecho ejecutar nslookup(nos sale unkown)</li>
+<li>Solucinamos dandole a zona inversa crear nueva. Siguiente hasta encontrar el cajon de poner ip, ponemos 192.168.1</li>
+<li>Ahora actualizamos el puntero PTR en la directa dando boton derecho a la de la ip y le damos a actualizar y nos sale</li>
+<li>En boton derecho DC01 propiedades - reenviadores le ponemos los DNS. En revisión hacemos la prueba</li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="../images/win09.png" /><br />
+<img alt="" src="../images/win10.png" /><br />
+<img alt="" src="../images/win11.png" /><br />
+<img alt="" src="../images/win12.png" />  </p>
+<h2 id="estructurando-el-ad">ESTRUCTURANDO EL AD</h2>
+<ul>
+<li>
+<p>Representaremos este ejemplo:<br />
+<img alt="" src="../images/win13.png" />  </p>
+</li>
+<li>
+<p>Vamos al Panel - derecha Herramientas - Usuarios y equipos de Active Directory.  </p>
+</li>
+<li>
+<p>Entramos a la organización creada de miguel.local y dentro creamos la organización global <code>Miguel</code> con boton derecho - nuevo - organización.</p>
+<blockquote>
+<p>Hemos creado un global porque luego para crear directivas de grupo, afectará a todo lo de abajo y sino tendriamos problemas porque afectaria a cosas que estan en la misma altura que no queremos que tengan esto.</p>
+</blockquote>
+</li>
+</ul>
+<p><img alt="" src="../images/win14.png" /><br />
+<img alt="" src="../images/win15.png" />  </p>
+<ul>
+<li>Ahora entramos en esta y vamos creando dentro nuevos deparamentos:  </li>
+</ul>
+<p><img alt="" src="../images/win16.png" />  </p>
+<ul>
+<li>Si tenemos algun error, al tener la casilla marcada de no poder eliminar. Vamos al menu ver - caracteriticas avanzadas - buscamos el departamento - propiedades - recursos y eliminamos la casilla y luego ya podremos mover o eliminar ese departamento.  </li>
+</ul>
+<p><img alt="" src="../images/win17.png" />  </p>
+<ul>
+<li>Ahora entramos en cada departamento y vamos creando usuarios en cada uno con una misma contraseña.  </li>
+</ul>
+<p><img alt="" src="../images/win18.png" /><br />
+<img alt="" src="../images/win19.png" />  </p>
+<ul>
+<li>Ahora dentro de cada departamento , creamos un grupo con el mismo nombre. Esto se hace para poder luego compartir recursos, ya que por unidades organizativas no se puede.  </li>
+</ul>
+<p><img alt="" src="../images/win20.png" />  </p>
+<ul>
+<li>El departamento global de <code>Miguel</code> tambien tiene que tener un grupo creado. Porque asi si creamos un recurso o algo global, si se lo damos a esto, se lo aplica a todos los de su union:  </li>
+</ul>
+<p><img alt="" src="../images/win21.png" />  </p>
+<ul>
+<li>Ahora en cada departamento, seleccionamos todos los usuarios que hayan, boton derecho asignar un nuevo grupo. Escribimos el nombre del grupo, le damos a comprobar nombres y aceptamos. Si entramos a las propiedades del grupo, veremos que están como miembros.  </li>
+</ul>
+<p><img alt="" src="../images/win22.png" /><br />
+<img alt="" src="../images/win23.png" /><br />
+<img alt="" src="../images/win24.png" />  </p>
+<ul>
+<li>Despues de cada grupo, lo asignamos al grupo general <code>Miguel</code>.</li>
+</ul>
+<p><img alt="" src="../images/win25.png" />  </p>
+<h2 id="gpo">GPO</h2>
+<ul>
+<li>
+<p>Cpanel - Herramientas - Administracion de directivas de grupo. Todas las directivas se guardan en objetos de directivas de grupo.  </p>
+</li>
+<li>
+<p>Vemos la que hay y las configuraciones que tienen:  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/win26.png" /><br />
+<img alt="" src="../images/win27.png" />  </p>
+<ul>
+<li>Para editar una vamos a boton derecho y editar. Desde aquí para modificar algo se busca siguiendo la misma ruta que en la configuración.  </li>
+</ul>
+<p><img alt="" src="../images/win28.png" />  </p>
+<ul>
+<li>Para crear una directiva de grupo(GPO) vamos a objetos y boton derecho crear. Todas las GPO para vincularlas necesitan una unidad organizativa. Para ello, vamos a la unidad de Contabilidad, boton derecho y vincular a la creada.  </li>
+</ul>
+<p><img alt="" src="../images/win29.png" /><br />
+<img alt="" src="../images/win30.png" /><br />
+<img alt="" src="../images/win31.png" />  </p>
+<ul>
+<li>Tambien se puede crear directamente yendo a la unidad y boton derecho crear GPO y vincular:  </li>
+</ul>
+<p><img alt="" src="../images/win32.png" /><br />
+<img alt="" src="../images/win33.png" />  </p>
+<ul>
+<li>GPO de inicio: sirve para que esa directiva sea comun para todos. Vamos a GPO de inicio y crear. Unas de las más comunes es el fondo de escritorio o que no usen los USB. Para crear una, en contenido boton derecho nuevo.</li>
+</ul>
+<p><img alt="" src="../images/win34.png" />  </p>
+<ul>
+<li>Ahora si creamos una directiva de grupo, le podemos indicar que sea como base la de inicio:  </li>
+</ul>
+<p><img alt="" src="../images/win35.png" />  </p>
+<ul>
+<li>Para editar una GPO de inicio, entramos vamos a configuracion boton derecho edicion. Tocamos lo que sea y en la proxima GPO que creemos veremos que tiene estas configuraciones, partirá con la reciente modificación. Siempre parten de como esten en ese momento, los cambios no afectan a todas las que esten asignadas.  </li>
+</ul>
+<p><img alt="" src="../images/win36.png" /><br />
+<img alt="" src="../images/win37.png" /><br />
+<img alt="" src="../images/win38.png" />  </p>
+<ul>
+<li>Se puede crear GPO para la raiz y hereda para todos. No obstante, si queremos que algun departamento no herede, vamos a la unidad organizativa, boton derecho eliminar herencia:  </li>
+</ul>
+<p><img alt="" src="../images/win39.png" /><br />
+<img alt="" src="../images/win40.png" />  </p>
+<ul>
+<li>No obstante, aunque se quita la herencia. Si las GPO de la raiz le doy boton derecho y exigido. La van a tener si o si:  </li>
+</ul>
+<p><img alt="" src="../images/win41.png" /><br />
+<img alt="" src="../images/win42.png" />  </p>
+<ul>
+<li>La parte ultima de resultados de directivas de grupo, se puede generar un informe de un usuario/grupo de todas las directivas que tiene.  </li>
+</ul>
+<p><img alt="" src="../images/win43.png" />  </p>
+<blockquote>
+<p>Se puede hacer por consola con la orden <code>gpresult /h file.html</code>  </p>
+</blockquote>
+<h2 id="rasremote-access-server">RAS(Remote Access Server)</h2>
+<ul>
+<li>Primero instalamos el servicio de enrutamiento. Cpanel - administrar - roles y caracteristicas. En este caso seleccionamos acceso remoto que es donde esta y en los servicios agregamos enrutamiento. Todo siguiente hasta instalar.  </li>
+</ul>
+<p><img alt="" src="../images/win44.png" /><br />
+<img alt="" src="../images/win45.png" />  </p>
+<ul>
+<li>
+<p>Una vez instalado vamos a herramientas - enrutamiento y acceso remoto
+<img alt="" src="../images/win46.png" />  </p>
+</li>
+<li>
+<p>Vamos a boton derecho en DC01 y configurar, despues a tradducion de NAT y elegimos cual es la interfaz a la que conectarse y aceptar.  </p>
+</li>
+<li>
+<p>NAT permite que con una solo IP publica puedan varios dispositivos salir a internet por esta IP</p>
+</li>
+</ul>
+<h2 id="dhcp">DHCP</h2>
+<ul>
+<li>Primero instalamos el servicio de enrutamiento. Cpanel - administrar - roles y caracteristicas. En este caso seleccionamos DHCP que es donde esta y en los servicios agregamos enrutamiento. Todo siguiente hasta instalar.  </li>
+</ul>
+<p><img alt="" src="../images/win47.png" />  </p>
+<ul>
+<li>Despues de con configuración posterior, vamos a herramientas - dhcp. En ipv4 creamos ambito nuevo, ponemos la ip del servidor y le damos un rango a partir de la siguiente a esa ip.    </li>
+</ul>
+<p><img alt="" src="../images/win48.png" />  </p>
+<h2 id="practica-dc-y-3-servers">PRACTICA DC Y 3 SERVERS</h2>
+<ul>
+<li>Nombre servidor: dc01
+-Tarjetas de Red propia y privada(ip/dnd 192.168.16.100</li>
+<li>Instalar active directory y configurar nuevo bosque </li>
+<li>Hacer dns inverso de la red 192.168.16</li>
+<li>Instalar acceso remoto y enruntamiento, configurar enruntamiento, opción Nat con la Red wan  </li>
+<li>instalar Dhcp y configurar. Creamos ámbito, rango de ips 1-50 ejemplo. Puerta enlace será nuestra ip del server</li>
+<li>abrimos otra máquina de Windows y probamos que se pueda conectar x Dhcp del server y pueda navegar. No conectar directo a la Red que sale. </li>
+<li>crear unidades/usuarios con centro de administración de AD o en grupo de unidades organizativas o usuarios y equipos AD. Siempre creamos una raíz. Los usuarios gestionamos su horario de conexión. Podemos hacer uno de modo plantilla y el resto copiar a partir de ahí. Creamos un grupo tmb de cada cosa. Agregamos cada usuario a su grupo. Y grupo con subgrupos</li>
+<li>instalamos en servicio de archivos - scsi - desduplicacion de datos. En configuración luego en volúmenes seleccionamos que unidad queremos hacerlo y su programación. Esto ahorra mucho espacio y junta fragmentos de mismo archivos.</li>
+<li>crear una GPO de política en objetos de administración de unidades organizativas y editamos. Habilitamos directiva de redes y el ping(firewall permitir excepciones compartir archivos e impresoras entrantes y ponemos la ip de la Red global) y la de (firewallbpermir excepciones icmp). Tmb inicio de sesión interactivo título mensaje al iniciar y luego el de texto mensaje. Vinculamos esta política a la unidad general creada para que solo afecte a ellos.  </li>
+<li>instalamos en servicios archivos de almacenamiento - scsi - administrador de recursos del servidor de archivos. Dentro en características añadimos copias de seguridad de Windows server.  </li>
+<li>creamos una copia de seguridad - programamos personalizada todo lo que queremos hacer de copia y donde guardarlo. </li>
+<li>en recursos compartidos - tarea nuevo recurso y seleccionar carpeta a compartir y seleccionar quién puede acceder y sus permisos.<br />
+Podemos decir que en la carpeta compartida los users no puedan almacenar cierto tipo de archivos. Vamos a herramientas - administrador de recursos compartidos del servidor - filtrado - filtros. Seleccionamos carpeta y ponemos po ejemplo bloquear archivos d audio y vídeo. 
+También podemos crear cuota para ponerle límites a las carpetas</li>
+<li>abrimos otro Windows y cambiamos nombre del equipo y lueg lo añadimos al dominio creado. </li>
+<li>se puede hacer una prueba de reiniciar remotamente el equipo desde cmd server. </li>
+<li>de un volumen o disco podemos ir a propiedades y habilitar instantáneas para poder volver a Estados anteriores. </li>
+<li>recuperar servidor desde una copia de seguridad. Arrancamos con la iso, reparar equipo, solucionar problemas, recuperar de una imagen del sistema y elegimos la copia. </li>
+<li>vpn modo sencillo: enrutamienti y acceso remoto. Botón derecho y en mi dc01 y configurar. Seleccionar vpn y elegimos interfaz que da Internet wan. Automáticamente elegimos, no radius. Vamos a otro equipo,configuración de vpn</li>
+<li>
+<p>vpn manual. Lo mismo pero elegimos Nat la interfaz. Propiedades de dc01, enrutador de la y servidor remoto. En ipv4 creamos interfaz /protó igmp(wan proxy y lan enrutador). Interfaz /protó Nat (wan interfaz Internet y habilitar;puertos de puerta enlace y de seguridad 4,ip loop, lan interfaz privada). Puertos/clientes propiedades (enrutador enrutamienti y servidor ipv4. Puertos propiedades activamos las dos opciones. </p>
+</li>
+<li>
+<p>3 servers; ras, Dhcp, AD.<br />
+AD en dominio con puerta enlace ras y dns el mismo 192.168.16.200 // 254//200
+Ras dis interfaces. 192.168.100. 254 se instala enrutamiento y acceso remoto. 
+Dhcp instala Dhcp puerta enlace ras //251 //254
+En el ad se añade d servidor el dhcp
+Cliente coge IP del dhcp k coge Internet por el ras </p>
+</li>
+</ul>
+<h2 id="notas">NOTAS</h2>
+<ul>
+<li>
+<p>Nat Y Red interna. Dhcp el del otro adaptador</p>
+</li>
+<li>
+<p>Crear equipos en herramientas de directivas de grupo, y en los usuarios creados cuando inicien sesión, en propiedades del sistema, agregar al dominio creado. En Linux en admin - autenticació - cuentas de usuarios de winbind. Controladores es la IP y dominio con nombre corto</p>
+</li>
+<li>
+<p>Agregar características para recursos compartidos y creamos una carpeta que sea compartida por los usuarios que digamos</p>
+</li>
+<li>
+<p>Si conectamos otro pc cn sistema en la misma Red interna del Dhcp como adaptador, le da la IP el dhcp</p>
+</li>
+<li>
+<p>Comandos cmd.:</p>
+</li>
+</ul>
+<pre><code>D:
+
+dir
+
+hostname
+
+sconfig
+
+cd c:\Windows\ruta
+
+shutdown 
+
+Comandos powershell:
+
+dsadd agregar objetos, cuentas... 
+</code></pre>
+
+<ul>
+<li>
+<p>Crear vlans:</p>
+<p>En Dhcp creamos ámbitos con diferentes rangos de ups y después activamos ámbito. </p>
+<p>En opciones de servidores se crean los registros que serán comunes para todos los ambitos: se añaden registros ips d dns, correo, enrutador</p>
+<p>Se puede crear superambito para unir zonas de ámbito como por ejemplo pisos de un sitio. </p>
+<p>Las reservas sirven para reservar la misma IP al que se conecta </p>
+<p>En dns se crean las zonas inversas de cada Red añadida</p>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../files/" class="btn btn-neutral" title="Archivos Destacados"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../files/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

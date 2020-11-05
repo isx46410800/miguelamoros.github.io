@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Azure - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Azure";
+    var mkdocs_page_input_path = "azure.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Azure</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#que-es">QUE ES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#potencia-de-proceso">Potencia de proceso</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#almacenamiento">Almacenamiento</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#redes">Redes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crear-cuenta">CREAR CUENTA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#principio-5-3-2">PRINCIPIO 5-3-2</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#caracteristicas">Caracteristicas</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#metodos-de-entrega">Metodos de entrega</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modelos-de-implementacion">Modelos de implementación</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#maquinas-virtuales">MAQUINAS VIRTUALES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-mv">CREAR MV</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#herramientas-azure">HERRAMIENTAS AZURE</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#azure-powershell">AZURE POWERSHELL</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Azure</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/azure.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="azure">AZURE</h1>
+<h2 id="que-es">QUE ES</h2>
+<ul>
+<li>
+<p>Microsoft Azure es un servicio de Informática en la Nube creado por Microsoft para construir, testear, desplegar y gestionar aplicaciones y servicios a través de centros de datos gestionados por Microsoft.  </p>
+</li>
+<li>
+<p>Microsoft Azure, como otros proveedores de nube, nos permite alquilar recursos como espacio de almacenamiento o ciclos de CPU en equipos físicos que no debo administrar. Solo se paga por lo que usa (o al menos se mide).</p>
+</li>
+<li>
+<p>Los servicios informáticos ofrecidos suelen variar en función de cada proveedor. Normalmente estos servicios incluyen:</p>
+<ul>
+<li>Potencia de proceso: por ejemplo, aplicaciones web o servidores Linux.</li>
+<li>Almacenamiento: por ejemplo, archivos y bases de datos.</li>
+<li>Redes: por ejemplo, conexiones seguras entre el proveedor de nube y la empresa.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="potencia-de-proceso">Potencia de proceso</h3>
+<ul>
+<li>Cuando hacemos virtualmente cualquier acción en internet, como pagar una factura online, leer un periódico y enviar un correo electrónico, estamos interactuando con servidores de nube que procesan cada solicitud y devuelven una respuesta. Todo esto requiere de cómputo.  <ul>
+<li>Maquina virtual  </li>
+<li>Contenedores</li>
+<li>Serverless o informatica sin servidor</li>
+</ul>
+</li>
+</ul>
+<h3 id="almacenamiento">Almacenamiento</h3>
+<ul>
+<li>
+<p>La mayoría de las aplicaciones leen y escriben datos. Y en este sentido, el tipo de datos y cómo se almacenan puede ser diferente según el tipo de aplicación, la necesidad y velocidad requerida.</p>
+</li>
+<li>
+<p>Los proveedores de nube suelen ofrecer soluciones de almacenamiento para máquinas virtuales, aplicaciones web, bases de datos, archivos de datos y analítica. Por ejemplo, si quiere almacenar texto o un clip de película, podría usar un archivo en disco. Si tuviera un conjunto de relaciones (por ejemplo, una libreta de direcciones), podría decidirse por un enfoque más estructurado, como usar una base de datos.</p>
+</li>
+<li>
+<p>La ventaja de utilizar almacenamiento basado en nube, es que no debemos preocuparnos por el escalado. Si se necesita más espacio, se puede agregar pagando un poco más de precio, e inclusive si las necesidades de almacenamiento bajan, también bajará el precio asociado.</p>
+</li>
+</ul>
+<h3 id="redes">Redes</h3>
+<p>En todos estos casos, las redes cobran una importancia vital. Los proveedores de nube suelen tener servicios de redes que nos permiten:<br />
++ Crear y configurar Redes Virtuales.
++ Crear y conectar de extremo a extremo redes en la nube con una infraestructura local (conocidas como site-to-site, y point-to-site).
++ Parametrizar reglas de acceso a recursos.
++ Monitorear tráfico de redes.
++ Aplicar reglas, restricciones y protecciones a las comunicaciones.</p>
+<h2 id="crear-cuenta">CREAR CUENTA</h2>
+<ul>
+<li>
+<p><a href="https://azure.microsoft.com/es-es/free/">Web azure</a>  </p>
+<ul>
+<li>A través de azure.com: es la forma más rápida y fácil que tienen las organizaciones de todos los tamaños para empezar a usar Azure. Puede administrar las implementaciones y el uso de Azure, como así también obtener una factura mensual de Microsoft por los servicios usados.</li>
+<li>Con la ayuda de un Partner de Microsoft. Es un modelo para obtener facturación local en tu país. De esta manera, Azure se brindará como servicio administrado a través de un partner, quién te proporcionará el acceso y la facturación, junto con un soporte técnico básico.</li>
+<li>A través de un representante directo de Microsoft, opción pensada para organizaciones de gran tamaño o clientes que ya trabajan con la marca. A diferencia de azure.com (que requiere tarjeta de crédito), esto habilitará un tipo de contrato especial con varias ventajas al momento de necesitar varias suscripciones.  </li>
+</ul>
+</li>
+<li>
+<p>Los servicios de Azure están disponibles a través de Centros de Datos gestionados por Microsoft. Los mismos están conformados por edificios.</p>
+</li>
+<li>
+<p>xisten +60 regiones anunciadas en todo el mundo, y muchas que están anunciadas como adicionales futuras. Esto representa una presencia física en 140 países. En el mapa podrás ver la ubicación de los centros de datos, a excepción de 3 correspondientes a gobierno por lo cual su ubicación es secreta.</p>
+</li>
+<li>
+<p>SLA significa en inglés “service level agreement”, y en español “acuerdo de nivel de servicio”. Es un acuerdo escrito entre un proveedor de servicio y su cliente con objeto de fijar el nivel acordado para la calidad de dicho servicio. Este nivel puede ser un porcentaje que representa la disponibilidad mínima</p>
+</li>
+</ul>
+<h2 id="principio-5-3-2">PRINCIPIO 5-3-2</h2>
+<ul>
+<li>
+<p>La informática en la nube es un metodo de gestion de recursos de IT donde los usuarios acceden a los recursos virtuales de computo, red y almacenamiento que estan disponibles online. Estos recursos se pueden aprovionar de manera instantanea y elastica.  </p>
+</li>
+<li>
+<p>Se compone de:  </p>
+<ul>
+<li>5 Caracteristicas</li>
+<li>3 metodos de entrega</li>
+<li>2 modelos de implementacion</li>
+</ul>
+</li>
+</ul>
+<h3 id="caracteristicas">Caracteristicas</h3>
+<ul>
+<li>Autoservicio y bajo demanda: un consumidor puede provisionarse de caracteristicas como tiempo de uso, almacenamiento, memoria...  </li>
+<li>Acceso amplio y ubicuo: los recursos pueden ser accecidos desde cualquier lugar y cualquier dispositivo.  </li>
+<li>Ubicacion transparente y agrupacion de recursos: suelen estar en diferentes localizaciones sobre distintos recursos fisicos o virtuales que son dinamicamente asignados.  </li>
+<li>Elasticidad rapida (estirarse y contraerse): pueden aumentar en epocas de mucha carga asi como reducirlo cuando no se use.  </li>
+<li>Servicio medido (e incluso pago por uso): recursos y capacidades segun lo que necesitas.  </li>
+</ul>
+<h3 id="metodos-de-entrega">Metodos de entrega</h3>
+<ul>
+<li>IaaS(Infraestructura como Servicio):<ul>
+<li>Cliente tiene capacidad de utilizar almacenamiento, red, recursos sofware, SO, app.</li>
+<li>No tiene el control sobre la infraestructura pero sino tiene el control del resto apartir del SO.</li>
+<li>COntrol limitado sobre red como el firewall</li>
+<li>Ejemplo serian las maquinas virtuales</li>
+</ul>
+</li>
+<li>PaaS(Plataforma como Servicio):<ul>
+<li>Podemos desplegar apps propias o de terceros</li>
+<li>Control sobre las apps y la configuracion de ellas</li>
+<li>Ejemplo seria servicios hosting</li>
+</ul>
+</li>
+<li>Saas(Software como Servicio):<ul>
+<li>Capacidad de usar aplicaciones en una infraestructura de nube que cumple con las 5 caracteristicas</li>
+<li>No tenemos control sobre ningun componente, solo lo usamos.</li>
+<li>Ejemplo seria Office 365, exchange, gmail, yahoo, google apps.</li>
+</ul>
+</li>
+</ul>
+<h3 id="modelos-de-implementacion">Modelos de implementación</h3>
+<ul>
+<li>Nube Privada: en mi propio centro de datos</li>
+<li>Nube Pública: en azure o otros proveedores de servicios</li>
+<li>Puede haber la mezcla con Nube Hibrida.</li>
+</ul>
+<h2 id="maquinas-virtuales">MAQUINAS VIRTUALES</h2>
+<ul>
+<li>Tipo de recurso escalable por Azure</li>
+<li>Se tiene control total sobre la configuración y se puede instalar de todo</li>
+<li>No es necesario comprar hardware fisico para escalar o ampliar</li>
+<li>Azure tiene servicios para supervisar, proteger y administrar las actualizaciones y revisiones del sistema operativo</li>
+<li>Soy responsable de:  <ul>
+<li>Mantener el SO y sus actualizaciones</li>
+<li>Trabar sobre la performance</li>
+<li>Monitorear el espacio de disco usado</li>
+</ul>
+</li>
+<li>Componentes:  <ul>
+<li>Disco virtual: el disco es el que tendrá, por ejemplo, el sistema operativo instalado. Gracias al disco virtual puedo iniciar el equipo y guardar información en forma persistente</li>
+<li>Placa de red virtual: al igual que en un equipo físico, es la que me facilitará la conexión con una o más redes.</li>
+<li>Direcciones IP: gracias a la cual podré conectarme al equipo virtual. Estas direcciones IP pueden ser privadas y públicas.</li>
+<li>Grupos de seguridad de red: que nos ayudarán a definir desde qué origenes me puedo conectar, y hacia qué destinos puedo acceder, teniendo en cuenta protocolos, puertos, etc. Los Network Security Groups son una manera ágil de gestionar los permisos de red, para una o más máquinas.</li>
+</ul>
+</li>
+<li>Configurar: puedo el nombre de la MV, el SO y el tamaño. Tiene al menos dos discos, uno para el SO y otro temporal para la memoria virtual.</li>
+<li>Spot Virtual: herramienta que lo que no se use se vaya ahi para ahorrar. </li>
+</ul>
+<h3 id="crear-mv">CREAR MV</h3>
+<pre><code>Assignment Tasks
+A
+ Ingresar al Portal de Azure. Crear un &quot;Grupo de Recursos&quot; [Resource Group] con el nombre &quot;azf-vms-1&quot;
+Completed on 4 noviembre, 2020 7:01 pm
+B
+ Dentro del Resource Group, seleccionar la opción &quot;Crear recurso&quot; [Create resources]. Seleccionar el grupo &quot;Cómputo&quot; [Compute] y de la lista &quot;Máquina Virtual&quot; [Virtual Machine].
+Completed on 4 noviembre, 2020 7:01 pm
+C
+ En el asistente de creación, validar que la suscripción seleccionada sea la correcta (probablemente sea &quot;FREE TRIAL&quot;) y el Resource Group seleccionado es el correcto: &quot;azf-vms-1&quot;.
+Completed on 4 noviembre, 2020 7:01 pm
+D
+ Ingresar un nombre para la máquina virtual, por ejemplo &quot;azf-vm-windows-2019&quot;.
+Completed on 4 noviembre, 2020 7:01 pm
+E
+ Seleccionar una región de Azure. Por ejemplo &quot;Este de Estados Unidos&quot; [East US], una imagen &quot;WIndows Server 2019 Datacenter&quot; y un tamaño de máquina virtual (explorar todas las imágenes y elegir un tamaño como &quot;B1ms&quot; (es un equipo barato para este ejercicio).
+Completed on 4 noviembre, 2020 7:01 pm
+F
+ Ingresar un usuario [Username] y una contraseña dos veces [Password]. ¡No olvidarlas!
+Completed on 4 noviembre, 2020 7:01 pm
+G
+ Seleccionar el puerto de entrada [Inbound port] &quot;RDP (3389)&quot; para poder ingresar luego al equipo.
+Completed on 4 noviembre, 2020 7:02 pm
+H
+ Ir al paso siguiente: &quot;Discos&quot; [Disks]. Ingresar un Disco de Datos adicional [Create new disk] del menor tamaño posible.
+Completed on 4 noviembre, 2020 7:06 pm
+I
+ Ir al siguiente paso &quot;Redes&quot; [Networking]. Crear una nueva red con el nombre &quot;azf-vnet-1&quot; con el espacio de direcciones &quot;10.0.0.0/16&quot; y crear una subnet con el nombre &quot;Sub1&quot; y el espacio de direcciones &quot;10.0.0.0/24&quot;. Validar que una vez creada la red, esté seleccionada en &quot;Virtual Network&quot; y &quot;Subnet&quot; en el asistente del equipo virtual.
+Completed on 4 noviembre, 2020 7:11 pm
+J
+ Crear una IP pública con el nombre &quot;azf-ip-1&quot;, el &quot;SKU Basic&quot; y asignación &quot;Static&quot;.
+Completed on 4 noviembre, 2020 7:11 pm
+K
+ Seleccionar el grupo de seguridad de red [NIC network security group] en &quot;Basic&quot;.
+Completed on 4 noviembre, 2020 7:11 pm
+L
+ Validar que los puertos habilitados son solo &quot;RDP (3389)&quot;.
+Completed on 4 noviembre, 2020 7:11 pm
+M
+ Ir al siguiente paso &quot;Administración&quot; [Management].
+Completed on 4 noviembre, 2020 7:13 pm
+N
+ Seleccionar en diagnóstico de booteo [Boot diagnostics] en &quot;On&quot;. Esto requerirá crear una cuenta de almacenamiento.
+Completed on 4 noviembre, 2020 7:16 pm
+O
+ En el campo &quot;Cuenta de Almacenamiento de Diagnóstico&quot; [Diagnostics storage account] crear una nueva cuenta de almacenamiento con el nombre &quot;azfstorageXXXX&quot; donde XXXX es un número aleatorio generado por ti (dado que los nombres de cuentas de almacenamiento deben ser únicos en todo Azure). El tipo de cuenta debe ser &quot;Storage (general purpose v1) y &quot;Locally-redundant storage (LRS).
+Completed on 4 noviembre, 2020 7:17 pm
+P
+ Habilitar el apagado automático [Auto-shutdown] y elegir un horario de apagado para tu zona geográfica.
+Completed on 4 noviembre, 2020 7:17 pm
+Q
+ No modificar el resto de las opciones e ir al siguiente paso &quot;Avanzado&quot; [Advanced].
+Completed on 4 noviembre, 2020 7:18 pm
+R
+ No modificar ninguna opción e ir al siguiente paso &quot;Etiquetas&quot; [Tags].
+Completed on 4 noviembre, 2020 7:18 pm
+S
+ Ir al último paso &quot;Revisión y Creación&quot; [Review + create]. Cuando pase todas las validaciones, revisar el resumen de opciones seleccionadas que coincidan con lo solicitado y crear la máquina.
+Completed on 4 noviembre, 2020 7:19 pm
+T
+ Cuando finalice la creación, ir al equipo virtual y seleccionar &quot;Conectar&quot; [Connect] y elegir &quot;RDP&quot;. Se descargará un archivo, y desde el cliente de Escritorio Remoto de tu computadora conectarse.
+U
+ Ingresar el nombre de usuario y contraseña que ingresamos en pasos anteriores, y comprobar que nos podemos conectar al equipo.
+V
+ Ir al Grupo de Recursos [Resource Group] que hemos creado y comprobar que todos los recursos (máquina virtual, discos, placas de red) están creados.
+</code></pre>
+
+<p><img alt="" src="../images/azure.png" />  </p>
+<p><img alt="" src="../images/azure2.png" />  </p>
+<p><img alt="" src="../images/azure3.png" />  </p>
+<h2 id="herramientas-azure">HERRAMIENTAS AZURE</h2>
+<ul>
+<li>Azure Portal para interactuar con Azure a través de una interfaz gráfica de usuario (GUI).</li>
+<li>Azure PowerShell y la interfaz de la línea de comandos de Azure (CLI) para las interacciones con Azure de línea de comandos y basadas en automatización.</li>
+<li>Azure Cloud Shell para una interfaz de línea de comandos basada en web.</li>
+<li>Azure Mobile App para supervisar y administrar los recursos desde el dispositivo móvil.</li>
+</ul>
+<h3 id="azure-powershell">AZURE POWERSHELL</h3>
+<ul>
+<li>Instamos la <a href="https://docs.microsoft.com/es-es/powershell/azure/install-az-ps?view=azps-5.0.0">herramienta AzurePowershell</a>, apartir de la versión 7 es multiplataforma.  </li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../office/" class="btn btn-neutral float-right" title="Office 365">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../ansible/" class="btn btn-neutral" title="Ansible"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../ansible/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../office/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

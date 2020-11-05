@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Office 365 - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Office 365";
+    var mkdocs_page_input_path = "office.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Office 365</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#suscripciones">SUSCRIPCIONES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#creaciones-grupos-y-ad">CREACIONES GRUPOS y AD</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Office 365</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/office.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="office-365">OFFICE 365</h1>
+<ul>
+<li>
+<p><a href="https://docs.microsoft.com/es-es/learn/modules/what-is-m365/5-summary-resources">CURSO OFFICE 365</a>  </p>
+</li>
+<li>
+<p>Microsoft 365 ayuda a los usuarios con la innovación más reciente en experiencias de productividad nuevas y familiares, como Teams, Word, Excel, PowerPoint, Outlook y Windows. A diferencia de otros servicios de productividad, Microsoft 365 aprende de los usuarios y recopila información valiosa a través de Microsoft Graph para ofrecer experiencias mejoradas que mejoran continuamente a lo largo del tiempo y mantienen protegidos a los usuarios. </p>
+</li>
+<li>
+<p>Microsoft 365 ayuda a las organizaciones con las siguientes características:</p>
+<ul>
+<li>Productividad y trabajo en equipo: Incluye mensajería instantánea y reuniones en línea con Microsoft Teams, correo electrónico y calendarios con Outlook, aplicaciones conocidas de Office en todos los dispositivos, almacenamiento avanzado y uso compartido de archivos con OneDrive para la Empresa, sitios de grupo e intranet, y redes sociales empresariales con Yammer.</li>
+<li>Administración de empresaS: Incluye administración de TI simplificada con Microsoft Endpoint Manager, automatización de procesos empresariales, extensibilidad con Teams y Power Platform, telefonía empresarial y sistema telefónico con Teams, administración de flujos de trabajo y Formularios, inteligencia empresarial con Workplace Analytics y administración del trabajo con Project Online.</li>
+<li>Seguridad y cumplimiento: Incluye soluciones de administración de identidad y acceso, control y protección de la información, protección contra amenazas, administración de seguridad, administración de riesgos internos, administración de cumplimiento y eDiscovery.</li>
+</ul>
+</li>
+<li>
+<p>Algunos de los componentes de Microsoft 365, como las Aplicaciones de Microsoft 365 y Windows, se entregan con el modelo de software como servicio (SaaS). SaaS es un software que un proveedor de servicios en la nube (CSP) hospeda y administra de forma centralizada para clientes. En general, los CSP proporcionan una versión de una aplicación para todos los clientes que otorgan mediante una suscripción mensual o anual.</p>
+</li>
+<li>
+<p>Ventajas:</p>
+<ul>
+<li>Permitir el trabajo en equipo y simplificar el flujo de trabajo:Colaborar, reunirse, llamar y conectar aplicaciones empresariales en un único sitio con Microsoft Teams.</li>
+<li>Productividad desde cualquier lugar: Pase fácilmente de ordenadores a dispositivos móviles con aplicaciones móviles innovadoras y eficaces.</li>
+<li>Mayor productividad con las herramientas habilitadas para IA: Potencie la creatividad, descubra nuevas perspectivas, mejore las búsquedas y obtenga asistencia personalizada con características de inteligencia integradas.</li>
+<li>Productividad en la organización: Las organizaciones siempre intentan destacar en un entorno comercial en constante evolución. Quieren impulsar el crecimiento, reducir los costos y servir mejor a sus clientes. Quieren desbloquear el potencial de sus empleados, impulsar la automatización de procesos, capturar el conocimiento colectivo de su organización y evitar posibles riesgos de seguridad, cumplimiento normativo y privacidad que puedan interferir en el progreso.</li>
+<li>Aumentar los conocimientos de la organización: Convierta rápidamente los datos en perspectivas y ofrezca a los empleados la información y la experiencia que necesitan para realizar su trabajo con Workplace Analytics.</li>
+<li>Administrar todos los puntos de conexión: Implemente una solución de administración fluida de un extremo a otro y mejore la visibilidad entre todos los dispositivos conectados con Microsoft Endpoint Manager.</li>
+<li>Proteger su empresa: Eleve y modernice su seguridad, administre los riesgos y cumpla los estándares de cumplimiento en la nube de confianza de Microsoft.</li>
+</ul>
+</li>
+</ul>
+<h2 id="suscripciones">SUSCRIPCIONES</h2>
+<ul>
+<li><a href="https://www.microsoft.com/es-es/microsoft-365/compare-microsoft-365-enterprise-plans?rtc=1">Microsoft 365 Enterprise</a>  </li>
+</ul>
+<pre><code>Microsoft 365 Enterprise ofrece servicios de clase empresarial para organizaciones que quieren una solución de productividad que incluya características seguras de protección contra amenazas, seguridad, cumplimiento de normas y análisis.  
+Hay tres planes disponibles de Microsoft 365 Enterprise, que le permiten ajustar aún más lo que se incluye en su implementación: E3, E5 y F3 (anteriormente conocido como F1). E5 incluye las mismas características que E3 y las herramientas más recientes de protección contra amenazas avanzada, seguridad y colaboración. F3 está diseñado para trabajadores de primera línea mediante recursos y herramientas dedicadas que les permiten dar lo mejor de sí.
+</code></pre>
+
+<ul>
+<li><a href="https://www.microsoft.com/es-es/microsoft-365/business?rtc=1">Microsoft 365 para empresas</a>  </li>
+</ul>
+<pre><code>Microsoft 365 para empresas está diseñado para pequeñas y medianas organizaciones. Como Microsoft 365 Enterprise, Microsoft 365 para empresas ofrece el conjunto completo de herramientas de productividad de Office 365 e incluye características de seguridad y administración de dispositivos. No incluye algunas de las herramientas de protección de la información, cumplimiento y análisis más avanzadas disponibles para los suscriptores de Enterprise. Se ha diseñado para organizaciones que necesitan hasta 300 licencias. Si su organización es más grande, tendrá que suscribirse a un plan de Microsoft 365 Enterprise.
+</code></pre>
+
+<ul>
+<li><a href="https://www.microsoft.com/en-us/education">Microsoft 365 Educación</a>  </li>
+</ul>
+<pre><code>Microsoft 365 Educación está disponible para organizaciones educativas y permite a los profesores dar rienda suelta a la creatividad, fomentar el trabajo en equipo y proporcionar una experiencia segura y sencilla en una única solución económica diseñada para el ámbito educativo. Las licencias académicas se pueden modificar para adaptarse a las necesidades de cualquier institución, incluidas soluciones de productividad y seguridad para profesores, miembros del personal y estudiantes.
+</code></pre>
+
+<ul>
+<li><a href="https://www.microsoft.com/es-es/microsoft-365/explore-microsoft-365-for-home?rtc=1">Microsoft 365 Hogar</a>  </li>
+</ul>
+<pre><code>Microsoft 365 Hogar tiene el propósito de ofrecer las mismas ventajas de productividad en su vida personal y familiar. Microsoft 365 Hogar tiene dos planes: Microsoft 365 Familia y Microsoft 365 Personal. Office Home y Estudiantes 2019 están disponibles como compras de pago único, pero no incluyen ninguno de los beneficios de la nube de Microsoft 365. Compare planes para ver el plan que mejor le convenga.
+</code></pre>
+
+<h2 id="creaciones-grupos-y-ad">CREACIONES GRUPOS y AD</h2>
+<ul>
+<li>
+<p>Ejercicio 1: Iniciar sesión en el espacio empresarial</p>
+<ol>
+<li>Abra Microsoft Edge.</li>
+<li>Vaya a www.office.com.</li>
+<li>Inicie sesión con las credenciales de la cuenta de administrador global de su espacio empresarial de Office 365. Consulte la introducción al Laboratorio para adquirir un espacio empresarial de prueba de Office 365.</li>
+<li>Haga clic en el icono Administración.</li>
+</ol>
+</li>
+<li>
+<p>Ejercicio 2: Explorar el Centro de administración de Microsoft 365</p>
+<ol>
+<li>En el Centro de administración de Microsoft 365, en el panel de navegación, seleccione Mostrar todo.</li>
+<li>Expanda Usuarios y seleccione Usuarios activos. Vea las cuentas disponibles.</li>
+<li>Haga clic en el primer nombre de usuario de la lista para seleccionarlo. Se abre una hoja en la que se muestra información más detallada sobre la cuenta. Para cerrar la hoja, seleccione la X en la esquina superior derecha de la hoja.</li>
+<li>Expanda Grupos y seleccione Grupos. Si usa una versión de prueba de espacio empresarial de Office 365 recién creada, esta página probablemente estará vacía. Si aún no tiene grupos, haga clic en Agregar un grupo para agregar uno.</li>
+<li>Expanda Facturación y seleccione Licencias. Se debería mostrar al menos un conjunto de licencias.</li>
+</ol>
+</li>
+<li>
+<p>Ejercicio 3: Explorar el Centro de administración de Azure Active Directory</p>
+<ol>
+<li>Expanda centros de administración y seleccione Azure Active Directory. Observe que se abre una pestaña nueva en Microsoft Edge.</li>
+<li>En el Centro de administración de Azure Active Directory, en el Panel, seleccione Azure Active Directory en el panel de navegación.</li>
+<li>Haga clic en Usuarios. Observe que se muestran las mismas cuentas de usuario de Office 365.</li>
+<li>Cierre la hoja Usuarios: Todos los usuarios. Observe que en el panel del área Usuarios y grupos se muestra el grupo que creó anteriormente. Puede ver los mismos grupos de Office 365. Puede hacer clic en Buscar un grupo en el área Tareas rápidas para buscar un grupo específico.</li>
+<li>Cierre la hoja Grupos: Todos los grupos.</li>
+<li>En el panel del Centro de administración de Azure Active Directory, haga clic en Personalización de marca de la empresa.</li>
+<li>Observe las opciones configuradas para la personalización de marca.</li>
+<li>Cierre la hoja de personalización de marca de la empresa.</li>
+</ol>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../markdown/" class="btn btn-neutral float-right" title="Markdown">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../azure/" class="btn btn-neutral" title="Azure"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../azure/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../markdown/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

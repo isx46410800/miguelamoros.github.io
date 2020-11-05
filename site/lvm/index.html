@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>LVM/RAID - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "LVM/RAID";
+    var mkdocs_page_input_path = "lvm.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">LVM/RAID</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#comandos">COMANDOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ejercicio-practica">EJERCICIO PRACTICA</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#raid">RAID</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>LVM/RAID</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/lvm.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="lvm">LVM</h1>
+<ul>
+<li>
+<p>Logical Volum Management</p>
+</li>
+<li>
+<p>1 particion extensa, 4 primarias, 16 logicas. </p>
+</li>
+</ul>
+<h2 id="comandos">COMANDOS</h2>
+<p>CREAMOS IMAGEN Y ASIGNAMOS A UN LOOP  </p>
+<ul>
+<li>
+<p>dd if=/dev/zero of=file.img bs=1024 count=1024</p>
+</li>
+<li>
+<p>losetup /dev/loop0 file.img</p>
+</li>
+<li>
+<p>losetup -a/-d</p>
+</li>
+</ul>
+<p>CREAMOS UN PHYSICAL VOLUM</p>
+<ul>
+<li>
+<p>pvcreate /dev/loop0</p>
+</li>
+<li>
+<p>pvdisplay /dev/loop0</p>
+</li>
+</ul>
+<p>CREAMOS UN VOLUME GROUP</p>
+<ul>
+<li>
+<p>vgcreate nameVG /dev/loop0{...}</p>
+</li>
+<li>
+<p>vgdisplay nameVG</p>
+</li>
+<li>
+<p>blkid</p>
+</li>
+<li>
+<p>tree /dev/disk</p>
+</li>
+</ul>
+<p>CREAMOS UN LOGICAL VOLUME</p>
+<ul>
+<li>
+<p>lvcreate -L tamaño -n nameLV /dev/nomVG</p>
+</li>
+<li>
+<p>lvcreate -l 100%libre -n nameLV /dev/nomVG</p>
+</li>
+<li>
+<p>lvdisplay /dev/nameVG/nameLV</p>
+</li>
+</ul>
+<p>FORMATEAMOS</p>
+<ul>
+<li>
+<p>mkfs -t ext4 /dev/nameVG/nameLV</p>
+</li>
+<li>
+<p>mkdir /mnt/dades</p>
+</li>
+<li>
+<p>mount /dev/nameVG/nameLV /mnt/dades</p>
+</li>
+<li>
+<p>df -h -t ext4</p>
+</li>
+</ul>
+<p>EXTENDEMOS</p>
+<ul>
+<li>
+<p>vgextend /dev/nameVG /dev/loop2</p>
+</li>
+<li>
+<p>lvextend -L +30M /dev/nameVG/nameLV /dev/loop2</p>
+</li>
+<li>
+<p>resize2fs /dev/nameVG/nameLV</p>
+</li>
+</ul>
+<p>REDUCIMOS</p>
+<ul>
+<li>
+<p>umount /dev/nameVG/nameLV</p>
+</li>
+<li>
+<p>e2fsck -f /dev/nameVG/nameLV</p>
+</li>
+<li>
+<p>resize2fs /dev/nameVG/nameLV 56M</p>
+</li>
+<li>
+<p>mount /dev/nameVG/nameLV /mnt/xxx</p>
+</li>
+<li>
+<p>lvreduce -L 56M -r /dev/nameVG/nameLV</p>
+</li>
+</ul>
+<p>DESHACEMOS</p>
+<ul>
+<li>
+<p>umount /mnt/dades</p>
+</li>
+<li>
+<p>lvremove /dev/nameVG/nameLV</p>
+</li>
+<li>
+<p>vgremove /dev/nameVG</p>
+</li>
+<li>
+<p>pvremove /dev/loop0</p>
+</li>
+<li>
+<p>losetup -d /dev/loop0</p>
+</li>
+</ul>
+<h2 id="ejercicio-practica">EJERCICIO PRACTICA</h2>
+<h3 id="raid">RAID</h3>
+<p>RAID
+1.  Crear tres particions de 5GBytes al HD, corresponents a sda2, sda3 i sda4.</p>
+<h1 id="entramos-en-nuestra-tabla-de-particiones-de-devsda-para-crear-las-particiones">Entramos en nuestra tabla de particiones de /dev/sda para crear las particiones:</h1>
+<p>[root@i21 ~]# fdisk /dev/sda</p>
+<h1 id="creamos-3-particiones-primariasmismos-pasos-para-las-3">creamos 3 particiones primarias(mismos pasos para las 3):</h1>
+<h1 id="opcion-n-para-nueva-particion">opcion n para nueva particion:</h1>
+<p>Command (m for help): n</p>
+<h1 id="indicamos-que-es-primaria">indicamos que es primaria</h1>
+<p>Partition type
+   p   primary (0 primary, 1 extended, 3 free)
+   l   logical (numbered from 5)
+Select (default p): p</p>
+<h1 id="indicamos-el-numero-de-particion-enter-para-por-defecto-este-caso-2">indicamos el numero de particion, enter para por defecto (este caso 2)</h1>
+<p>Partition number (2-4, default 2):</p>
+<h1 id="indicamos-desde-donde-empiezapor-defecto-desde-el-primer-sitio-libre">indicamos desde donde empieza(por defecto desde el primer sitio libre)</h1>
+<p>First sector (429918208-468862127, default 429918208):</p>
+<h1 id="indicamos-la-medida-que-queremos-en-este-caso-5gb">indicamos la medida que queremos, en este caso 5GB</h1>
+<p>Last sector, +sectors or +size{K,M,G,T,P} (429918208-468862127, default 468862127): +5G</p>
+<p>Created a new partition 2 of type 'Linux' and of size 5 GiB.
+Partition #2 contains a ext4 signature.</p>
+<h1 id="borramos-la-firma">borramos la firma</h1>
+<p>Do you want to remove the signature? [Y]es/[N]o: y
+Disk /dev/sda: 223.6 GiB, 240057409536 bytes, 468862128 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x173e314d</p>
+<p>Device     Boot     Start       End   Sectors  Size Id Type
+/dev/sda1            2048 429918207 429916160  205G  5 Extended
+/dev/sda2       429918208 440403967  10485760    5G 83 Linux
+/dev/sda3       440403968 450889727  10485760    5G 83 Linux
+/dev/sda4       450889728 461375487  10485760    5G 83 Linux
+/dev/sda5            4096 209719295 209715200  100G 83 Linux
+/dev/sda6  *    209721344 419436543 209715200  100G 83 Linux
+/dev/sda7       419438592 429918207  10479616    5G 82 Linux swap / Solaris</p>
+<h1 id="para-finalizar-apretamos-w-para-guardar-y-hacemos-un-partprobe">Para finalizar apretamos ‘w’ para guardar y hacemos un partprobe</h1>
+<p>[root@i21 ~]# partprobe</p>
+<ol>
+<li>Crear un RAID de nivell 1 utilitzant les particions anteriors. Usar dos discs més un de spare. Mostrar el raid: la descripció i el procés..</li>
+</ol>
+<h1 id="creamos-el-raid-1-con-dos-discos-sda2-y-sda3-y-uno-de-sparesda4">creamos el raid 1 con dos discos (sda2 y sda3) y uno de spare(sda4)</h1>
+<p>[root@i21 ~]# mdadm -v --create /dev/md/raid --level=1 --raid-devices=2 /dev/sda2 /dev/sda3 --spare-devices=1 /dev/sda4
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: size set to 5238784K
+Continue creating array? y
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md/raid started.</p>
+<h1 id="vemos-la-descripcion">Vemos la descripcion</h1>
+<p>[root@i21 ~]# mdadm --detail /dev/md/raid
+/dev/md/raid:
+        Version : 1.2
+  Creation Time : Thu Feb 13 10:56:41 2020
+     Raid Level : raid1
+     Array Size : 5238784 (5.00 GiB 5.36 GB)
+  Used Dev Size : 5238784 (5.00 GiB 5.36 GB)
+   Raid Devices : 2
+  Total Devices : 3
+    Persistence : Superblock is persistent</p>
+<pre><code>Update Time : Thu Feb 13 10:57:07 2020
+      State : clean
+</code></pre>
+<p>Active Devices : 2
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 1</p>
+<pre><code>       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 17
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+
+   2       8        4        -      spare   /dev/sda4
+</code></pre>
+<h1 id="vemos-el-proceso">Vemos el proceso</h1>
+<p>[root@i21 ~]# cat /proc/mdstat
+Personalities : [raid1]
+md127 : active raid1 sda4<a href="S">2</a> sda3[1] sda2[0]
+      5238784 blocks super 1.2 [2/2] [UU]</p>
+<p>unused devices: <none></p>
+<ol>
+<li>Assignar format al RAID i muntar-lo al directori /mnt/raid. Copiar-hi tot el directori /bin i posar-hi un fitxer xixa.dat de 3G. Mostrar amb df  -h l'ocupació.</li>
+</ol>
+<h1 id="formateamos">formateamos</h1>
+<p>[root@i21 ~]# mkfs -t ext4 /dev/md/raid
+mke2fs 1.43.5 (04-Aug-2017)
+Discarding device blocks: done                          <br />
+Creating filesystem with 1309696 4k blocks and 327680 inodes
+Filesystem UUID: 983460ab-c0f1-41dc-91e0-7c99fa6a266c
+Superblock backups stored on blocks:
+    32768, 98304, 163840, 229376, 294912, 819200, 884736</p>
+<p>Allocating group tables: done                          <br />
+Writing inode tables: done                          <br />
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done</p>
+<h1 id="creamos-el-directorio-en-el-cual-montaremos-el-raid">creamos el directorio en el cual montaremos el raid</h1>
+<p>[root@i21 ~]# mkdir /mnt/raid</p>
+<h1 id="lo-montamos">lo montamos</h1>
+<p>[root@i21 ~]# mount /dev/md/raid /mnt/raid</p>
+<h1 id="vemos-que-esta-montado">vemos que está montado</h1>
+<p>[root@i21 ~]# ll /mnt/raid/
+total 16
+drwx------. 2 root root 16384 Feb 13 11:02 lost+found</p>
+<h1 id="copiamos-el-bin-estaba-con-simbolic-link-por-lo-que-copiamos-la-info-real">copiamos el bin (estaba con simbolic link por lo que copiamos la info real)</h1>
+<p>[root@i21 ~]# cp -r /usr/bin/ /mnt/raid/</p>
+<h1 id="creamos-un-file-xixatdat-de-3g">creamos un file xixat.dat de 3g</h1>
+<p>[root@i21 ~]# dd if=/dev/zero of=xixa.dat bs=1k count=3M
+3145728+0 records in
+3145728+0 records out
+3221225472 bytes (3.2 GB, 3.0 GiB) copied, 4.41942 s, 729 MB/s</p>
+<h1 id="copiamos-este-fichero-a-mntraid">copiamos este fichero a mnt/raid</h1>
+<p>[root@i21 ~]# cp xixa.dat /mnt/raid/.</p>
+<h1 id="vemos-el-contenido-del-directorio-y-su-ocupacion">vemos el contenido del directorio y su ocupacion</h1>
+<p>[root@i21 ~]# ll /mnt/raid/
+total 3145800
+dr-xr-xr-x. 2 root root      53248 Feb 13 11:12 bin
+drwx------. 2 root root      16384 Feb 13 11:02 lost+found
+-rw-r--r--. 1 root root 3221225472 Feb 13 11:10 xixa.dat
+[root@i21 ~]# df -h -t ext4 /dev/md127
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md127      4.9G  3.8G  829M  83% /mnt/raid</p>
+<ol>
+<li>Passar el RAID a nivell 5. Contesta i mostra quants discs en total té el raid i quants d’actius (proc i descripció).</li>
+</ol>
+<h1 id="pasamos-a-raid-5">pasamos a raid 5</h1>
+<p>[root@i21 ~]# mdadm --grow /dev/md/raid --level=5
+mdadm: level of /dev/md/raid changed to raid5</p>
+<h1 id="vemos-el-proceso_1">vemos el proceso</h1>
+<p>[root@i21 ~]# cat /proc/mdstat
+Personalities : [raid1] [raid6] [raid5] [raid4]
+md127 : active raid5 sda4<a href="S">2</a> sda3[1] sda2[0]
+      5238784 blocks super 1.2 level 5, 64k chunk, algorithm 2 [2/2] [UU]</p>
+<p>unused devices: <none></p>
+<h1 id="vemos-como-esta-formado-el-raid5">vemos como está formado el raid5</h1>
+<p>[root@i21 ~]# mdadm --detail /dev/md/raid
+/dev/md/raid:
+        Version : 1.2
+  Creation Time : Thu Feb 13 10:56:41 2020
+     Raid Level : raid5
+     Array Size : 5238784 (5.00 GiB 5.36 GB)
+  Used Dev Size : 5238784 (5.00 GiB 5.36 GB)
+   Raid Devices : 2
+  Total Devices : 3
+    Persistence : Superblock is persistent</p>
+<pre><code>Update Time : Thu Feb 13 11:15:04 2020
+      State : clean
+</code></pre>
+<p>Active Devices : 2
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 1</p>
+<pre><code>     Layout : left-symmetric
+ Chunk Size : 64K
+
+       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 18
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+
+   2       8        4        -      spare   /dev/sda4
+</code></pre>
+<p>tiene 3 discos , dos activos y uno en spare</p>
+<ol>
+<li>Fes els passos necessaris perquè el RAID tingui tres discs actius. Mostrar-ho amb proc i descripció.</li>
+</ol>
+<h1 id="creo-un-nuevo-disco-y-lo-asigno-a-un-loop-despues-lo-anado-al-raid-5">creo un nuevo disco y lo asigno a un loop, despues lo añado al raid 5</h1>
+<p>[root@i21 ~]# dd if=/dev/zero of=disc04.img bs=1k count=5M
+5242880+0 records in
+5242880+0 records out
+5368709120 bytes (5.4 GB, 5.0 GiB) copied, 7.36486 s, 729 MB/s
+[root@i21 ~]# losetup /dev/loop0 disc04.img
+[root@i21 ~]# mdadm --grow /dev/md127 --level=5
+mdadm: level of /dev/md127 changed to raid5
+[root@i21 ~]# mdadm --grow /dev/md127 --raid-devices=3 --add /dev/loop0
+mdadm: added /dev/loop0</p>
+<h1 id="provoco-un-fallo-de-este-disco-que-estaba-activo-en-el-raid">provoco un fallo de este disco que estaba activo en el raid</h1>
+<p>[root@i21 ~]# mdadm /dev/md/raid --fail /dev/loop0
+mdadm: set /dev/loop0 faulty in /dev/md/raid
+ Active Devices : 2
+Working Devices : 3
+ Failed Devices : 1
+  Spare Devices : 1</p>
+<pre><code>     Layout : left-symmetric
+ Chunk Size : 64K
+</code></pre>
+<p>Reshape Status : 97% complete
+  Delta Devices : 1, (2-&gt;3)</p>
+<pre><code>       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 45
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+   3       7        0        2      faulty   /dev/loop0
+
+   2       8        4        -      spare   /dev/sda4
+</code></pre>
+<h1 id="borro-el-disco-y-lo-vuelvo-anadir">borro el disco y lo vuelvo añadir</h1>
+<h1 id="entonces-el-de-spare-ocupa-su-puesto-y-se-activa-y-el-nuevo-disco-se-queda-como-spare">entonces el de spare ocupa su puesto y se activa y el nuevo disco se queda como spare</h1>
+<p>[root@i21 ~]# mdadm /dev/md/raid --remove /dev/loop0
+mdadm: hot removed /dev/loop0 from /dev/md/raid
+[root@i21 ~]# mdadm /dev/md/raid --add /dev/loop0
+mdadm: added /dev/loop0
+[root@i21 ~]# cat /proc/mdstat
+Personalities : [raid1] [raid6] [raid5] [raid4]
+md127 : active raid5 loop0<a href="S">3</a> sda4[2] sda3[1] sda2[0]
+      10477568 blocks super 1.2 level 5, 64k chunk, algorithm 2 [3/3] [UUU]</p>
+<p>unused devices: <none>
+[root@i21 ~]# mdadm --detail /dev/md127
+/dev/md127:
+        Version : 1.2
+  Creation Time : Thu Feb 13 10:56:41 2020
+     Raid Level : raid5
+     Array Size : 10477568 (9.99 GiB 10.73 GB)
+  Used Dev Size : 5238784 (5.00 GiB 5.36 GB)
+   Raid Devices : 3
+  Total Devices : 4
+    Persistence : Superblock is persistent</p>
+<pre><code>Update Time : Thu Feb 13 11:33:48 2020
+      State : clean
+</code></pre>
+<p>Active Devices : 3
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 1</p>
+<pre><code>     Layout : left-symmetric
+ Chunk Size : 64K
+
+       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 67
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+   2       8        4        2      active sync   /dev/sda4
+
+   3       7        0        -      spare   /dev/loop0
+</code></pre>
+<h1 id="provocamos-fallo-del-loop-y-lo-borramos">provocamos fallo del loop y lo borramos</h1>
+<p>[root@i21 ~]# mdadm /dev/md/raid --fail /dev/loop0
+mdadm: set /dev/loop0 faulty in /dev/md/raid
+[root@i21 ~]# mdadm /dev/md/raid --remove /dev/loop0
+mdadm: hot removed /dev/loop0 from /dev/md/raid</p>
+<h1 id="mostramos-resultados">mostramos resultados</h1>
+<p>[root@i21 ~]# mdadm --detail /dev/md127
+/dev/md127:
+        Version : 1.2
+  Creation Time : Thu Feb 13 10:56:41 2020
+     Raid Level : raid5
+     Array Size : 10477568 (9.99 GiB 10.73 GB)
+  Used Dev Size : 5238784 (5.00 GiB 5.36 GB)
+   Raid Devices : 3
+  Total Devices : 3
+    Persistence : Superblock is persistent</p>
+<pre><code>Update Time : Thu Feb 13 11:37:36 2020
+      State : clean
+</code></pre>
+<p>Active Devices : 3
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 0</p>
+<pre><code>     Layout : left-symmetric
+ Chunk Size : 64K
+
+       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 69
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+   2       8        4        2      active sync   /dev/sda4
+</code></pre>
+<p>[root@i21 ~]# cat /proc/mdstat
+Personalities : [raid1] [raid6] [raid5] [raid4]
+md127 : active raid5 sda4[2] sda3[1] sda2[0]
+      10477568 blocks super 1.2 level 5, 64k chunk, algorithm 2 [3/3] [UUU]</p>
+<p>unused devices: <none></p>
+<ol>
+<li>Contesta i mostra: l’espai de disc disponible al raid, l’espai actual i l’ocupació de disc que mostra df del raid muntat.</li>
+</ol>
+<h1 id="espacio-deisponible-del-raid">espacio deisponible del raid</h1>
+<p>[root@i21 ~]# mdadm --detail /dev/md127
+/dev/md127:
+        Version : 1.2
+  Creation Time : Thu Feb 13 10:56:41 2020
+     Raid Level : raid5
+     Array Size : 10477568 (9.99 GiB 10.73 GB)
+  Used Dev Size : 5238784 (5.00 GiB 5.36 GB)
+   Raid Devices : 3
+  Total Devices : 3
+    Persistence : Superblock is persistent</p>
+<pre><code>Update Time : Thu Feb 13 11:37:36 2020
+      State : clean
+</code></pre>
+<p>Active Devices : 3
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 0</p>
+<pre><code>     Layout : left-symmetric
+ Chunk Size : 64K
+
+       Name : i21:raid  (local to host i21)
+       UUID : 25fba14f:434b6e31:97a0d544:0dd4bfd1
+     Events : 69
+
+Number   Major   Minor   RaidDevice State
+   0       8        2        0      active sync   /dev/sda2
+   1       8        3        1      active sync   /dev/sda3
+   2       8        4        2      active sync   /dev/sda4
+</code></pre>
+<h1 id="ocupacion-en-disco-montado">ocupacion en disco montado</h1>
+<p>[root@i21 ~]# df -h -t ext4 /dev/md127
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md127      4.9G  3.8G  829M  83% /mnt/raid</p>
+<ol>
+<li>Fes els canvis pertinents per tal de que el sistema de fitxers ocupi totalment l’espai disponible al raid, i mostra-ho.</li>
+</ol>
+<h1 id="hacemos-un-resize2fs-para-que-ocupe-todo-el-espacio">hacemos un resize2fs para que ocupe todo el espacio</h1>
+<p>[root@i21 ~]# resize2fs /dev/md/raid
+resize2fs 1.43.5 (04-Aug-2017)
+Filesystem at /dev/md/raid is mounted on /mnt/raid; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 2
+The filesystem on /dev/md/raid is now 2619392 (4k) blocks long.</p>
+<p>[root@i21 ~]# df -h -t ext4 /dev/md127
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md127      9.8G  3.8G  5.6G  41% /mnt/raid</p>
+<ol>
+<li>Descriu les ordres a fer per tal de poder reiniciar el sistema i disposar del raid actiu. Cal fer-ho (reboot) i  mostrar amb df l’ocupació.</li>
+</ol>
+<h1 id="copiamos-en-el-fichero-etcmdadmconf-la-configuracion-del-raid">copiamos en el fichero etc/mdadm.conf la configuracion del raid</h1>
+<p>[root@i21 ~]# mdadm --examine -scan &gt; /etc/mdadm.conf
+[root@i21 ~]# cat /etc/mdadm.conf
+ARRAY /dev/md/raid  metadata=1.2 UUID=25fba14f:434b6e31:97a0d544:0dd4bfd1 name=i21:raid
+   spares=1</p>
+<h1 id="en-el-fstab-ponemos-el-montaje-para-que-al-reiniciarlo-salga">en el fstab ponemos el montaje para que al reiniciarlo salga</h1>
+<p>/dev/md/raid    /mnt/raid       ext4    defaults        0       0</p>
+<h1 id="hacemos-el-reboot">hacemos el reboot</h1>
+<p>[root@i21 ~]# df -h -t ext4 /dev/md/raid
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md127      9.8G  3.8G  5.6G  41% /mnt/raid</p>
+<p>Un cop fet desmunta /mnt/raid i elimina el muntatge automatittzat del fstab.</p>
+<h1 id="eliminariamos-la-linea-introducida-en-el-fstab">Eliminariamos la linea introducida en el fstab</h1>
+<p>[root@i21 ~]# vim /etc/fstab</p>
+<h1 id="desmontariamos-mntraid">Desmontariamos /mnt/raid</h1>
+<p>[root@i21 ~]# umount /mnt/raid</p>
+<h1 id="parariamos-el-raid">parariamos el raid</h1>
+<p>mdadm –stop /dev/md/raid</p>
+<h1 id="eliminariamos-el-fichero-de-conf-etcmdadmconf">eliminariamos el fichero de conf /etc/mdadm.conf</h1>
+<h1 id="hariamos-un-mdadm-zero-superblock-a-cada-particion">hariamos un mdadm –zero-superblock a cada particion</h1>
+<h3 id="lvm_1">LVM</h3>
+<p>LVM
+Partint     del RAID creat a l'apartat anterior (Raid 1 dels discs sda2, sda3 i sda4) fer:
+1.  Crear dins dos Volums Lògics anomenats hdsystem (1024 MBytes) i hddata (500 Mbytes). Mostrar clarament tots els passos per fer-ho.</p>
+<h1 id="creamos-el-pv">creamos el pv</h1>
+<p>[root@i21 ~]# pvcreate /dev/md/raid
+WARNING: ext4 signature detected on /dev/md/raid at offset 1080. Wipe it? [y/n]: y
+  Wiping ext4 signature on /dev/md/raid.
+  Physical volume "/dev/md/raid" successfully created.
+[root@i21 ~]# vgcreate mydisc /dev/md/raid</p>
+<h1 id="creamos-el-vg">creamos el vg</h1>
+<p>Volume group "mydisc" successfully created</p>
+<h1 id="creamos-las-lv">creamos las lv</h1>
+<p>[root@i21 ~]# lvcreate -L 1024M -n hdsystem /dev/mydisc
+  Logical volume "hdsystem" created.
+[root@i21 ~]# lvcreate -L 500M -n hddata /dev/mydisc
+  Logical volume "hddata" created.</p>
+<ol>
+<li>Mostrar la informació del volum físic, el grup de volum i els volums lògics.</li>
+</ol>
+<h1 id="info-del-pv">info del pv</h1>
+<p>[root@i21 ~]# pvdisplay /dev/md/raid
+  --- Physical volume ---
+  PV Name               /dev/md127
+  VG Name               mydisc
+  PV Size               9.99 GiB / not usable 4.00 MiB
+  Allocatable           yes
+  PE Size               4.00 MiB
+  Total PE              2557
+  Free PE               2176
+  Allocated PE          381
+  PV UUID               1pbO3s-krID-iQhm-xNzZ-ocAi-N9vw-uXdicW</p>
+<h1 id="info-del-vg">info del vg</h1>
+<p>[root@i21 ~]# vgdisplay /dev/mydisc
+  --- Volume group ---
+  VG Name               mydisc
+  System ID           <br />
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               &lt;9.99 GiB
+  PE Size               4.00 MiB
+  Total PE              2557
+  Alloc PE / Size       381 / &lt;1.49 GiB
+  Free  PE / Size       2176 / 8.50 GiB
+  VG UUID               IzpMcC-71Ri-1Xwc-8Vsw-Pwj1-N6lY-R33fKC</p>
+<h1 id="info-dels-lv">info dels lv</h1>
+<p>[root@i21 ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/mydisc/hdsystem
+  LV Name                hdsystem
+  VG Name                mydisc
+  LV UUID                2jSCBs-01XX-P5pn-4lp2-OsKc-H5Jc-FsJD9h
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:57:49 +0100
+  LV Status              available
+  # open                 0
+  LV Size                1.00 GiB
+  Current LE             256
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:0</p>
+<p>--- Logical volume ---
+  LV Path                /dev/mydisc/hddata
+  LV Name                hddata
+  VG Name                mydisc
+  LV UUID                nL29my-hgY5-8uDr-BlYq-uxYI-yUye-1ZQnxA
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:58:07 +0100
+  LV Status              available
+  # open                 0
+  LV Size                500.00 MiB
+  Current LE             125
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:1</p>
+<ol>
+<li>Muntar a /mnt/hdsystem i a /mnt/hddata els corresponents Volums Lògics. Copiar-hi a hdsystem tot el contingut de /usr/share/man i a hddata de /usr/share/doc. Mostrar amb df -h l'ocupació.</li>
+</ol>
+<h1 id="damos-formato-a-las-lv">damos formato a las lv</h1>
+<p>[root@i21 ~]# mkfs -t ext4 /dev/mydisc/hdsystem
+mke2fs 1.43.5 (04-Aug-2017)
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: 16687c70-a2f0-477b-b7cd-7cb1c4a172da
+Superblock backups stored on blocks:
+    32768, 98304, 163840, 229376</p>
+<p>Allocating group tables: done                          <br />
+Writing inode tables: done                          <br />
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done</p>
+<p>[root@i21 ~]# mkfs -t ext4 /dev/mydisc/hddata
+mke2fs 1.43.5 (04-Aug-2017)
+Creating filesystem with 512000 1k blocks and 128016 inodes
+Filesystem UUID: 002310bc-b92e-491c-bcb0-52f104a69323
+Superblock backups stored on blocks:
+    8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409</p>
+<p>Allocating group tables: done                          <br />
+Writing inode tables: done                          <br />
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done</p>
+<h1 id="creamos-los-directorios-hdsystem-y-hddata-a-mnt">creamos los directorios hdsystem y hddata a mnt</h1>
+<p>[root@i21 ~]# mkdir /mnt/hddata
+[root@i21 ~]# mkdir /mnt/hdsystem</p>
+<h1 id="montamos-los-lv">montamos los lv</h1>
+<p>[root@i21 ~]# mount /dev/mydisc/hdsystem /mnt/hdsystem
+[root@i21 ~]# mount /dev/mydisc/hddata /mnt/hddata</p>
+<h1 id="copiamos-los-ficheros-indicados-en-su-directorio-correspondiente-y-vemos-que-se-haya-copiado">copiamos los ficheros indicados en su directorio correspondiente y vemos que se haya copiado:</h1>
+<p>[root@i21 ~]# cp -r /usr/share/man /mnt/hdsystem/.
+[root@i21 ~]# cp -r /usr/share/doc /mnt/hddata/.
+[root@i21 ~]# ll /mnt/hddata/
+total 48
+drwxr-xr-x. 1113 root root 34816 Feb 13 12:07 doc
+drwx------.    2 root root 12288 Feb 13 12:04 lost+found
+[root@i21 ~]# ll /mnt/hdsystem/
+total 20
+drwx------.  2 root root 16384 Feb 13 12:04 lost+found
+drwxr-xr-x. 47 root root  4096 Feb 13 12:06 man</p>
+<h1 id="vemos-la-ocupacion">vemos la ocupacion</h1>
+<p>[root@i21 ~]# df -h -t ext4 /dev/mydisc/*
+Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/mydisc-hddata    477M  109M  339M  25% /mnt/hddata
+/dev/mapper/mydisc-hdsystem  976M   47M  863M   6% /mnt/hdsystem</p>
+<ol>
+<li>Fer que aquests canvis siguin permanents en reiniciar el sistema. Mostra que es fa un reinici i els sistemes de fitxers estan muntats i quina és la seva ocupació.</li>
+</ol>
+<h1 id="copiamos-las-siguientes-lineas-en-el-fstab">copiamos las siguientes lineas en el fstab</h1>
+<p>[root@i21 ~]# vim /etc/fstab
+/dev/mydisc/hddata      /mnt/hddata     ext4    defaults        0       0
+/dev/mydisc/hdsystem    /mnt/hdsystem     ext4    defaults        0       0</p>
+<h1 id="reboot">reboot</h1>
+<p>[root@i21 ~]# reboot</p>
+<h1 id="ocupacion">ocupacion</h1>
+<p>Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/mydisc-hddata    477M  109M  339M  25% /mnt/hddata
+/dev/mapper/mydisc-hdsystem  976M   47M  863M   6% /mnt/hdsystem</p>
+<ol>
+<li>Aprofitant que encara hi ha espai disponible assignar un 50% de l'espai lliure al Volum Lògic hdsystem. Mostrar clarament aquests canvi en el Volum Lògic.</li>
+</ol>
+<h1 id="extendemos-la-lv-hdsystem">extendemos la lv hdsystem</h1>
+<p>[root@i21 ~]# lvextend -l +50%FREE /dev/mydisc/hdsystem
+  Size of logical volume mydisc/hdsystem changed from 1.00 GiB (256 extents) to 5.25 GiB (1344 extents).
+  Logical volume mydisc/hdsystem successfully resized.
+[root@i21 ~]# df -h -t ext4 /dev/mydisc/*
+Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/mydisc-hddata    477M  109M  339M  25% /mnt/hddata
+/dev/mapper/mydisc-hdsystem  976M   47M  863M   6% /mnt/hdsystem</p>
+<h1 id="como-vemos-que-el-file-sysrem-sigue-igual-hacemos-un-resize2fs-para-que-ocupe-todo-el-espacio">como vemos que el file sysrem sigue igual , hacemos un resize2fs para que ocupe todo el espacio</h1>
+<p>[root@i21 ~]# resize2fs /dev/mydisc/hdsystem
+resize2fs 1.43.5 (04-Aug-2017)
+Filesystem at /dev/mydisc/hdsystem is mounted on /mnt/system; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/mydisc/hdsystem is now 1376256 (4k) blocks long.</p>
+<p>[root@i21 ~]# df -h -t ext4 /dev/mydisc/*
+Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/mydisc-hddata    477M  109M  339M  25% /mnt/hddata
+/dev/mapper/mydisc-hdsystem  5.2G   48M  4.9G   1% /mnt/hdsystem</p>
+<h1 id="vemos-que-ha-cambiado-la-lv">vemos que ha cambiado la lv</h1>
+<p>[root@i21 ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/mydisc/hdsystem
+  LV Name                hdsystem
+  VG Name                mydisc
+  LV UUID                2jSCBs-01XX-P5pn-4lp2-OsKc-H5Jc-FsJD9h
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:57:49 +0100
+  LV Status              available
+  # open                 1
+  LV Size                1.00 GiB
+  Current LE             256
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:0</p>
+<p>--- Logical volume ---
+  LV Path                /dev/mydisc/hddata
+  LV Name                hddata
+  VG Name                mydisc
+  LV UUID                nL29my-hgY5-8uDr-BlYq-uxYI-yUye-1ZQnxA
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:58:07 +0100
+  LV Status              available
+  # open                 1
+  LV Size                500.00 MiB
+  Current LE             125
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:1</p>
+<p>[root@i21 ~]# lvdisplay /dev/mydisc/hdsystem
+  --- Logical volume ---
+  LV Path                /dev/mydisc/hdsystem
+  LV Name                hdsystem
+  VG Name                mydisc
+  LV UUID                2jSCBs-01XX-P5pn-4lp2-OsKc-H5Jc-FsJD9h
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:57:49 +0100
+  LV Status              available
+  # open                 1
+  LV Size                5.25 GiB
+  Current LE             1344
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:0</p>
+<p>[root@i21 ~]# lvdisplay /dev/mydisc/hddata
+  --- Logical volume ---
+  LV Path                /dev/mydisc/hddata
+  LV Name                hddata
+  VG Name                mydisc
+  LV UUID                nL29my-hgY5-8uDr-BlYq-uxYI-yUye-1ZQnxA
+  LV Write Access        read/write
+  LV Creation host, time i21, 2020-02-13 11:58:07 +0100
+  LV Status              available
+  # open                 1
+  LV Size                500.00 MiB
+  Current LE             125
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     512
+  Block device           253:1
+6.  Usant l’ordre df -h mostrar que el sisteme de fitxers muntat a /mnt/hdsystem s'ha ampliat fins al màxim del seu espai disponible (i si no ho ha fet, fer-ho!).</p>
+<h1 id="como-hemos-hecho-antes-un-resize2fs-tenemos-el-maximo-del-espacio-asignado">como hemos hecho antes un resize2fs, tenemos el maximo del espacio asignado.</h1>
+<p>[root@i21 ~]# df -h -t ext4 /dev/mydisc/*
+Filesystem                   Size  Used Avail Use% Mounted on
+/dev/mapper/mydisc-hddata    477M  109M  339M  25% /mnt/hddata
+/dev/mapper/mydisc-hdsystem  5.2G   48M  4.9G   1% /mnt/hdsystem</p>
+<h3 id="extra">EXTRA</h3>
+<p>Partint     del RAID i el LVM creats en els apartats anteriors fer:
+1.  Escriu les ordres necessàries per eliminar tota l’automatització de l’arrancada.</p>
+<h1 id="borramos-las-lineas-del-fstab">borramos las lineas del fstab</h1>
+<p>[root@i21 ~]# vim /etc/fstab</p>
+<h1 id="borramos-el-file-de-conf-de-raid-para-que-no-detecte-nada">borramos el file de conf de raid para que no detecte nada</h1>
+<p>[root@i21 ~]# rm -rf /etc/mdadm.conf</p>
+<h1 id="desmontamos-los-directorios">desmontamos los directorios</h1>
+<p>[root@i21 ~]# umount /mnt/raid
+[root@i21 ~]# umount /mnt/hdsystem
+[root@i21 ~]# umount /mnt/hddata</p>
+<ol>
+<li>Escriu les ordres necessàries per eliminar els LVM.</li>
+</ol>
+<h1 id="borramos-las-lv">borramos las lv</h1>
+<p>[root@i21 ~]# lvremove /dev/mydisc/hdsystem
+Do you really want to remove active logical volume mydisc/hdsystem? [y/n]: y
+  Logical volume "hdsystem" successfully removed
+[root@i21 ~]# lvremove /dev/mydisc/hddata
+Do you really want to remove active logical volume mydisc/hddata? [y/n]: y
+  Logical volume "hddata" successfully removed</p>
+<h1 id="borramos-las-vg">borramos las vg</h1>
+<p>[root@i21 ~]# vgremove /dev/mydisc
+  Volume group "mydisc" successfully removed</p>
+<h1 id="booramos-las-pv">booramos las pv</h1>
+<p>[root@i21 ~]# pvremove /dev/md/raid
+  Labels on physical volume "/dev/md/raid" successfully wiped.</p>
+<ol>
+<li>Escriu les ordres necessàries per eliminar el raid.</li>
+</ol>
+<h1 id="paramos-el-raid">paramos el raid</h1>
+<p>[root@i21 ~]# mdadm --stop /dev/md/raid
+mdadm: stopped /dev/md/raid</p>
+<ol>
+<li>Verifica que les particions sda2, sda3 i sda4 no tenen cap marca especial.</li>
+</ol>
+<h1 id="hacemos-un-zero-superblock-para-eliminar-todo-tipo-de-marca">hacemos un zero-superblock para eliminar todo tipo de marca</h1>
+<p>[root@i21 ~]# mdadm --zero-superblock /dev/sda2
+[root@i21 ~]# mdadm --zero-superblock /dev/sda3
+[root@i21 ~]# mdadm --zero-superblock /dev/sda4</p>
+<h1 id="verificamos">verificamos</h1>
+<p>[root@i21 ~]# mdadm --examine /dev/sda2
+mdadm: No md superblock detected on /dev/sda2.
+[root@i21 ~]# mdadm --examine /dev/sda3
+mdadm: No md superblock detected on /dev/sda3.
+[root@i21 ~]# mdadm --examine /dev/sda4
+mdadm: No md superblock detected on /dev/sda4.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../backup/" class="btn btn-neutral float-right" title="Backup">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../kerberos/" class="btn btn-neutral" title="KERBEROS"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../kerberos/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../backup/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

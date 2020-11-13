@@ -129,4 +129,3 @@
 ## CAMPOS DIFERENTES  
 
 ![](./images/sap12.png)  
-![](./images/sap13.png)  

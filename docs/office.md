@@ -71,3 +71,95 @@ Microsoft 365 Hogar tiene el propósito de ofrecer las mismas ventajas de produc
     6. En el panel del Centro de administración de Azure Active Directory, haga clic en Personalización de marca de la empresa.
     7. Observe las opciones configuradas para la personalización de marca.
     8. Cierre la hoja de personalización de marca de la empresa.
+
+
+## APLICACIONES 365  
+
+– Word – El famoso procesador de textos
+
+– Excel – La potente hoja de cálculo
+
+– Outlook – El servicio de correo de Microsoft
+
+– PowerPoint – El programa para realizar presentaciones
+
+– Access – Para la creación de bases de datos
+
+– Skype – el conocido programa para llamadas VOIP y videollamadas
+
+– OneNote – una magnífica aplicación para tomar notas
+
+– OneDrive – El servicio en la nube de Microsoft, gratuito pero que con Office 365 se incluye un TB adicional.
+
+– Publisher – Un software de autoedición para crear folletos, boletines, etc.
+
+*** EXCHANGE  
++ Trabaja de forma más inteligente con calendario y correo electrónico de categoría empresarial.
++ Exchange te ayuda a colaborar en los documentos críticos y te proporciona la Bandeja de entrada Prioritarios, que muestra primero los mensajes importantes y se adapta a tu estilo de trabajo para que mejores tu productividad.
++ Obtén acceso a una bandeja de entrada más personalizada con características útiles y una forma más inteligente y organizada de ver el correo electrónico y de realizar con él las acciones oportunas. Las mejoras de búsqueda te ofrecen resultados más rápidos y completos. Con los complementos, obtendrás una personalización y una extensibilidad avanzadas, que te pondrán en contacto con servicios modernos y aplicaciones internas de línea de negocio.
++ Organiza tu tiempo con un sistema de calendario que va más allá de la programación básica de citas y compromisos. Captura automáticamente los eventos del correo electrónico, como vuelos y reservas de hotel. Y obtén sugerencias sobre los lugares en los que puedes reunirte en función de cuál sea tu ubicación.
+
+Aplicaciones web
+¿Cuáles son todas las aplicaciones que vienen con Office 365?
+
+La gran novedad de Office 365 es que algunas de estas aplicaciones tienen una versión web que no son exactamente como la versión de escritorio. Por un lado, no utilizan nuestro disco duro para archivar los documentos creados, si no que se almacenan automáticamente en OneDrive, por lo que podemos acceder a ellos desde cualquier lugar y dispositivo. Por otra parte, las aplicaciones web están conectadas entre sí, de forma que funcionan mucho mejor como suite, favoreciendo la sincronización de contenidos.
+
+Por otra parte, estas aplicaciones web están mejor conectadas entre sí, de forma que funcionan mucho mejor como suite, con una mejor sincronización. Estas son las aplicaciones web que incluye Office 365:
+
+Word, Excel, OneNote, Skype y PowerPoint – básicamente son iguales a las versiones de escritorio, con algunas pequeñas diferencias.
+
+Outlook – Aquí comienzan las diferencias: algunas funciones de la versión de escritorio aquí aparecen como funciones independientes:
+
+– Contactos
+
+– Calendario
+
+– Tareas
+
+Sway – Una aplicación para crear informes, presentaciones, recursos de aprendizaje, etc.
+
+Flow –  Una herramienta para automatizar tareas, capaz de trabajar con más de 200 servicios entre los que se incluyen Facebook, Instagram, Twitter, Dropbox, etc.
+
+Estas son las aplicaciones que podemos encontrar en Office 365. Además, existen más servicios añadidos como soporte técnico, actualizaciones automáticas, etc.
+
+## APLICACIONES ADICIONALES  
+
++ Aplicaciones y servicios adicionales:  
+```
+Access (solo PC)
+Advanced Threat Analytics1
+Bookings
+Cloud App Security
+Microsoft Edge
+Enterprise Mobility + Security
+Exchange
+Forms
+Intune
+Microsoft 365 Defender
+Microsoft Defender para punto de conexión
+Microsoft Defender for Identity
+Microsoft Defender para Office 365
+Editor Microsoft
+Microsoft Family Safety
+Microsoft Lists
+Microsoft Stream
+Microsoft To Do
+Aplicaciones móviles
+MyAnalytics
+Planner
+Power Apps
+Power Automate
+Project
+Publisher (solo PC)
+Microsoft Endpoint Manager
+SharePoint
+SharePoint Syntex
+Skype
+Skype Empresarial
+Sway
+Visio
+Whiteboard
+Windows
+Workplace Analytics
+Yammer
+```  

@@ -799,6 +799,157 @@ J
 + Front Door proporciona una serie de métodos de enrutamiento del tráfico y opciones de seguimiento de estado del back-end para satisfacer las distintas necesidades de las aplicaciones y los modelos de conmutación automática por error. Al igual que Traffic Manager, Front Door es resistente a errores, incluidos los que afectan a una región completa de Azure.
 
 
+## CONTENEDORES  
+
++ los contenedores como unidades de despliegue. Los contenedores ofrecen las ventajas del aislamiento, la portabilidad, la agilidad, la escalabilidad y el control a lo largo de todo el flujo de trabajo del ciclo de vida de la aplicación. La ventaja más importante es el aislamiento del entorno que se proporciona entre el desarrollo y las operaciones.
+
++ Azure Container Registry es un servicio privado administrado del Registro de Docker que usa Docker Registry 2.0, que es de código abierto. Cree y mantenga los registros de Azure Container para almacenar y administrar las imágenes privadas del contenedor Docker y los artefactos relacionados.
+
++ [EJERCICIO APP SERVICE](https://docs.microsoft.com/es-mx/learn/modules/deploy-run-container-app-service/)  
+
+![](./images/azure24.png)  
+![](./images/azure25.png)  
+![](./images/azure26.png)  
+![](./images/azure27.png)  
+![](./images/azure28.png)  
+![](./images/azure29.png)  
+![](./images/azure30.png)  
+![](./images/azure31.png)  
+![](./images/azure32.png)  
+![](./images/azure33.png)  
+![](./images/azure34.png)  
+
+
++ Azure Container Instances es un servicio de Microsoft Azure que permite en forma rápida y sencilla ejecutar un contenedor en Azure, sin tener que administrar ninguna máquina virtual y sin necesidad de adoptar un servicio de nivel superior.  
+
++ [EJERCICIO](https://docs.microsoft.com/es-mx/learn/modules/run-docker-with-azure-container-instances/2-run-aci)  
+
+![](./images/azure35.png)  
+![](./images/azure36.png)  
+![](./images/azure37.png)  
+![](./images/azure38.png)  
+![](./images/azure39.png)  
+![](./images/azure40.png)  
+![](./images/azure41.png)  
+![](./images/azure42.png)  
+![](./images/azure43.png)  
+![](./images/azure44.png)  
+
+
+
++ Kubernetes es una plataforma de rápida evolución que administra aplicaciones basadas en contenedores y sus componentes de red y almacenamiento asociados. El foco está en las cargas de trabajo de la aplicación, no en los componentes de infraestructura subyacente. Kubernetes proporciona un enfoque declarativo en las implementaciones, respaldado por un sólido conjunto de API para las operaciones de administración.
+
++ Azure Kubernetes Service (AKS) proporciona un servicio de Kubernetes administrado que reduce la complejidad de las principales tareas de administración e implementación, incluida la coordinación de actualizaciones. El plano de control de AKS es administrado por la plataforma de Azure, y solo paga por los nodos de AKS que ejecutan sus aplicaciones. AKS se ha diseñado sobre el motor de código abierto de Azure Kubernetes Service (aks-engine).
+
++ Los nodos del plano de control proporcionan los servicios centrales de Kubernetes y la orquestación de las cargas de trabajo de las aplicaciones.
++ Los nodos ejecutan las cargas de trabajo de la aplicación.
+
+
+## LOGIC APPS  
+
++ PowerAutomate, antes conocido como Flow, es un servicio SaaS (Software como Servicio) para automatizar flujos de trabajo utilizando múltiples conectores a aplicaciones y servicios SaaS. Vamos a conocer algunos detalles del servicio para luego compararlo con Logic App (el servicio en el que realmente queremos hacer doble clic).  
+
++ Es un servicio SaaS (Software como Servicio) para automatizar flujos de trabajo utilizando múltiples conectores a aplicaciones y servicios SaaS.
+
++ El principal usuario objetivo es el de negocio, “Citizen Developer” / Integrador, es decir aquel usuario que crea nuevas aplicaciones comerciales para el consumo de otros utilizando entornos de desarrollo y tiempo de ejecución autorizados por la TI corporativa.
+
++ Su foco es brindar una experiencia para integraciones simples con aplicaciones y servicios.  
+
++ Logic Apps es un servicio PaaS (Plataforma como Servicio) para automatizar flujos de trabajo sobre múltiples aplicaciones SaaS y servicios IaaS, simplificando la complejidad requerida para la integración empresarial. En si mismo, extiendo las capacidades de Power Automate.
+
++ El principal usuario objetivo son Desarrolladores y IT Pros, es decir usuarios de sistemas que tienen conocimiento mucho más avanzado que un “Citizen Developer”.
+
++ Su foco es brindar una experiencia para integraciones complejas y avanzadas, comparativamente con Power Automate.  
+
++ [EJERCICIO](https://azure.conosur.tech/lesson/azf-20-ejercicio-experimento-con-logic-apps-twitter/)  
+
++ En este tutorial se muestra cómo utilizar Azure Functions con Logic Apps y Cognitive Services en Azure para ejecutar el análisis de opiniones de entradas de Twitter. Una función desencadenada por HTTP clasifica los tweets en verdes, amarillos o rojos, en función de la puntuación de la opinión. Se envía un correo electrónico cuando se detecta una opinión deficiente.
+
+
+
+## IA, ML Y DL  
+
++ El aprendizaje profundo (deep learning), es un subconjunto del aprendizaje automático basado en redes neuronales artificiales que permiten a un equipo entrenarse a sí mismo. En este caso, el proceso de aprendizaje se llama profundo porque la estructura de redes neuronales artificiales se compone de varias capas de entrada, salida y ocultas. Cada capa contiene unidades que transforman los datos de entrada en información que la capa siguiente puede usar para realizar una tarea de predicción determinada. Gracias a esta estructura, un equipo puede aprender a través de su propio procesamiento de datos.
+
++ El aprendizaje automático (machine learning) es un subconjunto de la inteligencia artificial que incluye técnicas (como el aprendizaje profundo) que permiten a los equipos mejorar en las tareas con la experiencia. En este caso, el proceso de aprendizaje se basa en los pasos siguientes:
+    - Alimente un algoritmo con datos proporcionándole más información (por ejemplo, realizando la extracción de características).
+    - Utilice estos datos para entrenar un modelo.
+    - Pruebe e implemente el modelo.
+    - Consuma el modelo implementado para realizar una tarea de predicción automatizada concreta.
+
++ La inteligencia artificial (IA artificial intelligence) es una técnica que permite a los equipos imitar la inteligencia humana. Incluye el aprendizaje automático.
+
++ Es importante conocer la relación entre aprendizaje automático, aprendizaje profundo e inteligencia artificial: El aprendizaje automático es una forma de lograr inteligencia artificial, lo que significa que, mediante el uso de técnicas de aprendizaje automático y aprendizaje profundo, se pueden crear sistemas informáticos y aplicaciones que puedan realizar tareas asociadas normalmente a la inteligencia humana, como la percepción visual, el reconocimiento de voz, la toma de decisiones y la traducción de un idioma a otro.
+
+
+### AZURE COGNITIVE SERVICES  
+
++ Azure Cognitive Services son servicios en la nube con API REST y SDK de biblioteca cliente que ayudan a los desarrolladores a compilar aplicaciones inteligentes cognitivas sin tener inteligencia artificial (IA) directa ni aptitudes o conocimientos sobre ciencia de datos.
+
++ Azure Cognitive Services permiten a los desarrolladores agregar fácilmente características cognitivas en sus aplicaciones. El objetivo de Azure Cognitive Services es ayudar a los desarrolladores a crear aplicaciones que puedan ver, oír, hablar, comprender e incluso empezar a razonar.
+
++ Cognitive Services proporciona funciones de aprendizaje automático para solucionar problemas generales, como el análisis de texto para la opinión emocional o el análisis de imágenes para reconocer objetos o caras. No es necesario tener conocimientos de aprendizaje automático ni ciencia de datos para usar estos servicios, como tampoco conocer de programación.
+
++ Spatial Anchors es un servicio multiplataforma para desarrolladores que le permite crear experiencias de realidad mixta mediante objetos cuya ubicación persiste en todos los dispositivos a lo largo del tiempo.
+
++ Estas aplicaciones pueden admitir Microsoft HoloLens, dispositivos iOS compatibles con ARKit y dispositivos Android compatibles con ARCore. Azure Spatial Anchors permite a los desarrolladores trabajar con plataformas de realidad mixta para percibir el espacio, designar puntos precisos de interés y volver a recuperar esos puntos de interés desde los dispositivos compatibles. Estos puntos de interés precisos se conocen como delimitadores espaciales.
+
+
+## BIG DATA  
+
++ Big Data (conocido también como Macrodatos) es un término que describe el gran volumen de datos, tanto estructurados como no estructurados, que inundan los negocios cada día. Pero no es la cantidad de datos lo que es importante. Lo que importa con el Big Data es lo que las organizaciones hacen con los datos. Big Data se puede analizar para obtener ideas que conduzcan a mejores decisiones y movimientos de negocios estratégicos.
+
++ Cuando hablamos de Big Data nos referimos a conjuntos de datos o combinaciones de conjuntos de datos cuyo tamaño (volumen), complejidad (variabilidad) y velocidad de crecimiento (velocidad) dificultan su captura, gestión, procesamiento o análisis mediante tecnologías y herramientas convencionales, tales como bases de datos relacionales y estadísticas convencionales o paquetes de visualización, dentro del tiempo necesario para que sean útiles.
+
++ Las Cargas de Trabajo Tradicionales (RDBMS) utilizan procesamiento de transacciones en línea (OLTP) y procesamiento analítico en línea (OLAP). En los sistemas OLTP, los datos suelen ser relacionales con un esquema predefinido y un conjunto de restricciones para mantener la integridad referencial. A menudo, se pueden consolidar datos de varios orígenes de la organización en un almacenamiento de datos, utilizando un proceso ETL para mover y transformar los datos de origen.
+
++ Una arquitectura de Big Data (Macrodatos) está diseñada para controlar la ingesta, el procesamiento y el análisis de datos que son demasiado grandes o complejos para los sistemas de bases de datos tradicionales. Los datos se pueden procesar por lotes o en tiempo real. Las soluciones de macrodatos suelen implicar una gran cantidad de datos no relacionales, tales como datos de clave y valor, documentos JSON o datos de series temporales. Los sistemas RDBMS tradicionales no suelen ser adecuados para almacenar este tipo de datos. El término NoSQL hace referencia a la familia de bases de datos que están diseñadas para contener datos no relacionales. El término no es totalmente exacto, porque muchos almacenes de datos no relacionales admiten consultas compatibles con SQL. El término NoSQL significa “no solo SQL”.
+
+
+### Conceptos  
+
++ Un data warehouse es un repositorio unificado y estructurado para todos los datos que recogen los diversos sistemas de una empresa. El repositorio puede ser físico o lógico y hace hincapié en la captura de datos de diversas fuentes sobre todo para fines analíticos y de acceso.
+
++ Un data lake es un repositorio de almacenamiento que contienen una gran cantidad de datos en bruto, estructurado, semi-estructurados & no estructurados, y que se mantienen allí hasta que sea necesario. A diferencia de un data warehouse jerárquico que almacena datos en ficheros o carpetas, un data lake utiliza una arquitectura plana para almacenar los datos.
+
++ Existen algunas diferencias clave entre Data Lake y Data Warehouse:
+    - Datos: Un data warehouse sólo almacena datos que han sido modelados o estructurados, mientras que un Data Lake no hace acepción de datos. Lo almacena todo, estructurado, semiestructurado y no estructurado.
+    - Procesamiento: Antes de que una empresa pueda cargar datos en un data warehouse, primero debe darles forma y estructura, es decir, los datos deben ser modelados. Eso se llama schema-on-write. Con un data lake, sólo se cargan los datos sin procesar, tal y como están, y cuando esté listo para usar los datos, es cuando se le da forma y estructura. Eso se llama schema-on-read. Dos enfoques muy diferentes.
+    - Almacenamiento: Una de las principales características de las tecnologías de big data, como Hadoop, es que el coste de almacenamiento de datos es relativamente bajo en comparación con el de un data warehouse. Hay dos razones principales para esto: en primer lugar, Hadoop es software de código abierto, por lo que la concesión de licencias y el soporte de la comunidad es gratuito. Y segundo, Hadoop está diseñado para ser instalado en hardware de bajo coste.
+    - Agilidad: Un almacén de datos es un repositorio altamente estructurado, por definición. No es técnicamente difícil cambiar la estructura, pero puede tomar mucho tiempo dado todos los procesos de negocio que están vinculados a ella. Un data lake, por otro lado, carece de la estructura de un data warehouse, lo que da a los desarrolladores y a los científicos de datos la capacidad de configurar y reconfigurar fácilmente y en tiempo real sus modelos, consultas y aplicaciones.
+    - Seguridad: La tecnología del data warehouse existe desde hace décadas, mientras que la tecnología de big data (la base de un Data Lake) es relativamente nueva. Por lo tanto, la capacidad de asegurar datos en un data warehouse es mucho más madura que asegurar datos en un data lake. Cabe señalar, sin embargo, que se está realizando un importante esfuerzo en materia de seguridad en la actualidad en la industria de Big Data.
+
+
++ Azure Data Factory es la plataforma que resuelve estos escenarios de datos. Se trata de un servicio de integración de datos y ETL basado en la nube que le permite crear flujos de trabajo orientados a datos a fin de coordinar el movimiento y la transformación de datos a escala. Con Azure Data Factory, puede crear y programar flujos de trabajo basados en datos (llamados canalizaciones) que pueden ingerir datos de distintos almacenes de datos. Puede crear procesos ETL complejos que transformen datos visualmente con flujos de datos o mediante servicios de proceso como Azure HDInsight Hadoop, Azure Databricks y Azure SQL Database.  
+
++ Azure Databricks es una plataforma de análisis basada en Apache Spark optimizada para la plataforma de servicios en la nube de Microsoft Azure. Diseñada por los fundadores de Apache Spark, Databricks está integrado con Azure para proporcionar una configuración con un solo clic, flujos de trabajo optimizados y un área de trabajo interactiva que permite la colaboración entre científicos de datos, ingenieros de datos y analistas empresariales. Y lo mejor: no requiere administración :-).
+
++ Apache Spark es un framework de programación para procesamiento de datos distribuidos diseñado para ser rápido y de propósito general. Como su propio nombre indica, ha sido desarrollada en el marco del proyecto Apache, lo que garantiza su licencia Open Source.
+
+
++ Azure Synapse es un servicio de análisis que engloba el almacenamiento de datos empresariales y el análisis de macrodatos. Le ofrece la libertad de consultar los datos como prefiera, ya sea a petición sin servidor o con recursos aprovisionados, a escala. Azure Synapse reúne estos dos mundos con una experiencia unificada para ingerir, preparar, administrar y servir datos para las necesidades inmediatas de inteligencia empresarial y aprendizaje automático.  
+
+
+
+## MENSAJERIA  
+
+Azure ofrece varios servicios que le ayudan en la entrega de mensajes de evento en una solución. Estos servicios son los siguientes:
+    - Event Grid
+    - Event Hubs
+    - Service Bus
+
++ Evento: es una notificación ligera de una condición o un cambio de estado. El publicador del evento no tiene ninguna expectativa sobre cómo se trata el evento. El consumidor del evento decide qué hacer con la notificación. Los eventos pueden ser unidades discretas o parte de una serie.
+
++ Mensaje: son datos sin procesar producidos por un servicio que se consumen o almacenan en otro lugar. El mensaje contiene los datos que desencadenó la canalización del mensaje. El publicador del mensaje tiene una expectativa sobre la forma en que el consumidor trata el mensaje. Existe un contrato entre ambas partes. Por ejemplo, el publicador envía un mensaje con los datos sin procesar, espera que el consumidor cree un archivo a partir de esos datos y envía una respuesta cuando el trabajo finaliza.
+
+
++ Microsoft Azure Service Bus es un agente de mensajes de integración empresarial completamente administrado. Service Bus puede desacoplar aplicaciones y servicios. Service Bus ofrece una plataforma confiable y segura para la transferencia asincrónica de datos y estado.  
+
++ Azure Event Hubs es una plataforma de streaming de macrodatos y un servicio de ingesta de eventos. Puede recibir y procesar millones de eventos por segundo. Los datos enviados a un centro de eventos se pueden transformar y almacenar con cualquier proveedor de análisis en tiempo real o adaptadores de procesamiento por lotes y almacenamiento.
+
++ Azure IoT Hub es la puerta de enlace en la nube que conecta dispositivos IoT para recopilar los datos y dirigir las perspectivas y automatización empresariales. Además, IoT Hub incluye características que enriquecen la relación entre los dispositivos y los sistemas back-end. Las capacidades de comunicación bidireccional implican que al tiempo que se reciben datos de los dispositivos, también es posible devolver comandos y directivas a los dispositivos.
+
++ Azure Event Grid permite crear fácilmente aplicaciones con arquitecturas basadas en eventos. Event Grid está diseñado para eventos, no datos. Cuando un Event Grid es informado de un evento, luego toma acciones determinadas.  
 
 
 ## AZURE ACTIVE DIRECTORY  

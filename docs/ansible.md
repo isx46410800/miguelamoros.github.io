@@ -290,3 +290,4 @@ ansible-galaxy search 'docker'
 
 ## CURSO COMPLETO
 
++ Repaso de ansible

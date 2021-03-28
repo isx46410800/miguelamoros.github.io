@@ -290,4 +290,140 @@ ansible-galaxy search 'docker'
 
 ## CURSO COMPLETO
 
-+ Repaso de ansible
++ Repaso de ansible. 
++ Es un software de gestión de la configuración automática y remota.  
++ Nos permite centralizar la configuración de numerosas servidores, dispositivos de red y Cloud Providers de una forma sencilla y automatizada.  
++ Podremos aprovisionar servidores en AWS, Azure o VMWARE y automatizar la configuración de dichos servidores.  
++ Ventajas:  
+    * No requiere agentes  
+    * Multiplataforma, eficiente y seguro  
+    * Aprovisiona infraestructuras  
+    * Configura dispositivos de red  
+
++ Se conecta por SSH.  
+
+### Inventory  
+- Sirve para listar todos los hosts, todas las ips que tenemos que aprovisionar.  
+- Con `cat /etc/ansible/hosts` vemos un ejemplo de los hosts que tenemos que administrar:  
+```
+## [webservers] - nombre del grupo
+## alpha.example.org
+## beta.example.org
+## 192.168.1.100
+## 192.168.1.110
+## db[01:03].intranet.mydomain.net
+## db02.intranet.mydomain.net
+```  
+
+- Probamos conexión con algun hosts poniendo `ansible alpha.example.org -m ping`:  
+```
+[isx46410800@miguel miguelamoros.github.io]$ ansible localhost -m ping
+localhost | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```  
+
+- Podemos indicarle otro fichero con otros host poniendo la opción _-i file_hosts_.
+
+### Módulos  
+
++ [documentación módulos](https://docs.ansible.com/ansible/2.8/modules/list_of_packaging_modules.html)  
+
++ Por defecto si no pongo el modulo -m, coge _shell_ como módulo:  
+```
+[isx46410800@miguel miguelamoros.github.io]$ ansible localhost -a 'echo hola miguel'
+localhost | CHANGED | rc=0 >>
+hola miguel
+#
+[isx46410800@miguel miguelamoros.github.io]$ ansible localhost -m shell -a 'uname -a'
+localhost | CHANGED | rc=0 >>
+Linux miguel 5.3.11-100.fc29.x86_64 #1 SMP Tue Nov 12 20:41:25 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+```
+
++ Instalamos un paquete en la máquina remota como superusuario(-b) y preguntando la contraseña de root en esa máquina(-K):  
+```
+[isx46410800@miguel miguelamoros.github.io]$ ansible localhost -b -K -m dnf -a 'name=vim state=present'
+BECOME password: 
+localhost | SUCCESS => {
+    "changed": false,
+    "msg": "Nothing to do",
+    "rc": 0,
+    "results": []
+}
+```  
+
+### Playbook
++ Se escribe un yaml y son objetos que se escriben tareas que han de hacer en nuestras máquinas remotas:  
+```
+---
+- hosts: localhost
+  tasks:
+  - name: instala vim
+    dnf: name=vim state=present
+    become: true
+  - name: saludar
+    shell: echo hola
+```  
++ Resultado:  
+```
+[isx46410800@miguel ansible]$ ansible-playbook playbook01.yaml -K
+BECOME password: 
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not
+match 'all'
+PLAY [localhost] ****************************************************************************************************
+TASK [Gathering Facts] **********************************************************************************************
+ok: [localhost]
+TASK [instala vim] **************************************************************************************************
+ok: [localhost]
+TASK [saludar] ******************************************************************************************************
+changed: [localhost]
+PLAY RECAP **********************************************************************************************************
+localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+
++ otro ejemplo que maneja servicios:  
+```
+- hosts: localhost
+  become: true
+  tasks:
+  - name: instala vim
+    dnf: name=vim state=present
+  - name: saludar
+    shell: echo hola
+  - name: detener apache
+    service: name=httpd state=stopped
+```  
+
+### Usuarios  
++ Podemos poner el usuario con la opción _-u_. No obstante en el fichero de configuración /etc/ansible/ansible.cfg podemos poner [defaults]remote_users=miguel y entonces cada orden cogerá como usuario miguel.  
++ Podemos cargar otro fichero de conf poniendo ANSIBLE_CONFIG=ruta_file_cfg.  
+
+### Handlers  
++ Le pide a ansible que cuando haga una tarea success lo notifique para poder hacer otras cosas.  
+```
+isx46410800@miguel ansible]$ cat playbook02.yaml
+---
+- hosts: localhost
+  become: true
+  tasks:
+  - name: instala apache
+    dnf: name=httpd state=present update_cache=true
+    notify:
+      - "Reinicia el servidor web"
+  handlers:
+  - name: reinicia el server apache
+    service: name=httpd state=restarted
+[isx46410800@miguel ansible]$ ansible-playbook playbook02.yaml -K
+BECOME password: 
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not
+match 'all'
+PLAY [localhost] ****************************************************************************************************
+TASK [Gathering Facts] **********************************************************************************************
+ok: [localhost]
+TASK [instala apache] ***********************************************************************************************
+ok: [localhost]
+PLAY RECAP **********************************************************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```  
+> Nos saldría una notificación de un handler al instalar, no sale porque ya estaba instalado.

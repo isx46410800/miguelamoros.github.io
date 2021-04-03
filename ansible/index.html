@@ -104,7 +104,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#ansible-galaxy">Ansible Galaxy</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#curso-completo">CURSO COMPLETO</a>
+    <li class="toctree-l2"><a class="reference internal" href="#resumen">Resumen</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#inventory">Inventory</a>
     </li>
@@ -115,6 +115,22 @@
     <li class="toctree-l3"><a class="reference internal" href="#usuarios">Usuarios</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#handlers">Handlers</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#curso-completo">CURSO COMPLETO</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#environment">Environment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inventory_1">Inventory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modulos_2">Módulos</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#playbooks">Playbooks</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#variables_1">Variables</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#practica-dev-y-prod">Práctica DEV y PROD</a>
     </li>
         </ul>
     </li>
@@ -543,7 +559,7 @@ ansible-galaxy init &quot;my-role&quot;
 ansible-galaxy search 'docker'
 </code></pre>
 
-<h2 id="curso-completo">CURSO COMPLETO</h2>
+<h2 id="resumen">Resumen</h2>
 <ul>
 <li>Repaso de ansible. </li>
 <li>Es un software de gestión de la configuración automática y remota.  </li>
@@ -703,6 +719,571 @@ localhost                  : ok=2    changed=0    unreachable=0    failed=0    s
 <blockquote>
 <p>Nos saldría una notificación de un handler al instalar, no sale porque ya estaba instalado.</p>
 </blockquote>
+<h2 id="curso-completo">CURSO COMPLETO</h2>
+<h3 id="environment">Environment</h3>
+<ul>
+<li>Vemos un ejemplo de como es un ambiente con Ansible, conectando una máquina central con el lenguaje Ansible hacia otros hosts con sistemas operativos y ordenando que tiene que tener cada cosa y como conectarse:  </li>
+</ul>
+<p><img alt="" src="../images/ansible_1.png" /><br />
+<img alt="" src="../images/ansible_2.png" />  </p>
+<ul>
+<li>
+<p>Nos conectamos a una instancia ubuntu aws por ssh:<br />
+<code>[isx46410800@miguel .ssh]$ ssh -i mykeypair.pem ubuntu@18.134.164.27</code>  </p>
+</li>
+<li>
+<p>Con el un usuario ubuntu de aws, creamos llaves para conectarnos a ese user:  </p>
+</li>
+</ul>
+<pre><code>ubuntu@ip-172-31-23-107:~$ sudo su -
+root@ip-172-31-23-107:~# useradd ansible_user
+root@ip-172-31-23-107:~# passwd ansibler_user
+[isx46410800@miguel .ssh]$ ssh-keygen
+-rw-------. 1 isx46410800 isx46410800 2602 Apr  2 23:22 ansibleuser
+-rw-r--r--. 1 isx46410800 isx46410800  572 Apr  2 23:22 ansibleuser.pub
+root@ip-172-31-23-107:/home/ubuntu/.ssh# vi authorized_keys 
+root@ip-172-31-23-107:/home/ubuntu# chown -R ubuntu .ssh/ 
+</code></pre>
+
+<ul>
+<li>
+<p>Ahora podremos conectarnos con la llave privada al usuario ubuntu sin autenticar al tener copiada la llave publica:<br />
+<code>[isx46410800@miguel .ssh]$ ssh -i ansibleuser ubuntu@18.134.164.27</code>  </p>
+</li>
+<li>
+<p>Nos conectamos a un docker con fedora:<br />
+<code>[isx46410800@miguel curso_ansible]$ docker run --name container -h container -p 2222:22 --privileged -d isx46410800/ansible:ssh</code>  </p>
+</li>
+<li>
+<p>Creamos un usuario y copiamos también las llaves al usuario para conectarnos:  </p>
+</li>
+</ul>
+<pre><code>[root@container docker]# adduser fedora
+[root@container docker]# passwd fedora
+[root@container docker]# cd /home/fedora/
+[root@container fedora]# mkdir .ssh
+[root@container fedora]# chmod 700 .ssh
+[root@container fedora]# vi .ssh/authorized_keys
+[root@container fedora]# chmod 600 .ssh/authorized_keys 
+[root@container fedora]# chown -R fedora /home/fedora/.ssh 
+</code></pre>
+
+<h3 id="inventory_1">Inventory</h3>
+<ul>
+<li>Creamos un primer inventario para conectarnos a la máquina de amazon:  </li>
+</ul>
+<pre><code># conexión a un host remoto, indicando nombre host, ip, llave y usuario al que conectamos
+ec2 ansible_host=18.134.164.27 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
+</code></pre>
+
+<ul>
+<li>Probamos con la orden ansible -i inventario nombre_host -atributo opcion del atributo:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m ping
+ec2 | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+</code></pre>
+
+<ul>
+<li>El fichero de configuración de ansible está en /etc/ansible/ansible.cfg.  </li>
+</ul>
+<pre><code># este fichero de configuración se escriben reglas para grupos de hosts o hosts sueltos donde irán a buscar las cosas 
+por defecto a este archivo(/etc/ansible/ansible.cfg)
+[defaults]
+INVENTORY=./inventory01
+</code></pre>
+
+<ul>
+<li>Vemos que conecta igual poniendo el inventario como que no:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible ec2 -m ping
+ec2 | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+</code></pre>
+
+<h3 id="modulos_2">Módulos</h3>
+<ul>
+<li>
+<p>Los módulos son la cantidad de opciones que podemos hacer a la hora de conectarnos con las máquinas: ping, package, service...  </p>
+</li>
+<li>
+<p>Vemos todas con la orden <code>ansible-doc --list</code>:<br />
+<code>ansible-doc file</code>    </p>
+</li>
+<li>
+<p>Hacer un ping: <code>ansible -i inventory01 ec2 -m ping</code>  </p>
+</li>
+<li>
+<p>Crear un directorio/file(absent, directory, file, hard, link, touch): <code>ansible -i inventory01 ec2 -m file -a 'path=/home/ubuntu/crear_directorio state=directory'</code>  </p>
+</li>
+</ul>
+<pre><code>ansible -i inventory01 ec2 -m file -a 'path=/home/ubuntu/crear_directorio state=directory'
+ec2 | CHANGED =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: true,
+    &quot;gid&quot;: 1000,
+    &quot;group&quot;: &quot;ubuntu&quot;,
+    &quot;mode&quot;: &quot;0775&quot;,
+    &quot;owner&quot;: &quot;ubuntu&quot;,
+    &quot;path&quot;: &quot;/home/ubuntu/crear_directorio&quot;,
+    &quot;size&quot;: 4096,
+    &quot;state&quot;: &quot;directory&quot;,
+    &quot;uid&quot;: 1000
+}
+ubuntu@ip-172-31-23-107:~$ ls
+crear_directorio  
+[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m file -a 'path=/home/ubuntu/crear_directorio/crear_file.txt state=touch'
+ec2 | CHANGED =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: true,
+    &quot;dest&quot;: &quot;/home/ubuntu/crear_directorio/crear_file.txt&quot;,
+    &quot;gid&quot;: 1000,
+    &quot;group&quot;: &quot;ubuntu&quot;,
+    &quot;mode&quot;: &quot;0664&quot;,
+    &quot;owner&quot;: &quot;ubuntu&quot;,
+    &quot;size&quot;: 0,
+    &quot;state&quot;: &quot;file&quot;,
+    &quot;uid&quot;: 1000
+}
+ubuntu@ip-172-31-23-107:~$ ls crear_directorio/
+crear_file.txt
+</code></pre>
+
+<ul>
+<li>Copiar un fichero:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m copy -a 'src=./ansible.cfg dest=/home/ubuntu/crear_directorio'
+ec2 | CHANGED =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: true,
+    &quot;checksum&quot;: &quot;bf35d403c825217ade9f009d13cbdd6fc0a3078f&quot;,
+    &quot;dest&quot;: &quot;/home/ubuntu/crear_directorio/ansible.cfg&quot;,
+    &quot;gid&quot;: 1000,
+    &quot;group&quot;: &quot;ubuntu&quot;,
+    &quot;md5sum&quot;: &quot;15b402b635fbd568d10b82d4b67da871&quot;,
+    &quot;mode&quot;: &quot;0664&quot;,
+    &quot;owner&quot;: &quot;ubuntu&quot;,
+    &quot;size&quot;: 208,
+    &quot;src&quot;: &quot;/home/ubuntu/.ansible/tmp/ansible-tmp-1617401616.4248621-11162-62473546166429/source&quot;,
+    &quot;state&quot;: &quot;file&quot;,
+    &quot;uid&quot;: 1000
+}
+ubuntu@ip-172-31-23-107:~$ ls crear_directorio/
+ansible.cfg  crear_file.txt
+# otro ejemplo de crear un file con contenido y copiarlo
+ansible ec2 -m copy -a &quot;content='TopSecret' dest='/opt/data/secret.txt'&quot;
+</code></pre>
+
+<ul>
+<li>Añadir una linea a un fichero:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ cat file.txt 
+fichero de ejemplo para modulo de añadir lineas
+[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m lineinfile -a 'path=/home/ubuntu/crear_directorio/file.txt line=&quot;añadimos esto al modulo lineinfile&quot;'
+ec2 | CHANGED =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;backup&quot;: &quot;&quot;,
+    &quot;changed&quot;: true,
+    &quot;msg&quot;: &quot;line added&quot;
+}
+ubuntu@ip-172-31-23-107:~$ cat crear_directorio/file.txt 
+fichero de ejemplo para modulo de añadir lineas
+añadimos esto al modulo lineinfile
+</code></pre>
+
+<ul>
+<li>Descargar contenido de un URL y enviarlo en un fichero a un host remoto:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m uri -a 'url=https://api.github.com/users/isx46410800/repos dest=/home/ubuntu/crear_directorio/repos.json'
+</code></pre>
+
+<ul>
+<li>Instalar/borrar un paquete:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m package -a 'name=vim state=present' -b
+[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m package -a 'name=vim state=present' --become
+</code></pre>
+
+<blockquote>
+<p>-b para ser superusuario -k para preguntar passwd<br />
+si hemos creado un user vamos a la maquina y añadimos en la fichero /etc/sudoers: user ALL=(ALL:ALL) NOPASSWD:ALL  </p>
+</blockquote>
+<ul>
+<li>
+<p>Encender un servicio:<br />
+<code>ansible ec2 -m service -a "name=nginx state=started"</code></p>
+</li>
+<li>
+<p>Crear un usuario:<br />
+<code>ansible ec2 -m user -a "name=miguel state=present"</code></p>
+</li>
+</ul>
+<h3 id="playbooks">Playbooks</h3>
+<ul>
+<li>En vez de hacerlo en una linea con comandos, se crea un playbook en formato YAML para hacer ahi el listado de tareas a realizar a los hosts:  </li>
+</ul>
+<pre><code>- name: primer ejemplo playbook
+  hosts: ec2
+  tasks:
+  # creamos un file con contenido dentro
+  - name: hello file is copied
+    copy:
+      content: &quot;Hello World&quot;
+      dest: /home/ubuntu/crear_directorio/hello.txt
+  # creamos un segundo file con contenido dentro
+  - name: hi file is copied
+    copy:
+      content: &quot;Hi World&quot;
+      dest: /home/ubuntu/crear_directorio/hi.txt
+  # comprimimos estos dos ficheros
+  - name: hello and hi files compressed
+    archive:
+      path:
+      - /home/ubuntu/crear_directorio/hello.txt
+      - /home/ubuntu/crear_directorio/hi.txt
+      dest: /home/ubuntu/crear_directorio/hh.zip
+      format: zip
+</code></pre>
+
+<ul>
+<li>
+<p>Lo lanzamos con la orden: <code>[isx46410800@miguel curso_ansible]$ ansible-playbook playbook01.yaml</code>  </p>
+</li>
+<li>
+<p>Ejemplo de deploy de una web al host remoto:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ cat playbook02-web-static.yaml 
+- name: ejemplo deploy web static
+  hosts: ec2
+  become: yes
+  tasks:
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: apache2
+      state: present
+  # encendemos el servicio apache
+  - name: apache running
+    service:
+      name: apache2
+      state: started
+  # creamos el directorio de var para meter la web de index.html
+  - name: creating var directory
+    file:
+      path: /var/www/html
+      state: directory
+  # deploy web statica
+  - name: static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/ansible-course/index.html
+      dest: /var/www/html #/usr/share/nginx/html
+</code></pre>
+
+<ul>
+<li>Resultado:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible-playbook playbook02-web-static.yaml 
+PLAY [ejemplo deploy web static] *************************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [ec2]
+TASK [installing apache server] ***************************************************************************************
+ok: [ec2]
+TASK [apache running] *************************************************************************************************
+ok: [ec2]
+TASK [creating var directory] ****************************************************************************************
+ok: [ec2]
+TASK [static website is deployed] ************************************************************************************
+changed: [ec2]
+PLAY RECAP ***********************************************************************************************************
+ec2                        : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+</code></pre>
+
+<h3 id="variables_1">Variables</h3>
+<ul>
+<li>Podemos usar variables en el fichero de playbook para no tener que escribir lo mismo:  </li>
+</ul>
+<pre><code>- name: ejemplo deploy web static
+  hosts: ec2
+  become: yes
+  vars:
+    webserver: apache2
+    webserver_dir: /var/www/html
+  tasks:
+  # debug sirve para mostrar mensajes
+  - name: debug
+    debug:
+      msg: &quot;El valor del servidor es {{ webserver }}&quot;
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: &quot;{{ webserver }}&quot;
+      state: present
+  # encendemos el servicio apache
+  - name: apache running
+    service:
+      name: &quot;{{ webserver }}&quot;
+      state: started
+  # creamos el directorio de var para meter la web de index.html
+  - name: creating var directory
+    file:
+      path: &quot;{{ webserver_dir }}&quot;
+      state: directory
+  # deploy web statica
+  - name: static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/ansible-course/index.html
+      dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
+</code></pre>
+
+<ul>
+<li>También podemos poner en la orden de ansible-playbook la opcion <strong>--extra-vars</strong> e indicar la variable y contenido y piyaría esa variable como prioridad en vez de la del playbook:</li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible-playbook playbook04-debug-vars-web-static.yaml 
+PLAY [ejemplo deploy web static] *************************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [ec2]
+TASK [debug] *********************************************************************************************************
+ok: [ec2] =&gt; {
+    &quot;msg&quot;: &quot;El valor del servidor es apache2&quot;
+}
+#
+[isx46410800@miguel curso_ansible]$ ansible-playbook playbook04-debug-vars-web-static.yaml --extra-vars webserver=httpd
+PLAY [ejemplo deploy web static] *************************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [ec2]
+TASK [debug] *********************************************************************************************************
+ok: [ec2] =&gt; {
+    &quot;msg&quot;: &quot;El valor del servidor es httpd&quot;
+}
+</code></pre>
+
+<ul>
+<li>Tabién se puede crear un fichero de variables y llamar a donde están las variables:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ cat vars.yaml 
+webserver: apache2
+webserver_dir: /var/www/html
+#
+- name: ejemplo deploy web static
+  hosts: ec2
+  become: yes
+  vars_files:
+  - vars-yaml
+  tasks:
+  # debug sirve para mostrar mensajes
+  - name: debug
+    debug:
+      msg: &quot;El valor del servidor es {{ webserver }}&quot;
+</code></pre>
+
+<ul>
+<li>Ejemplo pipeline con diferentes Branchs de git:  </li>
+</ul>
+<pre><code>- name: ejemplo deploy web static
+  hosts: ec2
+  become: yes
+  vars:
+    webserver: apache2
+    webserver_dir: /var/www/html
+    git_branch: ansible-course-index-v2
+  tasks:
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: &quot;{{ webserver }}&quot;
+      state: present
+  # encendemos el servicio apache
+  - name: apache running
+    service:
+      name: &quot;{{ webserver }}&quot;
+      state: started
+  # creamos el directorio de var para meter la web de index.html
+  - name: creating var directory
+    file:
+      path: &quot;{{ webserver_dir }}&quot;
+      state: directory
+  # deploy web statica
+  - name: static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/{{ git_branch }}/index.html
+      dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
+</code></pre>
+
+<ul>
+<li>Podemos crear una variable de registro con el contenido de una tarea:  </li>
+</ul>
+<pre><code>- name: ejemplo deploy web static
+  hosts: ec2
+  become: yes
+  tasks:
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: apache2
+      state: present
+    register: apache_install_output
+  - name: print register in terminal
+    debug:
+      var: apache_install_output
+  - name: copy the output
+    copy:
+      content: &quot;{{ apache_install_output }}&quot;
+      dest: /home/ubuntu/crear_directorio/register.txt
+</code></pre>
+
+<ul>
+<li>Ansible facts:  </li>
+</ul>
+<pre><code>- name: ansible facts
+  hosts: ec2
+  become: yes
+  #gather_facts: no
+  tasks:
+    # print ansible_facts  
+  - name: print ansible_facts
+    debug:
+      var: ansible_facts
+</code></pre>
+
+<blockquote>
+<p>se puede poner con una variable de gather_facts: no y no saldrian los facts<br />
+Otras variables como inventory_hostaname, hostvars, group_names, groups...  </p>
+</blockquote>
+<h3 id="practica-dev-y-prod">Práctica DEV y PROD</h3>
+<ul>
+<li>
+<p>Nos queremos conectar a 3 instancas AWS, una de dev y dos de prod.  </p>
+</li>
+<li>
+<p>Creamos nuevo inventario:  </p>
+</li>
+</ul>
+<pre><code>### conexion para una maquina de desarrollo y dos de produccion
+dev1 ansible_host=35.177.51.40 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
+prod1 ansible_host=3.8.212.118 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
+prod2 ansible_host=35.178.101.37 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
+[prod]
+prod1
+prod2
+[dev]
+dev1
+</code></pre>
+
+<ul>
+<li>
+<p>Probamos conexión despues de meterle la llave publica a cada uno: <code>[isx46410800@miguel curso_ansible]$ ansible -i inventory02_prod_dev all -m ping</code>  </p>
+</li>
+<li>
+<p>Podemos simplicar variables añadiendo un grupo de variables:  </p>
+</li>
+</ul>
+<pre><code>### conexion para una maquina de desarrollo y dos de produccion
+dev1 ansible_host=35.177.51.40 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
+prod1 ansible_host=3.8.212.118
+prod2 ansible_host=35.178.101.37
+[prod]
+prod1
+prod2
+[prod:vars]
+ansible_private_key_file=~/.ssh/ansible_user
+ansible_ssh_user=ubuntu
+git_branch=ansible-course-index-v2
+[dev]
+dev1
+[dev:vars]
+git_branch=ansible-course
+</code></pre>
+
+<blockquote>
+<p>Tambien se puede crear un directorio host_vars -&gt; dev1 --&gt; vars.yaml con las 3 variables asignadas separados por dos puntos.<br />
+tambien se puede crear un directorio group_vars -&gt; prod -&gt; vars.yaml con las variables del grupo prod:vars. Luego se borraria porque ya las tenemos ahí.  </p>
+</blockquote>
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible-playbook playbook09-proyect_dev-prod.yaml 
+PLAY [ejemplo deploy en dev y prod] **********************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [prod1]
+ok: [dev1]
+ok: [prod2]
+TASK [installing apache server] **************************************************************************************
+ok: [prod1]
+ok: [prod2]
+changed: [dev1]
+TASK [apache running] ************************************************************************************************
+ok: [prod1]
+ok: [dev1]
+ok: [prod2]
+TASK [creating var directory] ****************************************************************************************
+ok: [prod1]
+ok: [dev1]
+ok: [prod2]
+TASK [static website is deployed] ************************************************************************************
+changed: [prod1]
+changed: [prod2]
+changed: [dev1]
+PLAY RECAP ***********************************************************************************************************
+dev1                       : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+prod1                      : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+prod2                      : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+</code></pre>
+
+<p><img alt="" src="../images/ansible_3.png" /><br />
+<img alt="" src="../images/ansible_4.png" />  </p>
+<ul>
+<li>Vemos la info de variables mágicas:  </li>
+</ul>
+<pre><code>- name: play for discover magic variables
+  hosts: dev,prod
+  tasks:
+  - name: print inventory_hostname
+    debug:
+      var: inventory_hostname
+  - name: print hostvars
+    debug:
+      var: hostvars
+  - name: print group_names
+    debug:
+      var: group_names
+  - name: print groups
+    debug:
+      var: groups
+</code></pre>
+
+<p><code>[isx46410800@miguel curso_ansible]$ ansible-playbook 10-playbook-magic_variables.yaml &gt; magic.tmp</code>  </p>
+<ul>
+<li>Podemos conseguir la info de un host con la orden ansible-inventory:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ ansible-inventory --host dev1
+{
+    &quot;ansible_host&quot;: &quot;35.177.51.40&quot;,
+    &quot;ansible_private_key_file&quot;: &quot;~/.ssh/ansible_user&quot;,
+    &quot;ansible_ssh_user&quot;: &quot;ubuntu&quot;,
+    &quot;git_branch&quot;: &quot;ansible-course&quot;
+}
+</code></pre>
+
+<p><strong><em>*https://github.com/abdennour/ansible-course</em></strong>*</p>
               
             </div>
           </div>

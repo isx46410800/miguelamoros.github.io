@@ -132,6 +132,34 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#practica-dev-y-prod">Práctica DEV y PROD</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ansible-task-control">Ansible Task Control</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#jinja2-templates">Jinja2 templates</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ansible-vault">Ansible Vault</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ansible-role-galaxy">Ansible Role &amp; Galaxy</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#instalar-jenkkins">Instalar Jenkkins</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#instalar-docker">Instalar Docker</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#instalar-kubernetes">Instalar Kubernetes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ansible-collection">Ansible Collection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#capstone-project-put-all-together-in-a-real-project-with-go-react-and-mongodb">Capstone Project - Put all Together in a Real Project with Go, React and MongoDB</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#creacion-de-instancias-aws">Creación de instancias AWS</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#instalacion-mongodb">Instalación MONGODB</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#backend-app">Backend APP</a>
+    </li>
+        </ul>
+    </li>
         </ul>
     </li>
     </ul>
@@ -933,7 +961,11 @@ si hemos creado un user vamos a la maquina y añadimos en la fichero /etc/sudoer
 </li>
 <li>
 <p>Crear un usuario:<br />
-<code>ansible ec2 -m user -a "name=miguel state=present"</code></p>
+<code>ansible ec2 -m user -a "name=miguel state=present"</code>  </p>
+</li>
+<li>
+<p>Hacer una orden normal de comando:<br />
+<code>[isx46410800@miguel curso_ansible]$ ansible dev,prod -m command -a 'cat /etc/passwd'</code>  </p>
 </li>
 </ul>
 <h3 id="playbooks">Playbooks</h3>
@@ -1283,6 +1315,1049 @@ prod2                      : ok=5    changed=1    unreachable=0    failed=0    s
 }
 </code></pre>
 
+<h3 id="ansible-task-control">Ansible Task Control</h3>
+<ul>
+<li>
+<p>Los LOOPS sirven para ejecutar unas mismas tareas pero en una iterando el item que queremos pasarle como variable.  </p>
+</li>
+<li>
+<p>Simplificamos una tares poniendo loop y los items debajo a iterar.  </p>
+</li>
+<li>
+<p>Ejemplos:</p>
+</li>
+</ul>
+<pre><code>become: yes
+  tasks:
+  - name: &quot;package is installed&quot;
+    package:
+      name: &quot;{‌{ item }}&quot;
+      state: latest
+    loop:
+    - mysql
+    - mongodb-org
+#
+become: yes
+  tasks:
+  # ....
+  - name: service is up
+    service:
+      name: &quot;{‌{ item }}&quot;
+      state: started
+    loop:
+    - mysql
+    - mongod
+</code></pre>
+
+<ul>
+<li>En nuestro ejemplo para hacer iterar el loop para que primero haga deploy de una web y despues de otra:  </li>
+</ul>
+<pre><code>- name: ejemplo deploy web static
+  hosts: dev,prod
+  become: yes
+  vars:
+    webserver: apache2
+    webserver_dir: /var/www/html
+  tasks:
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: &quot;{{ webserver }}&quot;
+      state: present
+  # encendemos el servicio apache
+  - name: apache running
+    service:
+      name: &quot;{{ webserver }}&quot;
+      state: started
+  # creamos el directorio de var para meter la web de index.html
+  - name: creating var directory
+    file:
+      path: &quot;{{ webserver_dir }}&quot;
+      state: directory
+  # deploy webs staticas
+  - name: static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/{{ git_branch }}/{{ item }}.html
+      dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
+    loop:
+    - index
+    - about
+</code></pre>
+
+<ul>
+<li>Utilizamos el WHEN como opción para decir que se haga tal cosa sea igual a esa variable. En este caso las variables no se ponen entre corchetes[].  </li>
+</ul>
+<pre><code>  become: yes
+  vars:
+    webserver: apache2
+    webserver_dir: /var/www/html
+  tasks:
+  # instalamos apache
+  - name: installing apache server
+    package:
+      name: &quot;{{ webserver }}&quot;
+      state: present
+  # encendemos el servicio apache
+  - name: apache running
+    service:
+      name: &quot;{{ webserver }}&quot;
+      state: started
+  # creamos el directorio de var para meter la web de index.html
+  - name: creating var directory
+    file:
+      path: &quot;{{ webserver_dir }}&quot;
+      state: directory
+  # deploy web statica
+  - name: index static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/{{ git_branch }}/index.html
+      dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
+  - name: about static website is deployed
+    uri:
+      url: https://raw.githubusercontent.com/abdennour/example-static-website/{{ git_branch }}/about.html
+      dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
+    when: git_branch == 'ansible-course'
+</code></pre>
+
+<ul>
+<li>Resultados:  </li>
+</ul>
+<pre><code>TASK [index static website is deployed] ******************************************************************************
+changed: [prod2]
+changed: [prod1]
+changed: [dev1]
+TASK [about static website is deployed] ******************************************************************************
+skipping: [prod1]
+skipping: [prod2]
+changed: [dev1]
+</code></pre>
+
+<ul>
+<li>Otros Ejemplos comunes del WHEN:  </li>
+</ul>
+<pre><code>when: ansible_distribution == 'Ubuntu'
+when: app_replicas == 12
+when: app_replicas &lt; 12
+when: ansible_distribution != 'Centos'
+when: git_branch is defined
+when: git_branch is not defined
+when:  ( git_branch in [&quot;master&quot;, &quot;development&quot;] )
+when: ( app_replicas == 12 ) and ( ansible_distribution == 'Ubuntu')
+when:
+- app_replicas == 12
+- ansible_distribution == 'Ubuntu'
+when: ( app_replicas == 12 ) or ( ansible_distribution == 'Ubuntu' )
+</code></pre>
+
+<ul>
+<li>Ejemplo de crear usuarios segun si están en una maquina y segun el papel que tengan:  </li>
+</ul>
+<pre><code>[isx46410800@miguel curso_ansible]$ cat users.yaml
+assignments_users:
+- name: miguel
+  role: developer
+- name: isabel
+  role: developer
+- name: cristina
+  role: ops
+</code></pre>
+
+<pre><code>- name: play create users per role
+  hosts: dev,prod
+  become: yes
+  vars_files:
+  - ./users.yaml
+  tasks:
+  - name: user exists per its role
+    user:
+      name: &quot;{{ item.name }}&quot;
+      state: present
+    loop: &quot;{{ assignment_users }}&quot;
+    when: (item.role == 'developer' and 'dev' in group_names) or (item.role == 'ops' and 'prod' in group_names)
+</code></pre>
+
+<blockquote>
+<p>Lo que hacemos es que si un usuario tiene el rol de develop vaya a las maquinas devs y si es ops que vaya a las de prod.  </p>
+</blockquote>
+<ul>
+<li>
+<p>Podemos comprobar los usuarios en cada host con la orden:<br />
+<code>[isx46410800@miguel curso_ansible]$ ansible dev,prod -m command -a 'cat /etc/passwd'</code>  </p>
+</li>
+<li>
+<p>Podemos delegar una tarea a otro host, es decir en vez de la máquina indicada, que se envie a otra con <strong>delegate_to</strong>:  </p>
+</li>
+</ul>
+<pre><code>- name: delegar una tarea a otro host con delegate_to
+  hosts: dev
+  tasks:
+  - name: file copied
+    copy:
+      content: este mensaje de prueba
+      dest: /tmp/message.txt
+    delegate_to: localhost
+</code></pre>
+
+<ul>
+<li>Otro ejemplo de delegar tareas:  </li>
+</ul>
+<pre><code>- name: play to show how to use delegate_to in assignment
+  hosts: dev1
+  tasks:
+  - name: repos list is downloaded
+    uri:
+      url: https://api.github.com/users/atoumi/repos
+      dest: /tmp/git-repos.json
+    delegate_to: localhost
+</code></pre>
+
+<ul>
+<li>Podemos importar la información de tareas con el módulo <strong>import_tasks</strong>. Se crea un archivo aparte de las tareas que se quieren importar y se añaden al playbook principal:  </li>
+</ul>
+<pre><code>- name: play import_tasks
+  hosts: dev1
+  tasks:
+  - name: import nginx tasks
+    import_tasks: nginx_install.yaml
+</code></pre>
+
+<ul>
+<li>Los handers son avisadores de que haga una cosa o notifique si una tarea ha cambiado, ejemplo:  </li>
+</ul>
+<pre><code>- name: play illustrates the Slide of handlers
+  hosts: somehost
+  tasks:
+  - name: t1
+    module-a:
+      attr1: val1
+  - name: t2
+    module-b:
+      attr1: val1
+    notify: t3
+    # run t3 only if t2 CHANGED 
+  - name: t4
+    module-d:
+      attr1: val1
+  handlers:
+  - name: t3
+    module-c:
+      attr1: val1
+</code></pre>
+
+<h3 id="jinja2-templates">Jinja2 templates</h3>
+<ul>
+<li>
+<p><a href="https://jinja.palletsprojects.com/en/2.11.x/">DOCUMENTACIÓN JINJA</a></p>
+</li>
+<li>
+<p>Ejemplo de filtros que ponemos ponerle en las tareas con jinja:  </p>
+</li>
+</ul>
+<pre><code># https://jinja.palletsprojects.com/en/2.11.x/templates/#builtin-filters
+- name: play with jinja2 filters
+  hosts: container
+  gather_facts: no
+  vars:
+    git_username: atoumi
+    git_password: Gfdfd445e
+    git_repos: [&quot;eks-course&quot;, &quot;ansible-course&quot;, &quot;react-csv&quot;]
+    course_lectures_nb: [6, 6, 10, 8, 9]
+  tasks:
+  - name: j2 filter - capitalize
+    debug:
+      msg: |
+        original : {{ git_username }}
+        with filter: {{ git_username | capitalize }}
+    # require: pip3 install passlib    
+  - name: j2 filter - password_hash('sha512')
+    debug:
+      msg: |
+        original : {{ git_password }}
+        with filter: {{ git_password | password_hash('sha512') }}
+  - name: j2 filter - length - nb of repos
+    debug:
+      msg: |
+        original : {{ git_repos }}
+        with filter: {{ git_repos | length }}
+  - name: j2 filter - sum - total nb of lectures
+    debug:
+      msg: |
+        original : {{ course_lectures_nb }}
+        with filter: {{ course_lectures_nb | sum }}
+  - name: j2 filter - max - max nb of lectures in a section
+    debug:
+      msg: |
+        original : {{ course_lectures_nb }}
+</code></pre>
+
+<ul>
+<li>Lista de filtros:  </li>
+<li><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html">ansible</a>  </li>
+<li>
+<p><a href="https://jinja.palletsprojects.com/en/2.11.x/templates/#builtin-filters">jinja</a>  </p>
+</li>
+<li>
+<p>Ejemplo de poner filtros creando usuarios, metiendolo en la maquina que le toque segun rol y poniendo su passwd. luego nos conectamos y funciona:  </p>
+</li>
+</ul>
+<pre><code>where &quot;vars/31-users.yaml&quot; content is :
+assignment_users:
+- name: ahmed
+  password: ahmed123
+  role: developer
+- name: mouath
+  password: mouath123
+  role: developer
+- name: ali
+  password: aliali123
+  role: ops
+#
+- name: play create users per role
+  hosts: dev,prod
+  become: yes
+  vars_files:
+  - vars/31-users.yaml
+  tasks:
+  - name: user exists per its role
+    user:
+      name: &quot;{‌{ item.name }}&quot;
+      state: present
+      password: &quot;{‌{item.password | password_hash('sha512') }}&quot;
+    loop: &quot;{‌{ assignment_users }}&quot;
+    when: (item.role == 'developer' and 'dev' in group_names) or (item.role == 'ops' and 'prod' in group_names)
+#
+ssh ahmed@&lt;ip-server&gt; # .. then put the password (ahmed123)
+</code></pre>
+
+<ul>
+<li>Con el modulo <strong>template</strong> podemos copiar un fichero que tiene variables del sistemas hacia destino. Si lo hacemos con el modulo copy, se copia literalmente sin sustituir las variables:  </li>
+</ul>
+<pre><code>#fichero file.conf
+Distribution         :  {{ ansible_facts.distribution }}
+Distribution Release :  {{ ansible_facts.distribution_release }} 
+Distribution Version : {{ ansible_facts.distribution_version }} 
+Nbre CPU core        : {{ ansible_facts.processor_cores }} cores 
+Total Memory         : {{ ansible_facts.memtotal_mb }} mb
+#playbook
+- name: play to generate SPECS report
+  hosts: dev1
+  tasks:
+  - name: report is generated
+    template:
+      src: ./file_vars.conf
+      dest: /tmp/specs.conf
+#
+ubuntu@ip-172-31-19-134:~$ cat /tmp/specs.conf 
+Distribution         :  Ubuntu
+Distribution Release :  focal 
+Distribution Version : 20.04 
+Nbre CPU core        : 1 cores 
+Total Memory         : 978 mb
+</code></pre>
+
+<ul>
+<li>Se pueden poner también sintaxi jinja en el fichero como por ejemplo condicionales:  </li>
+</ul>
+<pre><code>#fichero file.conf
+Distribution         :  {{ ansible_facts.distribution }}
+Distribution Release :  {{ ansible_facts.distribution_release }} 
+Distribution Version : {{ ansible_facts.distribution_version }} 
+Nbre CPU core        : {{ ansible_facts.processor_cores }} cores 
+Total Memory         : {{ ansible_facts.memtotal_mb }} mb
+#
+{% if ansible_facts.memtotal_mb &lt; 4000 %}
+  The memory size is small
+{% else %}
+  The memory size is OK
+{% endif %}
+</code></pre>
+
+<ul>
+<li>Tambien se puede hacer jinja con loop:  </li>
+</ul>
+<pre><code>#playbook
+- name: play to generate SPECS report
+  hosts: dev,prod
+  vars:
+    app_pages:
+    - home
+    - login
+    - logout
+    app_users:
+    - name: ahmed
+      role: developer
+    - name: mouath
+      role: developer
+    - name: ali
+      role: ops
+    - name: omar
+      role: ops
+  tasks:
+  - name: report is generated
+    template:
+      src: loop_jinja.conf
+      dest: /tmp/app-report.conf
+#loop_jinja.conf
+==== Print app_pages =====
+{% for page in app_pages %}
+  {{ page }}.html is a web page
+{% endfor %}
+==== Print app_users ====
+{% for u in app_users %}
+  {{ u.name | capitalize }} is {{ u.role }}
+{% endfor %}
+</code></pre>
+
+<ul>
+<li>Ejemplo de un /etc/hosts (etc/hosts that includes all hosts where {‌{ inventory_hostname }} magic variable is the domain name of the target host)  </li>
+</ul>
+<pre><code>- name: play common /etc/hosts
+  hosts: all
+  become: yes
+  tasks:
+  - name: copy /etc/hosts
+    template:
+      src: hosts.j2
+      dest: /etc/hosts
+#
+127.0.0.1 localhost
+# The following lnes are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+{% for host in groups['all'] %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ host }}
+{% endfor %}
+</code></pre>
+
+<ul>
+<li>Resumen sintaxi JINJA:  </li>
+</ul>
+<pre><code>Print variable or Expression
+Print the variable by using the variable name surrounded by double braces.
+{‌{ my_var }}
+# .i.e: {‌{ ansible_distribution }}
+Filters
+Variables can be transformed/modified by filters.
+Think about filter as a function
+{‌{ my_var | my_filter }}
+# .i.e : {‌{ app_title | capitalize }}
+Read it like my_filter(my_var)
+If Block
+{% if CONDITION1 %}
+    blah blah blah
+{% elif CONDITION2 %}
+    blahelif blahelif blahelif .
+{% else %}
+    blahelse so far
+{% endif %}
+#.i.e
+{% if git_branch == 'master' %}
+     RELEASE: {‌{ app_version }}
+{% else %}
+    SNAPSHOT: {‌{ app_version }}-RC{‌{ build_number }} 
+{% endif %}
+For Loop
+{% for ELEMENT in ARRAY %}
+   Process {‌{ ELEMENT }}
+{% endfor %}
+#. i.e: assume that ( app_pages = [&quot;login.html&quot;, &quot;index.html&quot;] )
+{% for page in app_pages %}
+   &lt;a href=&quot;https://example.com/{‌{ page }}&quot;&gt;{‌{ page }}&lt;/a&gt;
+{% endfor %}
+</code></pre>
+
+<h3 id="ansible-vault">Ansible Vault</h3>
+<ul>
+<li>
+<p>Ansible sirve para desencriptar las passwords que salen en un fichero.</p>
+</li>
+<li>
+<p>Ordenes:<br />
+<code>ansible-vault create users_password.yaml</code><br />
+<code>ansible-vault encrypt users_password.yaml</code>  <br />
+<code>ansible-vault decrypt users_password.yaml</code>  <br />
+<code>ansible-vault edit users_password.yaml</code><br />
+<code>ansible-vault show users_password.yaml</code>  </p>
+</li>
+<li>
+<p>Partimos del ejemplo:  </p>
+</li>
+</ul>
+<pre><code>#`ansible-vault create users_password.yaml`  
+assignment_users:
+- name: ahmed
+  password: ahmed123
+  role: developer
+- name: mouath
+  password: mouath123
+  role: developer
+- name: ali
+  password: aliali123
+  role: ops
+# playbook
+- name: play use encrypted vars
+  hosts: localhost
+  vars_files:
+  - users_password.yaml
+  tasks:
+  - name: encrypted variable is printed
+    debug:
+      var: assignment_users
+</code></pre>
+
+<ul>
+<li>Podemos crear en ansible.cfg la variable <strong>vault_password_file = file.key</strong> con una passwd de vault.</li>
+</ul>
+<h3 id="ansible-role-galaxy">Ansible Role &amp; Galaxy</h3>
+<ul>
+<li>Los roles ansibles son la forma en que hacemos esto. Cuando se crea un rol, se descompone el playbook en partes y esas partes se encuentran en una estructura de directorios.  </li>
+</ul>
+<p><img alt="" src="./ansible_5.png" /></p>
+<ul>
+<li>
+<p>Ejemplo de instalar un role:<br />
+<code>ansible-galaxy install role_file</code><br />
+<code>ansible-galaxy install -r ./requirements.yaml</code><br />
+<code>ansible-galaxy init my_role</code>  #estructura de directorios
+<code>ansible-galaxy --help</code>  </p>
+</li>
+<li>
+<p>Importar role en un playbook:  </p>
+</li>
+<li>en ansible.cfg: [defaults] roles_path = ./roles  </li>
+<li>ansible-galaxy install -r ./requirements.yaml</li>
+<li>tasks: - import_role: name: role_file vars: { var1: val1.. }</li>
+</ul>
+<h3 id="instalar-jenkkins">Instalar Jenkkins</h3>
+<ul>
+<li>Primer paso añadimos en el ansible.cfg el roles_path, donde se instalaran los roles que queremos instalar:  </li>
+</ul>
+<pre><code>[defaults]
+INVENTORY=./inventory02_prod_dev
+roles_path=./roles
+</code></pre>
+
+<ul>
+<li>
+<p>ansible-galaxy : Instala roles de Ansible Galaxy, una plataforma para el intercambio de roles (recetas) Ansible.  </p>
+</li>
+<li>
+<p>Podemos encontrar info de lo que queremos instalar con Ansible en <a href="https://galaxy.ansible.com/">Ansible Galaxy</a>. En este caso buscamos Jenkins y vemos la opción de como descargarlo o si vamos al repo github, vemos un ejemplo de playbook para instalarlo.  </p>
+</li>
+<li>
+<p>Primero podemos crear un fichero de requisitos de los paquetes a instalar de jenkins como roles para luego poder instalarlos remotamente:  </p>
+</li>
+</ul>
+<pre><code># - src:
+#   name:
+#   version:
+# roles para instalar jenkins
+- src: geerlingguy.java
+  name: geerlingguy.java 
+- src: geerlingguy.jenkins
+  name: geerlingguy.jenkins
+</code></pre>
+
+<p><code>[isx46410800@miguel curso_ansible]$ ansible-galaxy install -r requirements.yaml</code>  </p>
+<ul>
+<li>Playbook:  </li>
+</ul>
+<pre><code>- hosts: dev1
+  become: true
+  vars:
+    #jenkins_hostname: jenkins.example.com
+    java_packages:
+      - openjdk-8-jdk
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+</code></pre>
+
+<h4 id="instalar-docker">Instalar Docker</h4>
+<ul>
+<li>Añadimos a los requisitos:  </li>
+</ul>
+<pre><code>- src: geerlingguy.docker
+  name: geerlingguy.docker
+</code></pre>
+
+<ul>
+<li>
+<p>Descargamos roles:<br />
+<code>[isx46410800@miguel curso_ansible]$ ansible-galaxy install -r requirements.yaml</code>  </p>
+</li>
+<li>
+<p>Playbook poniendo que podamos acceder como usuario el usuario ansible ssh(ubuntu):  </p>
+</li>
+</ul>
+<pre><code>- hosts: prod1,prod2,dev1
+  become: yes
+  tasks:
+  - name: docker is installed
+    import_role:
+      name: geerlingguy.docker
+    vars:
+      docker_users:
+      - &quot;{{ ansible_ssh_user }}&quot;
+</code></pre>
+
+<h3 id="instalar-kubernetes">Instalar Kubernetes</h3>
+<ul>
+<li>Añadimos a requisitos:  </li>
+</ul>
+<pre><code>- src: geerlingguy.kubernetes
+  name: geerlingguy.kubernetes
+</code></pre>
+
+<ul>
+<li>
+<p>Descargamos roles: <code>[isx46410800@miguel curso_ansible]$ ansible-galaxy install -r requirements.yaml</code>  </p>
+</li>
+<li>
+<p>Playbook:  </p>
+</li>
+</ul>
+<pre><code>- name: play kubernets is up
+  hosts: cluster
+  become: yes
+  tasks:
+  - name: docker role
+    import_role:
+      name: geerlingguy.docker
+  - name: kubernetes role
+    import_role:
+      name: geerlingguy.kubernetes
+</code></pre>
+
+<blockquote>
+<p>Hariamos 3 maquinas, 1 master y 2 nodos, los añadiriamos al inventario y le pondriamos un grupo [cluster] y en cada host la variable role_kubernetes=node/master</p>
+</blockquote>
+<h3 id="ansible-collection">Ansible Collection</h3>
+<ul>
+<li>
+<p>A veces los roles no son suficientes con descargarlos y necesitamos las colecciones, que son un conjunto de playbooks, roles, modulos y plugins.  </p>
+</li>
+<li>
+<p>El fichero <strong>galaxy.yaml</strong> es el unico fichero requerido, aunque hay tambien directorios de roles, plugins, docs, playbooks...  </p>
+</li>
+<li>
+<p>Orden:<br />
+<code>ansible-galaxy collection install file_collection</code>
+<code>ansible-galaxy install -r ./requirements.yaml</code><br />
+<code>ansible-galaxy collection init my_collection_file</code>  #estructura de directorios
+<code>ansible-galaxy --help</code>  </p>
+</li>
+<li>
+<p>Donde guardarlos:  </p>
+</li>
+</ul>
+<pre><code>[defaults]
+INVENTORY=./inventory02_prod_dev
+COLLECTIONS_PATHS=./collections
+</code></pre>
+
+<ul>
+<li>Añadimos a requisitos:  </li>
+</ul>
+<pre><code>- collections:
+  newswangerd.collection_demo
+</code></pre>
+
+<ul>
+<li>
+<p>Instalamos:<br />
+<code>[isx46410800@miguel curso_ansible]$ ansible-galaxy collection install -r requirements.yaml</code>  </p>
+</li>
+<li>
+<p>Playbook:  </p>
+</li>
+</ul>
+<pre><code>- name: play usage collections
+  hosts: dev1
+  collections:
+  - newswangerd.collection_demo
+  tasks:
+  - name: module usage from collection
+    real_facts:
+      name: Abdennour
+  - name: role usage from collection
+    import_role:
+      name: factoid
+</code></pre>
+
+<h3 id="capstone-project-put-all-together-in-a-real-project-with-go-react-and-mongodb">Capstone Project - Put all Together in a Real Project with Go, React and MongoDB</h3>
+<ul>
+<li>Idea:  </li>
+</ul>
+<p><img alt="" src="../images/ansible_6.png" />  </p>
+<ul>
+<li>Frotend en una maquina tendremos REACT app, en backend tendremos la app GO y todo estára conectado en una VM con la ddbb mongoDB.  </li>
+</ul>
+<h4 id="creacion-de-instancias-aws">Creación de instancias AWS</h4>
+<ul>
+<li>Creamos dos instancias en Amazon: app y db  </li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ cat inventory_project 
+app ansible_host=52.56.149.20
+db ansible_host=18.130.63.197
+[todo]
+app
+db
+[todo:vars]
+ansible_private_key_file=~/.ssh/ansible_user
+ansible_ssh_user=ubuntu
+#ansible_ssh_pass=ubuntu2021
+</code></pre>
+
+<pre><code>[isx46410800@miguel project_real]$ cat ansible.cfg 
+[defaults]
+INVENTORY=./inventory_proyect
+</code></pre>
+
+<ul>
+<li>Comprobamos que esta conexión funciona:  </li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ ansible app,db -m ping
+db | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+app | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+[isx46410800@miguel project_real]$ ansible todo -m ping
+db | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+app | SUCCESS =&gt; {
+    &quot;ansible_facts&quot;: {
+        &quot;discovered_interpreter_python&quot;: &quot;/usr/bin/python3&quot;
+    },
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
+</code></pre>
+
+<h4 id="instalacion-mongodb">Instalación MONGODB</h4>
+<ul>
+<li>
+<p>Para instalar Mongodb se necesita estos <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">pasos</a>  </p>
+</li>
+<li>
+<p>Playbook de tareas para instalarlo e iniciarlo en la instancia de DB:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ cat playbooks/database.yaml 
+- name: play Database
+  hosts: db
+  become: yes
+  tasks: 
+    # sudo apt-get install gnupg
+  - name: gnupg is installed
+    package: 
+      name: gnupg
+      state: present
+    #wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  - name: mongodb-key is added
+    apt_key:
+      url: https://www.mongodb.org/static/pgp/server-4.4.asc 
+    #echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  - name: mongo-db repo is enabled
+    apt_repository:
+      repo: deb https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse
+      state: present
+      filename: mongodb
+    # sudo apt-get install mongodb-org
+  - name: mongodb-org is installed
+    package:
+      name: mongodb-org
+      state: present
+    #sudo systemctl enable mongod
+    #sudo systemctl start mongod
+  - name: mongod is enable
+    service:
+      name: mongod
+      state: started
+      enabled: yes
+</code></pre>
+
+<ul>
+<li>Comprobamos:  </li>
+</ul>
+<pre><code>isx46410800@miguel project_real]$ ansible-playbook playbooks/database.yaml 
+
+PLAY [play Database] *************************************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [db]
+TASK [gnupg is installed] ********************************************************************************************
+ok: [db]
+TASK [mongodb-key is added] ******************************************************************************************
+changed: [db]
+TASK [mongo-db repo is enabled] **************************************************************************************
+changed: [db]
+TASK [mongodb-org is installed] **************************************************************************************
+changed: [db]
+TASK [mongod is enable] **********************************************************************************************
+changed: [db]
+PLAY RECAP ***********************************************************************************************************
+db                         : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+</code></pre>
+
+<pre><code>ubuntu@ip-172-31-22-5:~$ sudo systemctl status mongod
+● mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2021-04-06 12:02:22 UTC; 53s ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: 13440 (mongod)
+     Memory: 64.2M
+     CGroup: /system.slice/mongod.service
+             └─13440 /usr/bin/mongod --config /etc/mongod.conf
+Apr 06 12:02:22 ip-172-31-22-5 systemd[1]: Started MongoDB Database Server.
+</code></pre>
+
+<ul>
+<li>Configuración y creación de superuser de MONGODB:  </li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ cat playbooks/database.yaml 
+- name: play Database install mongodb
+  hosts: db
+  become: yes
+  tags: 
+  - db-install
+  tasks: 
+    # sudo apt-get install gnupg
+  - name: gnupg is installed
+    package: 
+      name: gnupg
+      state: present
+    #wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  - name: mongodb-key is added
+    apt_key:
+      url: https://www.mongodb.org/static/pgp/server-4.4.asc 
+    #echo &quot;deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  - name: mongo-db repo is enabled
+    apt_repository:
+      repo: deb https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse
+      state: present
+      filename: mongodb
+    # sudo apt-get install mongodb-org
+  - name: mongodb-org is installed
+    package:
+      name: mongodb-org
+      state: present
+    #sudo systemctl enable mongod
+    #sudo systemctl start mongod
+  - name: mongod is enable
+    service:
+      name: mongod
+      state: started
+      enabled: yes
+- name: play Database config and create superuser
+  hosts: db
+  become: yes
+  tags: 
+  -  db-config-admin
+  tasks:
+    # drop admin user if exists (mongo admin --eval 'db.dropUser(&quot;superadmin&quot;)')
+    # create admin user (mongo admin --eval 'db.createUser'({ user: &quot;superadmin&quot;, pwd:}))
+  - name: create admin user
+    command: &quot;{{ item }}&quot;
+    loop:
+    - mongo admin --eval 'db.dropUser(&quot;{{ db_admin_user }}&quot;)'
+    - |
+      mongo admin --eval 'db.createUser( { user: &quot;{{ db_admin_user }}&quot;, pwd: &quot;{{ db_admin_pass }}&quot;, roles: [ { role: &quot;clusterAdmin&quot;, db: &quot;admin&quot; }, { role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; } ] } )'
+    # enable security (/etc/mongod.conf) ---&gt; Restart Mongodb
+    #&gt; security:
+    #&gt;  authorization: &quot;enabled&quot;
+  - name: security is enabled
+    blockinfile:
+      path: /etc/mongod.conf
+      block: |
+        security:
+          authorization: &quot;enabled&quot;
+      state: present
+    notify: mongodb is restarted
+  handlers:
+  - name: mongodb is restarted
+    service:
+      name: mongod
+      state: restarted
+</code></pre>
+
+<blockquote>
+<p>las variables hacen referencias al archivo host_vars/db/secret.yaml  </p>
+</blockquote>
+<ul>
+<li>Creamos un file de contraseña para encriptarlo con vault:  </li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ mkdir -p host_vars/db
+#
+[isx46410800@miguel project_real]$ cat key.txt 
+miguel14031993
+#
+[isx46410800@miguel project_real]$ cat ansible.cfg 
+[defaults]
+INVENTORY=./inventory_project
+vault_password_file=./key.txt
+#
+[isx46410800@miguel project_real]$ ansible-vault create host_vars/db/secret.yaml
+db_admin_user: superadmin
+db_admin_pass: PassMy1243r
+</code></pre>
+
+<ul>
+<li>Comprobamos que está todo en orden:  </li>
+</ul>
+<pre><code>ubuntu@ip-172-31-22-5:~$ systemctl status mongod
+ubuntu@ip-172-31-22-5:~$ cat /etc/mongod.conf 
+ubuntu@ip-172-31-22-5:~$ mongo admin -u superadmin -p PassMy1243r
+</code></pre>
+
+<ul>
+<li>Configuramos ahora el primer usuario <a href="https://docs.ansible.com/ansible/latest/collections/community/mongodb/mongodb_user_module.html">mongo</a>:  </li>
+</ul>
+<pre><code>...
+- name: play - rest of configuration
+  hosts: db
+  become: yes
+  tags:
+  - db-config
+  tasks:
+  - name: pip3 installed
+    package:
+      name: python3-pip
+      state: latest
+  - name: pip pymongo installed
+    pip:
+      name: pymongo
+      state: latest
+  - name: todo db user exists
+    mongodb_user:
+      login_user: &quot;{{ db_admin_user }}&quot;
+      login_password: &quot;{{ db_admin_pass }}&quot;
+      database: admin
+      user: &quot;{{ db_todo_user }}&quot;
+      password: &quot;{{ db_todo_pass }}&quot;
+      state: present
+      roles:
+        - db: &quot;{{ db_name_todo }}&quot;
+          role: readWrite
+</code></pre>
+
+<pre><code>[isx46410800@miguel project_real]$ ansible-vault edit host_vars/db/secret.yaml 
+db_admin_user: superadmin
+db_admin_pass: PassMy1243r
+db_name_todo: test
+db_todo_user: todo
+db_todo_pass: todo
+</code></pre>
+
+<pre><code>[isx46410800@miguel project_real]$ ansible-inventory --host db
+{
+    &quot;ansible_host&quot;: &quot;35.176.225.221&quot;,
+    &quot;ansible_private_key_file&quot;: &quot;~/.ssh/ansible_user&quot;,
+    &quot;ansible_ssh_user&quot;: &quot;ubuntu&quot;,
+    &quot;db_admin_pass&quot;: &quot;PassMy1243r&quot;,
+    &quot;db_admin_user&quot;: &quot;superadmin&quot;,
+    &quot;db_name_todo&quot;: &quot;test&quot;,
+    &quot;db_todo_pass&quot;: &quot;todo&quot;,
+    &quot;db_todo_user&quot;: &quot;todo&quot;
+}
+</code></pre>
+
+<ul>
+<li>
+<p>Lanzamos solo la tercera parte del playbook añadido con la orden:<br />
+<code>[isx46410800@miguel project_real]$ ansible-playbook playbooks/database.yaml --tags db-config</code>  </p>
+</li>
+<li>
+<p>Añadimos la linea de las interfaces para que reciba desde cualquier ip:  </p>
+</li>
+</ul>
+<pre><code>  - name: db accepts connection from anywhere
+    lineinfile:
+      path: /etc/mongod.conf
+      line: &quot;  bindIp: 0.0.0.0&quot;
+      regexp: '^(.*)binIp(.*)$'
+      state: present
+    notify: mongodb is restarted
+  handlers:
+  - name: mongodb is restarted
+    service:
+      name: mongod
+      state: restarted
+</code></pre>
+
+<p><code>[isx46410800@miguel project_real]$ ansible-playbook playbooks/database.yaml --tags db-config</code>  </p>
+<h4 id="backend-app">Backend APP</h4>
+<ul>
+<li>Hacemos playbook de instalar goland en el host app:  </li>
+</ul>
+<pre><code>[isx46410800@miguel project_real]$ cat playbooks/backend.yaml 
+- name: play Backend
+  hosts: app
+  become: yes
+  tags:
+  - be-pre-build
+  tasks:
+  - name: go is installed
+    import_role:
+      name: gantsign.golang
+    vars:
+      golang_version: &quot;1.14&quot;
+      golang_packages:
+      - github.com/gorilla/mux
+      - go.gomongodb.org/mongo-driver/mongo
+      golang_users:
+      - &quot;{{ ansible_ssh_user }}&quot;
+
+- name: play Backend
+  hosts: app
+  become: yes
+  tags:
+  - be-build
+  tasks:
+  - name: workspace build exist
+    file:
+      path: /opt/build_dir
+      state: directory
+  - name: git checkout
+    git:
+      repo: https://gitlab.com/isx46410800/curso_ansible.git
+      dest: /opt/build_dir/curso_ansible
+  - name: go build
+    shell: . /etc/profile;go build -o /tmp/todo
+    args:
+      chdir: /opt/build_dir/curso_ansible/server
+</code></pre>
+
+<pre><code>[isx46410800@miguel project_real]$ cat ansible.cfg 
+[defaults]
+INVENTORY=./inventory_project
+vault_password_file=./key.txt
+roles_path=./roles
+[isx46410800@miguel project_real]$ cat requirements.yaml 
+- src: gantsign.golang
+  name: gantsign.golang
+</code></pre>
+
+<p><code>[isx46410800@miguel project_real]$ ansible-playbook playbooks/backend.yaml --tags be-pre-build</code>  </p>
+<p><strong><em>*https://github.com/kubernetes-tn/go-to-do-app</em></strong>*</p>
 <p><strong><em>*https://github.com/abdennour/ansible-course</em></strong>*</p>
               
             </div>

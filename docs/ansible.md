@@ -1428,7 +1428,7 @@ assignment_users:
 
 + Los roles ansibles son la forma en que hacemos esto. Cuando se crea un rol, se descompone el playbook en partes y esas partes se encuentran en una estructura de directorios.  
 
-![](./ansible_5.png)
+![](./images/ansible_5.png)
 
 + Ejemplo de instalar un role:  
 `ansible-galaxy install role_file`  

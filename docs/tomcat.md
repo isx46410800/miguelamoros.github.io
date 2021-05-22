@@ -211,9 +211,20 @@ Una vez que se complete la descarga, navegue hasta el directorio donde se descar
 `cd eclipse-installer/`  
 `sudo ./eclipse-inst`  
 
-43
-47
-54 
+![](./images/tomcat_13.png)  
+![](./images/tomcat_14.png)  
+![](./images/tomcat_15.png)  
+![](./images/tomcat_16.png)  
+![](./images/tomcat_17.png)  
+![](./images/tomcat_18.png)  
+![](./images/tomcat_19.png)  
+![](./images/tomcat_20.png)  
+![](./images/tomcat_21.png)  
+![](./images/tomcat_22.png)  
+![](./images/tomcat_23.png)  
+![](./images/tomcat_23.png)  
+
+ 
 
 ## TOMCAT MANAGER  
 

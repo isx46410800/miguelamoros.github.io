@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>APACHE TOMCAT - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "APACHE TOMCAT";
+    var mkdocs_page_input_path = "tomcat.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>APACHE TOMCAT</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/tomcat.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="apache-tomcat">APACHE TOMCAT</h1>
+<ul>
+<li><a href="https://tomcat.apache.org/">DOCUMENTACIÓN TOMCAT</a>  </li>
+</ul>
+<h2 id="instalacion">Instalación:</h2>
+<ul>
+<li>Seguimos los pasos de esta <a href="https://www.digitalocean.com/community/tutorials/install-tomcat-9-ubuntu-1804-es">web</a>:  </li>
+</ul>
+<pre><code>sudo apt update
+sudo apt install default-jdk
+sudo groupadd tomcat
+sudo useradd -s /bin/false -g tomcat -d /home/ubuntu/tomcat tomcat
+cd /tmp
+curl -O paste_the_copied_link_here
+sudo mkdir /home/ubuntu/tomcat
+sudo tar xzvf apache-tomcat-*tar.gz -C /home/ubuntu/tomcat --strip-components=1
+ubuntu@ip-172-31-38-253:~/tomcat$ cd /home/ubuntu/tomcat
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo chgrp -R tomcat /home/ubuntu/tomcat
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo chmod -R g+r conf
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo chmod g+x conf
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo chown -R tomcat webapps/ work/ temp/ logs/
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo update-java-alternatives -l
+java-1.11.0-openjdk-amd64      1111       /usr/lib/jvm/java-1.11.0-openjdk-amd64
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vim /etc/systemd/system/tomcat.service
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl daemon-reload
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl start tomcat
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl status tomcat
+● tomcat.service - Apache Tomcat Web Application Container
+     Loaded: loaded (/etc/systemd/system/tomcat.service; disabled; vendor preset: enabled)
+     Active: active (running) since Thu 2021-04-08 11:00:09 UTC; 4s ago
+    Process: 4655 ExecStart=/home/ubuntu/tomcat/bin/startup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 4662 (java)
+      Tasks: 30 (limit: 1160)
+     Memory: 128.6M
+     CGroup: /system.slice/tomcat.service
+             └─4662 /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java -Djava.util.logging.config.file=/home/ubuntu/tomcat/conf/&gt;
+Apr 08 11:00:09 ip-172-31-38-253 systemd[1]: Starting Apache Tomcat Web Application Container...
+Apr 08 11:00:09 ip-172-31-38-253 startup.sh[4655]: Tomcat started.
+Apr 08 11:00:09 ip-172-31-38-253 systemd[1]: Started Apache Tomcat Web Application Container.
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo ufw allow 8080
+Rules updated
+Rules updated (v6)
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
+sudo systemctl enable tomcat
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl enable tomcat
+Created symlink /etc/systemd/system/multi-user.target.wants/tomcat.service → /etc/systemd/system/tomcat.service.
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vi /home/ubuntu/tomcat/conf/tomcat-users.xml
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vi /home/ubuntu/tomcat/webapps/manager/META-INF/context.xml
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vi /home/ubuntu/tomcat/webapps/host-manager/META-INF/context.xml
+ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
+</code></pre>
+
+<p><img alt="" src="../images/tomcat_1.png" />  </p>
+<ul>
+<li>
+<p>Podemos poner en -bashrc la variable JAVA_HOME de /usr/lib/lvm/java... para que tengamos la variable configurada.  </p>
+</li>
+<li>
+<p>Levantamos servicios o despliegues con:<br />
+<code>ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo  bin/catalina.sh // bin/startup.sh start</code>  </p>
+</li>
+<li>
+<p>Comprobamos que está funcionando con:<br />
+<code>root@ip-172-31-29-160:/home/ubuntu/tomcat/bin# ps ax | grep java</code>  </p>
+</li>
+</ul>
+<h2 id="directorios-tomcat">DIRECTORIOS TOMCAT</h2>
+<ul>
+<li>Tomcat directorios:  </li>
+</ul>
+<pre><code>/bin - Startup, shutdown, and other scripts. The *.sh files (for Unix systems) are functional duplicates of the *.bat files (for Windows systems). Since the Win32 command-line lacks certain functionality, there are some additional files in here.
+/conf - Configuration files and related DTDs. The most important file in here is server.xml. It is the main configuration file for the container.
+/logs - Log files are here by default.
+/webapps - This is where your webapps go.
+</code></pre>
+
+<ul>
+<li>CATALINA_HOME and CATALINA_BASE:  </li>
+</ul>
+<pre><code>CATALINA_HOME: Represents the root of your Tomcat installation, for example /home/tomcat/apache-tomcat-9.0.10 or C:\Program Files\apache-tomcat-9.0.10.
+CATALINA_BASE: Represents the root of a runtime configuration of a specific Tomcat instance. If you want to have multiple Tomcat instances on one machine, use the CATALINA_BASE property.
+If you set the properties to different locations, the CATALINA_HOME location contains static sources, such as .jar files, or binary files. The CATALINA_BASE location contains configuration files, log files, deployed applications, and other runtime requirements.
+</code></pre>
+
+<ul>
+<li>Ejemplo APP:  </li>
+</ul>
+<pre><code>Sample Application
+The example app has been packaged as a war file and can be downloaded here (Note: make sure your browser doesn't change file extension or append a new one).
+The easiest way to run this application is simply to move the war file to your CATALINA_BASE/webapps directory. A default Tomcat install will automatically expand and deploy the application for you. You can view it with the following URL (assuming that you're running tomcat on port 8080 which is the default):
+http://localhost:8080/sample
+If you just want to browse the contents, you can unpack the war file with the jar command.
+        jar -xvf sample.war     
+Note: CATALINA_BASE is usually the directory in which you unpacked the Tomcat distribution. For more information on CATALINA_HOME, CATALINA_BASE and the difference between them see RUNNING.txt in the directory you unpacked your Tomcat distribution.
+</code></pre>
+
+<ul>
+<li>Copiamos el ejemplo de demo app:  </li>
+</ul>
+<pre><code>[isx46410800@miguel .ssh]$ scp -i mykeypair.pem /home/isx46410800/Documents/tomcat/DemoApp.tar.gz  ubuntu@3.8.187.27:/home/ubuntu
+DemoApp.tar.gz                                                                      100%    0     0.0KB/s   00:00 
+</code></pre>
+
+<ul>
+<li>Estructura: el cliente se conecta al servidor por diferentes puertos que hace peticiones  como servicios. el engine se encarga de gestionar estas peticiones a través del host que contiene todas las aplicaciones que hay dentro del contexto.  </li>
+</ul>
+<p><img alt="" src="../images/tomcat_2.png" />  </p>
+<ul>
+<li>
+<p>El fichero server.xml contiene la configuración global, central de tomcat. Catalina es el motor de los servlets, tomcat en sí.  </p>
+</li>
+<li>
+<p>Catalina.properties se pueden configurar variables, cosas del sistema, tiene algunas librerías o paquetes. Se pueden cambiar o añadir <a href="https://tomcat.apache.org/tomcat-8.5-doc/config/systemprops.html">propiedades</a>  </p>
+</li>
+<li>
+<p>Con la orden <code>catalina.sh</code>(nos sale por poner la variable JAVA_HOME en el path):  </p>
+</li>
+</ul>
+<pre><code>root@ip-172-31-29-160:/home/ubuntu/tomcat# catalina.sh version
+Using CATALINA_BASE:   /home/ubuntu/tomcat
+Using CATALINA_HOME:   /home/ubuntu/tomcat
+Using CATALINA_TMPDIR: /home/ubuntu/tomcat/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ubuntu/tomcat/bin/bootstrap.jar:/home/ubuntu/tomcat/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+Server version: Apache Tomcat/9.0.45
+Server built:   Mar 30 2021 10:29:04 UTC
+Server number:  9.0.45.0
+OS Name:        Linux
+OS Version:     5.4.0-1038-aws
+Architecture:   amd64
+JVM Version:    11.0.10+9-Ubuntu-0ubuntu1.20.04
+JVM Vendor:     Ubuntu
+</code></pre>
+
+<blockquote>
+<p>Catalina base nos dice cual es la intancia activa, si hubiera varias instancias se debería poner cual es la activa.  </p>
+</blockquote>
+<ul>
+<li>Tambien podemos poner la variable CATALINA_HOME en el bashrc para que nos pille ya el directorio de tomcat.  </li>
+</ul>
+<pre><code>export PATH=$PATH:/home/ubuntu/tomcat/bin
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+export CATALINA_HOME=/home/ubuntu/tomcat
+</code></pre>
+
+<ul>
+<li>Podemos usar catalina.sh <em>run</em> para iniciar en foreground o <em>start</em> en background.  </li>
+</ul>
+<h3 id="puerto-shutdown">PUERTO SHUTDOWN</h3>
+<ul>
+<li>
+<p>Podemos ver la <a href="https://tomcat.apache.org/tomcat-8.5-doc/config/server.html">doc del server.xml</a> para diferentes configuraciones o objetos que se pueden poner.  </p>
+</li>
+<li>
+<p>Unas buenas prácticas es desactivar el puerto de shutdown para que no se pueda hacer ni por tcp ni por remoto. Si recibimos una cadena de SHUTDOWN por cierto puerto, nos matan el tomcat.  </p>
+</li>
+</ul>
+<pre><code>&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+---
+root@ip-172-31-29-160:/home/ubuntu/tomcat/conf# telnet localhost 8005
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+SHUTDOWN
+Connection closed by foreign host.
+root@ip-172-31-29-160:/home/ubuntu/tomcat/conf# ps ax | grep java
+  15743 pts/0    S+     0:00 grep --color=auto java
+</code></pre>
+
+<ul>
+<li>Para que no pase eso, segun la docu ponemos puerto -1 o cambiamos la string de shutdown por algo dificil de acertar:<br />
+<code>&lt;Server port="-1" shutdown="SHUTDOWN"&gt;</code>  </li>
+</ul>
+<h3 id="java_opts-y-catalina_opts">JAVA_OPTS Y CATALINA_OPTS</h3>
+<ul>
+<li>JAVA_OPTS es lo que coge java para todas las cosas java y CATALINA_OPTS son solo para cosas relacionadas con Tomcat.  </li>
+</ul>
+<h2 id="despliegue-apps">DESPLIEGUE APPS</h2>
+<ul>
+<li>Siempre que desplegamos algo tenemos que hacerlos en el directorio <strong>webapps</strong> de tomcat. Podemos hacerlo copiando directamente el .war o el directorio con todo el contenido. Al rato veremos que se nos crea el directorio autodesplegado en webapps con el contenido del war copiado:  </li>
+</ul>
+<p><code>[isx46410800@miguel tomcat]$ sudo cp ejemploWAR/ejemplo.war /home/tomcat/tomcat/webapps/.</code>  </p>
+<p><img alt="" src="../images/tomcat_3.png" />  </p>
+<ul>
+<li>Con un directorio:  </li>
+</ul>
+<pre><code>[isx46410800@miguel tomcat]$ ll ejemploWARdir/web1/
+total 20
+-rw-r--r--. 1 isx46410800 isx46410800  309 Jul  5  2020 hello.jsp
+drwxr-xr-x. 2 isx46410800 isx46410800 4096 Jul  5  2020 images
+-rw-r--r--. 1 isx46410800 isx46410800  470 Jul  5  2020 index.html
+drwxr-xr-x. 2 isx46410800 isx46410800 4096 Jul  5  2020 META-INF
+drwxr-xr-x. 3 isx46410800 isx46410800 4096 Jul  5  2020 WEB-INF
+[isx46410800@miguel tomcat]$ sudo cp -r ejemploWARdir/web1/ /home/tomcat/tomcat/webapps/.
+</code></pre>
+
+<p><img alt="" src="../images/tomcat_4.png" />  </p>
+<ul>
+<li>
+<p>Si cambiamos algo, modificamos en el código fuente el index.html y hello.jsp. Luego tenemos que generar de nuevo el .jar en el directorio de todo el codigo fuente con <code>jar cvf ejemplo.war *</code> y esto lo copiamos en el webapps.  </p>
+</li>
+<li>
+<p>Para quitar despliegues con solo eliminar el .war o el directorio, ya se hace undeploy.  </p>
+</li>
+</ul>
+<h2 id="integracion-eclipse-con-tomcat">INTEGRACION ECLIPSE CON TOMCAT</h2>
+<ul>
+<li>Instale Eclipse IDE en CentOS, RHEL y Fedora:<br />
+Se requiere una versión de Java 9 o superior para instalar Eclipse IDE y la forma más sencilla de instalar Oracle Java JDK desde los repositorios predeterminados.</li>
+</ul>
+<p><code>yum install java-11-openjdk-devel</code><br />
+<code>java -version</code>  </p>
+<p>A continuación, abra un navegador, navegue hasta la página de descarga oficial de Eclipse y descargue la última versión del paquete tar específico para su arquitectura de distribución de Linux instalada.  </p>
+<p>Alternativamente, también puede descargar el archivo de instalación de Eclipse IDE en su sistema a través de la utilidad wget, emitiendo el siguiente comando.  </p>
+<p><code>wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2020-06/R/eclipse-inst-linux64.tar.gz</code>  </p>
+<p>Una vez que se complete la descarga, navegue hasta el directorio donde se descargó el paquete de archivo y emita los siguientes comandos para comenzar a instalar Eclipse IDE.</p>
+<p><code>tar -xvf eclipse-inst-linux64.tar.gz</code><br />
+<code>cd eclipse-installer/</code><br />
+<code>sudo ./eclipse-inst</code>  </p>
+<p>43
+47
+54 </p>
+<h2 id="tomcat-manager">TOMCAT MANAGER</h2>
+<ul>
+<li>
+<p>Añadimos en el fichero conf/tomcat-users.xml un usuario con privilegios para poder entrar:<br />
+<code>&lt;user username="admin" password="jupiter" roles="manager-gui,admin-gui"/&gt;</code>  </p>
+<blockquote>
+<p>Para entrar: http://localhost:8888/manager/html  </p>
+</blockquote>
+</li>
+<li>
+<p>Para desplegar una app vamos a browse seleccionamos el fichero .war y deploy. Despues se puede parar, undeploy, expirar sesion etc.  </p>
+</li>
+<li>
+<p>Tambien se puede desplegar un dir(con solo todo el codigo descomprimido) o war con un path diferente nombre y no coja el nombre del archivo war o del directorio.  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/tomcat_5.png" />  </p>
+<ul>
+<li>
+<p>Para utilizar el modo comando se ha de añadir en el fichero de conf/tomcat-users.xml:<br />
+<code>&lt;user username="admin" password="jupiter" roles="manager-gui,admin-gui,manager-script"/&gt;</code>  </p>
+<blockquote>
+<p>Se entra en http://localhost:8888/manager/text/list  </p>
+</blockquote>
+</li>
+<li>
+<p>Algunos comandos:<br />
+        - http://localhost:8888/manager/text/serverinfo
+        - http://localhost:8888/manager/text/list<br />
+        - http://localhost:8888/manager/text/vminfo<br />
+        - http://localhost:8888/manager/text/sessions?path=/app1<br />
+        - http://localhost:8888/manager/text/threaddump
+        - http://localhost:8888/manager/text/deploy?war=file:/tmp/app1.war
+        - http://localhost:8888/manager/text/deploy?war=file:/tmp/app1&amp;path=/app3
+        - http://localhost:8888/manager/text/deploy?war=file:/tmp/app1.war&amp;path=/app2
+        - http://localhost:8888/manager/text/stop?path=/app2
+        - http://localhost:8888/manager/text/start?path=/app2
+        - http://localhost:8888/manager/text/expire?path=/app1&amp;iddle=1
+        - http://localhost:8888/manager/text/undeploy?path=/app3</p>
+</li>
+</ul>
+<h2 id="logs">LOGS</h2>
+<ul>
+<li>
+<p>Fichero clave: conf/logging.properties.  </p>
+</li>
+<li>
+<p>Los handers son los indicadores de a donde enrutamos las entradas de los logs de tomcat.  </p>
+</li>
+</ul>
+<pre><code>handlers = 1catalina.org.apache.juli.AsyncFileHandler, 2localhost.org.apache.juli.AsyncFileHandler, 3manager.org.apache.juli.AsyncFileHandler, 4host-manager.org.apache.juli.AsyncFileHandler, java.util.logging.ConsoleHandler
+#
+.handlers = 1catalina.org.apache.juli.AsyncFileHandler, java.util.logging.ConsoleHandler
+#
+############################################################
+# Handler specific properties.
+# Describes specific configuration info for Handlers.
+############################################################
+#
+1catalina.org.apache.juli.AsyncFileHandler.level = FINE
+1catalina.org.apache.juli.AsyncFileHandler.directory = ${catalina.base}/logs
+1catalina.org.apache.juli.AsyncFileHandler.prefix = catalina.
+1catalina.org.apache.juli.AsyncFileHandler.maxDays = 90
+1catalina.org.apache.juli.AsyncFileHandler.encoding = UTF-8
+#
+2localhost.org.apache.juli.AsyncFileHandler.level = FINE
+2localhost.org.apache.juli.AsyncFileHandler.directory = ${catalina.base}/logs
+2localhost.org.apache.juli.AsyncFileHandler.prefix = localhost.
+2localhost.org.apache.juli.AsyncFileHandler.maxDays = 90
+2localhost.org.apache.juli.AsyncFileHandler.encoding = UTF-8
+#
+3manager.org.apache.juli.AsyncFileHandler.level = FINE
+3manager.org.apache.juli.AsyncFileHandler.directory = ${catalina.base}/logs
+3manager.org.apache.juli.AsyncFileHandler.prefix = manager.
+3manager.org.apache.juli.AsyncFileHandler.maxDays = 90
+3manager.org.apache.juli.AsyncFileHandler.encoding = UTF-8
+#
+4host-manager.org.apache.juli.AsyncFileHandler.level = FINE
+4host-manager.org.apache.juli.AsyncFileHandler.directory = ${catalina.base}/logs
+4host-manager.org.apache.juli.AsyncFileHandler.prefix = host-manager.
+4host-manager.org.apache.juli.AsyncFileHandler.maxDays = 90
+4host-manager.org.apache.juli.AsyncFileHandler.encoding = UTF-8
+#
+java.util.logging.ConsoleHandler.level = FINE
+java.util.logging.ConsoleHandler.formatter = org.apache.juli.OneLineFormatter
+java.util.logging.ConsoleHandler.encoding = UTF-8
+</code></pre>
+
+<blockquote>
+<p>el .handlers es el que coge de predeterminado  </p>
+</blockquote>
+<ul>
+<li>
+<p><a href="http://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/juli/package-summary.html">Documentación paquete JULI</a>  </p>
+</li>
+<li>
+<p>Estos handers del archivo coinciden con lo que tenemos en /logs:  </p>
+</li>
+</ul>
+<pre><code>[tomcat@miguel tomcat]$ ll logs/
+total 100
+-rw-r-----. 1 tomcat tomcat 16752 may 19 13:55 catalina.2021-05-19.log
+-rw-r-----. 1 tomcat tomcat 15599 may 20 20:53 catalina.2021-05-20.log
+-rw-r-----. 1 tomcat tomcat 32351 may 20 20:53 catalina.out
+-rw-r-----. 1 tomcat tomcat   175 may 19 13:28 host-manager.2021-05-19.log
+-rw-r-----. 1 tomcat tomcat     0 may 20 20:23 host-manager.2021-05-20.log
+-rw-r-----. 1 tomcat tomcat  1121 may 19 13:28 localhost.2021-05-19.log
+-rw-r-----. 1 tomcat tomcat  1122 may 20 20:37 localhost.2021-05-20.log
+-rw-r-----. 1 tomcat tomcat  2034 may 19 14:14 localhost_access_log.2021-05-19.txt
+-rw-r-----. 1 tomcat tomcat  3656 may 20 20:53 localhost_access_log.2021-05-20.txt
+-rw-r-----. 1 tomcat tomcat     0 may 19 13:25 manager.2021-05-19.log
+-rw-r-----. 1 tomcat tomcat  4328 may 20 20:53 manager.2021-05-20.log
+</code></pre>
+
+<ul>
+<li>Podemos personaliar uno:  </li>
+</ul>
+<pre><code>3manager.org.apache.juli.AsyncFileHandler.level = FINE
+3manager.org.apache.juli.AsyncFileHandler.directory = ${catalina.base}/logs/mis-logs
+3manager.org.apache.juli.AsyncFileHandler.prefix = manager.
+3manager.org.apache.juli.AsyncFileHandler.maxDays = 90
+3manager.org.apache.juli.AsyncFileHandler.encoding = UTF-8
+3manager.org.apache.juli.AsyncFileHandler.formatter = java.util.logging.XMLFormatter
+</code></pre>
+
+<ul>
+<li>Vemos que se genera contenido en el personalizado:  </li>
+</ul>
+<pre><code>[tomcat@miguel logs]$ ll mis-logs/
+total 0
+-rw-r-----. 1 tomcat tomcat 0 may 21 00:23 manager.2021-05-21.log
+[tomcat@miguel logs]$ cat mis-logs/
+cat: mis-logs/: Es un directorio
+[tomcat@miguel logs]$ cat mis-logs/manager.2021-05-21.log 
+[tomcat@miguel logs]$ cat mis-logs/manager.2021-05-21.log 
+[tomcat@miguel logs]$ cat mis-logs/manager.2021-05-21.log 
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE log SYSTEM &quot;logger.dtd&quot;&gt;
+&lt;log&gt;
+&lt;record&gt;
+  &lt;date&gt;2021-05-21T00:25:02&lt;/date&gt;
+  &lt;millis&gt;1621549502823&lt;/millis&gt;
+  &lt;sequence&gt;46&lt;/sequence&gt;
+  &lt;logger&gt;org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/manager]&lt;/logger&gt;
+  &lt;level&gt;INFO&lt;/level&gt;
+  &lt;class&gt;org.apache.catalina.core.ApplicationContext&lt;/class&gt;
+  &lt;method&gt;log&lt;/method&gt;
+  &lt;thread&gt;17&lt;/thread&gt;
+  &lt;message&gt;HTMLManager: init: Associated with Deployer 'Catalina:type=Deployer,host=localhost'&lt;/message&gt;
+&lt;/record&gt;
+</code></pre>
+
+<h2 id="valves">VALVES</h2>
+<ul>
+<li>
+<p>Las valvulas son sistemas de seguridad para la hora de entrar a una aplicación etc, segun en que capa de servicio está especificada. <a href="https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html">DOC VALVES</a>  </p>
+</li>
+<li>
+<p>Una personalizada:  </p>
+</li>
+</ul>
+<pre><code>&lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;
+            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+        &lt;!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html --&gt;
+        &lt;!--
+        &lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;
+        --&gt;
+        &lt;!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;
+        &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs/mis-logs&quot;
+               prefix=&quot;localhost_access_log&quot; suffix=&quot;.log&quot;
+               pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b %B&quot; /&gt;
+      &lt;/Host&gt;
+</code></pre>
+
+<ul>
+<li>Vemos el contenido:  </li>
+</ul>
+<pre><code>[tomcat@miguel logs]$ ll mis-logs/
+total 12
+-rw-r-----. 1 tomcat tomcat  217 may 21 00:41 localhost_access_log.2021-05-21.log
+-rw-r-----. 1 tomcat tomcat 5539 may 21 00:41 manager.2021-05-21.log
+[tomcat@miguel logs]$ cat mis-logs/localhost_access_log.2021-05-21.log 
+0:0:0:0:0:0:0:1 - admin [21/May/2021:00:41:22 +0200] &quot;GET /manager/text/stop?path=/app2 HTTP/1.1&quot; 200 70 70
+0:0:0:0:0:0:0:1 - admin [21/May/2021:00:41:25 +0200] &quot;GET /manager/text/start?path=/app2 HTTP/1.1&quot; 200 73 73
+</code></pre>
+
+<ul>
+<li>Ahora hacemos un ejemplo que permita o no unas ips o puertos:  </li>
+</ul>
+<p><code>&lt;Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1"/&gt;</code>  </p>
+<blockquote>
+<p>solo acceden los que tienen la ip de localhost 127.0.0.1. Si ponemos nuestra ip:8888 no nos deja porque no hemos entrado por la de localhost indicada en el valve.  </p>
+</blockquote>
+<h2 id="jdbc-bbdd">JDBC BBDD</h2>
+<ul>
+<li>
+<p>Instalamos la herramienta <a href="https://github.com/psi-probe/psi-probe">probe</a> para ver de otra manera el contenido de tomcat como una consola.  </p>
+</li>
+<li>
+<p>Instalamos <a href="https://fedoraproject.org/wiki/MariaDB">mariadb</a> como bbdd mysql.  </p>
+</li>
+</ul>
+<pre><code>MariaDB [seguridad]&gt; select * from usuarios;
++----------+
+| nombre   |
++----------+
+| Miguel   |
+| Cristina |
+| Isabel   |
++----------+
+3 rows in set (0.000 sec)
+MariaDB [seguridad]&gt; create user 'desa'@'localhost' identified by 'desa';
+Query OK, 0 rows affected (0.000 sec)
+MariaDB [seguridad]&gt; grant all on seguridad.* to 'desa'@'localhost';
+Query OK, 0 rows affected (0.000 sec)
+MariaDB [seguridad]&gt; commit;
+</code></pre>
+
+<ul>
+<li>
+<p>Instalamos el <a href="https://mariadb.com/kb/en/mariadb-connector-j-2-6-1/">driver</a> jdbc de mariadb en nuestro caso en:<br />
+<code>[isx46410800@miguel tomcat]$ sudo cp ~/Downloads/mariadb-java-client-2.6.1-sources.jar /home/tomcat/lib</code>  </p>
+</li>
+<li>
+<p>Configuramos el recurso de bbdd en tomcat que utilice ese driver de jdbc:  </p>
+</li>
+</ul>
+<pre><code>&lt;Context path=&quot;/jdbc&quot; &gt;
+                    &lt;Resource name=&quot;jdbc/cursoDB&quot;
+                        auth=&quot;Container&quot;
+                        type=&quot;javax.sql.DataSource&quot;
+                        username=&quot;desa&quot;
+                        password=&quot;desa&quot;
+                        driverClassName=&quot;org.mariadb.jdbc.Driver&quot;
+                        url=&quot;jdbc:mariadb://localhost:3306/seguridad&quot;
+                        initialSize=&quot;4&quot;
+                        maxActive=&quot;15&quot;
+                        maxIdle=&quot;3&quot;/&gt;
+&lt;/Context&gt;
+</code></pre>
+
+<h2 id="realm">REALM</h2>
+<ul>
+<li>Son otras opciones de seguridad para en contra de Tomcat, proteger recursos, impedir accesos indeseados...</li>
+</ul>
+<pre><code>&lt;!-- Use the LockOutRealm to prevent attempts to guess user passwords
+           via a brute-force attack --&gt;
+      &lt;Realm className=&quot;org.apache.catalina.realm.LockOutRealm&quot;&gt;
+        &lt;!-- This Realm uses the UserDatabase configured in the global JNDI
+             resources under the key &quot;UserDatabase&quot;.  Any edits
+             that are performed against this UserDatabase are immediately
+             available for use by the Realm.  --&gt;
+        &lt;Realm className=&quot;org.apache.catalina.realm.UserDatabaseRealm&quot;
+               resourceName=&quot;UserDatabase&quot;/&gt;
+      &lt;/Realm&gt;
+</code></pre>
+
+<ul>
+<li>
+<p>Sirven para proteger recursos webs y se basa en usuarios y roles asociados a las aplicaciones.  </p>
+</li>
+<li>
+<p>Creamos un realm:  </p>
+</li>
+</ul>
+<pre><code>&lt;Context path=&quot;/ejeRealm&quot;&gt;
+                &lt;Realm className=&quot;org.apache.catalina.realm.MemoryRealm&quot; pathname=&quot;conf/usuarios.xml&quot;/&gt;
+&lt;/Context&gt;
+</code></pre>
+
+<ul>
+<li>en usuarios.xml:  </li>
+</ul>
+<pre><code>&lt;!xml version=&quot;1.0&quot; enconding=&quot;UTF-8&quot;?&gt;
+&lt;tomcat-users&gt;
+        &lt;user username=&quot;usu1&quot; password=&quot;usu1&quot; roles=&quot;usuario&quot;/&gt;
+&lt;/tomcat-users&gt;
+</code></pre>
+
+<ul>
+<li>Y con la app que pasamos, indicamos que solo podrá entrar segun el usuario o roles indicados en la app.  </li>
+</ul>
+<h2 id="apache-con-tomcat">APACHE CON TOMCAT</h2>
+<ul>
+<li>
+<p>Descargamos el conector <a href="http://tomcat.apache.org/download-connectors.cgi">mod_jk</a>  </p>
+</li>
+<li>
+<p>Luego tenemos que instalar como root una serie de paquetes como el paquete de http de desarrollador, el framework runtime apr para trabajar como dev, el compilador de c...<br />
+<code>[root@miguel tomcat]# dnf install httpd-devel apr apr-devel apr-util apr-util-devel gcc make libtool</code>  </p>
+</li>
+<li>
+<p>Despues vamos como root al directorio para compilar un arhcivo y meterlo en el tomcat lo que necesitamos.  </p>
+</li>
+</ul>
+<p>1- /home/isx46410800/Downloads/tomcat-connectors-1.2.48-src/native<br />
+2- Configure para configurar, preparar librerias, el codigo fuente<br />
+3- make para compilar<br />
+4- make-install para instalar<br />
+5- tendremos el fichero mod_jk.so para poder conectar el apache con el tomcat, y puedan entenderse entre ellos.  </p>
+<pre><code>[root@miguel native]# #./configure --with-apxs=/bin/apxs
+[root@miguel native]# whereis apxs
+apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
+[root@miguel native]# make
+[root@miguel apache-2.0]# cd apache-2.0/
+[root@miguel apache-2.0]# ll mod_jk.s*
+-rwxr-xr-x. 1 root root 1961464 may 22 15:49 mod_jk.so
+[root@miguel apache-2.0]# cp mod_jk.so /etc/httpd/modules/
+</code></pre>
+
+<ul>
+<li>Despues añadimos un archivo a la configuracion de apache en /etc/httpd/conf/httpd.conf:  IncludeOptional conf/mod_jk.conf</li>
+</ul>
+<pre><code>[root@miguel conf]# cat mod_jk.conf 
+    # Cargamos el modulo
+    LoadModule jk_module modules/mod_jk.so
+
+    # Indicamos dinde esta el fichero workers.properties
+    JkWorkersFile conf/workers.properties
+
+    # Podemos generar ficheros de log
+    JkShmFile  logs/mod_jk.shm
+    JkLogFile  logs/mod_jk.log
+
+    JkLogLevel info
+
+    # Con esto podemos monitorizar jkstatus
+    JkMount /jkmanager/* jkstatus
+    &lt;Location /jkmanager/&gt;      
+    &lt;/Location&gt;
+
+    # Mapeamos las URL contra un conjunto de workers
+    JkMount  /* MisTomcat
+</code></pre>
+
+<ul>
+<li>Creamos nuestros ficheros de workers.properties de lo que será nuestros tomcats diferentes, clusters etc(conf/workers.properties).  </li>
+</ul>
+<pre><code>     # Lista de Workers
+     worker.list=jkstatus, MisTomcat
+
+     # Activar los workers
+     #worker.jkstatus.type=status
+     #worker.MisTomcat.type=lb
+
+     # Añadir instancias como workers, 3 en este caso
+
+     worker.worker1.type=ajp13
+     worker.worker1.host=localhost
+     worker.worker1.port=8009
+
+     #worker.worker2.type=ajp13
+     #worker.worker2.host=localhost
+     #worker.worker2.port=9010
+
+     #worker.worker3.type=ajp13
+     #worker.worker3.host=localhost
+     #worker.worker3.port=10011
+
+     # Workers en el Load Balancer
+     worker.MisTomcat.balance_workers=worker1
+     #worker.MisTomcat.balance_workers=worker1,worker2,worker3
+</code></pre>
+
+<blockquote>
+<p>Por ahora comentamos los workers2 y 3 porque solo trabajamos con uno.  </p>
+</blockquote>
+<ul>
+<li>La info de el puerto y tipo ajp13 la vemos en la info de conf/server.xml y descomentamos la linea de ajp, indicamos los datos y añadimos un parametro para que no de fallo:  </li>
+</ul>
+<pre><code>&lt;!-- Define an AJP 1.3 Connector on port 8009 --&gt;
+    &lt;Connector protocol=&quot;AJP/1.3&quot;
+               address=&quot;::1&quot;
+               port=&quot;8009&quot;
+               secretRequired=&quot;false&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+</code></pre>
+
+<ul>
+<li>Ahora vemos que al pasarle al localhost sin puerto algo, nos manda al tomcat:  </li>
+</ul>
+<p><img alt="" src="../images/tomcat_6.png" />  </p>
+<h2 id="clusters">CLUSTERS</h2>
+<ul>
+<li>Instalaremos dos tomcats más y en cada uno de ellos modificamos el puertos y el ajp correspondiente:  </li>
+</ul>
+<pre><code>[tomcat@miguel ~]$ vim tomcat1/conf/server.xml 
+[tomcat@miguel ~]$ vim tomcat2/conf/server.xml 
+</code></pre>
+
+<ul>
+<li>
+<p>Eliminamos la variable del .bashrc que apuntaba cual era el tomcat, ya que ahora al tener 3 no podemos indicar que sea el primero solo. También podemos abrir tres terminales y exportar la variable con el home correspondiente:<br />
+<code>[tomcat@miguel tomcat1]$ export CATALINA_HOME=/home/tomcat/tomcat1</code>  </p>
+</li>
+<li>
+<p>Despues arrancamos cada maquina desde su bin para que pille esa variable:<br />
+<code>[tomcat@miguel bin]$ ./catalina.sh run</code>  </p>
+</li>
+<li>
+<p>Ahora modificamos el worker.properties de apache para que haya 3 workers con su ajp correspondiente, en modo balanceador de carga y para que mantenga la sesion con el el sticky sesion:  </p>
+</li>
+</ul>
+<pre><code>     # Lista de Workers
+     worker.list=jkstatus, MisTomcat
+
+     # Activar los workers
+     #worker.jkstatus.type=status
+     worker.MisTomcat.type=lb
+
+     # Añadir instancias como workers, 3 en este caso
+
+     worker.worker1.type=ajp13
+     worker.worker1.host=localhost
+     worker.worker1.port=8009
+
+     worker.worker2.type=ajp13
+     worker.worker2.host=localhost
+     worker.worker2.port=9009
+
+     worker.worker3.type=ajp13
+     worker.worker3.host=localhost
+     worker.worker3.port=7009
+
+     # Workers en el Load Balancer
+     #worker.MisTomcat.balance_workers=worker1
+     worker.MisTomcat.balance_workers=worker1,worker2,worker3
+     worker.MisTomcat.sticky_session=true
+</code></pre>
+
+<ul>
+<li>
+<p>Paramos y arrancamos de nuevo el apache.  </p>
+</li>
+<li>
+<p>Para probar el entorno de cluster copiamos el war de cluster para saber en cual estoy en los 3 tomcats:  </p>
+</li>
+</ul>
+<pre><code>[isx46410800@miguel tomcat]$ sudo cp cluster.war /home/tomcat/tomcat/webapps/.
+[isx46410800@miguel tomcat]$ sudo cp cluster.war /home/tomcat/tomcat1/webapps/.
+[isx46410800@miguel tomcat]$ sudo cp cluster.war /home/tomcat/tomcat2/webapps/.
+</code></pre>
+
+<ul>
+<li>Probamos: http://localhost/cluster/hello.jsp  </li>
+</ul>
+<p><img alt="" src="../images/tomcat_7.png" /><br />
+<img alt="" src="../images/tomcat_8.png" /><br />
+<img alt="" src="../images/tomcat_9.png" />  </p>
+<ul>
+<li>Probamos la parte del jkstatus como worker:  </li>
+</ul>
+<pre><code># Con esto podemos monitorizar jkstatus
+        JkMount /jkmanager/* jkstatus
+</code></pre>
+
+<ul>
+<li>Del worker properties:  </li>
+</ul>
+<pre><code># Activar los workers
+worker.jkstatus.type=status
+</code></pre>
+
+<ul>
+<li>Comprobamos con http://localhost/jkmanager/  </li>
+</ul>
+<h2 id="persistencia-en-tomcat">PERSISTENCIA EN TOMCAT</h2>
+<ul>
+<li>
+<p>Sirve para cuando estamos en una session alojada por ejemplo en tomcat 1, todo se quede alojado ahi y no recargue en otro tomcat y perdamos todo lo de la sesion.  </p>
+</li>
+<li>
+<p>En el server.xml de cada uno añadimos el jvmroute. Lo que hace es identificar cada sesion con un ID de sesion y lo asigna al worker que ya indicamos el el worker.properties:<br />
+<code>&lt;Engine name="Catalina" defaultHost="localhost" jvmRoute="worker1"&gt;</code><br />
+<code>&lt;Engine name="Catalina" defaultHost="localhost" jvmRoute="worker2"&gt;</code><br />
+<code>&lt;Engine name="Catalina" defaultHost="localhost" jvmRoute="worker3"&gt;</code>  </p>
+</li>
+<li>
+<p>Descomentamos también la opcion de <a href="https://tomcat.apache.org/tomcat-9.0-doc/cluster-howto.html">cluster</a>:<br />
+<code>&lt;Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/&gt;</code>  </p>
+</li>
+<li>
+<p>Si vamos al navegador y ponemos ajustes - web developer -storage inspector, veremos que nos sale siempre el mismo id worker de la sesion.  </p>
+</li>
+</ul>
+<h2 id="virtualhosts">VIRTUALHOSTS</h2>
+<ul>
+<li>
+<p>Estos crea dentro de un mismo tomcat, diferentes dominios repartidos para que segun lo que sea, trabaja una cosa u otra.  </p>
+</li>
+<li>
+<p>En server.xml ponemos:  </p>
+</li>
+</ul>
+<pre><code>     #Virtual host 1
+       &lt;Host name=&quot;empresa1.com&quot;  appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+           &lt;Alias&gt;www.empresa1.com&lt;/Alias&gt;
+
+            &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;
+               prefix=&quot;example_access_log&quot; suffix=&quot;.txt&quot;
+               pattern=&quot;%h %l %u %t %r %s %b&quot; /&gt;
+
+            &lt;Context path=&quot;&quot; docBase=&quot;/home/tomcat/tomcat/webapps/empresa1&quot; debug=&quot;0&quot; reloadable=&quot;true&quot;/&gt;
+      &lt;/Host&gt;
+
+
+     #Virtual host 2
+      &lt;Host name=&quot;empresa2.com&quot;  appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+          &lt;Alias&gt;www.empresa2.com&lt;/Alias&gt;
+
+           &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;
+                prefix=&quot;mydomain_access_log&quot; suffix=&quot;.txt&quot;
+                pattern=&quot;%h %l %u %t %r %s %b&quot; /&gt;
+
+           &lt;Context path=&quot;&quot; docBase=&quot;/home/tomcat/tomcat/webapps/empresa2&quot; debug=&quot;0&quot; reloadable=&quot;true&quot;/&gt;
+      &lt;/Host&gt;
+</code></pre>
+
+<blockquote>
+<p>el alias es a lo que responde la petición, con este nombre referido.  </p>
+</blockquote>
+<ul>
+<li>Para probar estos alias tenemos que ponerlos en el etc/hosts, dns o en el hosting.  </li>
+</ul>
+<pre><code>192.168.1.113 www.empresa1.com
+192.168.1.113 www.empresa2.com
+</code></pre>
+
+<ul>
+<li>Copiamos la app de prueba de virtual host y comprobamos que por los dos alias te responde segun lo indicado en el server.xml  </li>
+</ul>
+<p><img alt="" src="../images/tomcat_10.png" /><br />
+<img alt="" src="../images/tomcat_11.png" />  </p>
+<ul>
+<li>
+<p>Tenemos una herramienta que es el VHOST MANAGER. Para ello necesitamos crear un usuario con los permisos en el tomcat-users.xml:<br />
+<code>&lt;user username="admin1" password="jupiter" roles="admin-gui,admin-script"/&gt;</code></p>
+</li>
+<li>
+<p>Rebotamos y entramos desde inicio - host manager o http://localhost:8888/host-manager/html</p>
+</li>
+</ul>
+<p><img alt="" src="../images/tomcat_12.png" />  </p>
+<ul>
+<li>Aquí podemos eliminar, añadirlo con opciones indicadas y para que se guarde los cambios a final de pagina hemos de añadir la siguiente directiz en server.xml.<br />
+<code>&lt;Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener"/&gt;</code></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

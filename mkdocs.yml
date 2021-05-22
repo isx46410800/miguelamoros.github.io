@@ -12,6 +12,7 @@ nav:
         - Kubernetes: kubernetes.md
         - Jenkins: jenkins.md
         - Ansible: ansible.md
+        - Tomcat: tomcat.md
         - Azure: azure.md
         - Office 365: office.md
         - Markdown: markdown.md

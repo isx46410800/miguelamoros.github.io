@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>VISUAL STUDIO CODE - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "VISUAL STUDIO CODE";
+    var mkdocs_page_input_path = "vscode.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>VISUAL STUDIO CODE</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/vscode.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="visual-studio-code">VISUAL STUDIO CODE</h1>
+<ul>
+<li>Partimos del curso gratis con tips de <a href="https://github.com/Klerith/curso-VSCode">VSCODE</a>  </li>
+</ul>
+<p><img alt="" src="../images/vscode.png" />  </p>
+<h2 id="ediciones-y-tips-basicos">EDICIONES Y TIPS BÁSICOS</h2>
+<h3 id="seleccionar-algo">SELECCIONAR ALGO</h3>
+<ul>
+<li>Se apreta SHIFT + FLECHAS  </li>
+</ul>
+<h3 id="quitar-espacios">QUITAR ESPACIOS</h3>
+<ul>
+<li>Se apreta SHIFT + TAB  </li>
+</ul>
+<h3 id="quitar-barra-lateral">QUITAR BARRA LATERAL</h3>
+<ul>
+<li>Se apreta CONTROL + b  </li>
+</ul>
+<h3 id="ordenar-lineas">ORDENAR LINEAS</h3>
+<ul>
+<li>Se apreta ALT + FLECHA ARRIBA/ABAJO en cualquier parte de la frase y movemos para cambiar el orden:  </li>
+</ul>
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Línea 1&lt;/li&gt;
+    &lt;li&gt;Línea 2&lt;/li&gt;
+    &lt;li&gt;Línea 3&lt;/li&gt;
+    &lt;li&gt;Línea 4&lt;/li&gt;
+    &lt;li&gt;Línea 5&lt;/li&gt;
+    &lt;li&gt;Línea 6&lt;/li&gt;
+    &lt;li&gt;Línea 7&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<ul>
+<li>Para lineas de más de una linea se SELECCIONA TODAS LAS LINEAS y se apreta ALT + FLECHA ARRIBA/ABAJO:  </li>
+</ul>
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;
+        &lt;span&gt;línea 1&lt;/span&gt;
+        &lt;span&gt;Nada importante 1&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;span&gt;línea 2&lt;/span&gt;
+        &lt;span&gt;Nada importante 2&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;li&gt;
+            &lt;span&gt;línea 3&lt;/span&gt;
+            &lt;span&gt;Nada importante 3&lt;/span&gt;
+    &lt;/li&gt;
+        &lt;span&gt;línea 4&lt;/span&gt;
+        &lt;span&gt;Nada importante 4&lt;/span&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<h3 id="comentar-codigo">COMENTAR CÓDIGO</h3>
+<ul>
+<li>
+<p>Se apreta CONTROL + SHIFT + A o CONTROL + SHIFT + /  </p>
+</li>
+<li>
+<p>Para trozos en medio de frases solo la opción de CONTROL + SHIFT + A.  </p>
+</li>
+</ul>
+<h3 id="crear-una-ruta-de-archivo">CREAR UNA RUTA DE ARCHIVO</h3>
+<ul>
+<li>
+<p>Apretamos CONTROL + CLICK y creamos file de la ruta clicada y se crea todos los direcotorios y ficheros:<br />
+<code>&lt;script src="assets/js/app.js"&gt;&lt;/script&gt;</code>  </p>
+</li>
+<li>
+<p>También sirve para ir a una función concreta de un archivo enlazado.  </p>
+</li>
+<li>
+<p>O vista previa sin salir del documento con SHIFT + F12.  </p>
+</li>
+</ul>
+<h3 id="borrar-lineas">BORRAR LINEAS</h3>
+<ul>
+<li>
+<p>Borra una linea CONTROL + SHIFT + K.  </p>
+</li>
+<li>
+<p>Borrar todo que se llame igual CONTROL + SHIFT + L y CONTROL + SHIFT + K.  </p>
+</li>
+</ul>
+<h3 id="rehacer-deshacer">REHACER / DESHACER</h3>
+<ul>
+<li>
+<p>CONTROL + Z deshacer.  </p>
+</li>
+<li>
+<p>CONTROL + SHIFT + Z rehacer.  </p>
+</li>
+</ul>
+<h3 id="zen-mode">ZEN MODE</h3>
+<ul>
+<li>Se apreta CONTROL + K y luego Z.  </li>
+</ul>
+<h3 id="navegacion-pestanas">NAVEGACIÓN PESTAÑAS</h3>
+<pre><code>Ctrl + W            Cerrar tab
+Ctrl + K  Ctrl + W  Cerrar todas
+Ctrl + Shift + T    Reabrir anterior
+Ctrl + TAB          Cambiar de tab
+</code></pre>
+
+<h3 id="abrir-terminal">ABRIR TERMINAL</h3>
+<ul>
+<li>
+<p>Se apreta CONTROL + ` o icono abajo derecha de &gt;.  </p>
+</li>
+<li>
+<p>Aqui se puede usar como bash normal, abrir mas terminales, matar terminal, etc.</p>
+</li>
+</ul>
+<h3 id="llamar-a-la-paleta-de-busqueda">LLAMAR A LA PALETA DE BUSQUEDA</h3>
+<ul>
+<li>
+<p>Se apreta CONTROL + SHIFT + P.  </p>
+</li>
+<li>
+<p>Ejemplo de wrap with abreviation y despues como queremos encapsular unas palabras: code, ul&gt;li...</p>
+</li>
+</ul>
+<h3 id="configurar-un-shortcut">CONFIGURAR UN SHORTCUT.</h3>
+<ul>
+<li>
+<p>Manage -&gt; keyboard shorcuts -&gt; buscamos por ejemos wrap y ponemos la combinación que queremos.  </p>
+</li>
+<li>
+<p>Tambien CONTROL + K + CONTROL + S.</p>
+</li>
+</ul>
+<h2 id="multicursores-y-edicion-rapida">MULTICURSORES Y EDICIÓN RÁPIDA</h2>
+<h3 id="clonar-lineas">CLONAR LINEAS</h3>
+<ul>
+<li>Shortcut COPY LINE DOWN Y UP.  </li>
+</ul>
+<h3 id="crear-multicursor-arribaabajo">CREAR MULTICURSOR ARRIBA/ABAJO</h3>
+<ul>
+<li>Se apreta CONTROL + SHIFT + FLECHAS y escribes una sola vez que sirve para todo.  </li>
+</ul>
+<h3 id="multicursos-con-copy">MULTICURSOS CON COPY</h3>
+<ul>
+<li>Partimos de:  </li>
+</ul>
+<pre><code>&lt;span&gt;amarillo&lt;/span&gt;
+&lt;span&gt;rojo&lt;/span&gt;
+&lt;span&gt;verde&lt;/span&gt;
+&lt;span&gt;naranja&lt;/span&gt;
+&lt;span&gt;morado&lt;/span&gt;
+&lt;span&gt;negro&lt;/span&gt;
+&lt;span&gt;blanco&lt;/span&gt;
+</code></pre>
+
+<ul>
+<li>Creamos un cursos despues de span, luego nos ponemos inico de la palabra del color y CONTROL + SHIFT + FELCHA ADELANTE, copiamos, vamos para atras y pegamos:  </li>
+</ul>
+<pre><code>&lt;span class=&quot;amarillo&quot;&gt;amarillo&lt;/span&gt;
+&lt;span class=&quot;rojo&quot;&gt;rojo&lt;/span&gt;
+&lt;span class=&quot;verde&quot;&gt;verde&lt;/span&gt;
+&lt;span class=&quot;naranja&quot;&gt;naranja&lt;/span&gt;
+&lt;span class=&quot;morado&quot;&gt;morado&lt;/span&gt;
+&lt;span class=&quot;negro&quot;&gt;negro&lt;/span&gt;
+&lt;span class=&quot;blanco&quot;&gt;blanco&lt;/span&gt;
+</code></pre>
+
+<h3 id="multicursor-para-formato">MULTICURSOR PARA FORMATO</h3>
+<ul>
+<li>
+<p>Se crea multicursor con CONTROL + SHIFT + FLECHAS y damos espacios para quedar alineado.  </p>
+</li>
+<li>
+<p>De palabras seleccionamos con ALT copiamos, vamos para atras y pegar:  </p>
+</li>
+</ul>
+<pre><code>&lt;span&gt;amarillo&lt;/span&gt;
+&lt;p&gt;rojo&lt;/p&gt;
+&lt;div-personalizado&gt;verde&lt;/div-personalizado&gt;
+&lt;bold&gt;naranja&lt;/bold&gt;
+&lt;otro-div-complejo&gt;naranja-azul&lt;/otro-div-complejo&gt;
+&lt;!-- Objetivo final --&gt;
+&lt;span class=&quot;amarillo&quot;&gt;amarillo&lt;/span&gt;
+&lt;p class=&quot;rojo&quot;&gt;rojo&lt;/p&gt;
+&lt;div-personalizado class=&quot;verde&quot;&gt;verde&lt;/div-personalizado&gt;
+&lt;bold class=&quot;naranja&quot;&gt;naranja&lt;/bold&gt;
+&lt;otro-div-complejo class=&quot;naranja-azul&quot;&gt;naranja-azul&lt;/otro-div-complejo&gt;
+</code></pre>
+
+<h3 id="lowecase-uppercase">LOWECASE / UPPERCASE</h3>
+<ul>
+<li>Creamos multicursor y CONTROL + SHIFT + U/L  </li>
+</ul>
+<h3 id="seleccion-varias-cosas-a-la-vez">SELECCION VARIAS COSAS A LA VEZ</h3>
+<ul>
+<li>CONTROL + D.  </li>
+</ul>
+<h2 id="definiciones-y-snippets">DEFINICIONES Y SNIPPETS</h2>
+<h3 id="buscar-definiciones">BUSCAR DEFINICIONES</h3>
+<ul>
+<li>Ctrl + P =&gt; luego escribir la @:  </li>
+<li>Ctrl + Shift = O  </li>
+</ul>
+<h3 id="buscar-lineas">BUSCAR LINEAS</h3>
+<ul>
+<li>CONTROL + P + :nºlinea </li>
+</ul>
+<h3 id="markdown-preview">MARKDOWN PREVIEW</h3>
+<ul>
+<li>
+<p>CONTROL + SHIFT + V  </p>
+</li>
+<li>
+<p>CONTROL + K V </p>
+</li>
+<li>
+<p>Ctrl + P : Markdown Open Preview  </p>
+</li>
+<li>
+<p>Ctrl + P : Markdown Open Preview to the side  </p>
+</li>
+</ul>
+<h3 id="replace-symbol">REPLACE SYMBOL</h3>
+<ul>
+<li>Para reemplazar la misma palabra en todos los documentos enlazados o llamados se apreta F2.  </li>
+</ul>
+<h3 id="crear-snippet">CREAR SNIPPET</h3>
+<ul>
+<li>
+<p>Es un fragmento de código ya creado y poder llamarlo.  </p>
+</li>
+<li>
+<p>Manage -&gt; usar snippet -&gt; elegir lenguaje.  </p>
+</li>
+</ul>
+<pre><code>&quot;Print to console&quot;: {
+        &quot;prefix&quot;: &quot;log&quot;,
+        &quot;body&quot;: [
+            &quot;console.log('${1:Hola mundo}');&quot;,
+            &quot;$2&quot;
+        ],
+        &quot;description&quot;: &quot;Log output to console&quot;
+    }
+</code></pre>
+
+<ul>
+<li>Lo llamamos con el nombre del 'prefix'.  </li>
+</ul>
+<h2 id="extensiones">EXTENSIONES</h2>
+<ul>
+<li>PASTE JSON AS CODE  </li>
+<li>TERMINAL  </li>
+<li>TODO FREE  </li>
+<li>BOOKMARKS  </li>
+<li>MATERIAL ICON THEME  </li>
+<li>MATERIAL THEME  </li>
+<li>LIVE SERVER  </li>
+<li>COLOR HIGHLIGHT  </li>
+<li>BRAKET PAIR COLORIZED 2  </li>
+<li>GIT  </li>
+<li>DOCKER  </li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

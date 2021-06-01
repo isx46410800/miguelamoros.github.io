@@ -233,8 +233,11 @@ Ctrl + TAB          Cambiar de tab
 + COLOR HIGHLIGHT  
 + BRAKET PAIR COLORIZED 2  
 + GIT  
+    - https://code.visualstudio.com/docs/editor/versioncontrol  
+    - https://code.visualstudio.com/docs/editor/github
 + DOCKER  
-
+    - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker  
+    - https://code.visualstudio.com/docs/containers/overview
 
 
 

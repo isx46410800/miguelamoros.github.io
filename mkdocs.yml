@@ -5,11 +5,13 @@ repo_url: https://github.com/isx46410800/miguelamoros.github.io
 nav:
         - MkDocs: index.md
         - Linux: linux.md
+        - VSCode: vscode.md
         - Gitlab: gitlab.md
         - Python: python.md
         - BashScripting: bash_scripting.md
         - Docker: docker.md
         - Kubernetes: kubernetes.md
+        - Openshift: openshift.md
         - Jenkins: jenkins.md
         - Ansible: ansible.md
         - Tomcat: tomcat.md
@@ -27,5 +29,6 @@ nav:
         - Routing: routing.md
         - Archivos Destacados: files.md
         - Windows: windows.md
+        - Taller: taller.md
         
 theme: readthedocs

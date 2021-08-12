@@ -12,6 +12,8 @@ nav:
         - Docker: docker.md
         - Kubernetes: kubernetes.md
         - Openshift: openshift.md
+        - Terraform: terraform.md
+        - AWS: aws.md
         - Jenkins: jenkins.md
         - Ansible: ansible.md
         - Tomcat: tomcat.md

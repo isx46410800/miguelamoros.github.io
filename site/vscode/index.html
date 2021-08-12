@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>VISUAL STUDIO CODE - Miguel's Notes</title>
+  <title>VSCode - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "VISUAL STUDIO CODE";
+    var mkdocs_page_name = "VSCode";
     var mkdocs_page_input_path = "vscode.md";
     var mkdocs_page_url = null;
   </script>
@@ -55,6 +55,74 @@
                     <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
                     </li>
                 </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">VSCode</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#ediciones-y-tips-basicos">EDICIONES Y TIPS BÁSICOS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#seleccionar-algo">SELECCIONAR ALGO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quitar-espacios">QUITAR ESPACIOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quitar-barra-lateral">QUITAR BARRA LATERAL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ordenar-lineas">ORDENAR LINEAS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#comentar-codigo">COMENTAR CÓDIGO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-una-ruta-de-archivo">CREAR UNA RUTA DE ARCHIVO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#borrar-lineas">BORRAR LINEAS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rehacer-deshacer">REHACER / DESHACER</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#zen-mode">ZEN MODE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#navegacion-pestanas">NAVEGACIÓN PESTAÑAS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#abrir-terminal">ABRIR TERMINAL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llamar-a-la-paleta-de-busqueda">LLAMAR A LA PALETA DE BUSQUEDA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configurar-un-shortcut">CONFIGURAR UN SHORTCUT.</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#multicursores-y-edicion-rapida">MULTICURSORES Y EDICIÓN RÁPIDA</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#clonar-lineas">CLONAR LINEAS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-multicursor-arribaabajo">CREAR MULTICURSOR ARRIBA/ABAJO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multicursos-con-copy">MULTICURSOS CON COPY</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multicursor-para-formato">MULTICURSOR PARA FORMATO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#lowecase-uppercase">LOWECASE / UPPERCASE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#seleccion-varias-cosas-a-la-vez">SELECCION VARIAS COSAS A LA VEZ</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#definiciones-y-snippets">DEFINICIONES Y SNIPPETS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#buscar-definiciones">BUSCAR DEFINICIONES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#buscar-lineas">BUSCAR LINEAS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdown-preview">MARKDOWN PREVIEW</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#replace-symbol">REPLACE SYMBOL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crear-snippet">CREAR SNIPPET</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#extensiones">EXTENSIONES</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
                     </li>
@@ -73,6 +141,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
                     </li>
                 </ul>
                 <ul>
@@ -143,6 +215,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
                     </li>
                 </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
       </div>
     </div>
     </nav>
@@ -164,7 +240,7 @@
     
       
     
-    <li>VISUAL STUDIO CODE</li>
+    <li>VSCode</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/vscode.md"> Edit on isx46410800/python</a>
@@ -453,6 +529,15 @@ Ctrl + TAB          Cambiar de tab
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../gitlab/" class="btn btn-neutral float-right" title="Gitlab">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../linux/" class="btn btn-neutral" title="Linux"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
@@ -475,6 +560,10 @@ Ctrl + TAB          Cambiar de tab
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="../linux/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../gitlab/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

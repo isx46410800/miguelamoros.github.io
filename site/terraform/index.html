@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Terraform - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Terraform";
+    var mkdocs_page_input_path = "terraform.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">VSCode</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Terraform</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#install">INSTALL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#iam-users">IAM USERS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terraform-init">TERRAFORM INIT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terraform-plan">TERRAFORM PLAN</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terraform-apply">TERRAFORM APPLY</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terraform-destroy">TERRAFORM DESTROY</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#variables">VARIABLES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#crear-instancia">CREAR INSTANCIA</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#eip">EIP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#security-group">SECURITY GROUP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#user">USER</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rds">RDS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bucket">BUCKET</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#scaling">SCALING</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#import">IMPORT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#depends-on">DEPENDS ON</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validate">VALIDATE</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#format">FORMAT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#multiplos-providers">MULTIPLOS PROVIDERS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#local-provisioner">LOCAL PROVISIONER</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#remote-provisioner">REMOTE PROVISIONER</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#plan-destroy">PLAN DESTROY</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#workspaces">WORKSPACES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#functions">FUNCTIONS</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../aws/">AWS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Terraform</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/terraform.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="terraform">TERRAFORM</h1>
+<ul>
+<li><a href="https://learn.hashicorp.com/terraform">Tutoriales</a>  </li>
+</ul>
+<h2 id="install">INSTALL</h2>
+<ul>
+<li>
+<p><code>sudo apt-get update &amp;&amp; sudo apt-get install -y gnupg software-properties-common curl</code>  </p>
+</li>
+<li>
+<p><code>curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -</code>  </p>
+</li>
+<li>
+<p><code>sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"</code>  </p>
+</li>
+<li>
+<p><code>sudo apt-get update &amp;&amp; sudo apt-get install terraform</code>  </p>
+</li>
+<li>
+<p><code>terraform -help</code>  </p>
+<ul>
+<li>touch ~/.bashrc</li>
+<li>terraform -install-autocomplete</li>
+</ul>
+</li>
+<li>
+<p>Creamos un primer recurso de prueba en la carpeta con extensión <code>main.tf</code>  </p>
+</li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+}
+resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
+    cidr_block = &quot;10.0.0.0/16&quot;
+}
+</code></pre>
+
+<h2 id="iam-users">IAM USERS</h2>
+<ul>
+<li>
+<p>Podemos crear un <a href="https://console.aws.amazon.com/iamv2/home?#/users">usuario</a> en IAM y podemos asignarle tags, roles como accessAdministrator, y nos daría los tokens para conectarse.  </p>
+</li>
+<li>
+<p>Luego en users, en credentials podemos modificar y obtener nuevos keys o descargar el que teníamos.  </p>
+</li>
+</ul>
+<h2 id="terraform-init">TERRAFORM INIT</h2>
+<ul>
+<li>
+<p>Una vez tenemos el directorio donde trabajamos con por ejemplo el simple fichero de <code>main.tf</code>, hacemos un terraform init para crear como el directorio de trabajo, muy parecido al git init. Te crea el terraform provider y otros ficheros ocultos.  </p>
+</li>
+<li>
+<p>Ejemplo main.tf:  </p>
+</li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+}
+resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
+    cidr_block = &quot;10.0.0.0/16&quot;
+}
+</code></pre>
+
+<h2 id="terraform-plan">TERRAFORM PLAN</h2>
+<ul>
+<li>
+<p>Esta orden <code>terraform plan</code> sirve como para ver si estaría bien el proceso ejecutado antes de hacer un terraform aply y las cosas que se crearían con nuestro fichero de codigo.  </p>
+</li>
+<li>
+<p>Ejemplo main.tf:  </p>
+</li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
+    cidr_block = &quot;10.0.0.0/16&quot;
+}
+</code></pre>
+
+<h2 id="terraform-apply">TERRAFORM APPLY</h2>
+<ul>
+<li>
+<p>Si estamos contentos con el terraform plan, hacemos un <code>terraform aply</code> para que se ejecute lo indicado en el fichero.  </p>
+</li>
+<li>
+<p>Lo creado se crea en el apartado de <a href="https://eu-west-2.console.aws.amazon.com/vpc/home?region=eu-west-2#vpcs:">VPC</a>. Virtual Private Cloud</p>
+</li>
+</ul>
+<h2 id="terraform-destroy">TERRAFORM DESTROY</h2>
+<ul>
+<li>Se puede eliminar todo lo creado manualmente o con la orden <code>terraform destroy</code>  </li>
+</ul>
+<h2 id="variables">VARIABLES</h2>
+<ul>
+<li>
+<p>Se crea en el fichero main.tf  </p>
+</li>
+<li>
+<p>Variable sring:  </p>
+</li>
+</ul>
+<pre><code>variable &quot;mystringvar&quot; {
+    type = string
+    default = &quot;my first var&quot;
+}
+</code></pre>
+
+<ul>
+<li>Variable número:  </li>
+</ul>
+<pre><code>variable &quot;mynumvar&quot; {
+    type = number
+    default = 100
+}
+</code></pre>
+
+<ul>
+<li>Variable booleana:  </li>
+</ul>
+<pre><code>variable &quot;isenabled&quot; {
+    default = false
+}
+</code></pre>
+
+<ul>
+<li>Variable lista:  </li>
+</ul>
+<pre><code>variable &quot;mylistvar&quot; {
+    type = list(string)
+    default = [&quot;apple&quot;,&quot;20&quot;]
+}
+</code></pre>
+
+<ul>
+<li>Variable map:  </li>
+</ul>
+<pre><code>variable &quot;mymapvar&quot; {
+    type = map
+    default = {
+        Key1 = &quot;value1&quot;
+        Key2 = &quot;value2&quot;
+    }
+}
+</code></pre>
+
+<ul>
+<li>Variable tuple:  </li>
+</ul>
+<pre><code>variable &quot;mytuplevar&quot; {
+    type = tuple([string,number,string])
+    default = [&quot;var1&quot;,10,&quot;var2&quot;]
+}
+</code></pre>
+
+<ul>
+<li>Variable input:  </li>
+</ul>
+<pre><code>variable &quot;myinputvar&quot; {
+    type = string
+    description = &quot;please enter a vpc name&quot;
+}
+</code></pre>
+
+<ul>
+<li>Varibale objecto:  </li>
+</ul>
+<pre><code>variable &quot;myobjectvar&quot; {
+    type = object({name = string, port = list(number)})
+    default = {
+        name = &quot;myports&quot;
+        port = [22,80,443]
+    }
+}
+</code></pre>
+
+<ul>
+<li>Output. <a href="https://www.terraform.io/docs/language/values/outputs.html">DOC</a>:  </li>
+</ul>
+<pre><code>output &quot;myoutput&quot; {
+    value = aws_vpc.myVPC.id
+}
+</code></pre>
+
+<ul>
+<li>Recurso con alguna llamada a la variable:  </li>
+</ul>
+<pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
+    cidr_block = &quot;10.10.10.0/24&quot;
+    tags = {
+        Name = var.mystringvar
+    }
+}
+</code></pre>
+
+<pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
+    cidr_block = &quot;10.10.10.0/24&quot;
+    tags = {
+        Name = var.mylistvar[0]
+    }
+}
+</code></pre>
+
+<pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
+    cidr_block = &quot;10.10.10.0/24&quot;
+    tags = {
+        Name = var.mymapvar[&quot;Key2&quot;]
+    }
+}
+</code></pre>
+
+<pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
+    cidr_block = &quot;10.10.10.0/24&quot;
+    tags = {
+        Name = var.myinputvar
+    }
+}
+</code></pre>
+
+<h2 id="crear-instancia">CREAR INSTANCIA</h2>
+<ul>
+<li>
+<p><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs">Documentacion de fichero main.tf</a>. Aqui descubrimos modulos, recursos etc que se pueden indicar y crear en el fichero.</p>
+</li>
+<li>
+<p>En el fichero main.tf:  </p>
+</li>
+</ul>
+<pre><code>provider &quot;aws&quot; {
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxx&quot;
+    secret_key = &quot;xxxx&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;EC2&quot; {
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>Despues hariamos un terraform init, plan y aply.  </p>
+</blockquote>
+<h3 id="eip">EIP</h3>
+<ul>
+<li><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip">EIP</a> </li>
+</ul>
+<pre><code>provider &quot;aws&quot; {
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxx&quot;
+    secret_key = &quot;xxxx&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;EC2&quot; {
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+}
+
+resource &quot;aws_eip&quot; &quot;myEIP&quot; {
+    instance = aws_instance.EC2.id
+}
+
+ouput &quot;myOutEIP&quot; {
+    value = aws_eip.myEIP.public_ip
+}
+</code></pre>
+
+<h3 id="security-group">SECURITY GROUP</h3>
+<ul>
+<li>Crear un security group:  </li>
+</ul>
+<pre><code>resource &quot;aws_instance&quot; &quot;EC2&quot; {
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    security_groups = [aws_security_group.mySG.name]
+}
+resource &quot;aws_security_group&quot; &quot;mySG&quot; {
+    name = &quot;Allow HTTPS&quot;
+    ingress {
+        description = &quot;allow https from any where&quot;
+        from_port = 443
+        to_port = 443
+        protocol = &quot;tcp&quot;
+        cidr_blocks = [&quot;0.0.0.0/0&quot;]
+    }
+    egress {
+        description = &quot;allow https from any where&quot;
+        from_port = 443
+        to_port = 443
+        protocol = &quot;tcp&quot;
+        cidr_blocks = [&quot;0.0.0.0/0&quot;]
+    }
+}
+</code></pre>
+
+<h3 id="user">USER</h3>
+<ul>
+<li>Ejemplo de crear un usuario con ciertas directrices:  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_iam_user&quot; &quot;myname&quot;{
+    name = &quot;test-user&quot;
+}
+resource &quot;aws_iam_policy&quot; &quot;myPolicy&quot;{
+    name = &quot;test-custom-policy&quot;
+    policy = &lt;&lt;EOF
+    {
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Action&quot;: &quot;ec2:*&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Resource&quot;: &quot;*&quot;
+        },
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: &quot;elasticloadbalancing:*&quot;,
+            &quot;Resource&quot;: &quot;*&quot;
+        },
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: &quot;cloudwatch:*&quot;,
+            &quot;Resource&quot;: &quot;*&quot;
+        },
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: &quot;autoscaling:*&quot;,
+            &quot;Resource&quot;: &quot;*&quot;
+        },
+        {
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: &quot;iam:CreateServiceLinkedRole&quot;,
+            &quot;Resource&quot;: &quot;*&quot;,
+            &quot;Condition&quot;: {
+                &quot;StringEquals&quot;: {
+                    &quot;iam:AWSServiceName&quot;: [
+                        &quot;autoscaling.amazonaws.com&quot;,
+                        &quot;ec2scheduled.amazonaws.com&quot;,
+                        &quot;elasticloadbalancing.amazonaws.com&quot;,
+                        &quot;spot.amazonaws.com&quot;,
+                        &quot;spotfleet.amazonaws.com&quot;,
+                        &quot;transitgateway.amazonaws.com&quot;
+                    ]
+                }
+            }
+        }
+    ]
+    }
+    EOF
+}
+resource &quot;aws_iam_policy_attachment&quot; &quot;attachMyPolicy&quot;{
+    name = &quot;attachment&quot;
+    users = [aws_iam_user.myname.name]
+    policy_arn = aws_iam_policy.myPolicy.myPolicy_arn
+}
+</code></pre>
+
+<blockquote>
+<p>la politicas las copiamos de IAM-politicas  </p>
+</blockquote>
+<h3 id="rds">RDS</h3>
+<ul>
+<li>Crear una instancia de base de datos:  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_db_instance&quot; &quot;myRDS&quot;{
+    name = &quot;myDB&quot;
+    instance_class = &quot;db.t2.micro&quot;
+    allocated_storage = 5
+    storage_type = &quot;gp2&quot;
+    engine = &quot;mysql&quot;
+    engine_version = &quot;5.7&quot;
+    username = &quot;test&quot;
+    password = &quot;jupiter&quot;
+    parameter_group_name = &quot;default.mysql5.7&quot;
+    skip_final_snapshot = true
+    port = 3306
+}
+</code></pre>
+
+<h2 id="bucket">BUCKET</h2>
+<ul>
+<li>
+<p>Los buckets son depositos que se pueden crear en s3 para guardar cosas permanentes.</p>
+</li>
+<li>
+<p>ejemplo:  </p>
+</li>
+</ul>
+<pre><code>main.tf
+provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_vpc&quot; &quot;test&quot;{
+    cidr_block = &quot;10.0.0.0/16&quot;
+}
+backend.tf
+terraform{
+    backend &quot;s3&quot;{
+        key = &quot;terraform/tfstate.tfstate&quot;
+        bucket &quot;el_creado_en_s3&quot;
+        egion = &quot;us-west-1&quot;
+        access_key = &quot;xxxxx&quot;
+        secret_key = &quot;xxxxx&quot;
+    }
+}
+</code></pre>
+
+<h2 id="scaling">SCALING</h2>
+<ul>
+<li>Podemos crear varios recursos del mismo tipo con <code>count</code>:  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_instance&quot; &quot;DB&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    count = 3
+}
+</code></pre>
+
+<h2 id="import">IMPORT</h2>
+<ul>
+<li>Cuando creas un VPC puedes importar la info de lo creado en un fichero:  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_vpc&quot; &quot;myVPC&quot;{
+    cidr_block = &quot;10.0.0.0/16&quot;
+}
+</code></pre>
+
+<ul>
+<li>Despues en la web vemos que id tenemos y hacemos en consola <code>terraform import aws_vpc.myVPC.idxxx</code></li>
+</ul>
+<h2 id="depends-on">DEPENDS ON</h2>
+<ul>
+<li>Cuando queremos crear algo que primero dependa de una cosa creada:  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_instance&quot; &quot;DB&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+}
+resource &quot;aws_instance&quot; &quot;web&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    depends_on = [aws_instance.DB]
+}
+</code></pre>
+
+<h2 id="validate">VALIDATE</h2>
+<ul>
+<li>Podemos usar la orden <code>terraform validate</code> para ver que esté correcta la sintaxi del fichero de configuración que se crea.  </li>
+</ul>
+<h2 id="format">FORMAT</h2>
+<ul>
+<li>Podemos usar la orden <code>terraform fmt</code> para ver que esté correcta la anidación del fichero de configuración que se crea.  </li>
+</ul>
+<h2 id="multiplos-providers">MULTIPLOS PROVIDERS</h2>
+<ul>
+<li>
+<p>Podemos crear diferentes recursos en diferentes zonas y provedores.  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-west-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+    alias = west
+}
+provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+    alias = east
+}
+resource &quot;aws_instance&quot; &quot;DB&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    provider = aws.west
+}
+resource &quot;aws_instance&quot; &quot;web&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    depends_on = [aws_instance.DB]
+}
+</code></pre>
+
+<h2 id="local-provisioner">LOCAL PROVISIONER</h2>
+<ul>
+<li>Para usar un comando que haga cosas en local mientras se crea el codigo del fichero.  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_instance&quot; &quot;DB&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    provisioner &quot;local-exec&quot;{
+        command = &quot;echo ${aws_instance.DB.private_ip}&quot; &gt;&gt; private_ip.txt
+    }
+}
+</code></pre>
+
+<h2 id="remote-provisioner">REMOTE PROVISIONER</h2>
+<ul>
+<li>Para usar un comando que haga cosas en REMOTO mientras se crea el codigo del fichero.  </li>
+</ul>
+<pre><code>provider &quot;aws&quot;{
+    region = &quot;us-east-1&quot;
+    access_key = &quot;xxxxx&quot;
+    secret_key = &quot;xxxxx&quot;
+}
+resource &quot;aws_instance&quot; &quot;DB&quot;{
+    ami = &quot;ami-047a51fa27710816e&quot;
+    instance_type = &quot;t2.micro&quot;
+    key_name = &quot;tf_test&quot;
+    provisioner &quot;remote-exec&quot;{
+        inline = [
+            &quot;sudo dnf install nginx -y&quot;
+            &quot;sudo systemctl start nginx&quot;
+        ]
+    }
+    connection {
+        type = &quot;ssh&quot;
+        user = &quot;ec2-user&quot;
+        private_key = file(&quot;./test.pem&quot;)
+        host = sef.public_ip
+    }
+}
+</code></pre>
+
+<h2 id="plan-destroy">PLAN DESTROY</h2>
+<ul>
+<li>Para borrar los planes se usa <code>terraform plan -destroy</code></li>
+</ul>
+<h2 id="workspaces">WORKSPACES</h2>
+<ul>
+<li>Se usa como si utilizaras diferentes ramas:<br />
+<code>terraform workspace</code>
+<code>terraform workspace new test</code>
+<code>terraform workspace list</code>
+<code>terraform workspace show</code>
+<code>terraform workspace select test</code>
+<code>terraform workspace delete test</code></li>
+</ul>
+<h2 id="functions">FUNCTIONS</h2>
+<ul>
+<li>Se pueden usar <a href="https://www.terraform.io/docs/language/functions/index.html">funciones</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../aws/" class="btn btn-neutral float-right" title="AWS">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../openshift/" class="btn btn-neutral" title="Openshift"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../openshift/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../aws/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

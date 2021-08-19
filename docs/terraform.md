@@ -66,6 +66,8 @@ resource "aws_vpc" "myvpc"{
 
 + Si estamos contentos con el terraform plan, hacemos un `terraform aply` para que se ejecute lo indicado en el fichero.  
 
++ Se puede usar la opción `--auto-approve` cuando ya sabemos lo que va a crear y saltar todos las lineas de creación.
+
 + Lo creado se crea en el apartado de [VPC](https://eu-west-2.console.aws.amazon.com/vpc/home?region=eu-west-2#vpcs:). Virtual Private Cloud
 
 
@@ -188,6 +190,55 @@ resource "aws_vpc" "myVPC" {
     tags = {
         Name = var.myinputvar
     }
+}
+```  
+
+### En ficheros  
+
++ Si creas una variable pero sin darle valor default te sale un input al hacer un apply:  
+```
+variable "subnet_prefix" {
+    description = "cidr block de la subnet"
+    #default
+}
+resouce "aws_subnet" "subnet-1" {
+    vpc_id = aws_vpc.prod-vpc.id
+    cidr_block = var.subnet_prefix
+    availability_zone = "us-east-1a"
+}
+```  
+> También en vez de un input, pasando por variable con `terraform apply -var "subnet_prefix=10.10.1.0/24"`
+
++ O en un fichero `terraform-tfvars`:  
+`subnet_prefix="10.10.1.0/24"`  
+
++ Si lo creamos con otro nombre, por ejemplo `ejemplo.tfvars` luego lo pasamos con un `terraform apply -var-file example.tfvars`
+
++ O de tipo string y fichero (`subnet_prefix=["10.10.1.0/24"]`):  
+```
+variable "subnet_prefix" {
+    description = "cidr block de la subnet"
+    type = string
+}
+resouce "aws_subnet" "subnet-1" {
+    vpc_id = aws_vpc.prod-vpc.id
+    cidr_block = var.subnet_prefix
+    availability_zone = "us-east-1a"
+}
+```  
+> Y en un fichero terraform.tfvars hacer un apply normal
+
++ Tambien con un listado:  
+`subnet_prefix=["10.10.1.0/24", "10.0.0.5/14"]`  
+```
+variable "subnet_prefix" {
+    description = "cidr block de la subnet"
+    type = string
+}
+resouce "aws_subnet" "subnet-1" {
+    vpc_id = aws_vpc.prod-vpc.id
+    cidr_block = var.subnet_prefix[1]
+    availability_zone = "us-east-1a"
 }
 ```  
 
@@ -524,6 +575,11 @@ resource "aws_instance" "DB"{
 
 + Para borrar los planes se usa `terraform plan -destroy`
 
+## TARGET  
+
++ Sirve para destruir y aplicar un solo recurso en concreto al que quieras eliminar/añadir. También arrastrará a todo lo que lleve relacionado:  
+`terraform destroy -target aws_instance.web-server-instance`  
+
 ## WORKSPACES  
 
 + Se usa como si utilizaras diferentes ramas:  
@@ -534,9 +590,202 @@ resource "aws_instance" "DB"{
 `terraform workspace select test`
 `terraform workspace delete test`
 
+## STATE  
+
++ Se puede utilizar diferentes comandos para ver estados:  
+`terraform state`
+`terraform state list`
+`terraform state show aws_eip.one(el recurso creado)`
+
+
 ## FUNCTIONS  
 
 + Se pueden usar [funciones](https://www.terraform.io/docs/language/functions/index.html)
 
 
+## EJERCICIO PRÁCTICO
 
++ En este ejercicio vamos a crear una instancia con ubuntu y un webserver de apache.  
+
+```
+provider "aws" {
+    region = "us-east-1"
+    access_key = "xxx"
+    secret_key = "xxx"
+}
+
+# 1. Create vpc
+resource "aws_vpc" "prod-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "production"
+  }
+}
+# 2. Create Internet Gateway
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.prod-vpc.id
+}
+# 3. Create Custom Route Table
+resource "aws_route_table" "prod-route-table" {
+  vpc_id = aws_vpc.prod-vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.gw.id
+  }
+  tags = {
+    Name = "Prod"
+  }
+}
+# 4. Create a Subnet 
+resource "aws_subnet" "subnet-1" {
+  vpc_id            = aws_vpc.prod-vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
+  tags = {
+    Name = "prod-subnet"
+  }
+}
+# 5. Associate subnet with Route Table
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet-1.id
+  route_table_id = aws_route_table.prod-route-table.id
+}
+# 6. Create Security Group to allow port 22,80,443
+resource "aws_security_group" "allow_web" {
+  name        = "allow_web_traffic"
+  description = "Allow Web inbound traffic"
+  vpc_id      = aws_vpc.prod-vpc.id
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "allow_web"
+  }
+}
+# 7. Create a network interface with an ip in the subnet that was created in step 4
+resource "aws_network_interface" "web-server-nic" {
+  subnet_id       = aws_subnet.subnet-1.id
+  private_ips     = ["10.0.1.50"]
+  security_groups = [aws_security_group.allow_web.id]
+}
+# 8. Assign an elastic IP to the network interface created in step 7
+resource "aws_eip" "one" {
+  vpc                       = true
+  network_interface         = aws_network_interface.web-server-nic.id
+  associate_with_private_ip = "10.0.1.50"
+  depends_on                = [aws_internet_gateway.gw]
+}
+output "server_public_ip" {
+  value = aws_eip.one.public_ip
+}
+# 9. Create Ubuntu server and install/enable apache2
+resource "aws_instance" "web-server-instance" {
+  ami               = "ami-085925f297f89fce1"
+  instance_type     = "t2.micro"
+  availability_zone = "us-east-1a"
+  key_name          = "main-key"
+  network_interface {
+    device_index         = 0
+    network_interface_id = aws_network_interface.web-server-nic.id
+  }
+  user_data = <<-EOF
+                #!/bin/bash
+                sudo apt update -y
+                sudo apt install apache2 -y
+                sudo systemctl start apache2
+                sudo bash -c 'echo your very first web server > /var/www/html/index.html'
+                EOF
+  tags = {
+    Name = "web-server"
+  }
+}
+output "server_private_ip" {
+  value = aws_instance.web-server-instance.private_ip
+}
+output "server_id" {
+  value = aws_instance.web-server-instance.id
+}
+resource "<provider>_<resource_type>" "name" {
+    config options.....
+    key = "value"
+    key2 = "another value"
+}
+```
+
+### Con variables  
+
++ En este ejercicio practico se puede crear variables en otros ficheros para construir los recursos:  
+```
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "AKIAJTTSSUF2PB6HDCCA"
+  secret_key = "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"
+}
+
+variable "subnet_prefix" {
+  description = "cidr block for the subnet"
+
+}
+
+
+
+resource "aws_vpc" "prod-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "production"
+  }
+}
+
+resource "aws_subnet" "subnet-1" {
+  vpc_id            = aws_vpc.prod-vpc.id
+  cidr_block        = var.subnet_prefix[0].cidr_block
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = var.subnet_prefix[0].name
+  }
+}
+
+resource "aws_subnet" "subnet-2" {
+  vpc_id            = aws_vpc.prod-vpc.id
+  cidr_block        = var.subnet_prefix[1].cidr_block
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = var.subnet_prefix[1].name
+  }
+}
+```
+
++ Un fichero creao llamado `terraform-tfvars`:  
+`subnet_prefix = [{ cidr_block = "10.0.1.0/24", name = "prod_subnet" }, { cidr_block = "10.0.2.0/24", name = "dev_subnet" }]`
+
++ Para construir este fichero se utiliza un `terraform apply`  

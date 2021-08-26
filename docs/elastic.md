@@ -215,19 +215,18 @@ hosts: ["localhost:5044"]
 
 + Editamos info en LOGSTASH:  
     + Creamos un fichero de conf personalizado con `test.yml`:  
-    ```
-    input {
-    beats {
-        port => 5044
-    }
-    }
+```
+input {
+beats {
+    port => 5044
+}
 
-    output {
-    elasticsearch {
-        hosts => "localhost:9200"
-    }
-    }
-    ```  
+output {
+elasticsearch {
+    hosts => "localhost:9200"
+}
+}
+```  
 
 + Arrancamos primero elasticsearch `[isx46410800@miguel elasticsearch-7.14.0]$ ./bin/elasticsearch -d`  
 

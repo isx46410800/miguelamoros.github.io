@@ -122,6 +122,54 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#beats_1">BEATS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#metricbeats">METRICBEATS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#packetbeat">PACKETBEAT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#heartbeat">HEARTBEAT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filebeat">FILEBEAT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#otros-beats">OTROS BEATS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#logstash_1">LOGSTASH</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs">INPUTS</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#plugin-stdin">PLUGIN STDIN</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#file-input">FILE INPUT</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#beats-input">BEATS INPUT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filters">FILTERS</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-grok">FILTER GROK</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-mutate">FILTER MUTATE</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-date">FILTER DATE</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-translate">FILTER TRANSLATE</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-geolp">FILTER GEOLP</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-ruby">FILTER RUBY</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#otros-filters">OTROS FILTERS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#outputs">OUTPUTS</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -455,35 +503,33 @@ adios
 </code></pre>
 
 <ul>
-<li>
-<p>Editamos info en FILEBEAT:  </p>
+<li>Editamos info en FILEBEAT:  <ul>
+<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:  </li>
+</ul>
+</li>
+</ul>
+<pre><code>- type: log
+# Change to true to enable this input configuration.
+enabled: true
+# Paths that should be crawled and fetched. Glob based paths.
+paths:
+    - ../logs/example.log
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: [&quot;localhost:9200&quot;]
+# Protocol - either `http` (default) or `https`.
+#protocol: &quot;https&quot;
+# Authentication credentials - either API key or username/password.
+#api_key: &quot;id:api_key&quot;
+#username: &quot;elastic&quot;
+#password: &quot;changeme&quot;
+# ------------------------------ Logstash Out-------------------------------
+output.logstash:
+# The Logstash hosts
+hosts: [&quot;localhost:5044&quot;]
+</code></pre>
+
 <ul>
-<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:<br />
-    ```<ul>
-<li>type: log</li>
-</ul>
-<h1 id="change-to-true-to-enable-this-input-configuration">Change to true to enable this input configuration.</h1>
-<p>enabled: true</p>
-<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths">Paths that should be crawled and fetched. Glob based paths.</h1>
-<p>paths:
-    - ../logs/example.log</p>
-<h1 id="outputelasticsearch">output.elasticsearch:</h1>
-<h1 id="array-of-hosts-to-connect-to">Array of hosts to connect to.</h1>
-<h1 id="hosts-localhost9200">hosts: ["localhost:9200"]</h1>
-<h1 id="protocol-either-http-default-or-https">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
-<h1 id="protocol-https">protocol: "https"</h1>
-<h1 id="authentication-credentials-either-api-key-or-usernamepassword">Authentication credentials - either API key or username/password.</h1>
-<h1 id="api_key-idapi_key">api_key: "id:api_key"</h1>
-<h1 id="username-elastic">username: "elastic"</h1>
-<h1 id="password-changeme">password: "changeme"</h1>
-<h1 id="-logstash-output-">------------------------------ Logstash Output -------------------------------</h1>
-<p>output.logstash:</p>
-<h1 id="the-logstash-hosts">The Logstash hosts</h1>
-<p>hosts: ["localhost:5044"]
-```  </p>
-</li>
-</ul>
-</li>
 <li>
 <p>Editamos info en LOGSTASH:  </p>
 <ul>

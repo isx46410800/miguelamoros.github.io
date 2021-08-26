@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>ELKS - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "ELKS";
+    var mkdocs_page_input_path = "elastic.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">VSCode</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../terraform/">Terraform</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../aws/">AWS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">ELKS</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#componentesinstalacion">COMPONENTES/INSTALACIÓN</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#beats">BEATS</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>ELKS</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/elastic.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="elastic-stack">ELASTIC STACK</h1>
+<ul>
+<li>ELK Stack (o Elastic Stack) es un conjunto de herramientas open source desarrolladas por Elastics que permite recoger datos de cualquier tipo de fuente y en cualquier formato para realizar búsquedas, análisis y visualización de los datos en tiempo real.  </li>
+</ul>
+<p><img alt="" src="../images/elastic.jpg" />  </p>
+<ul>
+<li>
+<p>La velocidad y escalabilidad de Elasticsearch y su capacidad de indexar muchos tipos de contenido significan que puede usarse para una variedad de casos de uso:</p>
+<ul>
+<li>Búsqueda de aplicaciones</li>
+<li>Búsqueda de sitio web</li>
+<li>Búsqueda Empresarial</li>
+<li>Logging y analíticas de log</li>
+<li>Métricas de infraestructura y monitoreo de contenedores</li>
+<li>Monitoreo de rendimiento de aplicaciones</li>
+<li>Análisis y visualización de datos geoespaciales</li>
+<li>Analítica de Seguridad</li>
+<li>Analítica de Negocios</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/">Página oficial</a>  </p>
+</li>
+</ul>
+<h2 id="componentesinstalacion">COMPONENTES/INSTALACIÓN</h2>
+<h3 id="beats">BEATS</h3>
+<ul>
+<li>
+<p>Los Beats son excelentes para recopilar datos. Se quedan en tus servidores, con tus contenedores, o se despliegan como funciones, y después centralizan los datos en Elasticsearch. Los Beats envían datos que cumplen con Elastic Common Schema (ECS), y si deseas una mayor potencia de procesamiento, pueden enviarlos a Logstash para las tareas de transformación y parseo.  </p>
+</li>
+<li>
+<p>Filebeat y Metricbeat incluyen módulos que simplifican la recopilación, el parseo y la visualización de la información de fuentes de datos clave, como sistemas, contenedores y plataformas cloud, y tecnologías de red. Ejecuta un solo comando y explora más allá.  </p>
+</li>
+<li>
+<p>Beats reúne los logs y las métricas de tus entornos únicos y los documenta con metadatos esenciales de hosts, plataformas de contenedores como Docker y Kubernetes y Proveedores Cloud antes de enviarlos al Elastic Stack. Desde el monitoreo de contenedores hasta el envío de datos desde arquitecturas sin servidor, nos aseguramos de que tengas el contexto que necesitas.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/downloads/beats/metricbeat">Descargar</a>  </p>
+<ul>
+<li><code>[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ tar -zxvf metricbeat-7.14.0-linux-x86_64.tar.gz</code>  </li>
+<li>Abrimos el fichero de conf metricbeat.yaml, comentamos el apartado del output elasticsearch y le ponemos por ahora uno basico de consola:<br />
+```</li>
+</ul>
+<h1 id="outputs">================================== Outputs ===================================</h1>
+<h1 id="configure-what-output-to-use-when-sending-the-data-collected-by-the-beat">Configure what output to use when sending the data collected by the beat.</h1>
+<p>output.console:
+pretty: true</p>
+<h1 id="-elasticsearch-output-">---------------------------- Elasticsearch Output ----------------------------</h1>
+<h1 id="outputelasticsearch">output.elasticsearch:</h1>
+<h1 id="array-of-hosts-to-connect-to">Array of hosts to connect to.</h1>
+<h1 id="hosts-localhost9200">hosts: ["localhost:9200"]</h1>
+<p><code>``  
++ Lo encendemos con</code>[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ ./metricbeat -c metricbeat.yml`  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/downloads/beats/filebeat">Descargar</a>  </p>
+<ul>
+<li><code>[isx46410800@miguel elasticStack]$ tar -zxvf filebeat-7.14.0-linux-x86_64.tar.gz</code>  </li>
+<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:<br />
+```</li>
+<li>type: log</li>
+</ul>
+<h1 id="change-to-true-to-enable-this-input-configuration">Change to true to enable this input configuration.</h1>
+<p>enabled: true</p>
+<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths">Paths that should be crawled and fetched. Glob based paths.</h1>
+<p>paths:
+    - ../logs/example.log</p>
+<h1 id="outputelasticsearch_1">output.elasticsearch:</h1>
+<h1 id="array-of-hosts-to-connect-to_1">Array of hosts to connect to.</h1>
+<h1 id="hosts-localhost9200_1">hosts: ["localhost:9200"]</h1>
+<h1 id="protocol-either-http-default-or-https">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
+<h1 id="protocol-https">protocol: "https"</h1>
+<h1 id="authentication-credentials-either-api-key-or-usernamepassword">Authentication credentials - either API key or username/password.</h1>
+<h1 id="api_key-idapi_key">api_key: "id:api_key"</h1>
+<h1 id="username-elastic">username: "elastic"</h1>
+<h1 id="password-changeme">password: "changeme"</h1>
+<h1 id="-logstash-output-">------------------------------ Logstash Output -------------------------------</h1>
+<p>output.logstash:</p>
+<h1 id="the-logstash-hosts">The Logstash hosts</h1>
+<p>hosts: ["localhost:5044"]
+<code>``  
++ Se arranca con</code>./filebeat`  </p>
+</li>
+</ul>
+<h3 id="logstash">LOGSTASH</h3>
+<ul>
+<li>
+<p>Logstash ingesta, transforma y envía de forma dinámica tus datos independientemente de su formato o complejidad. Deriva estructura a partir de datos no estructurados con grok, descifra las coordenadas geográficas de las direcciones IP, anonimiza o excluye los campos sensibles y facilita el procesamiento general.  </p>
+</li>
+<li>
+<p>Los datos a menudo se encuentran repartidos o en silos en muchos sistemas en diversos formatos. Logstash admite una variedad de entradas que extraen eventos de una multitud de fuentes comunes, todo al mismo tiempo. Ingesta fácilmente desde tus logs, métricas, aplicaciones web, almacenes de datos y varios servicios de AWS, todo de una manera de transmisión continua.  </p>
+</li>
+<li>
+<p>A medida que los datos viajan de la fuente al almacén, los filtros Logstash parsean cada evento, identifican los campos con nombre para crear la estructura y los transforman para que converjan en un formato común para un análisis y un valor comercial más poderosos.</p>
+</li>
+<li>
+<p>Logstash transforma y prepara de forma dinámica tus datos independientemente de su formato o complejidad:</p>
+<ul>
+<li>Deriva estructura a partir de datos no estructurados con grok</li>
+<li>Descifra las coordenadas geográficas a partir de las direcciones IP</li>
+<li>Anonimiza datos PII y excluye campos sensibles por completo</li>
+<li>Facilita el procesamiento general, independientemente de la fuente de datos, el formato o el esquema.</li>
+<li>Las posibilidades son infinitas con nuestra completa biblioteca de filtros y el versátil Elastic Common Schema.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/downloads/logstash">Descargar</a>  </p>
+<ul>
+<li><code>[isx46410800@miguel elasticStack]$ tar -zxvf logstash-7.14.0-linux-x86_64.tar.gz</code>  </li>
+<li>Creamos un fichero básico de conf, <code>example.conf</code> y ponemos:<br />
+```
+input {
+stdin{}
+}</li>
+</ul>
+<p>output {
+stdout {
+    codec =&gt; json_lines
+    }
+}
+<code>``  
++ Encendemos con</code>[isx46410800@miguel logstash-7.14.0]$ bin/logstash -f example.conf` y veremos que cuando arranca para introducir algo en por teclado y sale por pantalla.  </p>
+</li>
+</ul>
+<h3 id="elasticsearch">ELASTICSEARCH</h3>
+<ul>
+<li>
+<p>Elasticsearch es un motor de búsqueda y analítica de RESTful distribuido capaz de abordar un número creciente de casos de uso. Como núcleo del Elastic Stack, almacena de forma central tus datos para una búsqueda a la velocidad de la luz, relevancia refinada y analíticas poderosas que escalan con facilidad.  </p>
+</li>
+<li>
+<p>Elasticsearch te permite realizar y combinar muchos tipos de búsquedas: estructuradas, no estructuradas, geográficas, métricas, de la forma que desees. Comienza por lo más simple con una pregunta y observa a dónde te lleva.  </p>
+</li>
+<li>
+<p>Una cosa es encontrar los 10 mejores documentos que coincidan con tu búsqueda. Pero ¿cómo le das sentido, digamos, a mil millones de líneas de log? Las agregaciones de Elasticsearch te permiten obtener una vista más general para explorar tendencias y patrones en tus datos.  </p>
+</li>
+<li>
+<p>Resultados rápidos: Cuando obtienes respuestas al instante, la relación con tus datos cambia. Puedes permitirte iterar y cubrir más terreno.  </p>
+</li>
+<li>
+<p>Diseño poderoso: Ser así de rápido no es fácil. Hemos implementado índices invertidos con transductores de estado finito para búsquedas de texto completo, árboles de BKD para almacenar datos numéricos y geográficos, y un almacén de columnas para analíticas.  </p>
+</li>
+<li>
+<p>Todo incluido: Y como todo está indexado, nunca te quedarás con la envidia de la indexación. Puedes aprovechar y acceder a todos tus datos a velocidades ridículamente asombrosas.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/downloads/elasticsearch">Descargar</a>  </p>
+<ul>
+<li><code>[isx46410800@miguel elasticStack]$ tar -zxvf elasticsearch-7.14.0-linux-x86_64.tar.gz</code>  </li>
+<li>En config tenemos los fichero de configuración.  </li>
+<li>Arrancamos como <code>./bin/elasticsearch -d</code></li>
+<li>Hacemos una prueba con <code>curl localhost:9200</code> para probar el funcionamiento.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="kibana">KIBANA</h3>
+<ul>
+<li>
+<p>Kibana te da la libertad de seleccionar la manera en que les das forma a tus datos. Con sus visualizaciones interactivas, comienza con una pregunta y mira hacia dónde te lleva.  </p>
+</li>
+<li>
+<p>Kibana envía datos de forma central con los clásicos: histogramas, grafos de líneas, gráficos circulares, proyecciones solares y más. Y, por supuesto, puedes buscar en todos tus documentos.  </p>
+</li>
+<li>
+<p>Aprovecha Elastic Maps para explorar datos de ubicación o vuélvete creativo y visualiza capas y formas de vectores personalizadas.  </p>
+</li>
+<li>
+<p>Realiza un análisis avanzado de series temporales en tus datos de Elasticsearch con nuestras UI de series temporales seleccionadas. Describe búsquedas, transformaciones y visualizaciones con expresiones poderosas y fáciles de aprender.</p>
+</li>
+<li>
+<p>Detecta las anomalías que se esconden en tus datos de Elasticsearch y explora las propiedades que influyen significativamente en ellas con características de Machine Learning sin supervisión.  </p>
+</li>
+<li>
+<p>Toma las capacidades de relevancia de un motor de búsqueda, combínalas con la exploración de grafos y descubre las relaciones inusualmente comunes en tus datos de Elasticsearch.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/es/downloads/kibana">Descargar</a>  </p>
+<ul>
+<li><code>[isx46410800@miguel elasticStack]$ tar -zxvf kibana-7.14.0-linux-x86_64.tar.gz</code>  </li>
+<li>Editamos el <code>vim config/kibana.yaml</code> e indicamos que pueda escuchar de otros sitios y no solo de local <code>server.host: "0.0.0.0"</code> si estamos en otro host.  </li>
+<li>Para que funcione primero se tiene que arrancar elasticsearch y luego kibana.  </li>
+<li>Encendemos <code>[isx46410800@miguel kibana-7.14.0-linux-x86_64]$ ./bin/kibana</code>  </li>
+<li>Entramos en <code>http://localhost:5601</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="docker-elks">DOCKER ELKS</h3>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html">DOC</a>  </p>
+</li>
+<li>
+<p>Ejemplo de creación de `docker-compose.yaml:  </p>
+</li>
+</ul>
+<pre><code>version: '3.7'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - bootstrap.memory_lock=true
+      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;
+      - discovery.type=single-node
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.6.0
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.0
+    ports:
+      - 5601:5601
+</code></pre>
+
+<h3 id="prueba-funcionamiento">PRUEBA FUNCIONAMIENTO</h3>
+<ul>
+<li>Creamos un directorio de logs con un fichero básico <code>logs/example.log</code>:  </li>
+</ul>
+<pre><code>hello world
+bye bye
+hola mundo
+adios
+</code></pre>
+
+<ul>
+<li>
+<p>Editamos info en FILEBEAT:  </p>
+<ul>
+<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:<br />
+    ```<ul>
+<li>type: log</li>
+</ul>
+<h1 id="change-to-true-to-enable-this-input-configuration_1">Change to true to enable this input configuration.</h1>
+<p>enabled: true</p>
+<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths_1">Paths that should be crawled and fetched. Glob based paths.</h1>
+<p>paths:
+    - ../logs/example.log</p>
+<h1 id="outputelasticsearch_2">output.elasticsearch:</h1>
+<h1 id="array-of-hosts-to-connect-to_2">Array of hosts to connect to.</h1>
+<h1 id="hosts-localhost9200_2">hosts: ["localhost:9200"]</h1>
+<h1 id="protocol-either-http-default-or-https_1">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
+<h1 id="protocol-https_1">protocol: "https"</h1>
+<h1 id="authentication-credentials-either-api-key-or-usernamepassword_1">Authentication credentials - either API key or username/password.</h1>
+<h1 id="api_key-idapi_key_1">api_key: "id:api_key"</h1>
+<h1 id="username-elastic_1">username: "elastic"</h1>
+<h1 id="password-changeme_1">password: "changeme"</h1>
+<h1 id="-logstash-output-_1">------------------------------ Logstash Output -------------------------------</h1>
+<p>output.logstash:</p>
+<h1 id="the-logstash-hosts_1">The Logstash hosts</h1>
+<p>hosts: ["localhost:5044"]
+```  </p>
+</li>
+</ul>
+</li>
+<li>
+<p>Editamos info en LOGSTASH:  </p>
+<ul>
+<li>Creamos un fichero de conf personalizado con <code>test.yml</code>:<br />
+```
+input {
+beats {
+    port =&gt; 5044
+}
+}</li>
+</ul>
+<p>output {
+elasticsearch {
+    hosts =&gt; "localhost:9200"
+}
+}
+```  </p>
+</li>
+<li>
+<p>Arrancamos primero elasticsearch <code>[isx46410800@miguel elasticsearch-7.14.0]$ ./bin/elasticsearch -d</code>  </p>
+</li>
+<li>
+<p>Arrancamos KIBANA: <code>./bin/kibana</code></p>
+</li>
+<li>
+<p>Arrancamos LOGSTASH: <code>[isx46410800@miguel logstash-7.14.0]$ bin/logstash -f test.yml</code>  </p>
+</li>
+<li>
+<p>Arrancamos FILEBEAT: <code>[isx46410800@miguel filebeat-7.14.0-linux-x86_64]$ ./filebeat -c filebeat.yml</code>  </p>
+</li>
+<li>
+<p>Dirección: http://localhost:5601. Si entramos y vamos al apartado de Discover de Kibana veremos que tenemos un indice. Creamos uno de logsstah para que coincida con el que crea por defecto(logstash-*) y vemos el campo de timestamp.  </p>
+</li>
+<li>
+<p>Vemos ahora como se ha indexada 4 cosas, que corresponden a las 4 lineas del fichero de logs creado.  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/kibana1.png" />  </p>
+<ul>
+<li>Si ahora añadimos una nueva linea al documento, veremos como ahora se indexa 5 documentos a kibana <code>[isx46410800@miguel logs]$ echo "nueva linea introducida" &gt;&gt; example.log</code>. Si lo editamos con vim, entonces duplicaría las entradas como documento nuevo.</li>
+</ul>
+<p><img alt="" src="../images/kibana2.png" />  </p>
+<ul>
+<li>Si paramos filebeat y volvemos a arrancar, sigue el inode por la ultima linea leida, si queremos volver desde el principio o alguna linea en concreto tenemos que tocar el fichero en filebeat de data/registry</li>
+</ul>
+<h2 id="beats_1">BEATS</h2>
+<h3 id="metricbeats">METRICBEATS</h3>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/beats/metricbeat/current/index.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Sirve para que nos saque estadisticas del sistema, docker, etc  </p>
+</li>
+<li>
+<p>Se ha de configurar el fichero de <code>metricbeat.yml</code>. Primero nos indica los modulos que se van a cargar, activar la salida, importar los dashboards al kibana(descomentando la linea localhost)  </p>
+</li>
+<li>
+<p>Si ponemos <code>./metricbeat modules list</code> vemos los modulos activados y desactivados. Los modulos estan en su directorio modules.d.  </p>
+</li>
+<li>
+<p>Para validar una configuración se usa <code>./metricbeat test config -c metricbeat.yml</code>  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/metricbeat.png" /> </p>
+<ul>
+<li>Para activar otro modulo seria con la orden <code>./metricbeat modules enable docker</code> y en el yml podriamos poner un ejemplo como:  </li>
+</ul>
+<pre><code>- module: docker
+  metricsets:
+    - container
+    - cpu
+    - diskio
+    - event
+    - healthcheck
+    - info
+    - memory
+    - network
+    - network_summary
+  period: 10s
+  hosts: [&quot;unix:///var/run/docker.sock&quot;]
+</code></pre>
+
+<h3 id="packetbeat">PACKETBEAT</h3>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/beats/packetbeat/current/index.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Sirve para monitorizar la red entrante como saliente.  </p>
+</li>
+<li>
+<p>En el fichero de configuración cambiamos lo necesario en <code>./packetbeat.yml</code>.  </p>
+</li>
+<li>
+<p>Para los inputs en este fichero, debemos saber cual es la interfaz por la que queremos que escuche, podemos saberlo con <code>./packetbeat devices</code>.  </p>
+</li>
+<li>
+<p>Podemos comprobar si está bien el fichero con <code>./packetbeat test config -c packetbeat.yml</code>  </p>
+</li>
+<li>
+<p>Como no tenemos permisos suficientes para monitorizar la red de mi interfaz. hay que hacerlo como sudo o como root cambiando el fichero a root(chown root packetbeat.yml) y arrancamos con <code>sudo ./packetbeat -c packetbeat.yml</code>  </p>
+</li>
+</ul>
+<h3 id="heartbeat">HEARTBEAT</h3>
+<ul>
+<li>
+<p>Nos indica el estado de salud de los servicios que están corriendo. Podremos saber si algun servidor se ha caido, alguna base de datos, etc.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/beats/heartbeat/current/heartbeat-installation-configuration.html">DOCS</a>  </p>
+</li>
+<li>
+<p>El fichero de configuración está en heartbeat.yml </p>
+</li>
+<li>
+<p>Arrancamos con <code>./heartbeat -c heartbeat.yml</code>  </p>
+</li>
+</ul>
+<h3 id="filebeat">FILEBEAT</h3>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/beats/filebeat/current/index.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Filebeat es un cargador ligero para reenviar y centralizar datos de registro. Instalado como un agente en sus servidores, Filebeat monitorea los archivos de registro o las ubicaciones que usted especifica, recopila eventos de registro y los reenvía a Elasticsearch o Logstash para su indexación.  </p>
+</li>
+<li>
+<p>Utilizamos una herramienta para generar <a href="https://bitbucket.org/kuroobicoders/log-generator/downloads/">logs</a> y se usa <code>[isx46410800@miguel logs]$ java -jar log-generator-1.0.jar -h</code> como por ejemplo <code>java -jar log-generator-1.0.jar -l -1 -d 0</code>  </p>
+</li>
+<li>
+<p>Despues de crear unas trazas de logs para usarlos de ejemplo, modificamos el archivo de conf para indicar la ruta de los logs: <code>- ../logs/log-generator*.log</code>  </p>
+</li>
+<li>
+<p>Para probar quitamos los outputs y ponemos uno de consola:  </p>
+</li>
+</ul>
+<pre><code>output.console:
+    pretty: true
+</code></pre>
+
+<ul>
+<li>
+<p>Vamos probando con <code>java -jar log-generator-1.0.jar -l 20 -d 1000</code>  </p>
+</li>
+<li>
+<p>Excluimos lineas DEBUG:<br />
+<code>exclude_lines: ['^DEBUG']</code>  </p>
+</li>
+<li>
+<p>Hay grupos de lineas de traza en el log que no empiezan por DEBUG, INFO, TRACE...y contienen varias lineas que hace como si fuera un evento cada linea. Se ha de poner que sea solo un evento y se asigne al evento anterior. Esto se hace con expresiones regulares <a href="https://rubular.com/">HERRAMIENTA RUBULAR</a>  </p>
+</li>
+</ul>
+<pre><code># The regexp Pattern that has to be matched. The example pattern matches all lines starting with [
+multiline.pattern: ^(DEBUG|INFO|ERROR|TRACE|FATAL).*
+# Defines if the pattern set under pattern should be negated or not. Default isfalse.
+multiline.negate: true
+# Match can be set to &quot;after&quot; or &quot;before&quot;. It is used to define if lines should beappend to a pattern
+# that was (not) matched before or after or as long as a pattern is not matchedbased on negate.
+# Note: After is the equivalent to previous and before is the equivalent to to nextin Logstash
+multiline.match: after
+</code></pre>
+
+<blockquote>
+<p>Se indica que se niegue todo lo que empieze tal y tal y se añada al evento anterior  </p>
+</blockquote>
+<ul>
+<li>Vemos como ahora arrancando el filebeat y haciendo logs nos agrupa el log como hemos indicado:<br />
+<code>./filebeat -c filebeat.yml</code><br />
+<code>java -jar log-generator-1.0.jar -l 20 -d 1000</code>  </li>
+</ul>
+<pre><code>  &quot;log&quot;: {
+    &quot;offset&quot;: 1111503,
+    &quot;file&quot;: {
+      &quot;path&quot;: &quot;/home/isx46410800/Documents/elasticStack/logs/log-generator.log&quot;
+    },
+    &quot;flags&quot;: [
+      &quot;multiline&quot;
+    ]
+  },
+  &quot;message&quot;: &quot;ERROR 2021-08-25 02:08:16 [main] a.b.t.loggenerator.LogGenerator - Document not found|\njava.lang.Exception: Document not found\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.generateExceptionTrace(LogGenerator.kt:66)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.generateTraces(LogGenerator.kt:31)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt:17)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt)\n\tat com.xenomachina.argparser.SystemExitExceptionKt.mainBody(SystemExitException.kt:74)\n\tat com.xenomachina.argparser.SystemExitExceptionKt.mainBody$default(SystemExitException.kt:72)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.main(LogGenerator.kt:14)&quot;
+}
+</code></pre>
+
+<ul>
+<li>
+<p>Hay también modulos preconfigurados y podemos verlos en <code>./filebeat modules list</code> y para activar <code>./filebeat modules enable logstash system</code>.  </p>
+</li>
+<li>
+<p>Los podemos configurar en <code>vim modules.d/logstah.yml</code> y las rutas de log por defecto las tiene en <code>logs/logstash-plain.log</code>.  </p>
+</li>
+</ul>
+<pre><code>- module: logstash
+  # logs
+  log:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    var.paths: [&quot;/home/isx46410800/Documents/elasticStack/logstash-7.14.0/logs/logstash-plain.log&quot;]
+
+  # Slow logs
+  slowlog:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    var.paths: [&quot;/home/isx46410800/Documents/elasticStack/logstash-7.14.0/logs/logstash-slowlog-plain.log&quot;]
+</code></pre>
+
+<ul>
+<li>
+<p>Ahora activamos el setup de kibana, quitamos el output de antes y ponemos el de elasticsearch y activamos la monitorización.  </p>
+</li>
+<li>
+<p>En el filebeat_reference.yml vemos todo mas extenso y explicado.  </p>
+</li>
+<li>
+<p>Ahora preparamos el filebeat para poder tratarlo con logstash. Desactivamos los outputs y ponemos el de logstash, quitamos kibana y dejamos igual lo de los patterns y activamos los monitoring.  </p>
+</li>
+</ul>
+<h3 id="otros-beats">OTROS BEATS</h3>
+<ul>
+<li>
+<p>WINLOGBEAT sirve para monitorizar los sistemas windows.  </p>
+</li>
+<li>
+<p>AUDITBEAT sirve para monitorizar los sistemas linux.</p>
+</li>
+<li>
+<p>COMMUNITY BEATS son beats creados por la gente para diferentes productos y servicios. </p>
+</li>
+</ul>
+<h2 id="logstash_1">LOGSTASH</h2>
+<ul>
+<li>
+<p>De la info que hay en los beats, llega a logstash, la procesa y la enriquece de info extrayendo datos y en el caso de salida irá a elasticsearch aunque también la info se puede procesar a un fichero, email, naggios, redis, kafka, amazon etc.  </p>
+</li>
+<li>
+<p>Todo el proceso se llama PIPELINE (input -&gt; filter -&gt; output). También elastic hay un proceso más que se le puede llamar, el CODEC, que sirve para transformar la info en un formato en concreto, como por ejemplo en CODEC JSON, MULTILINE,etc.  </p>
+</li>
+</ul>
+<h3 id="inputs">INPUTS</h3>
+<h4 id="plugin-stdin">PLUGIN STDIN</h4>
+<ul>
+<li>
+<p>Sirve para indicar cual es el metodo de entrada. Normalmente usado para el testing y comprobar cosas de funcionamiento.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-stdin.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Un ejemplo básico de fichero de configuración seria una entrada por teclado basica y salida por pantalla en formato json:  </p>
+</li>
+</ul>
+<pre><code>input {
+  stdin{}
+}
+output {
+  stdout {
+    codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>arrancamos logstash con ./logstach -f example.conf y luego escribimos por pantalla y nos devuelve la salida en formato json.  </p>
+</blockquote>
+<ul>
+<li>Otro ejemplo es la entrada en multiline:  </li>
+</ul>
+<pre><code>input {
+  stdin{
+    codec =&gt; multiline {
+      pattern =&gt; &quot;fin&quot;
+      negate =&gt; &quot;true&quot;
+      what =&gt; &quot;next&quot;
+    }
+  }
+}
+output {
+  stdout {
+    codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>Esto hace que todo lo que se ponga en multilineas, hasta que no se escriba FIN, no termina el evento.  </p>
+</blockquote>
+<ul>
+<li>Tambien se le puede pasar la entrada en json y lo detecta como json y saca la salida del evento bien:  </li>
+</ul>
+<pre><code>input {
+  stdin{
+    codec =&gt; json_lines
+  }
+}
+output {
+  stdout {
+    codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="file-input">FILE INPUT</h4>
+<ul>
+<li>
+<p>Sirve para poner un input de tipo archivo.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Ejemplo donde se le pasa las trazas de log, indicando que lea desde el principio, y donde guarde el puntero desde donde ha acabado de leer(logs/log-generator.sincedb), donde el nombre se indica en el fichero de conf.  </p>
+</li>
+<li>
+<p>Para comprobar el fichero de conf se usa <code>./bin/logstash -t -f example.conf</code>  </p>
+</li>
+</ul>
+<pre><code>input {
+  file {
+    path =&gt; &quot;/home/isx46410800/Documents/elasticStack/logstash-7.14.0/logs/log-generator*.log&quot;
+    #excluse =&gt; &quot;*.gz&quot; //para excluir archivos .gz
+    start_position =&gt; &quot;beginning&quot; # o end
+    sincedb_path =&gt; &quot;/home/isx46410800/Documents/elasticStack/logstash-7.14.0/logs/log-generator.sincedb&quot;
+    codec =&gt; multiline {
+      pattern =&gt; &quot;^(DEBUG|INFO|ERROR|TRACE|FATAL|WARN).*&quot;
+      negate =&gt; &quot;true&quot;
+      what =&gt; &quot;previous&quot;
+    }
+  }
+}
+output {
+  stdout {
+    codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="beats-input">BEATS INPUT</h4>
+<ul>
+<li>
+<p>Es un pequeño agente que instalamos en los servidores y que nos permite el envío de datos recolectados en nuestro servidor a un procesador (Logstash) o directamente al repositorio (Elasticsearch.  Cabe destacar que existen distintos tipos de Beats, según nuestra necesidad: FileBeat (para el envío de logs/ficheros), WinLogBeat (envío de eventos en un servidor Windows), MetricBeat (envío de métricas), etc.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-beats.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Como vemos en la configuracion de <code>filebeat.yml</code> vemos cual es el puerto de salida para logstash:  </p>
+</li>
+</ul>
+<pre><code>output.logstash:
+  # The Logstash hosts
+  hosts: [&quot;localhost:5044&quot;]
+</code></pre>
+
+<ul>
+<li>Lo que hacemos es que desde la conf de beats está indicado de donde coge logs(log-generator) y lo envia de salida a logstash para que lo proceso y veremos por pantalla todo lo que va saliendo mientras vamos haciendo trazas:  </li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>Arrancamos primero filebeat con <code>./filebeat -c filebeat.yml</code> y luego logstash con el nuevo fichero de conf <code>./bin/logstash -f beats.conf</code>  </p>
+</blockquote>
+<h3 id="filters">FILTERS</h3>
+<h4 id="filter-grok">FILTER GROK</h4>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Nos sirve para poder ir recortando los campos con diferentes patrones de expresiones regulares. Podemos encontrarlo en el apartado de kibana -&gt; dev tools -&gt; grok debugger o directamente hay una web que hace los mismo y nos indican chuletas de patterns de <a href="https://grokdebug.herokuapp.com/">grok</a>  </p>
+</li>
+<li>
+<p>Cogemos este evento y vemos como lo traducimos con un pattern:<br />
+<code>INFO 2021-08-25 21:23:57 [main] a.b.t.loggenerator.LogGenerator - LOGIN|150|Filemon|180.86.181.252</code><br />
+PATTERN: <code>%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}</code>  </p>
+</li>
+<li>
+<p>Cogemos este evento y vemos como lo traducimos con un pattern:<br />
+<code>INFO 2021-08-25 21:23:55 [main] a.b.t.loggenerator.LogGenerator - PERFORMANCE|3.37|SEND EMAIL|FAILURE|Pantuflo</code><br />
+PATTERN: <code>%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}</code>  </p>
+</li>
+<li>
+<p>Cogemos este evento y vemos como lo traducimos con un pattern:  </p>
+</li>
+</ul>
+<pre><code>ERROR 2021-08-25 21:24:02 [main] a.b.t.loggenerator.LogGenerator - User can not be null. Can not fetch information from the database|
+java.lang.Exception: User can not be null. Can not fetch information from the database
+    at am.ballesteros.training.loggenerator.LogGeneratorKt.generateExceptionTrace(LogGenerator.kt:66)
+    at am.ballesteros.training.loggenerator.LogGeneratorKt.generateTraces(LogGenerator.kt:31)
+    at am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt:17)
+    at am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt)
+    at com.xenomachina.argparser.SystemExitExceptionKt.mainBody(SystemExitException.kt:74)
+    at com.xenomachina.argparser.SystemExitExceptionKt.mainBody$default(SystemExitException.kt:72)
+    at am.ballesteros.training.loggenerator.LogGeneratorKt.main(LogGenerator.kt:14)
+</code></pre>
+
+<p>PATTERN: <code>(?m)%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{DATA:description}\|%{GREEDYDATA:stacktrace}</code><br />
+EXPRESION REGULAR: <code>(?m)%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{DATA:description}\|(?&lt;stacktrace&gt;.*)</code>  </p>
+<ul>
+<li>
+<p>Tambien podemos crear PATTERNS propios como por ejemplo algo que se repite mucho, en nuestro caso se repite esto <code>%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} -</code>.  </p>
+</li>
+<li>
+<p>Se crea en custom patterns o en fichero aparte:<br />
+<code>COMMON_LOG %{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} -</code><br />
+PATTERN: <code>(?m)%{COMMON_LOG} %{DATA:description}\|(?&lt;stacktrace&gt;.*)</code>  </p>
+</li>
+<li>
+<p>El fichero de configuración de FILEBEAT sin la variable de pattern quedaría:  </p>
+</li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+filter {
+    grok {
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;},
+            &quot;%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]
+        }
+    }
+}
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<ul>
+<li>Con la variable en un directorio <code>patterns</code> y en un fichero <code>log-generator-patterns</code>:<br />
+<code>COMMON_LOG %{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} -</code>  </li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+filter {
+    grok {
+        patterns_dir =&gt; &quot;patterns&quot;
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;,
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{COMMON_LOG} %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]}
+    }
+}
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="filter-mutate">FILTER MUTATE</h4>
+<ul>
+<li>
+<p>Sirve para cambiar campos, eliminar, copiar, pasar a mayusculas, dividir un campo en varios,etc.  </p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html">DOC</a>  </p>
+</li>
+<li>
+<p>En este caso vamos a cambiar tipos de campo de string a number, añadir campos, conficionales...  </p>
+</li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+
+filter {
+    grok {
+        patterns_dir =&gt; &quot;patterns&quot;
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;,
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{COMMON_LOG} %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]}
+    }
+
+    mutate {
+        convert =&gt; {&quot;duration&quot; =&gt; &quot;float&quot;} #en grok se puede poner %{NUMBER:duration:int}
+        remove_field =&gt; [&quot;message&quot;, &quot;prospector&quot;, &quot;input&quot;]
+    }
+
+    if ![type] {
+        mutate {
+            add_field =&gt; {&quot;type&quot; =&gt; &quot;JAVA_ERROR&quot;} #XK CUANDO NO SALE ESTE CAMPO, SON ERRORES
+        }
+    }
+
+    if [type] == &quot;LOGIN&quot; {
+        mutate {
+            convert =&gt; {&quot;status&quot; =&gt; &quot;integer&quot;}
+            add_field =&gt; {&quot;login&quot; =&gt; true}
+        }
+        if [status] &gt; 300 {
+            mutate {
+                replace =&gt; {&quot;login&quot; =&gt; false}
+            }
+        }
+    }
+}
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>en grok se puede poner %{NUMBER:duration:int/float}, solo en estos tipos.  </p>
+</blockquote>
+<h4 id="filter-date">FILTER DATE</h4>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-date.html">DOCS</a>  </p>
+</li>
+<li>
+<p>En este caso renombramos el campo timestamp para no confundir con la fecha del log, y la fecha del log le cambiamos el formato con el filter date:  </p>
+</li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+
+filter {
+    grok {
+        patterns_dir =&gt; &quot;patterns&quot;
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;,
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{COMMON_LOG} %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]}
+    }
+
+    mutate {
+        convert =&gt; {&quot;duration&quot; =&gt; &quot;float&quot;} #en grok se puede poner %{NUMBER:duration:int}
+        remove_field =&gt; [&quot;message&quot;, &quot;prospector&quot;, &quot;input&quot;]
+        rename =&gt; {&quot;@timestamp&quot; =&gt; &quot;processTime&quot;}
+    }
+
+    if ![type] {
+        mutate {
+            add_field =&gt; {&quot;type&quot; =&gt; &quot;JAVA_ERROR&quot;} #XK CUANDO NO SALE ESTE CAMPO, SON ERRORES
+        }
+    }
+
+    if [type] == &quot;LOGIN&quot; {
+        mutate {
+            convert =&gt; {&quot;status&quot; =&gt; &quot;integer&quot;}
+            add_field =&gt; {&quot;login&quot; =&gt; true}
+        }
+        if [status] &gt; 300 {
+            mutate {
+                replace =&gt; {&quot;login&quot; =&gt; false}
+            }
+        }
+    }
+
+    date {
+        match =&gt; [&quot;date&quot;, &quot;YYYY-MM-dd HH:mm:ss&quot;]
+    }
+}
+
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="filter-translate">FILTER TRANSLATE</h4>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-translate.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Nos permite hacer traducciones de codigos o informaciones indexando bien la información.  </p>
+</li>
+<li>
+<p>En este caso en el campo login añadimos traducciones segun el codigo que nos den:  </p>
+</li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+
+filter {
+    grok {
+        patterns_dir =&gt; &quot;patterns&quot;
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;,
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{COMMON_LOG} %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]}
+    }
+
+    mutate {
+        convert =&gt; {&quot;duration&quot; =&gt; &quot;float&quot;} #en grok se puede poner %{NUMBER:duration:int}
+        remove_field =&gt; [&quot;message&quot;, &quot;prospector&quot;, &quot;input&quot;]
+        rename =&gt; {&quot;@timestamp&quot; =&gt; &quot;processTime&quot;}
+    }
+
+    if ![type] {
+        mutate {
+            add_field =&gt; {&quot;type&quot; =&gt; &quot;JAVA_ERROR&quot;} #XK CUANDO NO SALE ESTE CAMPO, SON ERRORES
+        }
+    }
+
+    if [type] == &quot;LOGIN&quot; {
+        mutate {
+            convert =&gt; {&quot;status&quot; =&gt; &quot;integer&quot;}
+            add_field =&gt; {&quot;login&quot; =&gt; true}
+        }
+        if [status] &gt; 300 {
+            mutate {
+                replace =&gt; {&quot;login&quot; =&gt; false}
+            }
+        }
+        translate {
+            field =&gt; &quot;status&quot;
+            destination =&gt; &quot;statusText&quot;
+            dictionary =&gt; {
+                &quot;200&quot; =&gt; &quot;Login correcto&quot;
+                &quot;201&quot; =&gt; &quot;Login correcto tras varios intentos&quot;
+                &quot;202&quot; =&gt; &quot;Login con actualización de password&quot;
+                &quot;204&quot; =&gt; &quot;login automatico&quot;
+                &quot;250&quot; =&gt; &quot;Login recordado&quot;
+                &quot;100&quot; =&gt; &quot;Usuario suplantado&quot;
+                &quot;150&quot; =&gt; &quot;Usuario suplantado automaticamente&quot;
+                &quot;400&quot; =&gt; &quot;Usuario bloqeuado&quot;
+                &quot;404&quot; =&gt; &quot;Usuario no encontrado&quot;
+                &quot;500&quot; =&gt; &quot;Contraseña expirada&quot;
+            }
+        }
+    }
+
+    date {
+        match =&gt; [ &quot;date&quot;, &quot;YYYY-MM-dd HH:mm:ss&quot; ]
+    }
+}
+
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="filter-geolp">FILTER GEOLP</h4>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-geoip.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Nos indica info de geolocalización de la red, ips.  </p>
+</li>
+<li>
+<p>En este caso se los añadimos a los de login para ver donde para su ip:  </p>
+</li>
+</ul>
+<pre><code>input {
+  beats { 
+    port =&gt; 5044
+    #hosts =&gt; 0.0.0.0
+  }
+}
+
+filter {
+    grok {
+        patterns_dir =&gt; &quot;patterns&quot;
+        match =&gt; {&quot;message&quot; =&gt; [
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:status}\|%{USERNAME:user}\|%{IP:ip}&quot;,
+            &quot;%{COMMON_LOG} %{WORD:type}\|%{NUMBER:duration}\|%{DATA:action}\|%{WORD:status}\|%{USERNAME:user}&quot;,
+            &quot;(?m)%{COMMON_LOG} %{DATA:description}\|%{GREEDYDATA:stacktrace}&quot;
+        ]}
+    }
+
+    mutate {
+        convert =&gt; {&quot;duration&quot; =&gt; &quot;float&quot;} #en grok se puede poner %{NUMBER:duration:int}
+        remove_field =&gt; [&quot;message&quot;, &quot;prospector&quot;, &quot;input&quot;]
+        rename =&gt; {&quot;@timestamp&quot; =&gt; &quot;processTime&quot;}
+    }
+
+    if ![type] {
+        mutate {
+            add_field =&gt; {&quot;type&quot; =&gt; &quot;JAVA_ERROR&quot;} #XK CUANDO NO SALE ESTE CAMPO, SON ERRORES
+        }
+    }
+
+    if [type] == &quot;LOGIN&quot; {
+        mutate {
+            convert =&gt; {&quot;status&quot; =&gt; &quot;integer&quot;}
+            add_field =&gt; {&quot;login&quot; =&gt; true}
+        }
+        if [status] &gt; 300 {
+            mutate {
+                replace =&gt; {&quot;login&quot; =&gt; false}
+            }
+        }
+        translate {
+            field =&gt; &quot;status&quot;
+            destination =&gt; &quot;statusText&quot;
+            dictionary =&gt; {
+                &quot;200&quot; =&gt; &quot;Login correcto&quot;
+                &quot;201&quot; =&gt; &quot;Login correcto tras varios intentos&quot;
+                &quot;202&quot; =&gt; &quot;Login con actualización de password&quot;
+                &quot;204&quot; =&gt; &quot;login automatico&quot;
+                &quot;250&quot; =&gt; &quot;Login recordado&quot;
+                &quot;100&quot; =&gt; &quot;Usuario suplantado&quot;
+                &quot;150&quot; =&gt; &quot;Usuario suplantado automaticamente&quot;
+                &quot;400&quot; =&gt; &quot;Usuario bloqeuado&quot;
+                &quot;404&quot; =&gt; &quot;Usuario no encontrado&quot;
+                &quot;500&quot; =&gt; &quot;Contraseña expirada&quot;
+            }
+        }
+        geoip {
+            source =&gt; &quot;ip&quot;
+        }
+    }
+
+    date {
+        match =&gt; [ &quot;date&quot;, &quot;YYYY-MM-dd HH:mm:ss&quot; ]
+    }
+}
+
+output {
+  stdout {
+    #codec =&gt; json_lines
+  }
+}
+</code></pre>
+
+<h4 id="filter-ruby">FILTER RUBY</h4>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-ruby.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Logstash está escrito en RUBY. Es el plugin más polivalente ya que con este podemos hacer todo lo que hacen el resto de plugins.  </p>
+</li>
+<li>
+<p>Un ejemplo:  </p>
+</li>
+</ul>
+<pre><code>input {
+  stdin {
+    codec =&gt;
+  }
+}
+
+filter {
+  ruby {
+    code =&gt; &quot;
+      event.set('name_normalized', event.get('name').gsub('ñ', 'n'))
+
+      total_in_seconds = 0:
+      event.get('total').split(':').each_with_index do [v, i]
+        if i == 0
+          total_in_seconds += v.to_i * 3600;
+        elsif i == 1
+          total_in_seconds += v.to_i * 60;
+        elsif i == 2
+          total_in_seconds += v.to_i;
+        end
+      end
+
+      event.set('total', total_in_seconds);
+    &quot;
+  }
+}
+
+output {
+  stdout {}
+}
+
+## { &quot;total&quot;: &quot;00:00:00&quot;, &quot;name&quot;: &quot;Nombre&quot;, &quot;equipo&quot;: &quot;Equipo&quot;}
+## convertir en segundos el tiempo y quitar las Ñ de los nombres
+</code></pre>
+
+<h4 id="otros-filters">OTROS FILTERS</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html">DOCS</a>  </li>
+</ul>
+<h3 id="outputs_1">OUTPUTS</h3>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-stdout.html">DOCS</a>  </li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../azure/" class="btn btn-neutral float-right" title="Azure">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../tomcat/" class="btn btn-neutral" title="Tomcat"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../tomcat/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../azure/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

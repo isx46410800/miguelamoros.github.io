@@ -30,43 +30,43 @@
 + [Descargar](https://www.elastic.co/es/downloads/beats/metricbeat)  
     + `[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ tar -zxvf metricbeat-7.14.0-linux-x86_64.tar.gz`  
     + Abrimos el fichero de conf metricbeat.yaml, comentamos el apartado del output elasticsearch y le ponemos por ahora uno basico de consola:  
-    ```
-    # ================================== Outputs ===================================
-    # Configure what output to use when sending the data collected by the beat.
-    output.console:
-    pretty: true
-    # ---------------------------- Elasticsearch Output ----------------------------
-    #output.elasticsearch:
-    # Array of hosts to connect to.
-    #hosts: ["localhost:9200"]
-    ```  
+```
+# ================================== Outputs ===================================
+# Configure what output to use when sending the data collected by the beat.
+output.console:
+pretty: true
+# ---------------------------- Elasticsearch Output ----------------------------
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: ["localhost:9200"]
+```  
     + Lo encendemos con `[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ ./metricbeat -c metricbeat.yml`  
 
 
 + [Descargar](https://www.elastic.co/es/downloads/beats/filebeat)  
     + `[isx46410800@miguel elasticStack]$ tar -zxvf filebeat-7.14.0-linux-x86_64.tar.gz`  
     + En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:  
-    ```
-    - type: log
-    # Change to true to enable this input configuration.
-    enabled: true
-    # Paths that should be crawled and fetched. Glob based paths.
-    paths:
-        - ../logs/example.log
-    #output.elasticsearch:
-    # Array of hosts to connect to.
-    #hosts: ["localhost:9200"]
-    # Protocol - either `http` (default) or `https`.
-    #protocol: "https"
-    # Authentication credentials - either API key or username/password.
-    #api_key: "id:api_key"
-    #username: "elastic"
-    #password: "changeme"
-    # ------------------------------ Logstash Output -------------------------------
-    output.logstash:
-    # The Logstash hosts
-    hosts: ["localhost:5044"]
-    ```  
+```
+- type: log
+# Change to true to enable this input configuration.
+enabled: true
+# Paths that should be crawled and fetched. Glob based paths.
+paths:
+    - ../logs/example.log
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: ["localhost:9200"]
+# Protocol - either `http` (default) or `https`.
+#protocol: "https"
+# Authentication credentials - either API key or username/password.
+#api_key: "id:api_key"
+#username: "elastic"
+#password: "changeme"
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+# The Logstash hosts
+hosts: ["localhost:5044"]
+```  
     + Se arranca con `./filebeat`  
 
 

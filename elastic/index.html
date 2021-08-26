@@ -110,6 +110,16 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#beats">BEATS</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#logstash">LOGSTASH</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#elasticsearch">ELASTICSEARCH</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kibana">KIBANA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#docker-elks">DOCKER ELKS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prueba-funcionamiento">PRUEBA FUNCIONAMIENTO</a>
+    </li>
         </ul>
     </li>
     </ul>
@@ -249,50 +259,52 @@
 <p><a href="https://www.elastic.co/es/downloads/beats/metricbeat">Descargar</a>  </p>
 <ul>
 <li><code>[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ tar -zxvf metricbeat-7.14.0-linux-x86_64.tar.gz</code>  </li>
-<li>Abrimos el fichero de conf metricbeat.yaml, comentamos el apartado del output elasticsearch y le ponemos por ahora uno basico de consola:<br />
-```</li>
+<li>Abrimos el fichero de conf metricbeat.yaml, comentamos el apartado del output elasticsearch y le ponemos por ahora uno basico de consola:  </li>
 </ul>
-<h1 id="outputs">================================== Outputs ===================================</h1>
-<h1 id="configure-what-output-to-use-when-sending-the-data-collected-by-the-beat">Configure what output to use when sending the data collected by the beat.</h1>
-<p>output.console:
-pretty: true</p>
-<h1 id="-elasticsearch-output-">---------------------------- Elasticsearch Output ----------------------------</h1>
-<h1 id="outputelasticsearch">output.elasticsearch:</h1>
-<h1 id="array-of-hosts-to-connect-to">Array of hosts to connect to.</h1>
-<h1 id="hosts-localhost9200">hosts: ["localhost:9200"]</h1>
-<p><code>``  
-+ Lo encendemos con</code>[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ ./metricbeat -c metricbeat.yml`  </p>
 </li>
-<li>
-<p><a href="https://www.elastic.co/es/downloads/beats/filebeat">Descargar</a>  </p>
+</ul>
+<pre><code># ================================== Outputs ===================================
+# Configure what output to use when sending the data collected by the beat.
+output.console:
+pretty: true
+# ---------------------------- Elasticsearch Output ----------------------------
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: [&quot;localhost:9200&quot;]
+</code></pre>
+
+<pre><code>+ Lo encendemos con `[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ ./metricbeat -c metricbeat.yml`
+</code></pre>
 <ul>
+<li><a href="https://www.elastic.co/es/downloads/beats/filebeat">Descargar</a>  <ul>
 <li><code>[isx46410800@miguel elasticStack]$ tar -zxvf filebeat-7.14.0-linux-x86_64.tar.gz</code>  </li>
-<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:<br />
-```</li>
-<li>type: log</li>
+<li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:  </li>
 </ul>
-<h1 id="change-to-true-to-enable-this-input-configuration">Change to true to enable this input configuration.</h1>
-<p>enabled: true</p>
-<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths">Paths that should be crawled and fetched. Glob based paths.</h1>
-<p>paths:
-    - ../logs/example.log</p>
-<h1 id="outputelasticsearch_1">output.elasticsearch:</h1>
-<h1 id="array-of-hosts-to-connect-to_1">Array of hosts to connect to.</h1>
-<h1 id="hosts-localhost9200_1">hosts: ["localhost:9200"]</h1>
-<h1 id="protocol-either-http-default-or-https">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
-<h1 id="protocol-https">protocol: "https"</h1>
-<h1 id="authentication-credentials-either-api-key-or-usernamepassword">Authentication credentials - either API key or username/password.</h1>
-<h1 id="api_key-idapi_key">api_key: "id:api_key"</h1>
-<h1 id="username-elastic">username: "elastic"</h1>
-<h1 id="password-changeme">password: "changeme"</h1>
-<h1 id="-logstash-output-">------------------------------ Logstash Output -------------------------------</h1>
-<p>output.logstash:</p>
-<h1 id="the-logstash-hosts">The Logstash hosts</h1>
-<p>hosts: ["localhost:5044"]
-<code>``  
-+ Se arranca con</code>./filebeat`  </p>
 </li>
 </ul>
+<pre><code>- type: log
+# Change to true to enable this input configuration.
+enabled: true
+# Paths that should be crawled and fetched. Glob based paths.
+paths:
+    - ../logs/example.log
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: [&quot;localhost:9200&quot;]
+# Protocol - either `http` (default) or `https`.
+#protocol: &quot;https&quot;
+# Authentication credentials - either API key or username/password.
+#api_key: &quot;id:api_key&quot;
+#username: &quot;elastic&quot;
+#password: &quot;changeme&quot;
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+# The Logstash hosts
+hosts: [&quot;localhost:5044&quot;]
+</code></pre>
+
+<pre><code>+ Se arranca con `./filebeat`
+</code></pre>
 <h3 id="logstash">LOGSTASH</h3>
 <ul>
 <li>
@@ -450,23 +462,23 @@ adios
     ```<ul>
 <li>type: log</li>
 </ul>
-<h1 id="change-to-true-to-enable-this-input-configuration_1">Change to true to enable this input configuration.</h1>
+<h1 id="change-to-true-to-enable-this-input-configuration">Change to true to enable this input configuration.</h1>
 <p>enabled: true</p>
-<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths_1">Paths that should be crawled and fetched. Glob based paths.</h1>
+<h1 id="paths-that-should-be-crawled-and-fetched-glob-based-paths">Paths that should be crawled and fetched. Glob based paths.</h1>
 <p>paths:
     - ../logs/example.log</p>
-<h1 id="outputelasticsearch_2">output.elasticsearch:</h1>
-<h1 id="array-of-hosts-to-connect-to_2">Array of hosts to connect to.</h1>
-<h1 id="hosts-localhost9200_2">hosts: ["localhost:9200"]</h1>
-<h1 id="protocol-either-http-default-or-https_1">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
-<h1 id="protocol-https_1">protocol: "https"</h1>
-<h1 id="authentication-credentials-either-api-key-or-usernamepassword_1">Authentication credentials - either API key or username/password.</h1>
-<h1 id="api_key-idapi_key_1">api_key: "id:api_key"</h1>
-<h1 id="username-elastic_1">username: "elastic"</h1>
-<h1 id="password-changeme_1">password: "changeme"</h1>
-<h1 id="-logstash-output-_1">------------------------------ Logstash Output -------------------------------</h1>
+<h1 id="outputelasticsearch">output.elasticsearch:</h1>
+<h1 id="array-of-hosts-to-connect-to">Array of hosts to connect to.</h1>
+<h1 id="hosts-localhost9200">hosts: ["localhost:9200"]</h1>
+<h1 id="protocol-either-http-default-or-https">Protocol - either <code>http</code> (default) or <code>https</code>.</h1>
+<h1 id="protocol-https">protocol: "https"</h1>
+<h1 id="authentication-credentials-either-api-key-or-usernamepassword">Authentication credentials - either API key or username/password.</h1>
+<h1 id="api_key-idapi_key">api_key: "id:api_key"</h1>
+<h1 id="username-elastic">username: "elastic"</h1>
+<h1 id="password-changeme">password: "changeme"</h1>
+<h1 id="-logstash-output-">------------------------------ Logstash Output -------------------------------</h1>
 <p>output.logstash:</p>
-<h1 id="the-logstash-hosts_1">The Logstash hosts</h1>
+<h1 id="the-logstash-hosts">The Logstash hosts</h1>
 <p>hosts: ["localhost:5044"]
 ```  </p>
 </li>
@@ -1285,7 +1297,7 @@ output {
 <ul>
 <li><a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html">DOCS</a>  </li>
 </ul>
-<h3 id="outputs_1">OUTPUTS</h3>
+<h3 id="outputs">OUTPUTS</h3>
 <ul>
 <li><a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-stdout.html">DOCS</a>  </li>
 </ul>

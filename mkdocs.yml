@@ -17,6 +17,7 @@ nav:
         - Jenkins: jenkins.md
         - Ansible: ansible.md
         - Tomcat: tomcat.md
+        - ELKS: elastic.md
         - Azure: azure.md
         - Office 365: office.md
         - Markdown: markdown.md

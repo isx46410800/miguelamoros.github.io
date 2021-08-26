@@ -191,27 +191,27 @@ adios
 
 + Editamos info en FILEBEAT:  
     + En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:  
-        ```
-        - type: log
-        # Change to true to enable this input configuration.
-        enabled: true
-        # Paths that should be crawled and fetched. Glob based paths.
-        paths:
-            - ../logs/example.log
-        #output.elasticsearch:
-        # Array of hosts to connect to.
-        #hosts: ["localhost:9200"]
-        # Protocol - either `http` (default) or `https`.
-        #protocol: "https"
-        # Authentication credentials - either API key or username/password.
-        #api_key: "id:api_key"
-        #username: "elastic"
-        #password: "changeme"
-        # ------------------------------ Logstash Output -------------------------------
-        output.logstash:
-        # The Logstash hosts
-        hosts: ["localhost:5044"]
-        ```  
+```
+- type: log
+# Change to true to enable this input configuration.
+enabled: true
+# Paths that should be crawled and fetched. Glob based paths.
+paths:
+    - ../logs/example.log
+#output.elasticsearch:
+# Array of hosts to connect to.
+#hosts: ["localhost:9200"]
+# Protocol - either `http` (default) or `https`.
+#protocol: "https"
+# Authentication credentials - either API key or username/password.
+#api_key: "id:api_key"
+#username: "elastic"
+#password: "changeme"
+# ------------------------------ Logstash Out-------------------------------
+output.logstash:
+# The Logstash hosts
+hosts: ["localhost:5044"]
+```  
 
 + Editamos info en LOGSTASH:  
     + Creamos un fichero de conf personalizado con `test.yml`:  

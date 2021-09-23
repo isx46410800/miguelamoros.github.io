@@ -530,24 +530,24 @@ hosts: [&quot;localhost:5044&quot;]
 </code></pre>
 
 <ul>
-<li>
-<p>Editamos info en LOGSTASH:  </p>
-<ul>
-<li>Creamos un fichero de conf personalizado con <code>test.yml</code>:<br />
-```
-input {
+<li>Editamos info en LOGSTASH:  <ul>
+<li>Creamos un fichero de conf personalizado con <code>test.yml</code>:  </li>
+</ul>
+</li>
+</ul>
+<pre><code>input {
 beats {
     port =&gt; 5044
 }
-}</li>
-</ul>
-<p>output {
+
+output {
 elasticsearch {
-    hosts =&gt; "localhost:9200"
+    hosts =&gt; &quot;localhost:9200&quot;
 }
 }
-```  </p>
-</li>
+</code></pre>
+
+<ul>
 <li>
 <p>Arrancamos primero elasticsearch <code>[isx46410800@miguel elasticsearch-7.14.0]$ ./bin/elasticsearch -d</code>  </p>
 </li>

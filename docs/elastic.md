@@ -924,10 +924,417 @@ output {
 
 + [DOCS](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-stdout.html)  
 
++ Combinando configuraciones de la que se entra por pantalla o por la que entra del log generator.  
+```
+input {
+	stdin {
+		codec => json
+		add_field => {"application" => "results"}
+		id => "stdin-input-results"
+	}
+
+	#file {
+	#	path => "/Users/ballesterosam/Personal/training/elasticstack/logs/log-generator*.log"
+		#exclude => "*.gz"
+	#	start_position => "beginning"
+	#	sincedb_path => "/Users/ballesterosam/Personal/training/elasticstack/logs/log-generator.sincedb"
+	#	codec => multiline {
+	#		pattern => "^(DEBUG|INFO|ERROR|TRACE|FATAL|WARN).*"
+	#		negate => "true"
+	#		what => "previous"
+	#	}
+	#}
+}
+
+filter {
+	if [application] == "results" {
+		ruby {
+			code => "
+				event.set('name_normalized', event.get('name').gsub('ñ', 'n'));
+
+				total_in_seconds = 0;
+				event.get('total').split(':').each_with_index do |v, i|
+					if i == 0
+						total_in_seconds += v.to_i * 3600;
+					elsif i == 1
+						total_in_seconds += v.to_i * 60;
+					elsif i == 2
+						total_in_seconds += v.to_i;
+					end
+				end
+
+				event.set('total', total_in_seconds);
+			"
+			id => "parse-total"
+		}
+	}
+}
+
+output {
+	if [application] == "results" {
+		stdout {
+			#codec => json_lines
+			id => "stdout-results"
+		}
+	}
+}
+```  
+
+## ELASTICSEARCH  
+
++ [DOC](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html)  
+
++ Vamos a kibana -> dev tools  
+
++ Ejemplos de entradas que buscar:  
+  + GET _nodes/(nombre de nodo si hay mas)  
+  + GET /_cluster/allocation/explain {
+    "index": "nombre_indice",
+    "shard": 0,
+    "primary": true
+  }  
+  + GET _cat/shards?v  
+  + GET _cat/nodes?v  
+  + GET _cat/health?v  
+  + PUT new-index {
+    "settings": {
+      "index": {
+        "number_of_shards:" 2,
+        "number_of_replicas: 1
+      }
+    }
+  }  
+  + DELETE new-index  
+  + PUT employees/_doc/ {
+    "name": "tyler",
+    "surname": "lopex",
+    "job": "IT"
+  }  
+  + POST employees/_doc/ {
+    "name": "tyler",
+    "surname": "lopex",
+    "job": "IT"
+  }  
+  + GET employees/_doc/2  
+  + GET employees/_search {
+    "query": {"match": {
+      "name": "tyler"
+    }}
+  }
+  + GET log-generator-*/_search {
+    "query": {"match": {
+      "type": "JAVA_ERROR"
+    }}
+  }
+  + GET employees/_search {
+    "query": {"match_all"}: {}
+  }
+
+
++ Ejemplo de [full query text](https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html)  
+  + GET /log-generator-*/_search {
+    "query": {
+      "match": {
+        "slackrace": {
+          "query": "User not found",
+          "operation": "and"
+        }
+      }
+    }
+  }  
+  + GET /log-generator-*/_search {
+    "query": {
+      "multimatch": {
+          "query": "STMP,
+          "fields": ["stackrace","type"]
+        }
+      }
+  }  
+
++ Ejemplo de [term queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html)  
+  + GET /log-generator-*/_search {
+      "query": {
+        "term": {
+            "stackrace": "User not found",
+      }
+    }
+    }  
+
++ Ejemplo de [boolean queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html)  
+  + GET log-generator-*/_search
+  {
+    "query": {
+      "bool" : {
+        "must" : [
+          {"term" : { "type" : "LOGIN" }},
+          {"match" : { "responseText" : "bloqueado" }}
+        ],
+        "minimum_should_match" : 1,
+        "should" : [
+          { "term" : { "user" : "Carpanta" } },
+          { "term" : {
+            "user": {
+              "value": "SuperLopez",
+              "boost": 2
+            }
+          }}
+          { "term" : { "user" : "Conan" } },
+          { "term" : { "user" : "Irongisg" } }
+        ],
+        "must_not": [
+          { "term" : { "geoip" : "Japon" } }
+        ]
+      }
+    }
+  }  
+
++ Ejemplo de [geo distance queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-distance-query.html)  
+  + GET log-generator-*/_search
+    {
+      "query": {
+        "bool" : {
+          "must" : [
+            {"term" : { "type" : "LOGIN" }},
+            {"match" : { "responseText" : "bloqueado" }}
+          ],
+          "must_not": [
+            { "term" : { "geoip" : "Japon" } }
+          ],
+          "filter": [
+            { "term" : { "geoip" : "EU" } },
+            {"geo_distance": {
+              "distance": "1000km",
+              "geoip.location": {
+                "lat": 40,
+                "lon": -3
+              }
+            }
+            }
+          ]
+      }
+    }
+    }  
+
++ Ejemplo de [agregaciones queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html)  
+  {
+        "query": {
+          "bool" : {
+            "must" : [
+              {"term" : { "type" : "LOGIN" }},
+            ],
+            "filter": [
+              { "term" : { "geoip" : "EU" } },
+            ]
+        }
+      },
+      "aggs": {
+        "ByUser": {
+          "terms": {
+            "field": "user"
+          }
+        }
+      }
+  }  
+
++ Ejemplo de SQL queries:  
++ POST _sql {
+  "query": "SELECT * from \"log-generator-\*""
+}  
++ POST _sql?format=txt {
+  "query": "SELECT user, respondeCode from \"log-generator-\*""
+}  
++ POST _sql?format=txt {
+  "query": "SELECT user, respondeCode from \"log-generator-\*" where type="LOGIN""
+}  
+
++ Los archivos importantes para configurar elasticsearch son config/jvm.options y elasticsearch.yml:  
+```
+################################################################
+##
+## JVM configuration
+##
+################################################################
+##
+## WARNING: DO NOT EDIT THIS FILE. If you want to override the
+## JVM options in this file, or set any additional options, you
+## should create one or more files in the jvm.options.d
+## directory containing your adjustments.
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/jvm-options.html
+## for more information.
+##
+################################################################
 
 
 
+################################################################
+## IMPORTANT: JVM heap size
+################################################################
+##
+## The heap size is automatically configured by Elasticsearch
+## based on the available memory in your system and the roles
+## each node is configured to fulfill. If specifying heap is
+## required, it should be done through a file in jvm.options.d,
+## and the min and max should be set to the same value. For
+## example, to set the heap to 4 GB, create a new file in the
+## jvm.options.d directory containing these lines:
+##
+-Xms2g
+-Xmx2g
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html
+## for more information
+##
+################################################################
 
 
+################################################################
+## Expert settings
+################################################################
+##
+## All settings below here are considered expert settings. Do
+## not adjust them unless you understand what you are doing. Do
+## not edit them in this file; instead, create a new file in the
+## jvm.options.d directory containing your adjustments.
+##
+################################################################
 
+## GC configuration
+8-13:-XX:+UseConcMarkSweepGC
+8-13:-XX:CMSInitiatingOccupancyFraction=75
+8-13:-XX:+UseCMSInitiatingOccupancyOnly
+
+## G1GC Configuration
+# NOTE: G1 GC is only supported on JDK version 10 or later
+# to use G1GC, uncomment the next two lines and update the version on the
+# following three lines to your version of the JDK
+# 10-13:-XX:-UseConcMarkSweepGC
+# 10-13:-XX:-UseCMSInitiatingOccupancyOnly
+14-:-XX:+UseG1GC
+
+## JVM temporary directory
+-Djava.io.tmpdir=${ES_TMPDIR}
+
+## heap dumps
+
+# generate a heap dump when an allocation from the Java heap fails; heap dumps
+# are created in the working directory of the JVM unless an alternative path is
+# specified
+-XX:+HeapDumpOnOutOfMemoryError
+
+# specify an alternative path for heap dumps; ensure the directory exists and
+# has sufficient space
+-XX:HeapDumpPath=data
+
+# specify an alternative path for JVM fatal error logs
+-XX:ErrorFile=logs/hs_err_pid%p.log
+
+## JDK 8 GC logging
+8:-XX:+PrintGCDetails
+8:-XX:+PrintGCDateStamps
+8:-XX:+PrintTenuringDistribution
+8:-XX:+PrintGCApplicationStoppedTime
+8:-Xloggc:logs/gc.log
+8:-XX:+UseGCLogFileRotation
+8:-XX:NumberOfGCLogFiles=32
+8:-XX:GCLogFileSize=64m
+
+# JDK 9+ GC logging
+9-:-Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m
+```  
+
+```
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: my-application
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: node-1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+path.data: /path/to/data
+#
+# Path to log files:
+#
+path.logs: /path/to/logs
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 192.168.0.1
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["host1", "192.168.10.2"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["node-1", "node-2"]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+```  
+
+## KIBANA  
+
++ Configuraciones en kibana -> manegement.  
+
++ Podemos tener varias visualizaciones como histograma, pie, gauge, mapas,etc.  
+
++ Para ello vamos a KIBANA - VISUALIZE - +CREAR.
+
++ Se puede crear varios y luego en DASHBOARD personalizar tus tableros de visualización.
 

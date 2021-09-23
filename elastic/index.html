@@ -170,6 +170,10 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#elasticsearch_1">ELASTICSEARCH</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kibana_1">KIBANA</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -1345,7 +1349,450 @@ output {
 </ul>
 <h3 id="outputs">OUTPUTS</h3>
 <ul>
-<li><a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-stdout.html">DOCS</a>  </li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-stdout.html">DOCS</a>  </p>
+</li>
+<li>
+<p>Combinando configuraciones de la que se entra por pantalla o por la que entra del log generator.  </p>
+</li>
+</ul>
+<pre><code>input {
+    stdin {
+        codec =&gt; json
+        add_field =&gt; {&quot;application&quot; =&gt; &quot;results&quot;}
+        id =&gt; &quot;stdin-input-results&quot;
+    }
+
+    #file {
+    #   path =&gt; &quot;/Users/ballesterosam/Personal/training/elasticstack/logs/log-generator*.log&quot;
+        #exclude =&gt; &quot;*.gz&quot;
+    #   start_position =&gt; &quot;beginning&quot;
+    #   sincedb_path =&gt; &quot;/Users/ballesterosam/Personal/training/elasticstack/logs/log-generator.sincedb&quot;
+    #   codec =&gt; multiline {
+    #       pattern =&gt; &quot;^(DEBUG|INFO|ERROR|TRACE|FATAL|WARN).*&quot;
+    #       negate =&gt; &quot;true&quot;
+    #       what =&gt; &quot;previous&quot;
+    #   }
+    #}
+}
+
+filter {
+    if [application] == &quot;results&quot; {
+        ruby {
+            code =&gt; &quot;
+                event.set('name_normalized', event.get('name').gsub('ñ', 'n'));
+
+                total_in_seconds = 0;
+                event.get('total').split(':').each_with_index do |v, i|
+                    if i == 0
+                        total_in_seconds += v.to_i * 3600;
+                    elsif i == 1
+                        total_in_seconds += v.to_i * 60;
+                    elsif i == 2
+                        total_in_seconds += v.to_i;
+                    end
+                end
+
+                event.set('total', total_in_seconds);
+            &quot;
+            id =&gt; &quot;parse-total&quot;
+        }
+    }
+}
+
+output {
+    if [application] == &quot;results&quot; {
+        stdout {
+            #codec =&gt; json_lines
+            id =&gt; &quot;stdout-results&quot;
+        }
+    }
+}
+</code></pre>
+
+<h2 id="elasticsearch_1">ELASTICSEARCH</h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html">DOC</a>  </p>
+</li>
+<li>
+<p>Vamos a kibana -&gt; dev tools  </p>
+</li>
+<li>
+<p>Ejemplos de entradas que buscar:  </p>
+</li>
+<li>GET _nodes/(nombre de nodo si hay mas)  </li>
+<li>GET /_cluster/allocation/explain {
+    "index": "nombre_indice",
+    "shard": 0,
+    "primary": true
+  }  </li>
+<li>GET _cat/shards?v  </li>
+<li>GET _cat/nodes?v  </li>
+<li>GET _cat/health?v  </li>
+<li>PUT new-index {
+    "settings": {
+      "index": {
+        "number_of_shards:" 2,
+        "number_of_replicas: 1
+      }
+    }
+  }  </li>
+<li>DELETE new-index  </li>
+<li>PUT employees/_doc/ {
+    "name": "tyler",
+    "surname": "lopex",
+    "job": "IT"
+  }  </li>
+<li>POST employees/_doc/ {
+    "name": "tyler",
+    "surname": "lopex",
+    "job": "IT"
+  }  </li>
+<li>GET employees/_doc/2  </li>
+<li>GET employees/_search {
+    "query": {"match": {
+      "name": "tyler"
+    }}
+  }</li>
+<li>GET log-generator-*/_search {
+    "query": {"match": {
+      "type": "JAVA_ERROR"
+    }}
+  }</li>
+<li>
+<p>GET employees/_search {
+    "query": {"match_all"}: {}
+  }</p>
+</li>
+<li>
+<p>Ejemplo de <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html">full query text</a>  </p>
+</li>
+<li>GET /log-generator-*/_search {
+    "query": {
+      "match": {
+        "slackrace": {
+          "query": "User not found",
+          "operation": "and"
+        }
+      }
+    }
+  }  </li>
+<li>
+<p>GET /log-generator-*/_search {
+    "query": {
+      "multimatch": {
+          "query": "STMP,
+          "fields": ["stackrace","type"]
+        }
+      }
+  }  </p>
+</li>
+<li>
+<p>Ejemplo de <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html">term queries</a>  </p>
+</li>
+<li>
+<p>GET /log-generator-*/_search {
+      "query": {
+        "term": {
+            "stackrace": "User not found",
+      }
+    }
+    }  </p>
+</li>
+<li>
+<p>Ejemplo de <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html">boolean queries</a>  </p>
+</li>
+<li>
+<p>GET log-generator-*/_search
+  {
+    "query": {
+      "bool" : {
+        "must" : [
+          {"term" : { "type" : "LOGIN" }},
+          {"match" : { "responseText" : "bloqueado" }}
+        ],
+        "minimum_should_match" : 1,
+        "should" : [
+          { "term" : { "user" : "Carpanta" } },
+          { "term" : {
+            "user": {
+              "value": "SuperLopez",
+              "boost": 2
+            }
+          }}
+          { "term" : { "user" : "Conan" } },
+          { "term" : { "user" : "Irongisg" } }
+        ],
+        "must_not": [
+          { "term" : { "geoip" : "Japon" } }
+        ]
+      }
+    }
+  }  </p>
+</li>
+<li>
+<p>Ejemplo de <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-geo-distance-query.html">geo distance queries</a>  </p>
+</li>
+<li>
+<p>GET log-generator-*/_search
+    {
+      "query": {
+        "bool" : {
+          "must" : [
+            {"term" : { "type" : "LOGIN" }},
+            {"match" : { "responseText" : "bloqueado" }}
+          ],
+          "must_not": [
+            { "term" : { "geoip" : "Japon" } }
+          ],
+          "filter": [
+            { "term" : { "geoip" : "EU" } },
+            {"geo_distance": {
+              "distance": "1000km",
+              "geoip.location": {
+                "lat": 40,
+                "lon": -3
+              }
+            }
+            }
+          ]
+      }
+    }
+    }  </p>
+</li>
+<li>
+<p>Ejemplo de <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">agregaciones queries</a><br />
+  {
+        "query": {
+          "bool" : {
+            "must" : [
+              {"term" : { "type" : "LOGIN" }},
+            ],
+            "filter": [
+              { "term" : { "geoip" : "EU" } },
+            ]
+        }
+      },
+      "aggs": {
+        "ByUser": {
+          "terms": {
+            "field": "user"
+          }
+        }
+      }
+  }  </p>
+</li>
+<li>
+<p>Ejemplo de SQL queries:  </p>
+</li>
+<li>POST _sql {
+  "query": "SELECT * from \"log-generator-*""
+}  </li>
+<li>POST _sql?format=txt {
+  "query": "SELECT user, respondeCode from \"log-generator-*""
+}  </li>
+<li>
+<p>POST _sql?format=txt {
+  "query": "SELECT user, respondeCode from \"log-generator-*" where type="LOGIN""
+}  </p>
+</li>
+<li>
+<p>Los archivos importantes para configurar elasticsearch son config/jvm.options y elasticsearch.yml:  </p>
+</li>
+</ul>
+<pre><code>################################################################
+##
+## JVM configuration
+##
+################################################################
+##
+## WARNING: DO NOT EDIT THIS FILE. If you want to override the
+## JVM options in this file, or set any additional options, you
+## should create one or more files in the jvm.options.d
+## directory containing your adjustments.
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/jvm-options.html
+## for more information.
+##
+################################################################
+
+
+
+################################################################
+## IMPORTANT: JVM heap size
+################################################################
+##
+## The heap size is automatically configured by Elasticsearch
+## based on the available memory in your system and the roles
+## each node is configured to fulfill. If specifying heap is
+## required, it should be done through a file in jvm.options.d,
+## and the min and max should be set to the same value. For
+## example, to set the heap to 4 GB, create a new file in the
+## jvm.options.d directory containing these lines:
+##
+-Xms2g
+-Xmx2g
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html
+## for more information
+##
+################################################################
+
+
+################################################################
+## Expert settings
+################################################################
+##
+## All settings below here are considered expert settings. Do
+## not adjust them unless you understand what you are doing. Do
+## not edit them in this file; instead, create a new file in the
+## jvm.options.d directory containing your adjustments.
+##
+################################################################
+
+## GC configuration
+8-13:-XX:+UseConcMarkSweepGC
+8-13:-XX:CMSInitiatingOccupancyFraction=75
+8-13:-XX:+UseCMSInitiatingOccupancyOnly
+
+## G1GC Configuration
+# NOTE: G1 GC is only supported on JDK version 10 or later
+# to use G1GC, uncomment the next two lines and update the version on the
+# following three lines to your version of the JDK
+# 10-13:-XX:-UseConcMarkSweepGC
+# 10-13:-XX:-UseCMSInitiatingOccupancyOnly
+14-:-XX:+UseG1GC
+
+## JVM temporary directory
+-Djava.io.tmpdir=${ES_TMPDIR}
+
+## heap dumps
+
+# generate a heap dump when an allocation from the Java heap fails; heap dumps
+# are created in the working directory of the JVM unless an alternative path is
+# specified
+-XX:+HeapDumpOnOutOfMemoryError
+
+# specify an alternative path for heap dumps; ensure the directory exists and
+# has sufficient space
+-XX:HeapDumpPath=data
+
+# specify an alternative path for JVM fatal error logs
+-XX:ErrorFile=logs/hs_err_pid%p.log
+
+## JDK 8 GC logging
+8:-XX:+PrintGCDetails
+8:-XX:+PrintGCDateStamps
+8:-XX:+PrintTenuringDistribution
+8:-XX:+PrintGCApplicationStoppedTime
+8:-Xloggc:logs/gc.log
+8:-XX:+UseGCLogFileRotation
+8:-XX:NumberOfGCLogFiles=32
+8:-XX:GCLogFileSize=64m
+
+# JDK 9+ GC logging
+9-:-Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m
+</code></pre>
+
+<pre><code># ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: my-application
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: node-1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+path.data: /path/to/data
+#
+# Path to log files:
+#
+path.logs: /path/to/logs
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 192.168.0.1
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]
+#
+discovery.seed_hosts: [&quot;host1&quot;, &quot;192.168.10.2&quot;]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+</code></pre>
+
+<h2 id="kibana_1">KIBANA</h2>
+<ul>
+<li>
+<p>Configuraciones en kibana -&gt; manegement.  </p>
+</li>
+<li>
+<p>Podemos tener varias visualizaciones como histograma, pie, gauge, mapas,etc.  </p>
+</li>
+<li>
+<p>Para ello vamos a KIBANA - VISUALIZE - +CREAR.</p>
+</li>
+<li>
+<p>Se puede crear varios y luego en DASHBOARD personalizar tus tableros de visualización.</p>
+</li>
 </ul>
               
             </div>

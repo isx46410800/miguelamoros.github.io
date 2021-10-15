@@ -5,10 +5,12 @@ repo_url: https://github.com/isx46410800/miguelamoros.github.io
 nav:
         - MkDocs: index.md
         - Linux: linux.md
+        - Soporte TI: soporte.md
         - VSCode: vscode.md
         - Gitlab: gitlab.md
         - Python: python.md
         - BashScripting: bash_scripting.md
+        - PowerShell/CMD: powershell.md
         - Docker: docker.md
         - Kubernetes: kubernetes.md
         - Openshift: openshift.md

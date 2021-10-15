@@ -15,7 +15,9 @@
 + Link: titulo\[]()web  
 + Link automático: <>  
 + Imagen: titulo\!\[]()ruta imagen  
-+ Tablas: | letra | letra / --- linea
++ Tablas: | letra | letra / --- linea  
++ Crear indice: 1. \[Primer apartado](#id1) -- ## Primer apartado<a name="id1"></a>
+
 
 
 

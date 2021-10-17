@@ -171,26 +171,140 @@
     + Lin: `chmod u+x/650 dir/file`  
 > En windows tenemos el permiso especial de Owner Propietary y en linux tenemos el SETUID(4), SETGID(2) Y STICKYBIT(1).  
 
++ Ejecutar paquetes software:  
+    + Win: `/path/file.exe`  
+    + Lin: `dkpg -i/-r/-l file.deb // apt-get install file.rpm`  
+
++ Comprimir archivos:  
+    + [Win](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive?view=powershell-7.1&viewFallbackFrom=powershell-5.0): `Compress-Archive -Path /dir/* /dir/file.zip`  
+    + Lin: `tar -cvf file.tar file1 file2 file3`  
+
++ Dependencias de paquetes:  
+    + Win: `Register-PackageSource -Name chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2`  
+    + Win: `Get-PackageSource`  
+    + Win: `Find-Package sysinternals -IncluseDependencies`  
+    + Win: `Install/Uninstall-Package sysinternals`  
+    + Lin: `sudo apt install -f`  
+> Sysinternals package es un tipo de herramienta/repositorio junto a Chocolatey para poder encontrar paquetes de dependencias de otros paquetes de software.  
+
++ Instalar paquetes:  
+    + Win: `Install-Package sysinternals // Get-Package paquete`  
+    + Lin: `apt install paquete -y / apt remove/update/upgrade`  
+    > repos en /etc/apt/source.list
+
++ Ver dispositivos:  
+    + Win: device manager  
+    + Lin: /dev
+
++ Actualizaciones:  
+    + Win: windows update  
+    + Lin: `uname -r // apt update / apt full-upgrade`  
+
++ Ver procesos:  
+    + [Win](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-5.1): task manager / `tasklist` / `Get-Process | Sort CPU -descending | Select -first 3 - Property ID,RAM,CPU`  
+    + Linux: `ps / ps -ax / ps -ef / uptime / lsof / top`  
+> Top para linux y process explorer para windows.  
+
++ Terminar procesos:  
+    + Win: `taskkill // taskkill /F /pid 586`  
+    + Lin: `kill 586 / kill -KILL/TSTP 856`  
+
++ Nos podemos conectar por SSH a otra maquina. Se ha de tener instalado el cliente ssh y en el otro el servidor ssh. Utilizamos herramientas en windows como __putty.exe__ y __pscp.exe__ y en linux via comandos:  
+`ssh -p puerto (-x) usuario:ip_host`  
+`ssh-keygen -t rsa`  
+`scp-copy-id ruta/fichero user@ip_host:ruta`  
+`/etc/ssh.d/sshd_config`  
+
++ Podemos conectarnos también a [maquinas virtuales](https://www.virtualbox.org/manual/ch01.html) y poner un SO y utilizan recursos fisicos de nuestra maquina.  
+
++ Podemos ver registros de seguridad, servicios, autenticación o del sistema en __Event viewer__ de windows o en __/var/log o /var/log/syslog__ en linux y buscar los posibles errores filtrando en su busqueda.  
+
++ Podemos clonar discos duros o sistemas operativos con herramienta como __clonezilla o Ghost__ y en linux con el [comando DD](https://man7.org/linux/man-pages/man1/dd.1.html):  
+`dd if=/dev/sda1 of=/dev/disco_extraible/imagen.img bz=100M`  
+
++ La ruta de un nuevo disco es conectarlo. Asignarla creando una particion y despues crearle un sistema de fichero para poder usar el espacio nuevo asignado.  
+
++ Formatero en [Windows](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-vista/cc766465(v=ws.10)?redirectedfrom=MSDN): en administrador de discos o en consola __diskpart__->select disk1 -> clean -> create partition primary -> select partition 1 -> active -> format FS=NTFS label=my-disk quick  
+
++ Formatero en Linux: podemos usar la herramienta __parted -l__ o __fdisk__. Para formatear un sistema de ficheros se usa `mkfs -t ext4 /dev/sda2` una vez que hemos creado una partición con espacio. Luego se puede montar como por ejemplo el device nuevo o un usb con la opción `mount /dev/sdb1 /opt/dir` y para desmontar se usa `umount dir/device`. Para que se haga automaticamente en el sistema al iniciarse se pone en el [fstab](https://en.wikipedia.org/wiki/Fstab) y `blkid` para ver el ui de la unidad.  
+
++ La swap es un memoria virtual de intercambio para acciones rapidas que se estan ejecutando. Para cambiarla en windows se va a panel de control -> seguridad ->sistema -> systema avanzados - > settings -> advanced y cambiarlo. En linux se asigna al principio al instalar el so o se puede crear una particion de tipo swap con `mkswap /dev/sdb1.  
+
++ Creación de simbolyc link o hards donde en los hards se mantiene la chicha.  
+    - Win: `mklink (/H) /path/link_name file`  
+    - Lin: `ln (-s) /path/file /path/link_name`
+> en linux se ve con ls -li los inodos y cuantos hard links tiene este archivo.  
+
++ Uso de disco:  
+    - Win: en admin d discos o [du](https://docs.microsoft.com/en-us/sysinternals/downloads/du)  
+    - Lin: `du -h` `df -h`  
+
++ Reparación de sistemas de archivos:  
+    - Win: `fsutil repair query C:` o `chkdsk /F C:`  
+    - Lin: `fsck /dev/sda1`  
 
 
+### PRACTICA PERMISOS  
+
+1. Queremos quitar el permiso de Kara de WX y solo queremos que lea R.  
+
++ Le quitamos todos los permisos:  
+`ICACLS C:\Users\Qwiklab\Documents\important_document /remove "Kara"`  
+
++ Le ponemos todos de nuevo solo con R:  
+`ICACLS C:\Users\Qwiklab\Documents\important_document /grant "Kara:(r)"`  
+
+2. Queremos que otro usuario tambien tenga permisos a esa carpeta y a kara se le sume RW.  
+
++ Le añadimos a Phoebe permisos de lectura:  
+`ICACLS C:\Users\Qwiklab\Secret\ /grant "Phoebe:(r)"`  
+
++ Le añadimos a Kara el de escritura ya que la R ya la tiene:  
+`ICACLS C:\Users\Qwiklab\Secret\ /grant "Kara:(w)"`  
+
+3. Su objetivo en este ejemplo es cambiar los permisos de esta carpeta para que el grupo "Everyone" solo tenga permiso de lectura (no de escritura).  
+
++ Quitamos todos los permisos y luego añadimos la R:  
+`ICACLS C:\Users\Qwiklab\Music\ /remove "Everyone"`  
+
+4. En este ejemplo, necesita modificar los permisos de ese archivo, de manera que el grupo llamado "Authenticated Users" tenga acceso de escritura. El grupo "Authenticated Users" contiene usuarios que se han autenticado en el dominio o en un dominio que es confiable por la computadora.  
+
++ Añadimos ese tipo de usuarios con el permiso:  
+`ICACLS C:\Users\Qwiklab\Documents\not_so_important_document /grant "Authenticated Users:(w)"`  
+
+5. En este ejemplo cambiará los permisos de otro archivo de la carpeta "Documents". El archivo llamado "public_document" tiene que estar disponible para lectura pública, de manera que todas las personas del sistema puedan leerlo.  
+
++ La manera más sencilla de asegurarse de que todos los usuarios del sistema tengan permiso de lectura es agregar ese permiso al grupo "Everyone".  
+`ICACLS C:\Users\Qwiklab\Documents\public_document /grant "Everyone:(r)"`  
 
 
+### CREAR PARTICIONES  
+
++ __WINDOWS__: Haga clic en el botón Start y seleccione Control Panel para abrir el panel de control. Allí, navegue a System and Security y, luego, a Administrative Tools. En la ventana "Administrative Tools", haga doble clic en Computer Management. Como lo que nos interesa es administrar discos, en el panel izquierdo, debajo de Storage, seleccione Disk Management.  
+
++ En el panel de control, verá un diálogo donde deberá ingresar el tamaño para reducir el disco. Escriba "20,480MB" para dividir el disco en dos particiones de 30 GB y 20 GB respectivamente. Haga clic en Shrink. El disco se reducirá y el espacio adicional de 20 GB se mostrará como sin asignar. En este espacio sin asignar, creará una nueva partición de 20 GB. Haga clic con el botón derecho del mouse en el espacio y seleccione New Simple Volume. En la siguiente sección del asistente, asegúrese de que la letra de la unidad sea E y haga clic en Next.
+
++ A continuación, formateará una partición para asignarle otro formato de archivo. El formateo de particiones es destructivo y borra todos los datos de la partición, lo que no es muy bueno. Recuerde siempre hacer una copia de seguridad de sus datos antes de modificar particiones en un sistema activo. Para formatear la partición "E:" y asignarle un formato de archivo distinto, haga clic con el botón derecho del mouse en la partición y seleccione Format. En el panel de control, verá un diálogo para formatear el sistema de archivos. En la lista desplegable de formatos de archivos, seleccione FAT32 y haga clic en OK.
 
 
++ __LINUX__: En Linux, puede ver los dispositivos de bloques y los sistemas de archivos adjuntados a su sistema con el comando lsblk, que recopila información acerca de todos los dispositivos que se encuentran adjuntados al sistema y los imprime con una estructura de árbol. Para ver los dispositivos que se adjuntaron a su VM, use el comando `lsblk`. De manera opcional, puede ver los discos activados en el sistema con el comando `df`.  
+```
+student-02-9da601a39b43@linux-instance:~$ lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  10G  0 disk 
+└─sda1   8:1    0  10G  0 part 
+sdb      8:16   0  10G  0 disk 
+└─sdb1   8:17   0  10G  0 part /
+```  
 
++ Para enumerar todas las particiones que contiene /dev/sdb, pase /dev/sdb al comando fdisk `sudo fdisk -l /dev/sdb`. La activación y desactivación son los procesos mediante los cuales un dispositivo está disponible o deja de estarlo en un sistema de archivos Linux. Esto se logra con los comandos mount y umount. Antes de modificar un disco, primero debe desactivarlo del sistema con el comando "umount". Cuando haya terminado de modificar el disco, debe activarlo de nuevo en el sistema. _m_ para ver las opciones del menu ,_p_ para ver las particiones _d_ para borrar particion.  
 
++ Use el control de comando d para borrar la partición predeterminada. Cuando emita el control de comando d, fdisk le pedirá que ingrese la cantidad de particiones que quiera borrar. Como tiene una sola partición, la predeterminada, fdisk la seleccionará automáticamente y la borrará para continuar. Ahora podrá crear particiones nuevas. Para ello, ingrese el control de comando n. la primera cambiará al tipo de intercambio de Linux. Ingrese el control de comando _t_ para cambiar el tipo de partición y seleccione la primera partición. Comando _w_ para guardar cambios.  
 
++ A continuación, creará diferentes sistemas de archivos en las particiones que acaba de generar. Para ello, usará el comando mkfs en Linux. Existen varios tipos de archivos. Es importante que los conozca a todos, junto con las funciones para las que son más adecuados. En este lab, formateará la segunda partición en "ext4", el tipo de sistema de archivos de Linux más usado `sudo mkfs -t ext4 /dev/sda2`.  
 
-
-
-
-
-
-
-
-
-
-
++ Ahora, puede activar /dev/sda2 en una ubicación del sistema de archivos para comenzar a acceder a los archivos que se encuentran en él. Actívela en el directorio /home/my_drive.
+`sudo mount /dev/sda2 /home/my_drive`  
 
 
 ## 4.ADMINISTRACIÓN DE SISTEMAS Y SERVICIOS DE INFRAESTRUCTURA DE TI  

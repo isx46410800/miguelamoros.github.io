@@ -59,6 +59,27 @@
 + icacls dir/file /grant 'Everyone:(OI)(CI)(R)/Everyone:(OI)(CI)(IO)(R)'  
 > Cambiamos permisos de directorio(3) y ficheros(4) en windows. Ayuda de icacls /?  
 
++ Compress-Archive -Path /dir/* /dir/file.zip  
+> Comprimir archivos a formato [.zip](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive?view=powershell-7.1&viewFallbackFrom=powershell-5.0)  
+
++ Register-PackageSource -Name chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2  
+> Instalar repositorio para encontrar softwares y dependencias.  
+
++ Get-PackageSource  
+> Ver las fuentes de repositorios  
+
++ Find-Package sysinternals -IncluseDependencies  
+> Buscar un paquete  
+
++ Install-Package/Uninstall-Package sysinternals  
+> Instalar o borrar un paquete
+
++ Get-Package -name sysinternals  
+> Ver un paquete si está instalado o su info.  
+
++ tasklist / Get-Process / Get-Process | Sort CPU -descending | Select -first 3 - Property ID,RAM,CPU  
+> Para ver los procesos del sistema.[DOC](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-5.1).  
+
 
 
 

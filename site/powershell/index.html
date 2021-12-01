@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>PowerShell/CMD - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "PowerShell/CMD";
+    var mkdocs_page_input_path = "powershell.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../soporte/">Soporte TI</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">VSCode</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">PowerShell/CMD</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../terraform/">Terraform</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../aws/">AWS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../elastic/">ELKS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>PowerShell/CMD</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/powershell.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="comandos-powershell-windows">COMANDOS POWERSHELL WINDOWS</h1>
+<ul>
+<li>
+<p><a href="https://github.com/PowerShell/PowerShell/blob/master/docs/learning-powershell/README.md">DOC</a>  </p>
+</li>
+<li>
+<p>Get-Help + COMANDO  </p>
+<blockquote>
+<p>Especialmente muy útil para usuarios novatos en el uso de Powershell, este comando presenta una ayuda básica para conocer más acerca de los cmdlets y sus funciones <code>Get-Help ls</code>.  </p>
+</blockquote>
+</li>
+<li>
+<p>ls -Force directorio  </p>
+<blockquote>
+<p>Para listar directorios, -Force para archivos ocultos.  </p>
+</blockquote>
+</li>
+<li>
+<p>cd directorio  </p>
+<blockquote>
+<p>Para cambiar de directorios  </p>
+</blockquote>
+</li>
+<li>
+<p>mkdir directorio  </p>
+<blockquote>
+<p>Para crear directorio  </p>
+</blockquote>
+</li>
+<li>
+<p>history  </p>
+<blockquote>
+<p>Para ver el historial de comandos  </p>
+</blockquote>
+</li>
+<li>
+<p>Cp file dir/file1 // cp dir1 dir/dir1 -Recurse -Verbose  </p>
+<blockquote>
+<p>Para copiar archivos y directorios con contenido.  </p>
+</blockquote>
+</li>
+<li>
+<p>mv file1 dir/file1  </p>
+<blockquote>
+<p>Para mover archivos o cambiar nombres.  </p>
+</blockquote>
+</li>
+<li>
+<p>rm file o rm -Force file o rm dir1 - Recurse  </p>
+<blockquote>
+<p>Para borrar archivos o directorios.  </p>
+</blockquote>
+</li>
+<li>
+<p>cat file1.txt // cat file1.txt -Head/Tail 10  </p>
+<blockquote>
+<p>Ver contenido de un archivo  </p>
+</blockquote>
+</li>
+<li>
+<p>start notepad++ file2.txt  </p>
+<blockquote>
+<p>editar un archivo.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Alias ls  </p>
+<blockquote>
+<p>ver de donde proviene un comando.  </p>
+</blockquote>
+</li>
+<li>
+<p>Select-String palabra dir/file.txt // ls dir/ -Recurse -Filter *.exe  </p>
+<blockquote>
+<p>Para buscar palabras dentro de contenido de archivos. Se ha de activar la opción de indexing options en windows para buscar en ellos.  </p>
+</blockquote>
+</li>
+<li>
+<p>cat words.txt | Select-String st &gt; st_words.txt  </p>
+<blockquote>
+<p>Redireccionamientos de comandos.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-LocalUser // Get-LocalGroup // Get-LocalGroupMember namegroup  </p>
+<blockquote>
+<p>ir a Computer Management &gt; Users/groups en gráfico.  </p>
+</blockquote>
+</li>
+<li>
+<p>net user miguel "contraseña" // net user miguel * // net user miguel /logonpasswordchg:yes</p>
+<blockquote>
+<p>Cambiar la contraseña de un usuario. El * para escribirlo de manera oculta. /logonpasswordchg:yes para que cambie la contraseña en el proximo inicio de sesion.  </p>
+</blockquote>
+</li>
+<li>
+<p>net user miguel */contraseña /add /logonpasswordchg:yes</p>
+<blockquote>
+<p>Añadir usuario y que cambie al proximo inicio de sesion.  </p>
+</blockquote>
+</li>
+<li>
+<p>net user miguel /del // Remove-LocalUser miguel  </p>
+<blockquote>
+<p>Borrar un usuario.  </p>
+</blockquote>
+</li>
+<li>
+<p>icacls dir/file  </p>
+<blockquote>
+<p>ver los <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc732880(v=ws.11)?redirectedfrom=MSDN">permisos</a> de un fichero o archivo. En interfaz, se va a propiedades del fichero o carpeta y se pueden ver/editar.  </p>
+</blockquote>
+</li>
+<li>
+<p>icacls dir/file /grant 'Everyone:(OI)(CI)(R)/Everyone:(OI)(CI)(IO)(R)'  </p>
+<blockquote>
+<p>Cambiamos permisos de directorio(3) y ficheros(4) en windows. Ayuda de icacls /?  </p>
+</blockquote>
+</li>
+<li>
+<p>Compress-Archive -Path /dir/* /dir/file.zip  </p>
+<blockquote>
+<p>Comprimir archivos a formato <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive?view=powershell-7.1&amp;viewFallbackFrom=powershell-5.0">.zip</a>  </p>
+</blockquote>
+</li>
+<li>
+<p>Register-PackageSource -Name chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2  </p>
+<blockquote>
+<p>Instalar repositorio para encontrar softwares y dependencias.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-PackageSource  </p>
+<blockquote>
+<p>Ver las fuentes de repositorios  </p>
+</blockquote>
+</li>
+<li>
+<p>Find-Package sysinternals -IncluseDependencies  </p>
+<blockquote>
+<p>Buscar un paquete  </p>
+</blockquote>
+</li>
+<li>
+<p>Install-Package/Uninstall-Package sysinternals  </p>
+<blockquote>
+<p>Instalar o borrar un paquete</p>
+</blockquote>
+</li>
+<li>
+<p>Get-Package -name sysinternals  </p>
+<blockquote>
+<p>Ver un paquete si está instalado o su info.  </p>
+</blockquote>
+</li>
+<li>
+<p>tasklist / Get-Process / Get-Process | Sort CPU -descending | Select -first 3 - Property ID,RAM,CPU  </p>
+<blockquote>
+<p>Para ver los procesos del sistema.<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-5.1">DOC</a>.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Host  </p>
+<blockquote>
+<p>Con la ejecución de este comando se obtiene la versión de Windows PowerShell que está usando el sistema.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-History  </p>
+<blockquote>
+<p>Con este comando se obtiene un historial de todos los comandos que se ejecutaron bajo una sesión de PowerShell y que actualmente se encuentran ejecutándose.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Random  </p>
+<blockquote>
+<p>Ejecutando este comando se obtiene un número aleatorio entre 0 y 2.147.483.646.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Service  </p>
+<blockquote>
+<p>Será necesario saber qué servicios se instalaron en el sistema, para lo que se puede usar el comando Get-Service, que brindará información acerca de los servicios que se están ejecutando y los que ya fueron detenidos.  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Command    </p>
+<blockquote>
+<p>Windows PowerShell permite descubrir sus comandos y características mediante Get-Command. Muestra la lista de comandos de una función específica o para un propósito específico basado en tu parámetro de búsqueda (Get-Command <em>-service</em>)  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Date  </p>
+<blockquote>
+<p>Para saber de una forma rápida qué día fue en una determinada fecha del pasado, usando este comando se obtendrá el día exacto.  </p>
+</blockquote>
+</li>
+<li>
+<p>Copy-Item  </p>
+<blockquote>
+<p>Con este comando se pueden copiar carpetas o archivos (Copy-Item "C:\Proyectos.htm" -Destination "C:\MyData\Proyectos.txt".)  </p>
+</blockquote>
+</li>
+<li>
+<p>Invoke-Command  </p>
+<blockquote>
+<p>En el momento en que quieras ejecutar un script o un comando PowerShell (de forma local o remota, en uno o varios ordenadores), «Invoke-Command» va a ser tu mejor opción. Es simple de utilizar y te ayudará a gestionar ordenadores por lotes.(Invoke-Command -ScriptBlock {Get-EventLog system -Newest 50} -ComputerName Server01)  </p>
+</blockquote>
+</li>
+<li>
+<p>Invoke-WebRequest  </p>
+<blockquote>
+<p>A través de este cmdlet, similar a cURL en Linux, se puede hacer un inicio de sesión, un scraping y la descarga de información relacionada a servicios y páginas web, mientras se trabaja desde la interfaz de PowerShell haciendo el monitoreo de algún sitio web del que se desee obtener esta información ((Invoke-WebRequest –Uri ‘https://wwww.ebay.com’).Links)  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Item  </p>
+<blockquote>
+<p>En caso de que estés buscando información acerca de un elemento con una ubicación concreta, como podría ser un directorio en el disco duro, el comando Get-Item resulta el indicado para esta tarea (Get-Item file.txt /Home/Documents)  </p>
+</blockquote>
+</li>
+<li>
+<p>Remove-Item  </p>
+<blockquote>
+<p>En caso de que desees borrar elementos como carpetas, archivos, funciones y variables y claves del registro, Remove-Item será el mejor cmdlet. Lo importante es que ofrece parámetros para introducir y expulsar elementos (Remove-Item "C:\MyData\Finanzas.txt")  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Content  </p>
+<blockquote>
+<p>Cuando necesites todo lo que incluye en cuanto a contenido un archivo de texto en una ruta concreta, ábrelo y léelo utilizando un editor de textos como el Bloc de Notas (Get-Content "C:\Proyectos.htm" -TotalCount 20)  </p>
+</blockquote>
+</li>
+<li>
+<p>Set-Content  </p>
+<blockquote>
+<p>Con este cmdlet es posible almacenar texto en un archivo, algo parecido a lo que se puede hacer con «echo» en el Bash. Si se usa en combinación con el cmdlet Get-Content, se puede ver primero qué es lo que contiene un determinado archivo para posteriormente hacer la copia a otro archivo a través de Set-Content (Get-Content "C:\Proyectos.htm" -TotalCount 30 | Set-Content "Ejemplo.txt")  </p>
+</blockquote>
+</li>
+<li>
+<p>Get-Variable  </p>
+<blockquote>
+<p>Si estás en PowerShell tratando de utilizar variables, esto podrá ser hecho con el cmdlet Get-Variable, con el que vas a poder visualizar dichos valores (Set-Variable -Name "descuento" -Value "Aquí se fija el valor")  </p>
+</blockquote>
+</li>
+<li>
+<p>Start-Process  </p>
+<blockquote>
+<p>Con este cmdlet, Windows PowerShell hace que sea mucho más fácil ejecutar procesos en el equipo (Start-Process -FilePath “calc” –Verb)  </p>
+</blockquote>
+</li>
+<li>
+<p>Start-Service  </p>
+<blockquote>
+<p>Si necesitas comenzar un servicio en el PC, el cmdlet Start-Service es el indicado en este caso, sirviendo de igual modo aunque dicho servicio esté deshabilitado en el PC (Start-Service -Name "WSearch").  </p>
+</blockquote>
+</li>
+<li>
+<p>Copy-Item  </p>
+<blockquote>
+<p>Si necesitas copiar archivos y directorios en tu disco de almacenamiento o entradas y claves de registro, puedes usar Copy-Item ( Copy-Item "Geek.htm" -Destination "D:\BLOG\Geeks.txt")  </p>
+</blockquote>
+</li>
+<li>
+<p>ConvertTo-HTML  </p>
+<blockquote>
+<p>PowerShell puede proporcionar información asombrosa sobre tu sistema. Sin embargo, lo presenta principalmente en un formato ‘indigerible’, por eso puedes usar ConvertTo-HTML para crear y formatear un informe y analizarlo o enviarlo a alguien (Get-Service | ConvertTo-HTML -Property Name, Status &gt; C:\Users\Alex\Desk
+top\Servicios.htm)  </p>
+</blockquote>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../docker/" class="btn btn-neutral float-right" title="Docker">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../bash_scripting/" class="btn btn-neutral" title="BashScripting"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../bash_scripting/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../docker/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -8,6 +8,9 @@
 + ls -Force directorio  
 > Para listar directorios, -Force para archivos ocultos.  
 
++ dir // Get-Childitem  
+> lista el directorio.  
+
 + cd directorio  
 > Para cambiar de directorios  
 
@@ -77,52 +80,83 @@
 + Get-Package -name sysinternals  
 > Ver un paquete si está instalado o su info.  
 
-+ tasklist / Get-Process / Get-Process | Sort CPU -descending | Select -first 3 - Property ID,RAM,CPU  
++ tasklist / Get-Process|out-gridview // Get-Process | Sort CPU -descending | Select -first 3 - Property ID,RAM,CPU  
 > Para ver los procesos del sistema.[DOC](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-5.1).  
 
++ Get-WindowsFeature  
+> Ver caracteristicas y roles de windows server  
 
++ Install-WindowsFeature ad-domain-services, dns, dhcpserver, dhcp, rsat-dhcp -IncludeAllSubFeature  
+> Instalar caracteristicas  
 
++ Get-Command -module dhcpserver  
+> Ver los comandos de los modulos instalados.  
 
++ Import-Module / Import-Module addsdeployment  
+> Importar modulos.  
 
++ Enable-WindowsOptionalFeature -Online - FeatureName:Microsift-Hyper-V -All  
+> Activamos Hyper-V en windows.  
 
++ bcedit /set hypervisorlaunchtype off/auto  
+> habilita vmware o hyperV  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++ Set-VMProcessor -VMName DC01 -ExposeVirtualizationExtensions $true  
+> Para poder tener HyperV dentro de una maquina virtual (virtualizacion anidada) se ha de indicar en la maquina fisica.  
 
 + Get-Host  
 > Con la ejecución de este comando se obtiene la versión de Windows PowerShell que está usando el sistema.  
 
 + Get-History  
 > Con este comando se obtiene un historial de todos los comandos que se ejecutaron bajo una sesión de PowerShell y que actualmente se encuentran ejecutándose.  
+
++ Get-LocalUser // Get-LocalUser -Name Miguel|fl  
+> Ver usuarios o user concreto en formato lista.  
+
++ Get-LocalGroup // Get-LocalGroup -Name Miguel|fl  
+> Ver grupos o grupo concreto en formato lista.  
+
++ Get-SmbShare
+> Ver recursos compartidos.  
+
++ Get-disk // Get-disk -number 1  
+> ver info de discos  
+
++ Get-Partition -Disknumber 0  
+> ver info de una particion de discos  
+
++ Get-NetAdapter // Get-NetIpInterface  
+> Ver los adaptadores de red.  
+
++ Get-printer  
+> ver info de impresoras.  
+
++ get-eventlog -list // get-eventlog -logname system -index 4095|fl  
+> ver registros.  
+
++ Get-CimInstance.  
+> ver info del equipo.  
+
++ NetIpAddress  
+> ver las ips del ordenador.  
+
++ Get-NetRoute  
+> Muestra las rutas de enrutamiento.  
+
++ Get-WinHomeLocation  
+> Te dice la ubicacion de tu maquina.  
+
++ Get-Scheduledtask  
+> muestra las tareas en funcionamiento.  
+
++ Get-Location  
+> nos dice donde estamos.  
+
++ Set-Location dir_name  
+> nos hace un cd del directorio.  
+
++ Stop-Computer // Stop-Computer -computername "dc=miguel"  
+> Para maquinas locales y remotas.  
 
 + Get-Random  
 > Ejecutando este comando se obtiene un número aleatorio entre 0 y 2.147.483.646.  
@@ -173,7 +207,11 @@
 > PowerShell puede proporcionar información asombrosa sobre tu sistema. Sin embargo, lo presenta principalmente en un formato ‘indigerible’, por eso puedes usar ConvertTo-HTML para crear y formatear un informe y analizarlo o enviarlo a alguien (Get-Service | ConvertTo-HTML -Property Name, Status > C:\Users\Alex\Desk
 top\Servicios.htm)  
 
+# Scripts  
 
++ Los archivos se guardan en formato `.ps1`
++ Para hacer un echo:  
+`Write-Host "Hola Mundo"`  
 
 
 

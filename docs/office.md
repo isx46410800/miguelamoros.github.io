@@ -163,3 +163,33 @@ Windows
 Workplace Analytics
 Yammer
 ```  
+
+## ADMIN  
+
++ Agregamos un dominio en el portal de admin de 365. Configuración - dominios - agregar dominio - nombre - crear registro dns - no agregar servicios.  
+
++ Creamos un usuario con usuarios - usuario activo - rellenar datos. Para asignar licencias se selecciona el contacto y en licencias, se le añade licencia y aplicaciones. Tambien en este apartado podemos modificar nombre, datos de perfil de usuario.  
+
++ Para eliminar un usuario, selecionamos y eliminamos, pero se quedan 30 dias en elimnados. Para eliminar permanentemente, vamos a mostrar todo - azure active directory - usuarios - usuarios eliminados y eliminar total.  
+
++ Cambiamos contraseña selecionando usuario y le damos arriba a restablecer contraseña, Si queremos que lo haga un usuario de manera normal. Configuracion - conf de la organizacion - seguridad y privacidad - autoservicio de restablecimiento de contraseña - vaya al portal de azure - y selecionamos que opcion coger.  
+
++ Podemos activar la verificación de dos pasos: usuario - usuario activo y damos autenticación multifactor y elegios usuario. Otra manera para toda la organizacion: mostrar todo - portal azure AD - azure AD - propiedades - admiinistracion valores predeterminados de seguridad(activar o no).  
+
++ Bloquear acceso a usuario. Selecionamos usuario y arriba bloquear inicio de sesion.  
+
++ Crear un grupo: grupos - crear nuevo grupo activo - agregar - tipo de grupo y selecionamos miembros.  
+
++ Crear un buzon compartido: grupos - buzones compartidos - agregar nuevo - nombre y  despues selecionamos los miembros.  
+
++ Cambiar caducidad contraseñas: configuracion - conf de la organizacion - seguridad y privacidad - directiva de expiración de contraseñas y cambiamos.  
+
++ Comprobar estado del servicio: mostrar todo - mantenimiento - estado del servicio. Lo mismo pero centro de mensajes, nos indica las novedades que vendran de actualizaciones.    
+
++ Contactar con soporte Microsoft: mostrar todo - soporte tecnico - nueva solicitud.  
+
++ Poner alias de email donde varios emails llegarán al email principal, solo sirven para llegadas, para enviar solo desde el principal. Usuarios - usuarios activos - adminisrar nombre y email y ponemos alias.  
+
++ Habilitar usuarios invitados: configuracion - conf de la organizacion - servicios - grupos de 365 y activar las dos pestañas. La otra opcion: ir al a teams - portal teams - configuracion de toda la org - acceso de invitado y activado. La otra es ir al portal de Azure AD - azure AD - informacion general - external identities - conf de coloboracion externa y activamos lo que toque. Sharepoint - directivas - uso comportido - activar lo primero.  
+
++ Cancelar suscripion 365: facturación - sus productos - selecionamos - tres puntos - cancelar.  

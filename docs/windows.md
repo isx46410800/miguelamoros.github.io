@@ -279,6 +279,12 @@ dsadd agregar objetos, cuentas...
 
 
 
+## ACTIVE DIRECTORY  
 
++ Por powershell vemos las caracteristicas e instalamos:  
+`Get-WindowsFeature`  
+`Install-WindowsFeature ad-domain-services, dns, dhcpserver, dhcp, rsat-dhcp -IncludeAllSubFeature`  
+`Get-Command -module dhcpserver`  
+`Import-Module / Import-Module addsdeployment`  
 
 

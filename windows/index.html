@@ -80,6 +80,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
                     </li>
                 </ul>
@@ -185,6 +189,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#practica-dc-y-3-servers">PRACTICA DC Y 3 SERVERS</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#notas">NOTAS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#active-directory">ACTIVE DIRECTORY</a>
     </li>
     </ul>
                     </li>
@@ -541,6 +547,14 @@ dsadd agregar objetos, cuentas...
 <p>Las reservas sirven para reservar la misma IP al que se conecta </p>
 <p>En dns se crean las zonas inversas de cada Red añadida</p>
 </li>
+</ul>
+<h2 id="active-directory">ACTIVE DIRECTORY</h2>
+<ul>
+<li>Por powershell vemos las caracteristicas e instalamos:<br />
+<code>Get-WindowsFeature</code><br />
+<code>Install-WindowsFeature ad-domain-services, dns, dhcpserver, dhcp, rsat-dhcp -IncludeAllSubFeature</code><br />
+<code>Get-Command -module dhcpserver</code><br />
+<code>Import-Module / Import-Module addsdeployment</code>  </li>
 </ul>
               
             </div>

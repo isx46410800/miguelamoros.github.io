@@ -381,6 +381,137 @@ networks:
 
 ## KUBERNETTES  
 
+### INSTALACIÓN  
+
++ La arquitectura consta de un cluster donde hay nodos que trabajan(master y workers), donde dentro estan los pods. En este cluster tenemos Control manager, etcd(bbdd) y scheduler. Tenemos un Apiserver que es quien nos provee la interaccion con el cluster a traves de los comandos __kubectl__ o manera grafica con el __kubernetes dashboard__.  
+
++ Normalmente se usa la infraestructura de amazon, azure o google.  
+
++ Minikube simula la infraestrura de un cluster de kubernetes y contiene todos los componentes necesarios en un solo nodo.  
+
++ Vemos si nuestro Linux tiene virtualización:  
+`grep -E --color 'vmx|svm' /proc/cpuinfo`  
+
++ Descargar kubectl y hacerlo ejecutable:  
+`curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/linux/amd64/kubectl && chmod +x kubectl`  
+
++ Crear el directorio para kubectl:  
+`sudo mv ./kubectl /usr/local/bin/kubectl`
+
++ Verificar version:  
+`kubectl version --client`
+
++ Descargar minnukube y hacerlo ejecutable:  
+`curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube`  
+
++ Crear el directorio para minikube:  
+`sudo mkdir -p /usr/local/bin/`  
+
++ Lanzar el ejecutable:  
+`sudo install minikube /usr/local/bin/`  
+
++ Comandos para operar minikube, lo lanzamos con `minikube start`:  
+```
+minikube start 
+minikube status
+minikube stop
+```  
+> Por defecto cuando hacemos start se ha de indicar cual es el hipervisor a trabajar, por defecto coge docker, pero se le puede poner hyperV, virtualbox,etc.  
+> Un hipervisor o monitor de máquina virtual ​ es una capa de software para realizar una virtualización de hardware que permite utilizar, al mismo tiempo, diferentes sistemas operativos en una misma computadora.  
+
++ Comprobamos que está encendido y el contenedor docker que se crea:  
+```
+[miguel@fedora Downloads]$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+[miguel@fedora Downloads]$ docker ps
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED              STATUS              PORTS                                                                                                                                  NAMES
+82f6891e5f44   gcr.io/k8s-minikube/kicbase:v0.0.28   "/usr/local/bin/entr…"   About a minute ago   Up About a minute   127.0.0.1:49157->22/tcp, 127.0.0.1:49156->2376/tcp, 127.0.0.1:49155->5000/tcp, 127.0.0.1:49154->8443/tcp, 127.0.0.1:49153->32443/tcp   minikube
+```  
+
++ Lanzar el dashboard grafico donde nos manda a una url para manejarlo:  
+`minikube dashboard`  
+
++ Eliminar el cluster de minikube:  
+`minikube delete`  
+
++ Inicar un nuevo cluster de minikube usando el controlador hypervisor de virtualbox:  
+`minikube start --driver=virtualbox`  
+
+### PODS  
+
++ Vamos a crear dentro de un cluster una app para que el cliente desde fuera pueda acceder desde el navegador. Para ello se crea un POD a través de la imagen de la app, con volumenes persistentes y este pod tiene una IP no visible. Para que sea visible desde fuera, se crea un servicio para poder acceder a el desde una petición de fuera.  
+
++ Creamos un pod desde nuestra imagen de un repositorio dockerhub:  
+`kubectl run kbillingapp --image=sotobotero/udemy-devops:0.0.1 --port=80 80`  
+
++ Lo vemos con `kubetctl get pods` y `kubectl describe pod name_pod`.  
+
++ El pod tiene un IP no visible desde fuera y para que se pueda acceder se ha de exponer esta ip como si hicieramos un servicio:  
+`kubectl expose pod kbillingapp --type=LoadBalancer --port=8080 --target-port=80`  
+```
+[miguel@fedora Downloads]$ kubectl get services
+NAME          TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kbillingapp   LoadBalancer   10.105.34.39   <pending>     8080:30424/TCP   9s
+kubernetes    ClusterIP      10.96.0.1      <none>        443/TCP          25m
+```  
+> Al ser minikube y no tener mas nodos trabajando (vida real no pasaria) tenemos que pasar otro comando para obtener esa ip externa y acceder:  
+```
+[miguel@fedora Downloads]$ minikube service kbillingapp
+|-----------|-------------|-------------|---------------------------|
+| NAMESPACE |    NAME     | TARGET PORT |            URL            |
+|-----------|-------------|-------------|---------------------------|
+| default   | kbillingapp |        8080 | http://192.168.49.2:30424 |
+|-----------|-------------|-------------|---------------------------|
+```  
+
+### DEPLOYS, VARIABLES Y SECRETS  
+
++ En este caso vamos a tener dos pods: uno con una bbdd postgres que contiene volumenes persistentes y otro el pgadmin grafico. Esto tendrá un servicio para poder acceder desde fuera de manera grafica.  
+
++ Para ello, vamos a crear en un [SECRET](https://kubernetes.io/docs/concepts/configuration/secret/) fichero yaml, las credenciales de entrada para postgresql para que esten encriptadas y no sean visibles, lo hacemos en base64 con el comando `echo -n "palabra" | base64` y para descodificarlo `echo "xxxx" | base64 -d`:  
+```
+#object that store enviroments variables that could be have sensitive data like a password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  labels:
+    app: postgres
+    #meant that we can use arbitrary key pair values
+type: Opaque
+data:
+  POSTGRES_DB: cG9zdGdyZXM=
+  POSTGRES_USER: cG9zdGdyZXM=
+  POSTGRES_PASSWORD: cXdlcnR5
+```  
+> Fichero secret-dev.yaml  
+
++ Creamos otro secret para el PGADMIN grafico:  
+```
+#object that store enviroments variables that could be have sensitive data like a password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgadmin-secret
+  labels:
+    app: postgres
+    #meant that we can use arbitrary key pair values
+type: Opaque
+data:
+  PGADMIN_DEFAULT_EMAIL: YWRtaW5AYWRtaW4uY29t
+  PGADMIN_DEFAULT_PASSWORD: cXdlcnR5
+  PGADMIN_PORT: ODA=
+```  
+> Fichero secret-pgadmin.yaml  
+
+
+
 
 
 

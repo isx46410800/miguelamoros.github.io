@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -272,6 +275,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -311,7 +315,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     cidr_block = &quot;10.0.0.0/16&quot;
 }
 </code></pre>
-
 <h2 id="iam-users">IAM USERS</h2>
 <ul>
 <li>
@@ -337,7 +340,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     cidr_block = &quot;10.0.0.0/16&quot;
 }
 </code></pre>
-
 <h2 id="terraform-plan">TERRAFORM PLAN</h2>
 <ul>
 <li>
@@ -356,7 +358,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     cidr_block = &quot;10.0.0.0/16&quot;
 }
 </code></pre>
-
 <h2 id="terraform-apply">TERRAFORM APPLY</h2>
 <ul>
 <li>
@@ -387,7 +388,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     default = &quot;my first var&quot;
 }
 </code></pre>
-
 <ul>
 <li>Variable número:  </li>
 </ul>
@@ -396,7 +396,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     default = 100
 }
 </code></pre>
-
 <ul>
 <li>Variable booleana:  </li>
 </ul>
@@ -404,7 +403,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     default = false
 }
 </code></pre>
-
 <ul>
 <li>Variable lista:  </li>
 </ul>
@@ -413,7 +411,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     default = [&quot;apple&quot;,&quot;20&quot;]
 }
 </code></pre>
-
 <ul>
 <li>Variable map:  </li>
 </ul>
@@ -425,7 +422,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <ul>
 <li>Variable tuple:  </li>
 </ul>
@@ -434,7 +430,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     default = [&quot;var1&quot;,10,&quot;var2&quot;]
 }
 </code></pre>
-
 <ul>
 <li>Variable input:  </li>
 </ul>
@@ -443,7 +438,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     description = &quot;please enter a vpc name&quot;
 }
 </code></pre>
-
 <ul>
 <li>Varibale objecto:  </li>
 </ul>
@@ -455,7 +449,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <ul>
 <li>Output. <a href="https://www.terraform.io/docs/language/values/outputs.html">DOC</a>:  </li>
 </ul>
@@ -463,7 +456,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     value = aws_vpc.myVPC.id
 }
 </code></pre>
-
 <ul>
 <li>Recurso con alguna llamada a la variable:  </li>
 </ul>
@@ -474,7 +466,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
     cidr_block = &quot;10.10.10.0/24&quot;
     tags = {
@@ -482,7 +473,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
     cidr_block = &quot;10.10.10.0/24&quot;
     tags = {
@@ -490,7 +480,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <pre><code>resource &quot;aws_vpc&quot; &quot;myVPC&quot; {
     cidr_block = &quot;10.10.10.0/24&quot;
     tags = {
@@ -498,7 +487,6 @@ resource &quot;aws_vpc&quot; &quot;myvpc&quot;{
     }
 }
 </code></pre>
-
 <h3 id="en-ficheros">En ficheros</h3>
 <ul>
 <li>Si creas una variable pero sin darle valor default te sale un input al hacer un apply:  </li>
@@ -513,7 +501,6 @@ resouce &quot;aws_subnet&quot; &quot;subnet-1&quot; {
     availability_zone = &quot;us-east-1a&quot;
 }
 </code></pre>
-
 <blockquote>
 <p>También en vez de un input, pasando por variable con <code>terraform apply -var "subnet_prefix=10.10.1.0/24"</code></p>
 </blockquote>
@@ -539,7 +526,6 @@ resouce &quot;aws_subnet&quot; &quot;subnet-1&quot; {
     availability_zone = &quot;us-east-1a&quot;
 }
 </code></pre>
-
 <blockquote>
 <p>Y en un fichero terraform.tfvars hacer un apply normal</p>
 </blockquote>
@@ -557,7 +543,6 @@ resouce &quot;aws_subnet&quot; &quot;subnet-1&quot; {
     availability_zone = &quot;us-east-1a&quot;
 }
 </code></pre>
-
 <h2 id="crear-instancia">CREAR INSTANCIA</h2>
 <ul>
 <li>
@@ -578,7 +563,6 @@ resource &quot;aws_instance&quot; &quot;EC2&quot; {
     instance_type = &quot;t2.micro&quot;
 }
 </code></pre>
-
 <blockquote>
 <p>Despues hariamos un terraform init, plan y aply.  </p>
 </blockquote>
@@ -605,7 +589,6 @@ ouput &quot;myOutEIP&quot; {
     value = aws_eip.myEIP.public_ip
 }
 </code></pre>
-
 <h3 id="security-group">SECURITY GROUP</h3>
 <ul>
 <li>Crear un security group:  </li>
@@ -633,7 +616,6 @@ resource &quot;aws_security_group&quot; &quot;mySG&quot; {
     }
 }
 </code></pre>
-
 <h3 id="user">USER</h3>
 <ul>
 <li>Ejemplo de crear un usuario con ciertas directrices:  </li>
@@ -699,7 +681,6 @@ resource &quot;aws_iam_policy_attachment&quot; &quot;attachMyPolicy&quot;{
     policy_arn = aws_iam_policy.myPolicy.myPolicy_arn
 }
 </code></pre>
-
 <blockquote>
 <p>la politicas las copiamos de IAM-politicas  </p>
 </blockquote>
@@ -726,7 +707,6 @@ resource &quot;aws_db_instance&quot; &quot;myRDS&quot;{
     port = 3306
 }
 </code></pre>
-
 <h2 id="bucket">BUCKET</h2>
 <ul>
 <li>
@@ -756,7 +736,6 @@ terraform{
     }
 }
 </code></pre>
-
 <h2 id="scaling">SCALING</h2>
 <ul>
 <li>Podemos crear varios recursos del mismo tipo con <code>count</code>:  </li>
@@ -772,7 +751,6 @@ resource &quot;aws_instance&quot; &quot;DB&quot;{
     count = 3
 }
 </code></pre>
-
 <h2 id="import">IMPORT</h2>
 <ul>
 <li>Cuando creas un VPC puedes importar la info de lo creado en un fichero:  </li>
@@ -786,7 +764,6 @@ resource &quot;aws_vpc&quot; &quot;myVPC&quot;{
     cidr_block = &quot;10.0.0.0/16&quot;
 }
 </code></pre>
-
 <ul>
 <li>Despues en la web vemos que id tenemos y hacemos en consola <code>terraform import aws_vpc.myVPC.idxxx</code></li>
 </ul>
@@ -809,7 +786,6 @@ resource &quot;aws_instance&quot; &quot;web&quot;{
     depends_on = [aws_instance.DB]
 }
 </code></pre>
-
 <h2 id="validate">VALIDATE</h2>
 <ul>
 <li>Podemos usar la orden <code>terraform validate</code> para ver que esté correcta la sintaxi del fichero de configuración que se crea.  </li>
@@ -850,7 +826,6 @@ resource &quot;aws_instance&quot; &quot;web&quot;{
     depends_on = [aws_instance.DB]
 }
 </code></pre>
-
 <h2 id="local-provisioner">LOCAL PROVISIONER</h2>
 <ul>
 <li>Para usar un comando que haga cosas en local mientras se crea el codigo del fichero.  </li>
@@ -868,7 +843,6 @@ resource &quot;aws_instance&quot; &quot;DB&quot;{
     }
 }
 </code></pre>
-
 <h2 id="remote-provisioner">REMOTE PROVISIONER</h2>
 <ul>
 <li>Para usar un comando que haga cosas en REMOTO mientras se crea el codigo del fichero.  </li>
@@ -896,7 +870,6 @@ resource &quot;aws_instance&quot; &quot;DB&quot;{
     }
 }
 </code></pre>
-
 <h2 id="plan-destroy">PLAN DESTROY</h2>
 <ul>
 <li>Para borrar los planes se usa <code>terraform plan -destroy</code></li>
@@ -1062,7 +1035,6 @@ resource &quot;&lt;provider&gt;_&lt;resource_type&gt;&quot; &quot;name&quot; {
     key2 = &quot;another value&quot;
 }
 </code></pre>
-
 <h3 id="con-variables">Con variables</h3>
 <ul>
 <li>En este ejercicio practico se puede crear variables en otros ficheros para construir los recursos:  </li>
@@ -1107,7 +1079,6 @@ resource &quot;aws_subnet&quot; &quot;subnet-2&quot; {
   }
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Un fichero creao llamado <code>terraform-tfvars</code>:<br />
@@ -1150,17 +1121,18 @@ resource &quot;aws_subnet&quot; &quot;subnet-2&quot; {
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../openshift/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../aws/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../openshift/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../aws/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

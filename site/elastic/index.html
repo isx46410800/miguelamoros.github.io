@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -276,6 +279,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -332,7 +336,6 @@ pretty: true
 # Array of hosts to connect to.
 #hosts: [&quot;localhost:9200&quot;]
 </code></pre>
-
 <pre><code>+ Lo encendemos con `[isx46410800@miguel metricbeat-7.14.0-linux-x86_64]$ ./metricbeat -c metricbeat.yml`
 </code></pre>
 <ul>
@@ -362,7 +365,6 @@ output.logstash:
 # The Logstash hosts
 hosts: [&quot;localhost:5044&quot;]
 </code></pre>
-
 <pre><code>+ Se arranca con `./filebeat`
 </code></pre>
 <h3 id="logstash">LOGSTASH</h3>
@@ -503,7 +505,6 @@ services:
     ports:
       - 5601:5601
 </code></pre>
-
 <h3 id="prueba-funcionamiento">PRUEBA FUNCIONAMIENTO</h3>
 <ul>
 <li>Creamos un directorio de logs con un fichero básico <code>logs/example.log</code>:  </li>
@@ -513,7 +514,6 @@ bye bye
 hola mundo
 adios
 </code></pre>
-
 <ul>
 <li>Editamos info en FILEBEAT:  <ul>
 <li>En el fichero de conf filebeat.yaml activamos el type log y comentamos la salida elasticsearch y activamos la de logstash:  </li>
@@ -540,7 +540,6 @@ output.logstash:
 # The Logstash hosts
 hosts: [&quot;localhost:5044&quot;]
 </code></pre>
-
 <ul>
 <li>Editamos info en LOGSTASH:  <ul>
 <li>Creamos un fichero de conf personalizado con <code>test.yml</code>:  </li>
@@ -558,7 +557,6 @@ elasticsearch {
 }
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Arrancamos primero elasticsearch <code>[isx46410800@miguel elasticsearch-7.14.0]$ ./bin/elasticsearch -d</code>  </p>
@@ -624,7 +622,6 @@ elasticsearch {
   period: 10s
   hosts: [&quot;unix:///var/run/docker.sock&quot;]
 </code></pre>
-
 <h3 id="packetbeat">PACKETBEAT</h3>
 <ul>
 <li>
@@ -682,7 +679,6 @@ elasticsearch {
 <pre><code>output.console:
     pretty: true
 </code></pre>
-
 <ul>
 <li>
 <p>Vamos probando con <code>java -jar log-generator-1.0.jar -l 20 -d 1000</code>  </p>
@@ -704,7 +700,6 @@ multiline.negate: true
 # Note: After is the equivalent to previous and before is the equivalent to to nextin Logstash
 multiline.match: after
 </code></pre>
-
 <blockquote>
 <p>Se indica que se niegue todo lo que empieze tal y tal y se añada al evento anterior  </p>
 </blockquote>
@@ -725,7 +720,6 @@ multiline.match: after
   &quot;message&quot;: &quot;ERROR 2021-08-25 02:08:16 [main] a.b.t.loggenerator.LogGenerator - Document not found|\njava.lang.Exception: Document not found\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.generateExceptionTrace(LogGenerator.kt:66)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.generateTraces(LogGenerator.kt:31)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt:17)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt$main$1.invoke(LogGenerator.kt)\n\tat com.xenomachina.argparser.SystemExitExceptionKt.mainBody(SystemExitException.kt:74)\n\tat com.xenomachina.argparser.SystemExitExceptionKt.mainBody$default(SystemExitException.kt:72)\n\tat am.ballesteros.training.loggenerator.LogGeneratorKt.main(LogGenerator.kt:14)&quot;
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Hay también modulos preconfigurados y podemos verlos en <code>./filebeat modules list</code> y para activar <code>./filebeat modules enable logstash system</code>.  </p>
@@ -749,7 +743,6 @@ multiline.match: after
     # Filebeat will choose the paths depending on your OS.
     var.paths: [&quot;/home/isx46410800/Documents/elasticStack/logstash-7.14.0/logs/logstash-slowlog-plain.log&quot;]
 </code></pre>
-
 <ul>
 <li>
 <p>Ahora activamos el setup de kibana, quitamos el output de antes y ponemos el de elasticsearch y activamos la monitorización.  </p>
@@ -804,7 +797,6 @@ output {
   }
 }
 </code></pre>
-
 <blockquote>
 <p>arrancamos logstash con ./logstach -f example.conf y luego escribimos por pantalla y nos devuelve la salida en formato json.  </p>
 </blockquote>
@@ -826,7 +818,6 @@ output {
   }
 }
 </code></pre>
-
 <blockquote>
 <p>Esto hace que todo lo que se ponga en multilineas, hasta que no se escriba FIN, no termina el evento.  </p>
 </blockquote>
@@ -844,7 +835,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="file-input">FILE INPUT</h4>
 <ul>
 <li>
@@ -879,7 +869,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="beats-input">BEATS INPUT</h4>
 <ul>
 <li>
@@ -896,7 +885,6 @@ output {
   # The Logstash hosts
   hosts: [&quot;localhost:5044&quot;]
 </code></pre>
-
 <ul>
 <li>Lo que hacemos es que desde la conf de beats está indicado de donde coge logs(log-generator) y lo envia de salida a logstash para que lo proceso y veremos por pantalla todo lo que va saliendo mientras vamos haciendo trazas:  </li>
 </ul>
@@ -912,7 +900,6 @@ output {
   }
 }
 </code></pre>
-
 <blockquote>
 <p>Arrancamos primero filebeat con <code>./filebeat -c filebeat.yml</code> y luego logstash con el nuevo fichero de conf <code>./bin/logstash -f beats.conf</code>  </p>
 </blockquote>
@@ -949,7 +936,6 @@ java.lang.Exception: User can not be null. Can not fetch information from the da
     at com.xenomachina.argparser.SystemExitExceptionKt.mainBody$default(SystemExitException.kt:72)
     at am.ballesteros.training.loggenerator.LogGeneratorKt.main(LogGenerator.kt:14)
 </code></pre>
-
 <p>PATTERN: <code>(?m)%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{DATA:description}\|%{GREEDYDATA:stacktrace}</code><br />
 EXPRESION REGULAR: <code>(?m)%{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} - %{DATA:description}\|(?&lt;stacktrace&gt;.*)</code>  </p>
 <ul>
@@ -987,7 +973,6 @@ output {
   }
 }
 </code></pre>
-
 <ul>
 <li>Con la variable en un directorio <code>patterns</code> y en un fichero <code>log-generator-patterns</code>:<br />
 <code>COMMON_LOG %{WORD:level} %{TIMESTAMP_ISO8601:date} \[%{WORD:thread}\] %{JAVACLASS:class} -</code>  </li>
@@ -1014,7 +999,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="filter-mutate">FILTER MUTATE</h4>
 <ul>
 <li>
@@ -1073,7 +1057,6 @@ output {
   }
 }
 </code></pre>
-
 <blockquote>
 <p>en grok se puede poner %{NUMBER:duration:int/float}, solo en estos tipos.  </p>
 </blockquote>
@@ -1138,7 +1121,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="filter-translate">FILTER TRANSLATE</h4>
 <ul>
 <li>
@@ -1219,7 +1201,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="filter-geolp">FILTER GEOLP</h4>
 <ul>
 <li>
@@ -1303,7 +1284,6 @@ output {
   }
 }
 </code></pre>
-
 <h4 id="filter-ruby">FILTER RUBY</h4>
 <ul>
 <li>
@@ -1350,7 +1330,6 @@ output {
 ## { &quot;total&quot;: &quot;00:00:00&quot;, &quot;name&quot;: &quot;Nombre&quot;, &quot;equipo&quot;: &quot;Equipo&quot;}
 ## convertir en segundos el tiempo y quitar las Ñ de los nombres
 </code></pre>
-
 <h4 id="otros-filters">OTROS FILTERS</h4>
 <ul>
 <li><a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html">DOCS</a>  </li>
@@ -1417,7 +1396,6 @@ output {
     }
 }
 </code></pre>
-
 <h2 id="elasticsearch_1">ELASTICSEARCH</h2>
 <ul>
 <li>
@@ -1702,7 +1680,6 @@ output {
 # JDK 9+ GC logging
 9-:-Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m
 </code></pre>
-
 <pre><code># ======================== Elasticsearch Configuration =========================
 #
 # NOTE: Elasticsearch comes with reasonable defaults for most settings.
@@ -1786,7 +1763,6 @@ cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
 #
 #action.destructive_requires_name: true
 </code></pre>
-
 <h2 id="kibana_1">KIBANA</h2>
 <ul>
 <li>
@@ -1835,17 +1811,18 @@ cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../tomcat/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../azure/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../tomcat/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../azure/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

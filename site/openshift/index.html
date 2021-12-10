@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -270,6 +273,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -311,7 +315,6 @@ total 26312
 No Minishift instance exists. New 'vm-driver' setting will be applied on next 'minishift start'
 [isx46410800@miguel minishift]$ ./minishift start --vm-driver virtualbox
 </code></pre>
-
 <ul>
 <li>Despues arrancado te da una serie de claves, ip(web grafica) y el OC que será como el comando para utilizar el OPENSHIFT CLIENT</li>
 </ul>
@@ -334,7 +337,6 @@ No Minishift instance exists. New 'vm-driver' setting will be applied on next 'm
 <pre><code>yum install NetworkManager
 yum install libvirt
 </code></pre>
-
 <ul>
 <li>Descomprimimos el archivo, renonbramos crc al archivo, añadimos el usuario normal a trabajar a sudo. Como root en el /etc/sudoers:  </li>
 </ul>
@@ -342,7 +344,6 @@ yum install libvirt
 root    ALL=(ALL)       ALL
 isx46410800 ALL=(ALL)       ALL
 </code></pre>
-
 <ul>
 <li>
 <p>Despues <strong>./crc setup</strong> para empezar a preparar el entorno de virtualización de crc.  </p>
@@ -364,7 +365,6 @@ isx46410800 ALL=(ALL)       ALL
 cd crc
 sudo cp crc /usr/local/bin
 </code></pre>
-
 <h3 id="configuracion">Configuración</h3>
 <ul>
 <li>
@@ -420,7 +420,6 @@ oc login --token=sha256~b1c3cvoqItQKQvR3AgF6hqPDiGoUP3FnIo4H5TjjBgg --server=htt
 Use this token directly against the API
 curl -H &quot;Authorization: Bearer sha256~b1c3cvoqItQKQvR3AgF6hqPDiGoUP3FnIo4H5TjjBgg&quot; &quot;https://api.sandbox.x8i5.p1.openshiftapps.com:6443/apis/user.openshift.io/v1/users/~&quot;
 </code></pre>
-
 <ul>
 <li>
 <p>Copiamos el token de oc en la terminal y ya nos conectamos.  </p>
@@ -480,7 +479,6 @@ spec:
   finalizers:
   - kubernetes
 </code></pre>
-
 <ul>
 <li>
 <p>Desplegamos el fichero .yaml con <code>oc apply -f proyecto.yaml</code>  </p>
@@ -558,7 +556,6 @@ ENTRYPOINT [&quot;/usr/sbin/nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;
 ##Exponemos el Puerto 80
 EXPOSE 80
 </code></pre>
-
 <pre><code>el manifiesto pod.yaml
 apiVersion: v1
 kind: Pod
@@ -572,7 +569,6 @@ spec:
    - name: nginx   
      image: apasoft/nginx:v1
 </code></pre>
-
 <h3 id="deployment">DEPLOYMENT</h3>
 <ul>
 <li>Ejemplo:  </li>
@@ -598,7 +594,6 @@ spec:
           ports:
             - containerPort: 8080
 </code></pre>
-
 <ul>
 <li>
 <p>Deploy con oc apply -f crear_deploy.yaml.  </p>
@@ -629,7 +624,6 @@ spec:
   selector:
      app: ejemplo-deploy
 </code></pre>
-
 <ul>
 <li>
 <p>oc get svc  </p>
@@ -663,7 +657,6 @@ spec:
 Dado que en este curso estudiamos sobre todo  DeploymentConfig (que es un recurso propio de Openshift, mientras que un Deployment es un recurso de Kubernetes) es necesario indicar la siguiente opción al ejecutar el comando.
         --as-deployment-config   (con 2 guiones por delante)
 </code></pre>
-
 <ul>
 <li>
 <p>Para crear una aplicación, le damos una imagen, primero buscará en local sino en las nubes o repos:<br />
@@ -692,7 +685,6 @@ service/blog
 deploymentconfig.apps.openshift.io/blog
 imagestream.image.openshift.io/blog
 </code></pre>
-
 <ul>
 <li>Podemos exponer el servicio:  </li>
 </ul>
@@ -702,7 +694,6 @@ route.route.openshift.io/blog exposed
 NAME      HOST/PORT                                                     PATH      SERVICES   PORT       TERMINATION   WILDCARD
 blog      blog-miguel-ito7-dev.apps.sandbox.x8i5.p1.openshiftapps.com             blog       8080-tcp                 None
 </code></pre>
-
 <ul>
 <li>Podemos escalar los deploy con <code>oc scale --replicas=3 dc name</code>  </li>
 </ul>
@@ -720,7 +711,6 @@ blog-1-k4sch   1/1       Running   0          73s
 blog-1-kpq8w   1/1       Running   0          7m10s
 blog-1-nn9bf   1/1       Running   0          73s
 </code></pre>
-
 <ul>
 <li>
 <p>Podemos borrar todo lo realizado con <code>oc delete all -o name -l app=blog</code>  </p>
@@ -814,7 +804,6 @@ spec:
         ports:
         - containerPort: 80
 </code></pre>
-
 <ul>
 <li>APLICATION GROUPS: desde la consola en topology, elegimos el ejemplo de wordpress en el que hay dos apps en un proyecto. Vamos a actions - edit aplication grouping - creamos una app - ponemos nombre y nos crea como una burbuja(en la bbdd). Ahora vamos al worpress y hacemos lo mismo y le asignamos al mismo aplication groups y vemos que las dos apps estan agrupadas como si las dos dependieran d ellas. Esto en labels se ve como añade un label mas. Se puede añadir flechas(conectores) para poner graficamente que relaciona una cosa con otra.  </li>
 </ul>
@@ -845,7 +834,6 @@ spec:
          - name: PROPIETARIO
            value: &quot;Apasoft Training&quot;
 </code></pre>
-
 <ul>
 <li>
 <p>Nos logamos en un pod para comprobar las variables:<br />
@@ -915,7 +903,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <ul>
 <li>Creamos el servicio postgres:  </li>
 </ul>
@@ -935,7 +922,6 @@ spec:
     deploymentconfig: postgres-db
   type: ClusterIP
 </code></pre>
-
 <blockquote>
 <p>Sino sale, hacemos crc oc-env y luego lo que sale, lo ejecutamos.  </p>
 </blockquote>
@@ -988,7 +974,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <ul>
 <li>Creamos servicio:  </li>
 </ul>
@@ -1017,7 +1002,6 @@ spec:
 status:
   loadBalancer: {}
 </code></pre>
-
 <ul>
 <li>Luego exponemos el servicio de odoo y copiamos la url y entramos.</li>
 </ul>
@@ -1059,7 +1043,6 @@ spec:
          - configMapRef:
             name: cf1
 </code></pre>
-
 <ul>
 <li>Ahora modificando el ejercicio practico de ODOO y POSTGRES, creando primero las variables en un fichero en vez de antes ponerlas from literal:<br />
 <code>create configmap postrges-cm --from-env-file fichero_variables_postgres</code>  </li>
@@ -1097,7 +1080,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <pre><code>apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
@@ -1153,7 +1135,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <ul>
 <li>Comprobamos lo mismo que antes y saldrá igual.  </li>
 </ul>
@@ -1194,7 +1175,6 @@ spec:
          - secretRef:
             name: secret-cm
 </code></pre>
-
 <ul>
 <li>
 <p>Si entramos al pod con <code>oc rsh pod_name</code> cuando hacemos <code>env</code> lo vuelve a poner en claro y no encriptado.  </p>
@@ -1211,7 +1191,6 @@ type: Opaque
 data:
   PASSWORD: c2VjcmV0Cg==
 </code></pre>
-
 <blockquote>
 <p>password con <code>echo secret | base64</code>  </p>
 </blockquote>
@@ -1273,7 +1252,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <ul>
 <li>En CONSOLA WEB vamos al apartado confimaps o secrets y damos a crear. Tambien se puede crear añadiendo un workload ya existente.  </li>
 </ul>
@@ -1311,7 +1289,6 @@ oc patch dc docker-registry -p '{&quot;spec&quot;:{&quot;template&quot;:{&quot;s
 - y lo siguiente
 oc adm policy add-scc-to-user hostaccess -z registry
 </code></pre>
-
 <ul>
 <li>
 <p>A través de una imagen externa. Con este comando nos indica de que tipo de imagen tratamos:<br />
@@ -1346,7 +1323,6 @@ spec:
       kind: DockerImage
       name: apasoft/web
 </code></pre>
-
 <ul>
 <li>
 <p>Podemos actualizar cambios directamente en las imagenes poniendo <code>oc import-image apasoft/ejemplo_docker --scheduled=true --confirm</code>  </p>
@@ -1400,7 +1376,6 @@ spec:
     type: ImageChange
   - type: ConfigChange
 </code></pre>
-
 <blockquote>
 <p>Despues hacemos un <code>oc create imagestream nombre_bc</code> y luego ya podemos hacer un start-build y un new-app si queremos.  </p>
 </blockquote>
@@ -1438,7 +1413,6 @@ spec:
     type: ImageChange
   - type: ConfigChange
 </code></pre>
-
 <pre><code>apiVersion: v1
 kind: ImageStream
 metadata:
@@ -1447,7 +1421,6 @@ metadata:
     version: &quot;2&quot;
   name: binary
 </code></pre>
-
 <blockquote>
 <p>Luego vemos que se nos crea automaticamente todo por los triggers(triggers: - imageChange: type: ImageChange- type: ConfigChange) y ya podemos usarlo para un new-app.  </p>
 </blockquote>
@@ -1492,7 +1465,6 @@ spec:
     type: ImageChange
   - type: ConfigChange
 </code></pre>
-
 <pre><code>apiVersion: v1
 kind: ImageStream
 metadata:
@@ -1504,7 +1476,6 @@ spec:
       kind: DockerImage
       name:  openshift/python-33-centos7
 </code></pre>
-
 <blockquote>
 <p>auto lo hace por el tipo de triggers y sino creamos un <code>oc create imagestream pythonapp</code> y lo hace.</p>
 </blockquote>
@@ -1686,7 +1657,6 @@ status:
       lastTransitionTime: '2021-07-26T11:50:22Z'
       message: Deployment config does not have minimum availability.
 </code></pre>
-
 <ul>
 <li>
 <p>Con el <code>oc rollout latest dc/php1</code>. Hace volver al dc ultimo registrado.  </p>
@@ -1744,7 +1714,6 @@ parameters:
 labels:
   redis: master
 </code></pre>
-
 <blockquote>
 <p>En los parameters especificamos las variables a utilizar en una plantilla personalizada.  </p>
 </blockquote>
@@ -1813,7 +1782,6 @@ parameters:
     value: aplicacion
 message: &quot;... Aplicacion ${APLICACION} creada desde una plantilla.&quot;
 </code></pre>
-
 <blockquote>
 <p>ahora podemos crear una nueva apllicacion con <code>oc new-app aplicacion --name=app1</code></p>
 </blockquote>
@@ -1860,7 +1828,6 @@ spec:
   - name: temp
     emptyDir: {}
 </code></pre>
-
 <ul>
 <li>
 <p><code>oc get pv</code> donde vemos los physical volumen creados. Bound significa que estan ligados a un PVClaim. <code>oc describe pv pv_name</code> donde el source nos indica a qué está asociado.  </p>
@@ -1884,7 +1851,6 @@ spec:
   hostPath:
     path: &quot;/mnt/data/pv-volumen&quot;
 </code></pre>
-
 <blockquote>
 <p>el storageclassname es una clase de pv que se crea cuando es para varias cosas en general. Si se crea aqui es solo interno y no sale como clase como objeto general, solo está nivel d este pv. </p>
 </blockquote>
@@ -1900,7 +1866,6 @@ spec:
     requests:
       storage: 3Gi
 </code></pre>
-
 <pre><code>apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
@@ -1939,7 +1904,6 @@ spec:
   triggers:
   - type: ConfigChange
 </code></pre>
-
 <ul>
 <li>Para un class storage generico. Creamos un proyecto, luego un storage class y ponemos el tipo de que sera en el 'provisioner'. Ahora creamos dos PV con el nombre y tamaño que queramos, asociados a este storage. Ahora creamos un PVC asociado al storage, el tamaño. Hace al hacer el apply del yaml veremos como el PVC clama, bound a unos de los PV que mas ajuste al estar asociados.</li>
 </ul>
@@ -1976,17 +1940,18 @@ spec:
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../kubernetes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../terraform/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../kubernetes/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../terraform/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

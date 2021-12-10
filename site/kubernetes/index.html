@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -508,6 +511,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -643,7 +647,6 @@ kubelet: Running
 apiserver: Running
 kubeconfig: Configured
 </code></pre>
-
 <ul>
 <li>
 <p><strong>COMANDOS BÁSICOS MINIKUBE</strong>:  </p>
@@ -702,7 +705,6 @@ kubeconfig: Configured
 
 pod/pod-test created
 </code></pre>
-
 <ul>
 <li>Vemos que lo hemos creado y está corriendo:  </li>
 </ul>
@@ -710,7 +712,6 @@ pod/pod-test created
 NAME       READY   STATUS    RESTARTS   AGE
 pod-test   1/1     Running   0          22s
 </code></pre>
-
 <blockquote>
 <p>Normalmente hay un contenedor por pod, se suele asimilar a eso.  </p>
 </blockquote>
@@ -730,7 +731,6 @@ NAME        READY   STATUS         RESTARTS   AGE
 pod-test    1/1     Running        0          5m19s
 pod-test2   0/1     ErrImagePull   0          14s
 </code></pre>
-
 <ul>
 <li>Para ver los ´logs´ usamos <code>kubectl describe pod nombrePod</code>:<br />
 <code>kubectl describe pod pod-test</code>  <blockquote>
@@ -818,7 +818,6 @@ spec:
     - name: container1
       image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>
 <p>Las api versions las podemos ver en:<br />
@@ -840,7 +839,6 @@ NAME        READY   STATUS    RESTARTS   AGE
 pod-test    1/1     Running   0          6h54m
 pod-test2   1/1     Running   0          7s
 </code></pre>
-
 <ul>
 <li>
 <p>Para borrarlo:<br />
@@ -868,7 +866,6 @@ spec:
     - name: container2
       image: nginx:alpine
 </code></pre>
-
 <h3 id="2-container-por-pod">2+ CONTAINER POR POD</h3>
 <ul>
 <li>Para crear dos o  más containers en un POD se añade en la subsección containers:  </li>
@@ -886,7 +883,6 @@ spec:
       image: python:3.6-alpine
       command: ['sh', '-c', 'echo &quot;cont2&quot; &gt; index.html &amp;&amp; python -m http.server 8082']
 </code></pre>
-
 <blockquote>
 <p>Nos dará error porque estamos levantando dos container en el mismo puerto. El problema es que en un POD todos los containers comparten la misma red , por lo que si se levanta uno en el puerto 8082, el otro tiene que ser diferente.  </p>
 </blockquote>
@@ -900,7 +896,6 @@ Traceback (most recent call last):
     self.socket.bind(self.server_address)
 OSError: [Errno 98] Address in use
 </code></pre>
-
 <ul>
 <li>Arreglamos el fallo del puerto y comprobamos cada container del POD:  </li>
 </ul>
@@ -912,7 +907,6 @@ cont1
 / # cat index.html 
 cont2
 </code></pre>
-
 <h3 id="labels">LABELS</h3>
 <ul>
 <li>Los labels son etiquetas que se ponen debajo de los <code>metadata</code>:  </li>
@@ -941,7 +935,6 @@ spec:
     - name: container1
       image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>Los labels nos sirve para poder filtrar PODs con <code>kubectl get pods -l nombre=valor</code>:</li>
 </ul>
@@ -953,7 +946,6 @@ NAME        READY   STATUS    RESTARTS   AGE
 pod-test2   1/1     Running   0          78s
 pod-test3   1/1     Running   0          78s
 </code></pre>
-
 <blockquote>
 <p>Los LABELS más usado es el de APP. Muy importantes para administrar replicas.  </p>
 </blockquote>
@@ -1017,7 +1009,6 @@ spec:
           image: python:3.6-alpine
           command: ['sh', '-c', 'echo &quot;cont2&quot; &gt; index.html &amp;&amp; python -m http.server 8083']
 </code></pre>
-
 <ul>
 <li>
 <p>Lo creamos:<br />
@@ -1045,7 +1036,6 @@ rs-test-fbwjb   2/2     Running   0          119s
 rs-test-hz2kx   2/2     Running   0          119s
 rs-test-s6cxx   2/2     Running   0          119s
 </code></pre>
-
 <ul>
 <li>Ver los <code>replicasets</code> con <code>kubectl get rs</code>:  </li>
 </ul>
@@ -1056,7 +1046,6 @@ rs-test   5         5         5       3m53s
 NAME      DESIRED   CURRENT   READY   AGE
 rs-test   5         5         5       3m56s
 </code></pre>
-
 <h3 id="eliminarmodificar">ELIMINAR/MODIFICAR</h3>
 <ul>
 <li>En un replicaset creado, si borramos un pod, vemos como actualiza directamente para mantener los 5 pods indicados:  </li>
@@ -1071,7 +1060,6 @@ rs-test-b9lf4   2/2     Running   0          43s
 rs-test-fbwjb   2/2     Running   0          5m43s
 rs-test-hz2kx   2/2     Running   0          5m43s
 </code></pre>
-
 <ul>
 <li>Si modifico el replicaset a 2 copias, veremos como se eliminan 3, se quedan dos:  </li>
 </ul>
@@ -1090,7 +1078,6 @@ NAME            READY   STATUS    RESTARTS   AGE
 rs-test-5tsfh   2/2     Running   0          9m26s
 rs-test-fbwjb   2/2     Running   0          9m26s
 </code></pre>
-
 <h3 id="logs">LOGS</h3>
 <ul>
 <li>
@@ -1117,7 +1104,6 @@ name: rs-test-5tsfh
     name: rs-test
     uid: 646a4a62-6acc-41a7-b3d1-7fe095c441d0
 </code></pre>
-
 <ul>
 <li>Comprobamos que el <code>UID</code> anterior coincide con el replicaset creado <code>kubectl get rs rsName -o yaml</code>:  </li>
 </ul>
@@ -1128,7 +1114,6 @@ name: rs-test
   selfLink: /apis/apps/v1/namespaces/default/replicasets/rs-test
   uid: 646a4a62-6acc-41a7-b3d1-7fe095c441d0
 </code></pre>
-
 <h3 id="adopcion-de-pods-planos">ADOPCIÓN DE PODS PLANOS</h3>
 <ul>
 <li>Vamos a crear primero dos PODs manualmente:  </li>
@@ -1138,7 +1123,6 @@ pod/pod-test created
 [isx46410800@miguel replicaset]$ kubectl run pod-test2 --image=nginx:alpine
 pod/pod-test2 created
 </code></pre>
-
 <ul>
 <li>Les creamos un LABEL a cada uno con <code>kubectl label pods podName label=valor</code>:  </li>
 </ul>
@@ -1147,7 +1131,6 @@ pod/pod-test labeled
 [isx46410800@miguel replicaset]$ kubectl label pods pod-test2 app=pod-label
 pod/pod-test2 labeled
 </code></pre>
-
 <blockquote>
 <p>Tendran el nuevo label pero no tendrán ningun OWNER REFERENCE porque no han sido creados por ningun REPLICASET.  </p>
 </blockquote>
@@ -1162,7 +1145,6 @@ pod-test        1/1     Running   0          3m49s
 pod-test2       1/1     Running   0          3m45s
 rs-test-8mk72   2/2     Running   0          10s
 </code></pre>
-
 <blockquote>
 <p>Tenemos un GRAN PROBLEMA ya que adopta dos pods huerfanos sin owner y los coge pero los adopta y ellos solo tienen un container y no dos con la estructura del replicaset. Si borramos un pod de uno, el replicaset regenera uno nuevo con la estructura buena.  </p>
 </blockquote>
@@ -1228,14 +1210,12 @@ spec:
         ports:
         - containerPort: 80
 </code></pre>
-
 <ul>
 <li>Lo creamos con <code>kubectl apply -f deployment.yaml</code>:  </li>
 </ul>
 <pre><code>[isx46410800@miguel deployments]$ kubectl apply -f deployment.yaml 
 deployment.apps/deployment-test created
 </code></pre>
-
 <ul>
 <li>Vemos el deployment creado <code>kubectl get deployment</code>:  </li>
 </ul>
@@ -1243,7 +1223,6 @@ deployment.apps/deployment-test created
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 deployment-test   3/3     3            3           8s
 </code></pre>
-
 <ul>
 <li>Vemos los labels del deployment <code>kubectl get deployment --show-labels</code>:  </li>
 </ul>
@@ -1251,14 +1230,12 @@ deployment-test   3/3     3            3           8s
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE   LABELS
 deployment-test   3/3     3            3           21s   app=front
 </code></pre>
-
 <ul>
 <li>Vemos el estado del deployment <code>kubectl rollout status deployment deploymentName</code>:  </li>
 </ul>
 <pre><code>[isx46410800@miguel deployments]$ kubectl rollout status deployment deployment-test
 deployment &quot;deployment-test&quot; successfully rolled out
 </code></pre>
-
 <ul>
 <li>Vemos que se ha creado un replicaset y tiene los mismo labels:  </li>
 </ul>
@@ -1269,7 +1246,6 @@ deployment-test-659b64d66c   3         3         3       4m28s
 NAME                         DESIRED   CURRENT   READY   AGE    LABELS
 deployment-test-659b64d66c   3         3         3       5m8s   app=front,pod-template-hash=659b64d66c
 </code></pre>
-
 <ul>
 <li>Vemos que se ha creado 3 replicas del pod y tiene los mismo labels:  </li>
 </ul>
@@ -1284,7 +1260,6 @@ deployment-test-659b64d66c-n5qgr   1/1     Running   0          5m14s   app=fron
 deployment-test-659b64d66c-pzdct   1/1     Running   0          5m14s   app=front,pod-template-hash=659b64d66c
 deployment-test-659b64d66c-thknz   1/1     Running   0          5m14s   app=front,pod-template-hash=659b64d66c
 </code></pre>
-
 <ul>
 <li>Vemos la jerarquía de lo creado para saber quien es el <code>owner reference</code> de cada cosa con <code>kubectl get rs/pod/deployment NAME -o yaml</code>:  </li>
 <li>Deployment no tiene dueño</li>
@@ -1324,7 +1299,6 @@ deployment-test-69b674677d-2cq4l   1/1     Running   0          43s
 deployment-test-69b674677d-dwdlr   1/1     Running   0          19s
 deployment-test-69b674677d-dwspw   1/1     Running   0          24s
 </code></pre>
-
 <ul>
 <li>Vemos el estado en directo de lo que hace con <code>ubectl rollout status deployment deploymentName</code>:  </li>
 </ul>
@@ -1339,7 +1313,6 @@ Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 old repl
 Waiting for deployment &quot;deployment-test&quot; rollout to finish: 1 old replicas are pending termination...
 deployment &quot;deployment-test&quot; successfully rolled out
 </code></pre>
-
 <ul>
 <li>También podemos ver el resultado en <code>kubectl describe deployment deploymentName</code>:  </li>
 </ul>
@@ -1350,7 +1323,6 @@ deployment &quot;deployment-test&quot; successfully rolled out
   Normal  ScalingReplicaSet  5m18s                  deployment-controller  Scaled up replica set deployment-test-69b674677d to 1
   Normal  ScalingReplicaSet  4m59s                  deployment-controller  Scaled down replica set deploy
 </code></pre>
-
 <ul>
 <li>Aquí vemos también la estrategía de los valores que comentamos en la introducción:<br />
 <code>RollingUpdateStrategy:  25% max unavailable, 25% max surge</code>  </li>
@@ -1366,7 +1338,6 @@ REVISION  CHANGE-CAUSE
 3         &lt;none&gt;
 4         &lt;none&gt;
 </code></pre>
-
 <ul>
 <li>Podemos con esto volver a cualquier versión anterior. Por defecto es 10 replicasets que guarda pero podemos cambiarlo añadiento en la parte de replicaset del manifiesto YAML <code>revisionHistoryLimit: 5</code>:  </li>
 </ul>
@@ -1396,7 +1367,6 @@ spec:
         ports:
         - containerPort: 80
 </code></pre>
-
 <ul>
 <li>
 <p>Para poner un motivo en el <code>change-cause</code> cuando hacemos una versión de deployments indicamos dos maneras:  </p>
@@ -1449,7 +1419,6 @@ Pod Template:
     Mounts: &lt;none&gt;
   Volumes:  &lt;none&gt;
 </code></pre>
-
 <h3 id="roll-backs">ROLL BACKS</h3>
 <ul>
 <li>Se utiliza para volver a un estado bien porque por ejemplo ha ido mal una actualización de la imagen:  </li>
@@ -1460,7 +1429,6 @@ Pod Template:
         ports:
         - containerPort: 110
 </code></pre>
-
 <ul>
 <li>Vemos el nuevo historial y su fallo:  </li>
 </ul>
@@ -1480,7 +1448,6 @@ deployment-test-74fb9c6d9f-7dwnr   1/1     Running        0          6m50s
 deployment-test-74fb9c6d9f-f5qs8   1/1     Running        0          6m45s
 deployment-test-74fb9c6d9f-lsmzj   1/1     Running        0          6m54s
 </code></pre>
-
 <ul>
 <li>Volvemos haciendo un <code>rollback</code> a una versión anterior con <code>kubectl rollout undo deployment deployment-test --to-revision=4</code>:  </li>
 </ul>
@@ -1513,7 +1480,6 @@ Pod Template:
 [isx46410800@miguel deployments]$ kubectl describe deployment deployment-test 
 Normal  ScalingReplicaSet  117s (x12 over 15m)  deployment-controller  (combined from similar events): Scaled down replica set deployment-test-5c6896bcd5 to 0
 </code></pre>
-
 <h2 id="servicios">SERVICIOS</h2>
 <ul>
 <li>
@@ -1574,7 +1540,6 @@ spec:
       port: 8888 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <blockquote>
 <p>El puerto del servicio MY-SERVICE es el 8888 y se comunica a la IP de cada POD por el 80.  </p>
 </blockquote>
@@ -1590,7 +1555,6 @@ my-service   ClusterIP   10.97.182.119   &lt;none&gt;        8888/TCP   63s
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 deployment-test   3/3     3            3           79s
 </code></pre>
-
 <ul>
 <li>Vemos por el label que le indicamos en el YAML:  </li>
 </ul>
@@ -1598,7 +1562,6 @@ deployment-test   3/3     3            3           79s
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 my-service   ClusterIP   10.97.182.119   &lt;none&gt;        8888/TCP   3m35s
 </code></pre>
-
 <blockquote>
 <p>El cluster-ip se lo da kubernetes si no se lo asignamos directamente  </p>
 </blockquote>
@@ -1619,7 +1582,6 @@ Endpoints:         172.18.0.2:80,172.18.0.4:80,172.18.0.5:80
 Session Affinity:  None
 Events:            &lt;none&gt;
 </code></pre>
-
 <blockquote>
 <p>Vemos nuestra IP como antes y la lista de IPs de los pods que nos podemos comunicar en el endpoint.  </p>
 </blockquote>
@@ -1637,7 +1599,6 @@ NAME         ENDPOINTS                                   AGE
 kubernetes   172.17.0.2:8443                             41h
 my-service   172.18.0.2:80,172.18.0.4:80,172.18.0.5:80   10m
 </code></pre>
-
 <ul>
 <li>Comprobamos que son las mismas de los PODS:  </li>
 </ul>
@@ -1647,7 +1608,6 @@ deployment-test-b7c99d94b-cgds6   1/1     Running   0          10m   172.18.0.4 
 deployment-test-b7c99d94b-fmpdc   1/1     Running   0          10m   172.18.0.2   minikube   &lt;none&gt;           &lt;none&gt;
 deployment-test-b7c99d94b-t8bdz   1/1     Running   0          10m   172.18.0.5   minikube   &lt;none&gt;           &lt;none&gt;
 </code></pre>
-
 <ul>
 <li>Si eliminamos un Pod, se crea uno nuevo con otra ip y se actualiza el endpoint:  </li>
 </ul>
@@ -1663,7 +1623,6 @@ deployment-test-b7c99d94b-fmpdc   1/1     Running   0          14m   172.18.0.2 
 deployment-test-b7c99d94b-kcdnx   1/1     Running   0          39s   172.18.0.6   minikube   &lt;none&gt;           &lt;none&gt;
 deployment-test-b7c99d94b-t8bdz   1/1     Running   0          14m   172.18.0.5   minikube   &lt;none&gt;           &lt;none&gt;
 </code></pre>
-
 <h3 id="dns">DNS</h3>
 <ul>
 <li>
@@ -1699,7 +1658,6 @@ Commercial support is available at
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-
 <blockquote>
 <p>Con esto hacemos que desde un pod llamamos al servicio web de nginx que lo coge de sus pods de label web.  </p>
 </blockquote>
@@ -1732,7 +1690,6 @@ spec:
       port: 8888 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <h3 id="servicio-node-port">SERVICIO NODE-PORT</h3>
 <ul>
 <li>
@@ -1781,7 +1738,6 @@ spec:
       port: 8888 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -1794,7 +1750,6 @@ deployment-test2-77448c6d65-gj6l7   1/1     Running   0          36s
 deployment-test2-77448c6d65-n8td7   1/1     Running   0          36s
 deployment-test2-77448c6d65-sd6zq   1/1     Running   0          36s
 </code></pre>
-
 <ul>
 <li>
 <p>Si pusiera mi IP y el puerto que redirige el nodo, veriamos el servicio:<br />
@@ -1811,7 +1766,6 @@ deployment-test2-77448c6d65-sd6zq   1/1     Running   0          36s
 | default   | my-service2 |        8888 | http://172.17.0.2:30072 |
 |-----------|-------------|-------------|-------------------------|
 </code></pre>
-
 <blockquote>
 <p>Esa url nos dará el servicio web a través del node port.  </p>
 </blockquote>
@@ -1853,7 +1807,6 @@ func main() {
     http.ListenAndServe(&quot;:9090&quot;, nil))
 }
 </code></pre>
-
 <blockquote>
 <p>Esto crea una funcion principal de que corra el servicio http cuando encuentre la /, nos contestará a la petición el hello wolld como respuesta.  </p>
 </blockquote>
@@ -1868,7 +1821,6 @@ func main() {
 <pre><code>[isx46410800@miguel src]$ docker exec -it goland /bin/bash
 root@miguel:/go# go run main.go 
 </code></pre>
-
 <p>![./images/kubernetes4.png]  </p>
 <h3 id="cambios-mensaje-respuesta">CAMBIOS MENSAJE RESPUESTA</h3>
 <h3 id="mensaje-1">MENSAJE 1</h3>
@@ -1893,7 +1845,6 @@ func main() {
     http.ListenAndServe(&quot;:9090&quot;, nil)
 }
 </code></pre>
-
 <p>![./images/kubernetes5.png]  </p>
 <h4 id="mensaje-2">MENSAJE 2</h4>
 <ul>
@@ -1933,7 +1884,6 @@ func main() {
     http.ListenAndServe(&quot;:9090&quot;, nil)
 }
 </code></pre>
-
 <blockquote>
 <p>Hemos creado una estructura con type y luego hemos creado un objetivo y convertido a string para cambiar el mensaje y también darle un mensaje de error si no acaba en /.  </p>
 </blockquote>
@@ -1958,7 +1908,6 @@ COPY --from=builder /app/app .
 # PARA EJECUTARLO
 ENTRYPOINT [&quot;./app&quot;]
 </code></pre>
-
 <ul>
 <li>
 <p>Construimos imagen:<br />
@@ -2016,7 +1965,6 @@ spec:
       port: 80 # servicio por donde escucha
       targetPort: 9090
 </code></pre>
-
 <blockquote>
 <p>Ponemos lo de <code>imagePullPolicy: IfNotPresent</code> para que primero busque si la imagen está constuida localmente antes de mirar en los repos de internet de dockerhub.  </p>
 </blockquote>
@@ -2039,7 +1987,6 @@ NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
 backend-k8s-hands-on   ClusterIP   10.101.44.56   &lt;none&gt;        80/TCP    16m
 kubernetes             ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP   3d19h
 </code></pre>
-
 <ul>
 <li>Visual cambiando a nodeport, nos contestará unos de los PODs la respuesta a la request del usuario:  </li>
 </ul>
@@ -2056,7 +2003,6 @@ kubernetes             ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP   
 {&quot;time&quot;:&quot;2020-10-13T19:58:10.218346403Z&quot;,&quot;hostname&quot;:&quot;backend-k8s-hands-on-5d548949c7-9qp82&quot;}/ # 
 {&quot;time&quot;:&quot;2020-10-13T19:58:25.365295183Z&quot;,&quot;hostname&quot;:&quot;backend-k8s-hands-on-5d548949c7-66dgx&quot;}/ # 
 </code></pre>
-
 <h3 id="fronted">FRONTED</h3>
 <ul>
 <li>Creamos ahora un index.html de respuesta en un fronted/src/index.html:  </li>
@@ -2079,7 +2025,6 @@ xmlhttp.open(&quot;GET&quot;, url, true);
 xmlhttp.send();
 &lt;/script&gt;
 </code></pre>
-
 <ul>
 <li>Dockerfile:  </li>
 </ul>
@@ -2088,7 +2033,6 @@ FROM nginx:alpine
 # COPIAMOS FICHERO MAIN
 COPY ./src/index.html /usr/share/nginx/html/index.html
 </code></pre>
-
 <h3 id="manifiesto-fronted">MANIFIESTO FRONTED</h3>
 <ul>
 <li>Despliegue del fronted:  </li>
@@ -2133,7 +2077,6 @@ spec:
       port: 80 # servicio por donde escucha
       targetPort: 80
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2154,7 +2097,6 @@ fronted-k8s-hands-on-78f59c5f77-r7fnm   1/1     Running   0          9m27s
 Kubernetes master is running at https://172.17.0.2:8443
 KubeDNS is running at https://172.17.0.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 </code></pre>
-
 <h2 id="namespaces">NAMESPACES</h2>
 <ul>
 <li>
@@ -2181,7 +2123,6 @@ kube-node-lease   Active   3d23h
 kube-public       Active   3d23h
 kube-system       Active   3d23h
 </code></pre>
-
 <ul>
 <li>
 <p>Especifica por namespace:<br />
@@ -2205,7 +2146,6 @@ kube-system       Active   3d23h
 <pre><code>[isx46410800@miguel k8s-hands-on]$ kubectl create namespace test-ns
 namespace/test-ns created
 </code></pre>
-
 <ul>
 <li>Para verlo <code>kubectl get namespaces</code> y <code>kubectl describe namespaces test-ns</code>:  </li>
 </ul>
@@ -2224,7 +2164,6 @@ Status:       Active
 No resource quota.
 No LimitRange resource.
 </code></pre>
-
 <ul>
 <li>Por manifiesto YAML:  </li>
 </ul>
@@ -2235,7 +2174,6 @@ metadata:
   labels:
     name: development
 </code></pre>
-
 <ul>
 <li>Comprobamos <code>kubectl get namespaces --show-labels</code>:  </li>
 </ul>
@@ -2250,7 +2188,6 @@ kube-public       Active   4d      &lt;none&gt;
 kube-system       Active   4d      &lt;none&gt;
 test-ns           Active   6m33s   &lt;none&gt;
 </code></pre>
-
 <h3 id="asignar-namespaces">ASIGNAR NAMESPACES</h3>
 <ul>
 <li>Creamos un pod y lo asignamos:  </li>
@@ -2261,7 +2198,6 @@ pod/podtest2 created
 NAME       READY   STATUS    RESTARTS   AGE
 podtest2   1/1     Running   0          22s
 </code></pre>
-
 <h3 id="borrar-namespaces">BORRAR NAMESPACES</h3>
 <ul>
 <li>
@@ -2295,7 +2231,6 @@ metadata:
   labels:
     name: prod
 </code></pre>
-
 <ul>
 <li>Lo vemos <code>kubectl get namespaces --show-labels</code>:  </li>
 </ul>
@@ -2308,7 +2243,6 @@ kube-public       Active   4d    &lt;none&gt;
 kube-system       Active   4d    &lt;none&gt;
 prod              Active   6s    name=prod
 </code></pre>
-
 <ul>
 <li>Creamos un deployment con los namespaces:  </li>
 </ul>
@@ -2374,7 +2308,6 @@ spec:
       - name: nginx
         image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2414,7 +2347,6 @@ kube-public       Active   4d
 kube-system       Active   4d
 prod              Active   10m
 </code></pre>
-
 <h3 id="dns-namespaces">DNS NAMESPACES</h3>
 <ul>
 <li>Creamos un namespace y un deploy asignados:  </li>
@@ -2468,7 +2400,6 @@ spec:
       port: 80 # servicio por donde escucha
       targetPort: 9090
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2498,7 +2429,6 @@ backend-k8s-hands-on-7d5b6dc559-7xv59   1/1     Running   0          49s
 backend-k8s-hands-on-7d5b6dc559-b4sqq   1/1     Running   0          49s
 backend-k8s-hands-on-7d5b6dc559-bdktk   1/1     Running   0          49s
 </code></pre>
-
 <ul>
 <li>
 <p>Ahora creamos un POD con el namespace default:<br />
@@ -2520,7 +2450,6 @@ backend-k8s-hands-on-7d5b6dc559-bdktk   1/1     Running   0          49s
 <pre><code>/ # curl backend-k8s-hands-on
 curl: (6) Could not resolve host: backend-k8s-hands-on
 </code></pre>
-
 <h3 id="contextos-namespaces">CONTEXTOS NAMESPACES</h3>
 <ul>
 <li>
@@ -2534,7 +2463,6 @@ curl: (6) Could not resolve host: backend-k8s-hands-on
 <pre><code>[isx46410800@miguel namespaces]$ kubectl config current-context
 minikube
 </code></pre>
-
 <ul>
 <li>Vemos el archivo de configuración <code>./kube/config</code> que es de donde lee el current-context:  </li>
 </ul>
@@ -2559,7 +2487,6 @@ users:
     client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
     client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
 </code></pre>
-
 <ul>
 <li>Mejor con este comando <code>kubectl config view</code>:  </li>
 </ul>
@@ -2584,14 +2511,12 @@ users:
     client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
     client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
 </code></pre>
-
 <ul>
 <li>Crear un nuevo contexto <code>ubectl config set-context Namecontext --namespace=nsName --cluster=clusterName --user=userName</code>:  </li>
 </ul>
 <pre><code>[isx46410800@miguel namespaces]$ kubectl config set-context ci-context --namespace=ci --cluster=minikube --user=minikube
 Context &quot;ci-context&quot; created.
 </code></pre>
-
 <ul>
 <li>Ahora vemos que tenemos dos contextos y uno apuntando al namespace creado de ci:  </li>
 </ul>
@@ -2621,7 +2546,6 @@ users:
     client-certificate: /home/isx46410800/.minikube/profiles/minikube/client.crt
     client-key: /home/isx46410800/.minikube/profiles/minikube/client.key
 </code></pre>
-
 <ul>
 <li>Para cambiar de contexto usamos <code>kubectl config use-context Namecontext</code>:  </li>
 </ul>
@@ -2649,7 +2573,6 @@ No resources found in default namespace.
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   4d
 </code></pre>
-
 <h2 id="limitar-ramcpu">LIMITAR RAM/CPU</h2>
 <ul>
 <li>
@@ -2689,7 +2612,6 @@ spec:
     # se indica que le va a dar 150Megas
     args: [&quot;--vm&quot;, &quot;1&quot;, &quot;--vm-bytes&quot;, &quot;150M&quot;, &quot;--vm-hang&quot;, &quot;1&quot;]
 </code></pre>
-
 <blockquote>
 <p>Garantizamos que va a tener 100Megas seguras y un limite maximo de 200. Se le asignar a crear un pod de 150M.  </p>
 </blockquote>
@@ -2700,7 +2622,6 @@ spec:
 NAME          READY   STATUS    RESTARTS   AGE
 memory-demo   1/1     Running   0          38s
 </code></pre>
-
 <ul>
 <li>Si ponemos el ejemplo anterior con 250M vemos los errores:  </li>
 </ul>
@@ -2718,7 +2639,6 @@ memory-demo   0/1     CrashLoopBackOff   2          26s
 NAME          READY   STATUS             RESTARTS   AGE
 memory-demo   0/1     CrashLoopBackOff   2          48s
 </code></pre>
-
 <ul>
 <li>Si ponemos un limit y request de 1000G de Ram (algo imposible), veremos los errores:  </li>
 </ul>
@@ -2731,7 +2651,6 @@ Events:
   ----     ------            ----               ----               -------
   Warning  FailedScheduling  25s (x2 over 25s)  default-scheduler  0/1 nodes are available: 1 Insufficient memory.
 </code></pre>
-
 <h4 id="cpu">CPU</h4>
 <ul>
 <li>Ejemplo de limitar CPU:  </li>
@@ -2754,7 +2673,6 @@ spec:
     - &quot;2&quot;
     # se le pide 2 cpus y hay limite de 1
 </code></pre>
-
 <blockquote>
 <p>Aunque se le pida 2, no se eliminará como la RAM sino que soolo tendrá de máximo el LIMIT indicado(1).  </p>
 </blockquote>
@@ -2770,7 +2688,6 @@ cpu-demo   0/1     ContainerCreating   0          7s
 NAME       READY   STATUS    RESTARTS   AGE
 cpu-demo   1/1     Running   0          11s
 </code></pre>
-
 <ul>
 <li>Si vemos la capacidad total de mi cluster <code>kubectl describe node minikube</code>: </li>
 </ul>
@@ -2783,7 +2700,6 @@ cpu-demo   1/1     Running   0          11s
   ephemeral-storage  0 (0%)       0 (0%)
   hugepages-2Mi      0 (0%)       0 (0%)
 </code></pre>
-
 <blockquote>
 <p>Siempre hay un poco más para que no sobrepase el limite y me vaya todo lento.  </p>
 </blockquote>
@@ -2794,7 +2710,6 @@ cpu-demo   1/1     Running   0          11s
 Capacity:
   cpu:                4
 </code></pre>
-
 <ul>
 <li>Si le ponemos limite y request 100 cpu veremos que nos sale los mismos errores que la RAM:  </li>
 </ul>
@@ -2807,7 +2722,6 @@ Events:
   ----     ------            ----               ----               -------
   Warning  FailedScheduling  25s (x2 over 25s)  default-scheduler  0/1 nodes are available: 1 Insufficient cpu.
 </code></pre>
-
 <h3 id="qosquality-of-service">QOS(Quality of Service)</h3>
 <ul>
 <li>
@@ -2862,7 +2776,6 @@ spec:
       cpu: 0.5
     type: Container
 </code></pre>
-
 <blockquote>
 <p>El objeto LIMITRANGE se crea en el namespace indicado, sino, se crea en el default.  </p>
 </blockquote>
@@ -2877,7 +2790,6 @@ limitrange/mem-limit-range created
 NAME              CREATED AT
 mem-limit-range   2020-10-14T18:10:15Z
 </code></pre>
-
 <ul>
 <li>Comprobamos con <code>kubectl describe limitrange LRName -n NSName</code>:  </li>
 </ul>
@@ -2889,7 +2801,6 @@ Type        Resource  Min  Max  Default Request  Default Limit  Max Limit/Reques
 Container   cpu       -    -    500m             1              -
 Container   memory    -    -    256Mi            512Mi          -
 </code></pre>
-
 <h3 id="valores-pod">VALORES POD</h3>
 <ul>
 <li>Ejemplo:  </li>
@@ -2932,7 +2843,6 @@ spec:
     - name: container1
       image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>Comprobamos los resultados del pod y sus limites creados al asignarlo a este namespaces con el objeto de limitRange:  </li>
 </ul>
@@ -2953,7 +2863,6 @@ spec:
       memory:     256Mi
     Environment:  &lt;none&gt;
 </code></pre>
-
 <blockquote>
 <p>Vemos que se han asignado la cpu de 0.5 y Ram 256M.  </p>
 </blockquote>
@@ -3006,7 +2915,6 @@ spec:
         memory: 400M
         cpu: 0.3
 </code></pre>
-
 <blockquote>
 <p>Si se superan los limites en los PODs te dará error, ya que sobrepasa los limites de memoria y ram  </p>
 </blockquote>
@@ -3048,7 +2956,6 @@ spec:
     limits.cpu: &quot;2&quot;
     limits.memory: 2Gi
 </code></pre>
-
 <ul>
 <li>Comprobamos con <code>kubectl describe resourcequota -n nsName</code>:  </li>
 </ul>
@@ -3065,7 +2972,6 @@ limits.memory    0     2Gi
 requests.cpu     0     1
 requests.memory  0     1Gi
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -3084,7 +2990,6 @@ Resource Quotas
  requests.memory  0     1Gi
 No LimitRange resource.
 </code></pre>
-
 <h3 id="deploy-rq">DEPLOY RQ</h3>
 <ul>
 <li>Ejemplo:  </li>
@@ -3142,7 +3047,6 @@ spec:
             memory: 500M
             cpu: 0.5
 </code></pre>
-
 <ul>
 <li>Comprobamos lo creado:  </li>
 </ul>
@@ -3161,7 +3065,6 @@ deployment-test   2/2     2            2           5m47s
 NAME           AGE     REQUEST                                      LIMIT
 mem-cpu-demo   5m57s   requests.cpu: 1/1, requests.memory: 1G/1Gi   limits.cpu: 1/2, limits.memory: 1G/2Gi
 </code></pre>
-
 <ul>
 <li>Con lo creado ahora podemos ver que hemos llegado a los limites <code>kubectl describe ns nsName</code>:  </li>
 </ul>
@@ -3180,7 +3083,6 @@ Resource Quotas
  requests.memory  1G    1Gi
 No LimitRange resource.
 </code></pre>
-
 <ul>
 <li>Si ahora modificamos el fichero y creamos 3 replicas, superará el limite indicado. Por lo que solo creará dos y no tres, ya que el 3 superará los limites asignados en el RESOURCE QUOTA.  </li>
 </ul>
@@ -3231,7 +3133,6 @@ spec:
       - name: nginx
         image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>Comprobamos lo creado:  </li>
 </ul>
@@ -3262,7 +3163,6 @@ qa                Active   18s
 NAME       AGE   REQUEST     LIMIT
 pod-demo   99s   pods: 3/3   
 </code></pre>
-
 <ul>
 <li>Más info <code>kubectl describe resourcequota pod-demo -n qa</code>:  </li>
 </ul>
@@ -3273,7 +3173,6 @@ Resource    Used  Hard
 --------    ----  ----
 pods        3     3
 </code></pre>
-
 <ul>
 <li>Si ponemos 4 replicas, solo se habrán creado 3 y el 4 veremos en errores de NS que no se pudo crear un 4 pod porque supera los limites asignados al Resource Quota.  </li>
 </ul>
@@ -3331,7 +3230,6 @@ spec:
       initialDelaySeconds: 5
       periodSeconds: 5
 </code></pre>
-
 <blockquote>
 <p>Cada 5 segundos crea un fichero, y al 35 se elimina. Va haciendo una prueba de que sigue vivo.  </p>
 </blockquote>
@@ -3362,7 +3260,6 @@ Events:
   Normal   Created    14s (x2 over 89s)  kubelet            Created container liveness
   Normal   Started    14s (x2 over 88s)  kubelet            Started container liveness
 </code></pre>
-
 <h3 id="liveness-tcp">LIVENESS TCP</h3>
 <ul>
 <li>Una probe con liveness TCP:  </li>
@@ -3390,7 +3287,6 @@ spec:
       initialDelaySeconds: 15
       periodSeconds: 20
 </code></pre>
-
 <ul>
 <li>Vemos resultados de lo que pasa en <code>kubectl describe pod podName</code>  </li>
 </ul>
@@ -3420,7 +3316,6 @@ spec:
       initialDelaySeconds: 5
       periodSeconds: 3
 </code></pre>
-
 <ul>
 <li>Vemos resultados de lo que pasa en <code>kubectl describe pod podName</code>  </li>
 </ul>
@@ -3451,7 +3346,6 @@ spec:
       initialDelaySeconds: 15
       periodSeconds: 20
 </code></pre>
-
 <blockquote>
 <p>La diferencia es que el readiness no reinicia el contenedor, sino que desenregistra el puerto para que no entren más peticiones de request y por lo tanto no se le de más carga a este contenedor/pod.  </p>
 </blockquote>
@@ -3476,7 +3370,6 @@ spec:
     - name: VAR3
       value: &quot;valor de prubea 3&quot;
 </code></pre>
-
 <ul>
 <li>Prueba:  </li>
 </ul>
@@ -3503,7 +3396,6 @@ PWD=/
 / # echo $VAR1
 valor de prueba 1
 </code></pre>
-
 <h3 id="variables-referenciadas">VARIABLES REFERENCIADAS</h3>
 <ul>
 <li>Se crearian a partir de conseguir la info del pod a partir del <code>[isx46410800@miguel env_variables]$ kubectl get pods envar-demo -o yaml</code>:  </li>
@@ -3535,7 +3427,6 @@ spec:
               fieldPath: status.podIP
   restartPolicy: Never
 </code></pre>
-
 <blockquote>
 <p>Dentro del POD tendremos estas variables con el valor obtenido de su spec, metadata,etc.  </p>
 </blockquote>
@@ -3588,7 +3479,6 @@ server {
 }
 Events:  &lt;none&gt;
 </code></pre>
-
 <blockquote>
 <p>Vemos que se ha creado en formato llave(nginx.conf) y valor la configuración.  </p>
 </blockquote>
@@ -3630,7 +3520,6 @@ server {
 }
 Events:  &lt;none&gt;
 </code></pre>
-
 <h3 id="montando-volumen-configmap">MONTANDO VOLUMEN CONFIGMAP</h3>
 <ul>
 <li>Ejemplo:  </li>
@@ -3697,7 +3586,6 @@ spec:
                 - key: nginx
                   path: default.conf
 </code></pre>
-
 <blockquote>
 <p>En la data son las llaves-valor del configmap. Volumemount el volumen a crear y a que carpeta ira sin coger la ruta de los archivos. Volumes el que se crea a raiz del nombre de configmap y items son que llave coge y path el nombre que le pondremos al valor de la llave. Si no se pone items, creara varios archivos con los nombres de las keys y su contenido como archivo.  </p>
 </blockquote>
@@ -3787,7 +3675,6 @@ spec:
             - key: script
               path: script.sh
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -3811,7 +3698,6 @@ dev.host.local
 / # cat /usr/share/nginx/html/test.html
 DB host es dev.host.local y DB user es dev_user
 </code></pre>
-
 <h2 id="secrets">SECRETS</h2>
 <ul>
 <li>
@@ -3873,7 +3759,6 @@ metadata:
   uid: 46d433c6-2c0f-4646-aa9d-b165c6abfee2
 type: Opaque
 </code></pre>
-
 <blockquote>
 <p>Vemos que el contenido de los secretos no se ven, están cifrados en BASE64, que se puede descrifrar poniendo <code>| base65 -decode</code>  </p>
 </blockquote>
@@ -3890,7 +3775,6 @@ data:
   username: YWRtaW4=
   password: MWYyZDFlMmU2N2Rm
 </code></pre>
-
 <blockquote>
 <p>Para descrifrarlo hay que pasarlo de base64.  </p>
 </blockquote>
@@ -3906,7 +3790,6 @@ stringData:
   username: usertest
   password: test
 </code></pre>
-
 <h3 id="envsubts">ENVSUBTS</h3>
 <ul>
 <li>Herramienta para poder reemplazar contenido de variables por el contenido:  </li>
@@ -3920,7 +3803,6 @@ data:
   username: $VAR1
   password: $VAR2
 </code></pre>
-
 <pre><code>[isx46410800@miguel secrets]$ export VAR1=miguel
 [isx46410800@miguel secrets]$ export VAR2=amoros
 [isx46410800@miguel secrets]$ envsubst &lt; secret-secure.yaml &gt; tmp.yaml
@@ -3935,7 +3817,6 @@ data:
   password: amoros
 [isx46410800@miguel secrets]$ kubectl apply -f tmp.yaml
 </code></pre>
-
 <blockquote>
 <p>Luego podemos decode con base64 y obtenemos el resultado.  </p>
 </blockquote>
@@ -3972,7 +3853,6 @@ spec:
     secret:
       secretName: secret1
 </code></pre>
-
 <blockquote>
 <p>En lo ultimo tambien podemos crearlo poniendo items e indicarle el path. ahora nos creara dos files al no ponerlo.  </p>
 </blockquote>
@@ -3996,7 +3876,6 @@ password  username
 / # cat /opt/username 
 admin/ # 
 </code></pre>
-
 <h3 id="env-secrets">ENV SECRETS</h3>
 <ul>
 <li>Un ejemplo de crear un secreto y montarlo como varibale de entorno:  </li>
@@ -4041,7 +3920,6 @@ spec:
     secret:
       secretName: secret1
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4054,7 +3932,6 @@ password  username
 / # echo $USERTEST $PASSWORDTEST
 admin 123456
 </code></pre>
-
 <h2 id="volumes">VOLUMES</h2>
 <ul>
 <li>
@@ -4099,7 +3976,6 @@ spec:
   - name: vol-emptydir
     emptyDir: {}
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4135,7 +4011,6 @@ pod-test2   1/1     Running   1          47s
 access.log    empytdir.txt  error.log
 / # 
 </code></pre>
-
 <h3 id="hostpath-pv">HOSTPATH-PV</h3>
 <ul>
 <li>En el hostpath la carpeta con el contenido se guarda en altura de nodo.  </li>
@@ -4161,7 +4036,6 @@ spec:
   hostPath:
     path: &quot;/test&quot; # donde esta el storage real d mi pv
 </code></pre>
-
 <ul>
 <li>Comprobar con <code>kubectl get pv</code> y <code>kubectl describe pv pvName</code>:  </li>
 </ul>
@@ -4189,7 +4063,6 @@ Source:
     HostPathType:  
 Events:            &lt;none&gt;
 </code></pre>
-
 <h3 id="pvc">PVC</h3>
 <ul>
 <li>
@@ -4231,7 +4104,6 @@ spec:
     requests:
       storage: 10Gi
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4243,7 +4115,6 @@ task-pv-claim   Bound    task-pv-volume   10Gi       RWO            manual      
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                   STORAGECLASS   REASON   AGE
 task-pv-volume   10Gi       RWO            Retain           Bound    default/task-pv-claim   manual                  5m14s
 </code></pre>
-
 <blockquote>
 <p>El estado ahora del PV es <code>bound</code> que significa que se ha unido a un PVC.  </p>
 </blockquote>
@@ -4304,7 +4175,6 @@ spec:
     matchLabels:
         mysql: ready
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4322,7 +4192,6 @@ NAME              CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM  
 task-pv-volume    10Gi       RWO            Retain           Available                           manual                  19s   type=local
 task-pv-volume2   10Gi       RWO            Retain           Bound       default/task-pv-claim   manual                  19s   mysql=ready
 </code></pre>
-
 <blockquote>
 <p>Vemos que se ha unido el PV2 con el PVC como indicamos en los selector.  </p>
 </blockquote>
@@ -4390,7 +4259,6 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             value: &quot;12345678&quot;
 </code></pre>
-
 <ul>
 <li>Ahora lo creamos con volumenes para que persista la data:  </li>
 </ul>
@@ -4461,7 +4329,6 @@ spec:
           persistentVolumeClaim:
             claimName: test-pvc
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4509,7 +4376,6 @@ Source:
     HostPathType:  
 Events:            &lt;none&gt;
 </code></pre>
-
 <ul>
 <li>Vemos que persiste la data creada en el pod original y al eliminarlo y crear otro está la bbdd creada de antes:  </li>
 </ul>
@@ -4539,7 +4405,6 @@ mysql&gt; show databases;
 5 rows in set (0.00 sec)
 mysql&gt; 
 </code></pre>
-
 <h3 id="cloud-volumes">CLOUD VOLUMES</h3>
 <ul>
 <li>
@@ -4556,7 +4421,6 @@ mysql&gt;
 NAME                 PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
 standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  7d18h
 </code></pre>
-
 <ul>
 <li>Creamos un PVC con cloud:  </li>
 </ul>
@@ -4573,7 +4437,6 @@ spec:
     requests:
       storage: 20Gi
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4591,7 +4454,6 @@ NAME                                       CAPACITY   ACCESS MODES   RECLAIM POL
 pvc-61def8c2-64a3-4f88-a7f1-e1572b1477f8   20Gi       RWO            Delete           Bound    default/sc-pvc     standard                14s
 test-pv                                    10Gi       RWO            Retain           Bound    default/test-pvc   manual                  67m
 </code></pre>
-
 <blockquote>
 <p>Crea dinamicamente un PV al PVC.  </p>
 </blockquote>
@@ -4670,7 +4532,6 @@ clusters:
     certificate-authority: /home/isx46410800/.minikube/ca.crt
     server: https://172.17.0.2:8443
 </code></pre>
-
 <ul>
 <li>Lo firmamos:<br />
 <code>sudo openssl x509 -req -in miguel.csr -CA /home/isx46410800/.minikube/ca.crt -CAkey /home/isx46410800/.minikube/ca.key -CAcreateserial -out miguel.crt -days 500</code>  </li>
@@ -4681,7 +4542,6 @@ Signature ok
 subject=CN = miguel, O = dev
 Getting CA Private Key
 </code></pre>
-
 <ul>
 <li>Comprobamos el certificado:<br />
 <code>openssl x509 -in  miguel.crt  -noout -text</code>  </li>
@@ -4699,13 +4559,11 @@ Certificate:
             Not After : Mar  3 17:28:14 2022 GMT
         Subject: CN = miguel, O = dev
 </code></pre>
-
 <p><code>PASOS: CREAMOS UN CONTAINER DE PRUEBA</code><br />
 + Configuramos kubectl en modo de prueba en un container, creando un contexto nuevo a través de mis credenciales y mis llaves/certificados:  </p>
 <pre><code>kubectl config view  | grep server
 docker run --rm -ti -v $PWD:/test -w /test  -v /home/isx46410800/.minikube/ca.crt:/ca.crt -v /usr/bin/kubectl:/usr/bin/kubectl alpine sh
 </code></pre>
-
 <ul>
 <li>
 <p>Configuramos el kubectl con el usuario CN indicado(miguel):<br />
@@ -4742,14 +4600,12 @@ users:
 /test # kubectl config current-context
 miguel
 </code></pre>
-
 <ul>
 <li>Vemos que como usuario nuevo y sin tener ningun RBAC asignado, que no tenemos permisos para ver pods ni nada de objetos:  </li>
 </ul>
 <pre><code>/test # kubectl get pods
 Error from server (Forbidden): pods is forbidden: User &quot;miguel&quot; cannot list resource &quot;pods&quot; in API group &quot;&quot; in the namespace &quot;default&quot;
 </code></pre>
-
 <h3 id="habilitar-rbac">HABILITAR RBAC</h3>
 <ul>
 <li>Vemos si está:  </li>
@@ -4757,7 +4613,6 @@ Error from server (Forbidden): pods is forbidden: User &quot;miguel&quot; cannot
 <pre><code>[isx46410800@miguel rbac]$ kubectl cluster-info dump | grep autho
 &quot;--authorization-mode=Node,RBAC&quot;,
 </code></pre>
-
 <ul>
 <li>Sino, lo habitamos así:<br />
 <code>minikube start --vm-driver=none  --extra-config=apiserver.authorization-mode=RBAC</code>  </li>
@@ -4771,7 +4626,6 @@ kubectl config set-credentials miguel --client-certificate=miguel.crt --client-k
 kubectl config set-context miguel --cluster=minikube --user=miguel
 kubectl config use-context miguel
 </code></pre>
-
 <h3 id="crear-roles">CREAR ROLES</h3>
 <ul>
 <li>Ejemplo:  </li>
@@ -4786,7 +4640,6 @@ rules:
   resources: [&quot;pods&quot;] #objetos
   verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;] # acciones
 </code></pre>
-
 <ul>
 <li>Comprobamos <code>kubectl get roles</code>:  </li>
 </ul>
@@ -4806,7 +4659,6 @@ PolicyRule:
   ---------  -----------------  --------------  -----
   pods       []                 []              [get watch list]
 </code></pre>
-
 <blockquote>
 <p>No podemos hacer con el usuario miguel kubectl get pods porque todavia no está enlazado el role con el user.</p>
 </blockquote>
@@ -4858,7 +4710,6 @@ roleRef:
   name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos lo creado con <code>kubectl get rolebinding</code>:  </li>
 </ul>
@@ -4886,7 +4737,6 @@ Subjects:
   ----  ----    ---------
   User  miguel  
 </code></pre>
-
 <ul>
 <li>Comprobamos ahora con el usuario <code>miguel</code> sí puedo hacer esas acciones que antes no me dejaban(este caso con pods). Eso sí, unicamente en el namespace por default que fue el que indicamos:  </li>
 </ul>
@@ -4905,7 +4755,6 @@ Error from server (Forbidden): replicasets.apps is forbidden: User &quot;miguel&
 [isx46410800@miguel rbac]$ kubectl get svc
 Error from server (Forbidden): services is forbidden: User &quot;miguel&quot; cannot list resource &quot;services&quot; in API group &quot;&quot; in the namespace &quot;default&quot;
 </code></pre>
-
 <ul>
 <li>Ahora creamos otro role con que también podamos ver deploys. Para ver el tipo de <code>api groups</code> recordamos que es mirando <code>kubectl api-resources</code>:  </li>
 </ul>
@@ -4940,7 +4789,6 @@ roleRef:
   name: pod-deploy-reader # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -4973,7 +4821,6 @@ Error from server (Forbidden): services is forbidden: User &quot;miguel&quot; ca
 [isx46410800@miguel rbac]$ kubectl apply -f ../pods/pod-2containers.yaml 
 Error from server (Forbidden): error when creating &quot;../pods/pod-2containers.yaml&quot;: pods is forbidden: User &quot;miguel&quot; cannot create resource &quot;pods&quot; in API group &quot;&quot; in the namespace &quot;default&quot;
 </code></pre>
-
 <h3 id="config-maps">CONFIG MAPS</h3>
 <ul>
 <li>Un ejemplo de crear un namespace y un configmaps y que el usuario pueda moverse en estos objetos:  </li>
@@ -5026,7 +4873,6 @@ data:
   db_host: dev.host.local
   db_user: dev_user
 </code></pre>
-
 <ul>
 <li>Comprobamos resultados:  </li>
 </ul>
@@ -5069,7 +4915,6 @@ Subjects:
 NAME   DATA   AGE
 vars   2      43s
 </code></pre>
-
 <ul>
 <li>Como usuario miguel:  </li>
 </ul>
@@ -5090,7 +4935,6 @@ Error from server (Forbidden): configmaps &quot;vars&quot; is forbidden: User &q
 error: configmaps &quot;vars&quot; could not be patched: configmaps &quot;vars&quot; is forbidden: User &quot;miguel&quot; cannot patch resource &quot;configmaps&quot; in API group &quot;&quot; in the namespace &quot;dev&quot;
 You can run `kubectl replace -f /tmp/kubectl-edit-jum69.yaml` to try this update again.
 </code></pre>
-
 <h3 id="crear-clusterole">CREAR CLUSTEROLE</h3>
 <ul>
 <li>Creamos un clusterRole teniendo en cuenta que aquí no se ponen namespaces:  </li>
@@ -5121,7 +4965,6 @@ roleRef:
   name: cluster-pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos con el usuario miguel:  </li>
 </ul>
@@ -5151,7 +4994,6 @@ kube-proxy-22t6g                   1/1     Running   0          49m
 kube-scheduler-minikube            1/1     Running   0          49m
 storage-provisioner                1/1     Running   0          50m
 </code></pre>
-
 <h3 id="crear-user-admin">CREAR USER ADMIN</h3>
 <ul>
 <li>Miramos los clusteroles que hay con <code>kubectl get clusterroles</code> y vemos el de <code>cluster-admin</code>:  </li>
@@ -5167,7 +5009,6 @@ system:aggregate-to-admin                                              2020-10-1
 system:aggregate-to-edit                                               2020-10-19T18:00:44Z
 system:aggregate-to-view                                               2020-10-19T18:00:44Z
 </code></pre>
-
 <ul>
 <li>Creamos un cluster-admin enlazando solo al usuario miguel al grupo:  </li>
 </ul>
@@ -5187,7 +5028,6 @@ roleRef:
   name: cluster-admin # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos ahora que como usuario miguel podemos hacer de todo y ver de todo:  </li>
 </ul>
@@ -5216,7 +5056,6 @@ pod-reader          2020-10-19T18:01:37Z
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   59m
 </code></pre>
-
 <h3 id="roles-a-grupos">ROLES A GRUPOS</h3>
 <ul>
 <li>
@@ -5233,7 +5072,6 @@ CURRENT   NAME         CLUSTER    AUTHINFO   NAMESPACE
           miguel       minikube   miguel     
 *         minikube     minikube   minikube 
 </code></pre>
-
 <ul>
 <li>Creamos un clusterrole para el grupo dev y que pueda hacer todo en servicios:  </li>
 </ul>
@@ -5263,7 +5101,6 @@ roleRef:
   name: svc-clusterrole # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos como juan y miguel podemos ver todo de services:  </li>
 </ul>
@@ -5296,7 +5133,6 @@ No resources found in dev namespace.
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   70m
 </code></pre>
-
 <h2 id="services-account">SERVICES ACCOUNT</h2>
 <ul>
 <li>
@@ -5322,7 +5158,6 @@ default   1         23h
 NAME      SECRETS   AGE
 default   1         23h
 </code></pre>
-
 <ul>
 <li>Lo exploramos y vemos que tienen el token que se crea del SA por cada namespace:  </li>
 </ul>
@@ -5336,7 +5171,6 @@ Mountable secrets:   default-token-6ccpr
 Tokens:              default-token-6ccpr
 Events:              &lt;none&gt;
 </code></pre>
-
 <pre><code>[isx46410800@miguel services_account]$ kubectl get sa default -o yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -5350,7 +5184,6 @@ metadata:
 secrets:
 - name: default-token-6ccpr
 </code></pre>
-
 <h3 id="secret-sa">SECRET SA</h3>
 <ul>
 <li>Vemos que el token de un SA es un secreto y lo podemos investigar <code>kubectl get secret TOKEN</code>:  </li>
@@ -5361,7 +5194,6 @@ default-token-6ccpr   kubernetes.io/service-account-token   3      23h
 [isx46410800@miguel services_account]$ kubectl get secret default-token-6ccpr -o yaml
 ...
 </code></pre>
-
 <blockquote>
 <p>El token contiene el certificado de kubernetes, la llave publica y el contenido del namespace, seervica account,etc</p>
 </blockquote>
@@ -5374,7 +5206,6 @@ kind: ServiceAccount
 metadata:
   name: my-sa
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -5399,7 +5230,6 @@ kind: ServiceAccount
 secrets:
 - name: my-sa-token-5lv4s
 </code></pre>
-
 <h3 id="relacion-pod-sa">RELACION POD-SA</h3>
 <ul>
 <li>Cuando creamos un pod sin especificar un SA, se asigna al por defecto:  </li>
@@ -5428,7 +5258,6 @@ pod-test2   2/2     Running   0          29s
       defaultMode: 420
       secretName: default-token-6ccpr
 </code></pre>
-
 <ul>
 <li>Dentro del pod podemos encontrar la info del SA y su token en:<br />
 <code>/var/run/secrets/kubernetes.io/serviceaccount/</code>  </li>
@@ -5441,7 +5270,6 @@ pod-test2   2/2     Running   0          29s
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   23h
 </code></pre>
-
 <ul>
 <li>Podemos hacer request a la api con esta <a href="https://v1-15.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.15/#-strong-read-operations-pod-v1-core-strong-">DOCS</a> como por ejemplo querer listar los pods del namespace por defecto:<br />
 <code>/api/v1/namespaces/{namespace}/pods/{name}</code>  </li>
@@ -5472,7 +5300,6 @@ curl: (3) URL using bad/illegal format or missing URL
   &quot;code&quot;: 403
 }/ # 
 </code></pre>
-
 <blockquote>
 <p>nos sale error como de permisos ya que es como si fuesemos un usuario que no tiene la autenticación para poder hacer estas acciones.  </p>
 </blockquote>
@@ -5531,7 +5358,6 @@ spec:
       - name: nginx
         image: nginx:alpine
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -5562,7 +5388,6 @@ spec:
   serviceAccount: my-sa
   serviceAccountName: my-sa
 </code></pre>
-
 <h3 id="role-sa">ROLE SA</h3>
 <ul>
 <li>Creamos un rol y un rolebinding para que un serviceaccount sea capaz de leer pods del namespace. Asignamos este role al SA del deployment y pods creados:  </li>
@@ -5625,7 +5450,6 @@ roleRef:
   name: sa-reader # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -5648,7 +5472,6 @@ NAME      SECRETS   AGE
 default   1         24h
 my-sa     1         44m
 </code></pre>
-
 <ul>
 <li>Comprobamos que ahora entramos al POD y podemos comunicarnos a través de la api con JWT para listar los pods del namespace:<br />
 <code>/ # curl -H "Authorization: Bearer ${TOKEN}" https://10.96.0.1/api/v1/namespaces/default/pods --insecure</code>  </li>
@@ -5662,7 +5485,6 @@ my-sa     1         44m
         ],
         &quot;startTime&quot;: &quot;2020-10-20T17:56:32Z&quot;,
 </code></pre>
-
 <ul>
 <li>Si añadimos el permiso de ver tambien deployments despues hariamos:<br />
 <code># curl -H "Authorization: Bearer ${TOKEN}" https://10.96.0.1/apis/apps/v1/namespaces/default/deployments --insecure</code>  </li>
@@ -5680,7 +5502,6 @@ my-sa     1         44m
         &quot;readyReplicas&quot;: 1,
         &quot;availableReplicas&quot;: 1,
 </code></pre>
-
 <h2 id="ingress">INGRESS</h2>
 <ul>
 <li>
@@ -5727,7 +5548,6 @@ my-sa     1         44m
 NAME                                        READY   STATUS    RESTARTS   AGE
 nginx-ingress-controller-54b86f8f7b-s7vzl   1/1     Running   0          81s
 </code></pre>
-
 <ul>
 <li>Creamos el servicio de ingress-controller nginx de tipo node-port:  </li>
 </ul>
@@ -5754,7 +5574,6 @@ spec:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 </code></pre>
-
 <ul>
 <li>Comprobamos que funciona:  </li>
 </ul>
@@ -5762,7 +5581,6 @@ spec:
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx   NodePort   10.109.126.218   &lt;none&gt;        80:30540/TCP,443:32602/TCP   29s
 </code></pre>
-
 <h3 id="ip-ingress-controller">IP INGRESS CONTROLLER</h3>
 <ul>
 <li>Ip del cluster:  </li>
@@ -5770,7 +5588,6 @@ ingress-nginx   NodePort   10.109.126.218   &lt;none&gt;        80:30540/TCP,443
 <pre><code>Kubernetes master is running at https://172.17.0.2:8443
 KubeDNS is running at https://172.17.0.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 </code></pre>
-
 <ul>
 <li>Ip del servicio node-port del IController Nginx:  </li>
 </ul>
@@ -5778,7 +5595,6 @@ KubeDNS is running at https://172.17.0.2:8443/api/v1/namespaces/kube-system/serv
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx   NodePort   10.109.126.218   &lt;none&gt;        80:30540/TCP,443:32602/TCP   4m43s
 </code></pre>
-
 <ul>
 <li>Obtenemos la url con la ip para conectarnos:  </li>
 </ul>
@@ -5786,7 +5602,6 @@ ingress-nginx   NodePort   10.109.126.218   &lt;none&gt;        80:30540/TCP,443
 http://172.17.0.2:30540
 http://172.17.0.2:32602
 </code></pre>
-
 <p><img alt="" src="../images/kubernetes10.png" />  </p>
 <h3 id="app-ingress-controller">APP INGRESS-CONTROLLER</h3>
 <ul>
@@ -5832,7 +5647,6 @@ spec:
       port: 8080 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -5851,7 +5665,6 @@ spec:
       port: 8888 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <ul>
 <li>Entramos a un pod y comprobamos que cuando llamamos al servicio, nos contesta algunos de los pods con nuestra app que es la ejecución del index.html:  </li>
 </ul>
@@ -5865,7 +5678,6 @@ VERSION 1.0 desde ingress-deploy-7cd6549d66-ncjpv
 / # curl 10.96.97.25:8080
 VERSION 1.0 desde ingress-deploy-7cd6549d66-ncjpv
 </code></pre>
-
 <h3 id="exponer-el-puerto-al-exterior">EXPONER EL PUERTO AL EXTERIOR</h3>
 <ul>
 <li>Ahora queremos exponer el puerto externamente. Para ello creamos unas reglas para el controller:  </li>
@@ -5885,7 +5697,6 @@ spec:
           serviceName: app-v1-svc # nombre del servicio de la app
           servicePort: 8080
 </code></pre>
-
 <ul>
 <li>Comprobamos que ahora con la url(ip/appv1) vemos también la respuesta al servicio:  </li>
 </ul>
@@ -5915,7 +5726,6 @@ spec:
           serviceName: app-v1-svc # nombre del servicio de la app
           servicePort: 8080
 </code></pre>
-
 <p><img alt="" src="../images/kubernetes12.png" />  </p>
 <h3 id="2-apps-en-ic">2 APPS EN IC</h3>
 <ul>
@@ -5961,7 +5771,6 @@ spec:
       port: 9090 # servicio por donde escucha
       targetPort: 80 # a que puerto dentro del pod vamos a mandar la peticion(nginx 80)
 </code></pre>
-
 <ul>
 <li>Comprobamos que funcionan:  </li>
 </ul>
@@ -5979,7 +5788,6 @@ ingress-deploy2-69fcf646dd-m8zn4   1/1     Running   0          13s
 ingress-deploy2-69fcf646dd-nnn89   1/1     Running   0          13s
 ingress-deploy2-69fcf646dd-xq977   1/1     Running   0          13s
 </code></pre>
-
 <ul>
 <li>Agregamos nueva regla para la app2:  </li>
 </ul>
@@ -6006,7 +5814,6 @@ spec:
           serviceName: app2-v1-svc # nombre del servicio de la app
           servicePort: 9090
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -6036,7 +5843,6 @@ spec:
           serviceName: app2-v1-svc # nombre del servicio de la app
           servicePort: 9090
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -6060,7 +5866,6 @@ spec:
 <pre><code>[isx46410800@miguel ingress]$ aws --version
 aws-cli/1.18.160 Python/3.6.6 Linux/4.18.19-100.fc27.x86_64 botocore/1.19.0
 </code></pre>
-
 <ul>
 <li>
 <p>Creamos un usuario administrador en IAM de AWS.  </p>
@@ -6075,14 +5880,12 @@ AWS Secret Access Key [None]: xxxx
 Default region name [None]: eu-west-2
 Default output format [None]: 
 </code></pre>
-
 <ul>
 <li>Nos crea un home de AWS en nuestro home:  </li>
 </ul>
 <pre><code>[isx46410800@miguel .aws]$ pwd
 /home/isx46410800/.aws
 </code></pre>
-
 <ul>
 <li>Testeamos con una petición para saber quien es el que hace el request:  </li>
 </ul>
@@ -6093,7 +5896,6 @@ Default output format [None]:
     &quot;Arn&quot;: &quot;arn:aws:iam::930408735286:user/miguel&quot;
 }
 </code></pre>
-
 <ul>
 <li>Instalamos la herramienta <code>eksctl</code> que es para gestionar los cluster de kubernetes en AWS:  </li>
 </ul>
@@ -6103,7 +5905,6 @@ Default output format [None]:
 [isx46410800@miguel .aws]$ eksctl version
 0.30.0
 </code></pre>
-
 <h3 id="crear-cluster-aws-eksctl">CREAR CLUSTER AWS EKSCTL</h3>
 <ul>
 <li>
@@ -6130,7 +5931,6 @@ aws_secret_access_key = xxxxx
 [default]
 region = eu-west-2
 </code></pre>
-
 <ul>
 <li>
 <p>Al crear el cluster nos crea un directorio <code>~/.kube/config</code>  </p>
@@ -6150,7 +5950,6 @@ kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   7m11s
 Kubernetes master is running at https://5CE8052655A3A5961205F0A612B79D00.gr7.eu-west-2.eks.amazonaws.com
 CoreDNS is running at https://5CE8052655A3A5961205F0A612B79D00.gr7.eu-west-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 </code></pre>
-
 <ul>
 <li>Ahora intentamos crear un POD pero vemos que no se acaba de crear porque no tenemos ningun nodo unido a nuestro CLUSTER:  </li>
 </ul>
@@ -6166,7 +5965,6 @@ pod-test   0/1     Pending   0          10s
   ----     ------            ----  ----               -------
   Warning  FailedScheduling  15s   default-scheduler  no nodes available to schedule pods
 </code></pre>
-
 <ul>
 <li>Ahora creamos nodos con eksctl con ami version kubernetes auto y asg access para ser escalable:<br />
 <code>eksctl create nodegroup --cluster test-cluster --region eu-west-2 --name test-workers --node-type t3.medium --node-ami auto --nodes 1 --nodes-min 1 --nodes-max 3 --asg-access</code>  </li>
@@ -6190,7 +5988,6 @@ Namespace:    default
 Priority:     0
 Node:         ip-192-168-38-128.eu-west-2.compute.internal/192.168.38.128
 </code></pre>
-
 <h3 id="ingress-aws-eks">INGRESS AWS EKS</h3>
 <ul>
 <li>
@@ -6230,7 +6027,6 @@ Node:         ip-192-168-38-128.eu-west-2.compute.internal/192.168.38.128
     }
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Creamos un service account para ingress con un clusterrole y un clusterrolebinding de ingress controller para balanceador de carga:<br />
@@ -6249,7 +6045,6 @@ Node:         ip-192-168-38-128.eu-west-2.compute.internal/192.168.38.128
     --override-existing-serviceaccounts \
     --approve
 </code></pre>
-
 <blockquote>
 <p>La policy la vemos en IAM-POLICIES</p>
 </blockquote>
@@ -6273,7 +6068,6 @@ Node:         ip-192-168-38-128.eu-west-2.compute.internal/192.168.38.128
         - --ingress-class=alb
         - --cluster-name=test-cluster
 </code></pre>
-
 <ul>
 <li>Comprobamos que esto funciona:  </li>
 </ul>
@@ -6285,7 +6079,6 @@ coredns-6ddcfb5bcf-h7qrx                  1/1     Running   0          48m
 coredns-6ddcfb5bcf-t7wnz                  1/1     Running   0          48m
 kube-proxy-jdnj5                          1/1     Running   0          35m
 </code></pre>
-
 <h3 id="deploy-app">DEPLOY APP</h3>
 <ul>
 <li>Creamos el ejemplo de aplicación que es un juego, creamos un servicio, un deploy y namespaces:  </li>
@@ -6294,7 +6087,6 @@ kube-proxy-jdnj5                          1/1     Running   0          35m
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -6315,7 +6107,6 @@ deployment.apps/2048-deployment   5/5     5            5           30s
 NAME                                        DESIRED   CURRENT   READY   AGE
 replicaset.apps/2048-deployment-dd74cc68d   5         5         5       30s
 </code></pre>
-
 <ul>
 <li>Para comprobar que funciona la app internamente usamos:  </li>
 </ul>
@@ -6323,7 +6114,6 @@ replicaset.apps/2048-deployment-dd74cc68d   5         5         5       30s
 Forwarding from 127.0.0.1:7000 -&gt; 80
 Forwarding from [::1]:7000 -&gt; 80
 </code></pre>
-
 <p><img alt="" src="../images/kubernetes22.png" />  </p>
 <h3 id="exponer-la-app-externamente">EXPONER LA APP EXTERNAMENTE</h3>
 <ul>
@@ -6333,7 +6123,6 @@ Forwarding from [::1]:7000 -&gt; 80
 NAME           HOSTS   ADDRESS                                                                 PORTS   AGE
 2048-ingress   *       d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com   80      14s
 </code></pre>
-
 <ul>
 <li>Si vamos a nuestro EC2 de amazon. a nuestro balanceador de carga veremos que nos sale la url en la que podemos ir a la aplicación ya que la regla estaba asignada.  </li>
 </ul>
@@ -6351,14 +6140,12 @@ Address: 18.134.190.250
 Name:   d7f12bb1-2048game-2048ingr-6fa0-882565039.eu-west-2.elb.amazonaws.com
 Address: 18.133.107.232
 </code></pre>
-
 <ul>
 <li>Las añadimos a nuestro /etc/hosts:  </li>
 </ul>
 <pre><code>18.134.190.250 app.aws.game.test
 18.133.107.232 app.aws.game.test
 </code></pre>
-
 <ul>
 <li>Cambiamos reglas para que utilicen el nombre y no la ip ni dns:  </li>
 </ul>
@@ -6373,7 +6160,6 @@ spec:
           serviceName: service-2048
           servicePort: 80
 </code></pre>
-
 <blockquote>
 <p>Ahora entraremos solo por nombre  </p>
 </blockquote>
@@ -6387,7 +6173,6 @@ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingr
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
 </code></pre>
-
 <p><img alt="" src="../images/kubernetes25.png" />  </p>
 <h3 id="aws-hpa-install">AWS HPA INSTALL</h3>
 <ul>
@@ -6406,7 +6191,6 @@ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingr
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
 metrics-server   1/1     1            1           6s
 </code></pre>
-
 <h3 id="crear-un-hpa">CREAR UN HPA</h3>
 <ul>
 <li>Ejemplo de una app:  </li>
@@ -6425,7 +6209,6 @@ php-apache   ClusterIP   10.100.137.253   &lt;none&gt;        80/TCP    19s
 NAME                          READY   STATUS    RESTARTS   AGE
 php-apache-79544c9bd9-h2xhh   1/1     Running   0          50s
 </code></pre>
-
 <ul>
 <li>
 <p>Ahora Escalamos. Esto quiere decir que si la carga pasa del 50% creee pods hasta un maximo de 10 pods:<br />
@@ -6444,7 +6227,6 @@ items:
 - apiVersion: autoscaling/v1
   kind: HorizontalPodAutoscaler
 </code></pre>
-
 <h3 id="autoescalar-hpa">AUTOESCALAR HPA</h3>
 <ul>
 <li>
@@ -6457,7 +6239,6 @@ items:
 <pre><code>kubectl run -it --rm load-generator --image=busybox /bin/sh --generator=run-pod/v1
 # while true; do wget -q -O- http://php-apache; done
 </code></pre>
-
 <ul>
 <li>Vemos los pods y los hpa:  </li>
 </ul>
@@ -6491,7 +6272,6 @@ php-apache   Deployment/php-apache   68%/50%    1         10        8          3
 php-apache   Deployment/php-apache   68%/50%    1         10        8          39m
 php-apache   Deployment/php-apache   0%/50%     1         10        8          40m
 </code></pre>
-
 <h3 id="cluster-autoscaler">CLUSTER AUTOSCALER</h3>
 <ul>
 <li>
@@ -6528,7 +6308,6 @@ cluster-autoscaler       1/1     1            1           13s
 coredns                  2/2     2            2           6h2m
 metrics-server           1/1     1            1           4h25m
 </code></pre>
-
 <ul>
 <li>Editamos el deploy:  </li>
 </ul>
@@ -6537,7 +6316,6 @@ metrics-server           1/1     1            1           4h25m
 - --balance-similar-node-groups
 - --skip-nodes-with-system-pods=false
 </code></pre>
-
 <ul>
 <li>
 <p>Borramos el HPA para que no haya conflictos.</p>
@@ -6558,7 +6336,6 @@ php-apache-79544c9bd9-6zqcc   1/1     Running   0          5s
 php-apache-79544c9bd9-cnq6h   1/1     Running   0          3h56m
 php-apache-79544c9bd9-pfsrq   1/1     Running   0          5s
 </code></pre>
-
 <ul>
 <li>
 <p>Si editamos el deploy y añadimos mas replicas, veremos que se nos crean varias maquinas, varios nodes.<br />
@@ -6588,7 +6365,6 @@ NAME                                           STATUS   ROLES    AGE     VERSION
 ip-192-168-22-127.eu-west-2.compute.internal   Ready    &lt;none&gt;   41s     v1.17.11-eks-cfdc40
 ip-192-168-38-128.eu-west-2.compute.internal   Ready    &lt;none&gt;   6h11m   v1.17.11-eks-cfdc40
 </code></pre>
-
 <p><img alt="" src="../images/kubernetes26.png" /><br />
 <img alt="" src="../images/kubernetes27.png" />  </p>
 <ul>
@@ -6609,7 +6385,6 @@ php-apache-79544c9bd9-pzz4w   1/1     Running   0          5m47s
 NAME                                           STATUS   ROLES    AGE     VERSION
 ip-192-168-38-128.eu-west-2.compute.internal   Ready    &lt;none&gt;   6h14m   v1.17.11-eks-cfdc40
 </code></pre>
-
 <h3 id="eliminamos-todo-de-la-nube">ELIMINAMOS TODO DE LA NUBE</h3>
 <ul>
 <li>Vamos a AWS - CLOUD FORMATION y eliminamos todo.  </li>
@@ -6647,17 +6422,18 @@ ip-192-168-38-128.eu-west-2.compute.internal   Ready    &lt;none&gt;   6h14m   v
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../docker/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../openshift/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../docker/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../openshift/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

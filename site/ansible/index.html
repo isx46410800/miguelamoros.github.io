@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -288,6 +291,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -355,7 +359,6 @@
 <pre><code>[masters] # nombre general
 master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_private_key_file=xxx.pem # nombre - maqquina a conectar - usuario a conectar - private_key
 </code></pre>
-
 <ul>
 <li>Comprobamos la conexión: 
 <code>ansible -i inventory -m ping all</code><br />
@@ -369,7 +372,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <h2 id="comando-basico">Comando básico</h2>
 <ul>
 <li><code>ansible -i &lt;inventory_path&gt; -m {modulo} -a "{modulo opciones}" &lt;nodos: all/master&gt;</code>  </li>
@@ -410,7 +412,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
       name: ansible
       state: present
 </code></pre>
-
 <ul>
 <li>Ejemplo:  </li>
 </ul>
@@ -420,7 +421,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
 
     - shell: echo &quot;Hola Mundo desde Ansible y Jenkins&quot; &gt; /tmp/hola-ansible.txt
 </code></pre>
-
 <ul>
 <li>Ejemplo:  </li>
 </ul>
@@ -429,7 +429,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
     - debug:
        var: MSG
 </code></pre>
-
 <ul>
 <li>Ejemplo:  </li>
 </ul>
@@ -444,7 +443,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
        msg: &quot;Yo sí me voy a ejecutar :)&quot;
      tags: si-exec
 </code></pre>
-
 <ul>
 <li>Ejemplo completo de crear un user: </li>
 </ul>
@@ -459,7 +457,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
   - name: create user miguel
     user: name=andy state= present
 </code></pre>
-
 <ul>
 <li>ORDEN:<br />
 <code>ansible-playbook -i hosts playbook.yml --syntax</code><br />
@@ -485,7 +482,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
       name: ansible
       state: present
 </code></pre>
-
 <ul>
 <li>Ejemplo módulo authorized_keys:  </li>
 </ul>
@@ -506,7 +502,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
       - ~/.ssh/id_rsa.pub
       no_log: yes
 </code></pre>
-
 <h2 id="variables">Variables</h2>
 <ul>
 <li>Ejemplo de variables para Ansible:  </li>
@@ -525,7 +520,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
       name: &quot;{{ package }}&quot;
       state: &quot;{{ state }}&quot;
 </code></pre>
-
 <h2 id="condicionales">Condicionales</h2>
 <ul>
 <li>Realizar tareas segun ciertas cosas o parámetros:  </li>
@@ -547,7 +541,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
     ## indicando la condicion de solo en master
     when: &quot;'master' in inventory_hostname&quot;
 </code></pre>
-
 <h2 id="bucles">Bucles</h2>
 <ul>
 <li>Ejemplo de bucle:  </li>
@@ -566,7 +559,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
     - ansible
     - apache2
 </code></pre>
-
 <pre><code>- name: Demo Install Ansible
   hosts: all
   become: yes
@@ -581,7 +573,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
     - miguel
     - mario
 </code></pre>
-
 <h2 id="roles">Roles</h2>
 <ul>
 <li>Los roles son formas de cargar automáticamente una estructura de archivos/directorios, archivos de variables, tareas y controladores basados en una estructura de archivos conocida.  </li>
@@ -601,7 +592,6 @@ master ansible_host=IP/FQDN/service_docker ansible_user=remote_user ansible_priv
   ## the role we want to install
   - apache ## dentro de este directorio hay muchos files, playbooks, tasks...
 </code></pre>
-
 <h2 id="ansible-galaxy">Ansible Galaxy</h2>
 <ul>
 <li>Es un sitio gratuito para buscar, descargar, calificar y revisar toto tipo de roles de Ansible desarrollados por la comunidad y puede ser una excelente manera de impulsar nuestros proyectos de automatización.  </li>
@@ -622,7 +612,6 @@ ansible-galaxy init &quot;my-role&quot;
 ## search for a role
 ansible-galaxy search 'docker'
 </code></pre>
-
 <h2 id="resumen">Resumen</h2>
 <ul>
 <li>Repaso de ansible. </li>
@@ -655,7 +644,6 @@ ansible-galaxy search 'docker'
 ## db[01:03].intranet.mydomain.net
 ## db02.intranet.mydomain.net
 </code></pre>
-
 <ul>
 <li>Probamos conexión con algun hosts poniendo <code>ansible alpha.example.org -m ping</code>:  </li>
 </ul>
@@ -665,7 +653,6 @@ localhost | SUCCESS =&gt; {
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <ul>
 <li>Podemos indicarle otro fichero con otros host poniendo la opción <em>-i file_hosts</em>.</li>
 </ul>
@@ -686,7 +673,6 @@ hola miguel
 localhost | CHANGED | rc=0 &gt;&gt;
 Linux miguel 5.3.11-100.fc29.x86_64 #1 SMP Tue Nov 12 20:41:25 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 </code></pre>
-
 <ul>
 <li>Instalamos un paquete en la máquina remota como superusuario(-b) y preguntando la contraseña de root en esa máquina(-K):  </li>
 </ul>
@@ -699,7 +685,6 @@ localhost | SUCCESS =&gt; {
     &quot;results&quot;: []
 }
 </code></pre>
-
 <h3 id="playbook_1">Playbook</h3>
 <ul>
 <li>Se escribe un yaml y son objetos que se escriben tareas que han de hacer en nuestras máquinas remotas:  </li>
@@ -713,7 +698,6 @@ localhost | SUCCESS =&gt; {
   - name: saludar
     shell: echo hola
 </code></pre>
-
 <ul>
 <li>Resultado:  </li>
 </ul>
@@ -731,7 +715,6 @@ changed: [localhost]
 PLAY RECAP **********************************************************************************************************
 localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 </code></pre>
-
 <ul>
 <li>otro ejemplo que maneja servicios:  </li>
 </ul>
@@ -745,7 +728,6 @@ localhost                  : ok=3    changed=1    unreachable=0    failed=0    s
   - name: detener apache
     service: name=httpd state=stopped
 </code></pre>
-
 <h3 id="usuarios">Usuarios</h3>
 <ul>
 <li>Podemos poner el usuario con la opción <em>-u</em>. No obstante en el fichero de configuración /etc/ansible/ansible.cfg podemos poner [defaults]remote_users=miguel y entonces cada orden cogerá como usuario miguel.  </li>
@@ -779,7 +761,6 @@ ok: [localhost]
 PLAY RECAP **********************************************************************************************************
 localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 </code></pre>
-
 <blockquote>
 <p>Nos saldría una notificación de un handler al instalar, no sale porque ya estaba instalado.</p>
 </blockquote>
@@ -808,7 +789,6 @@ root@ip-172-31-23-107:~# passwd ansibler_user
 root@ip-172-31-23-107:/home/ubuntu/.ssh# vi authorized_keys 
 root@ip-172-31-23-107:/home/ubuntu# chown -R ubuntu .ssh/ 
 </code></pre>
-
 <ul>
 <li>
 <p>Ahora podremos conectarnos con la llave privada al usuario ubuntu sin autenticar al tener copiada la llave publica:<br />
@@ -831,7 +811,6 @@ root@ip-172-31-23-107:/home/ubuntu# chown -R ubuntu .ssh/
 [root@container fedora]# chmod 600 .ssh/authorized_keys 
 [root@container fedora]# chown -R fedora /home/fedora/.ssh 
 </code></pre>
-
 <h3 id="inventory_1">Inventory</h3>
 <ul>
 <li>Creamos un primer inventario para conectarnos a la máquina de amazon:  </li>
@@ -839,7 +818,6 @@ root@ip-172-31-23-107:/home/ubuntu# chown -R ubuntu .ssh/
 <pre><code># conexión a un host remoto, indicando nombre host, ip, llave y usuario al que conectamos
 ec2 ansible_host=18.134.164.27 ansible_private_key_file=~/.ssh/ansible_user ansible_ssh_user=ubuntu
 </code></pre>
-
 <ul>
 <li>Probamos con la orden ansible -i inventario nombre_host -atributo opcion del atributo:  </li>
 </ul>
@@ -852,7 +830,6 @@ ec2 | SUCCESS =&gt; {
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <ul>
 <li>El fichero de configuración de ansible está en /etc/ansible/ansible.cfg.  </li>
 </ul>
@@ -861,7 +838,6 @@ por defecto a este archivo(/etc/ansible/ansible.cfg)
 [defaults]
 INVENTORY=./inventory01
 </code></pre>
-
 <ul>
 <li>Vemos que conecta igual poniendo el inventario como que no:  </li>
 </ul>
@@ -874,7 +850,6 @@ ec2 | SUCCESS =&gt; {
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <h3 id="modulos_2">Módulos</h3>
 <ul>
 <li>
@@ -926,7 +901,6 @@ ec2 | CHANGED =&gt; {
 ubuntu@ip-172-31-23-107:~$ ls crear_directorio/
 crear_file.txt
 </code></pre>
-
 <ul>
 <li>Copiar un fichero:  </li>
 </ul>
@@ -953,7 +927,6 @@ ansible.cfg  crear_file.txt
 # otro ejemplo de crear un file con contenido y copiarlo
 ansible ec2 -m copy -a &quot;content='TopSecret' dest='/opt/data/secret.txt'&quot;
 </code></pre>
-
 <ul>
 <li>Añadir una linea a un fichero:  </li>
 </ul>
@@ -972,20 +945,17 @@ ubuntu@ip-172-31-23-107:~$ cat crear_directorio/file.txt
 fichero de ejemplo para modulo de añadir lineas
 añadimos esto al modulo lineinfile
 </code></pre>
-
 <ul>
 <li>Descargar contenido de un URL y enviarlo en un fichero a un host remoto:  </li>
 </ul>
 <pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m uri -a 'url=https://api.github.com/users/isx46410800/repos dest=/home/ubuntu/crear_directorio/repos.json'
 </code></pre>
-
 <ul>
 <li>Instalar/borrar un paquete:  </li>
 </ul>
 <pre><code>[isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m package -a 'name=vim state=present' -b
 [isx46410800@miguel curso_ansible]$ ansible -i inventory01 ec2 -m package -a 'name=vim state=present' --become
 </code></pre>
-
 <blockquote>
 <p>-b para ser superusuario -k para preguntar passwd<br />
 si hemos creado un user vamos a la maquina y añadimos en la fichero /etc/sudoers: user ALL=(ALL:ALL) NOPASSWD:ALL  </p>
@@ -1030,7 +1000,6 @@ si hemos creado un user vamos a la maquina y añadimos en la fichero /etc/sudoer
       dest: /home/ubuntu/crear_directorio/hh.zip
       format: zip
 </code></pre>
-
 <ul>
 <li>
 <p>Lo lanzamos con la orden: <code>[isx46410800@miguel curso_ansible]$ ansible-playbook playbook01.yaml</code>  </p>
@@ -1065,7 +1034,6 @@ si hemos creado un user vamos a la maquina y añadimos en la fichero /etc/sudoer
       url: https://raw.githubusercontent.com/abdennour/example-static-website/ansible-course/index.html
       dest: /var/www/html #/usr/share/nginx/html
 </code></pre>
-
 <ul>
 <li>Resultado:  </li>
 </ul>
@@ -1084,7 +1052,6 @@ changed: [ec2]
 PLAY RECAP ***********************************************************************************************************
 ec2                        : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 </code></pre>
-
 <h3 id="variables_1">Variables</h3>
 <ul>
 <li>Podemos usar variables en el fichero de playbook para no tener que escribir lo mismo:  </li>
@@ -1121,7 +1088,6 @@ ec2                        : ok=5    changed=1    unreachable=0    failed=0    s
       url: https://raw.githubusercontent.com/abdennour/example-static-website/ansible-course/index.html
       dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
 </code></pre>
-
 <ul>
 <li>También podemos poner en la orden de ansible-playbook la opcion <strong>--extra-vars</strong> e indicar la variable y contenido y piyaría esa variable como prioridad en vez de la del playbook:</li>
 </ul>
@@ -1143,7 +1109,6 @@ ok: [ec2] =&gt; {
     &quot;msg&quot;: &quot;El valor del servidor es httpd&quot;
 }
 </code></pre>
-
 <ul>
 <li>Tabién se puede crear un fichero de variables y llamar a donde están las variables:  </li>
 </ul>
@@ -1162,7 +1127,6 @@ webserver_dir: /var/www/html
     debug:
       msg: &quot;El valor del servidor es {{ webserver }}&quot;
 </code></pre>
-
 <ul>
 <li>Ejemplo pipeline con diferentes Branchs de git:  </li>
 </ul>
@@ -1195,7 +1159,6 @@ webserver_dir: /var/www/html
       url: https://raw.githubusercontent.com/abdennour/example-static-website/{{ git_branch }}/index.html
       dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
 </code></pre>
-
 <ul>
 <li>Podemos crear una variable de registro con el contenido de una tarea:  </li>
 </ul>
@@ -1217,7 +1180,6 @@ webserver_dir: /var/www/html
       content: &quot;{{ apache_install_output }}&quot;
       dest: /home/ubuntu/crear_directorio/register.txt
 </code></pre>
-
 <ul>
 <li>Ansible facts:  </li>
 </ul>
@@ -1231,7 +1193,6 @@ webserver_dir: /var/www/html
     debug:
       var: ansible_facts
 </code></pre>
-
 <blockquote>
 <p>se puede poner con una variable de gather_facts: no y no saldrian los facts<br />
 Otras variables como inventory_hostaname, hostvars, group_names, groups...  </p>
@@ -1255,7 +1216,6 @@ prod2
 [dev]
 dev1
 </code></pre>
-
 <ul>
 <li>
 <p>Probamos conexión despues de meterle la llave publica a cada uno: <code>[isx46410800@miguel curso_ansible]$ ansible -i inventory02_prod_dev all -m ping</code>  </p>
@@ -1280,7 +1240,6 @@ dev1
 [dev:vars]
 git_branch=ansible-course
 </code></pre>
-
 <blockquote>
 <p>Tambien se puede crear un directorio host_vars -&gt; dev1 --&gt; vars.yaml con las 3 variables asignadas separados por dos puntos.<br />
 tambien se puede crear un directorio group_vars -&gt; prod -&gt; vars.yaml con las variables del grupo prod:vars. Luego se borraria porque ya las tenemos ahí.  </p>
@@ -1315,7 +1274,6 @@ dev1                       : ok=5    changed=2    unreachable=0    failed=0    s
 prod1                      : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 prod2                      : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 </code></pre>
-
 <p><img alt="" src="../images/ansible_3.png" /><br />
 <img alt="" src="../images/ansible_4.png" />  </p>
 <ul>
@@ -1337,7 +1295,6 @@ prod2                      : ok=5    changed=1    unreachable=0    failed=0    s
     debug:
       var: groups
 </code></pre>
-
 <p><code>[isx46410800@miguel curso_ansible]$ ansible-playbook 10-playbook-magic_variables.yaml &gt; magic.tmp</code>  </p>
 <ul>
 <li>Podemos conseguir la info de un host con la orden ansible-inventory:  </li>
@@ -1350,7 +1307,6 @@ prod2                      : ok=5    changed=1    unreachable=0    failed=0    s
     &quot;git_branch&quot;: &quot;ansible-course&quot;
 }
 </code></pre>
-
 <h3 id="ansible-task-control">Ansible Task Control</h3>
 <ul>
 <li>
@@ -1384,7 +1340,6 @@ become: yes
     - mysql
     - mongod
 </code></pre>
-
 <ul>
 <li>En nuestro ejemplo para hacer iterar el loop para que primero haga deploy de una web y despues de otra:  </li>
 </ul>
@@ -1419,7 +1374,6 @@ become: yes
     - index
     - about
 </code></pre>
-
 <ul>
 <li>Utilizamos el WHEN como opción para decir que se haga tal cosa sea igual a esa variable. En este caso las variables no se ponen entre corchetes[].  </li>
 </ul>
@@ -1454,7 +1408,6 @@ become: yes
       dest: &quot;{{ webserver_dir }}&quot;  #/usr/share/nginx/html
     when: git_branch == 'ansible-course'
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -1467,7 +1420,6 @@ skipping: [prod1]
 skipping: [prod2]
 changed: [dev1]
 </code></pre>
-
 <ul>
 <li>Otros Ejemplos comunes del WHEN:  </li>
 </ul>
@@ -1484,7 +1436,6 @@ when:
 - ansible_distribution == 'Ubuntu'
 when: ( app_replicas == 12 ) or ( ansible_distribution == 'Ubuntu' )
 </code></pre>
-
 <ul>
 <li>Ejemplo de crear usuarios segun si están en una maquina y segun el papel que tengan:  </li>
 </ul>
@@ -1497,7 +1448,6 @@ assignments_users:
 - name: cristina
   role: ops
 </code></pre>
-
 <pre><code>- name: play create users per role
   hosts: dev,prod
   become: yes
@@ -1511,7 +1461,6 @@ assignments_users:
     loop: &quot;{{ assignment_users }}&quot;
     when: (item.role == 'developer' and 'dev' in group_names) or (item.role == 'ops' and 'prod' in group_names)
 </code></pre>
-
 <blockquote>
 <p>Lo que hacemos es que si un usuario tiene el rol de develop vaya a las maquinas devs y si es ops que vaya a las de prod.  </p>
 </blockquote>
@@ -1533,7 +1482,6 @@ assignments_users:
       dest: /tmp/message.txt
     delegate_to: localhost
 </code></pre>
-
 <ul>
 <li>Otro ejemplo de delegar tareas:  </li>
 </ul>
@@ -1546,7 +1494,6 @@ assignments_users:
       dest: /tmp/git-repos.json
     delegate_to: localhost
 </code></pre>
-
 <ul>
 <li>Podemos importar la información de tareas con el módulo <strong>import_tasks</strong>. Se crea un archivo aparte de las tareas que se quieren importar y se añaden al playbook principal:  </li>
 </ul>
@@ -1556,7 +1503,6 @@ assignments_users:
   - name: import nginx tasks
     import_tasks: nginx_install.yaml
 </code></pre>
-
 <ul>
 <li>Los handers son avisadores de que haga una cosa o notifique si una tarea ha cambiado, ejemplo:  </li>
 </ul>
@@ -1579,7 +1525,6 @@ assignments_users:
     module-c:
       attr1: val1
 </code></pre>
-
 <h3 id="jinja2-templates">Jinja2 templates</h3>
 <ul>
 <li>
@@ -1625,7 +1570,6 @@ assignments_users:
       msg: |
         original : {{ course_lectures_nb }}
 </code></pre>
-
 <ul>
 <li>Lista de filtros:  </li>
 <li><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html">ansible</a>  </li>
@@ -1664,7 +1608,6 @@ assignment_users:
 #
 ssh ahmed@&lt;ip-server&gt; # .. then put the password (ahmed123)
 </code></pre>
-
 <ul>
 <li>Con el modulo <strong>template</strong> podemos copiar un fichero que tiene variables del sistemas hacia destino. Si lo hacemos con el modulo copy, se copia literalmente sin sustituir las variables:  </li>
 </ul>
@@ -1690,7 +1633,6 @@ Distribution Version : 20.04
 Nbre CPU core        : 1 cores 
 Total Memory         : 978 mb
 </code></pre>
-
 <ul>
 <li>Se pueden poner también sintaxi jinja en el fichero como por ejemplo condicionales:  </li>
 </ul>
@@ -1707,7 +1649,6 @@ Total Memory         : {{ ansible_facts.memtotal_mb }} mb
   The memory size is OK
 {% endif %}
 </code></pre>
-
 <ul>
 <li>Tambien se puede hacer jinja con loop:  </li>
 </ul>
@@ -1743,7 +1684,6 @@ Total Memory         : {{ ansible_facts.memtotal_mb }} mb
   {{ u.name | capitalize }} is {{ u.role }}
 {% endfor %}
 </code></pre>
-
 <ul>
 <li>Ejemplo de un /etc/hosts (etc/hosts that includes all hosts where {‌{ inventory_hostname }} magic variable is the domain name of the target host)  </li>
 </ul>
@@ -1768,7 +1708,6 @@ ff02::3 ip6-allhosts
 {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ host }}
 {% endfor %}
 </code></pre>
-
 <ul>
 <li>Resumen sintaxi JINJA:  </li>
 </ul>
@@ -1805,7 +1744,6 @@ For Loop
    &lt;a href=&quot;https://example.com/{‌{ page }}&quot;&gt;{‌{ page }}&lt;/a&gt;
 {% endfor %}
 </code></pre>
-
 <h3 id="ansible-vault">Ansible Vault</h3>
 <ul>
 <li>
@@ -1844,7 +1782,6 @@ assignment_users:
     debug:
       var: assignment_users
 </code></pre>
-
 <ul>
 <li>Podemos crear en ansible.cfg la variable <strong>vault_password_file = file.key</strong> con una passwd de vault.</li>
 </ul>
@@ -1876,7 +1813,6 @@ assignment_users:
 INVENTORY=./inventory02_prod_dev
 roles_path=./roles
 </code></pre>
-
 <ul>
 <li>
 <p>ansible-galaxy : Instala roles de Ansible Galaxy, una plataforma para el intercambio de roles (recetas) Ansible.  </p>
@@ -1897,7 +1833,6 @@ roles_path=./roles
 - src: geerlingguy.jenkins
   name: geerlingguy.jenkins
 </code></pre>
-
 <p><code>[isx46410800@miguel curso_ansible]$ ansible-galaxy install -r requirements.yaml</code>  </p>
 <ul>
 <li>Playbook:  </li>
@@ -1912,7 +1847,6 @@ roles_path=./roles
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
 </code></pre>
-
 <h4 id="instalar-docker">Instalar Docker</h4>
 <ul>
 <li>Añadimos a los requisitos:  </li>
@@ -1920,7 +1854,6 @@ roles_path=./roles
 <pre><code>- src: geerlingguy.docker
   name: geerlingguy.docker
 </code></pre>
-
 <ul>
 <li>
 <p>Descargamos roles:<br />
@@ -1940,7 +1873,6 @@ roles_path=./roles
       docker_users:
       - &quot;{{ ansible_ssh_user }}&quot;
 </code></pre>
-
 <h3 id="instalar-kubernetes">Instalar Kubernetes</h3>
 <ul>
 <li>Añadimos a requisitos:  </li>
@@ -1948,7 +1880,6 @@ roles_path=./roles
 <pre><code>- src: geerlingguy.kubernetes
   name: geerlingguy.kubernetes
 </code></pre>
-
 <ul>
 <li>
 <p>Descargamos roles: <code>[isx46410800@miguel curso_ansible]$ ansible-galaxy install -r requirements.yaml</code>  </p>
@@ -1968,7 +1899,6 @@ roles_path=./roles
     import_role:
       name: geerlingguy.kubernetes
 </code></pre>
-
 <blockquote>
 <p>Hariamos 3 maquinas, 1 master y 2 nodos, los añadiriamos al inventario y le pondriamos un grupo [cluster] y en cada host la variable role_kubernetes=node/master</p>
 </blockquote>
@@ -1995,14 +1925,12 @@ roles_path=./roles
 INVENTORY=./inventory02_prod_dev
 COLLECTIONS_PATHS=./collections
 </code></pre>
-
 <ul>
 <li>Añadimos a requisitos:  </li>
 </ul>
 <pre><code>- collections:
   newswangerd.collection_demo
 </code></pre>
-
 <ul>
 <li>
 <p>Instalamos:<br />
@@ -2024,7 +1952,6 @@ COLLECTIONS_PATHS=./collections
     import_role:
       name: factoid
 </code></pre>
-
 <h3 id="capstone-project-put-all-together-in-a-real-project-with-go-react-and-mongodb">Capstone Project - Put all Together in a Real Project with Go, React and MongoDB</h3>
 <ul>
 <li>Idea:  </li>
@@ -2048,12 +1975,10 @@ ansible_private_key_file=~/.ssh/ansible_user
 ansible_ssh_user=ubuntu
 #ansible_ssh_pass=ubuntu2021
 </code></pre>
-
 <pre><code>[isx46410800@miguel project_real]$ cat ansible.cfg 
 [defaults]
 INVENTORY=./inventory_proyect
 </code></pre>
-
 <ul>
 <li>Comprobamos que esta conexión funciona:  </li>
 </ul>
@@ -2088,7 +2013,6 @@ app | SUCCESS =&gt; {
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <h4 id="instalacion-mongodb">Instalación MONGODB</h4>
 <ul>
 <li>
@@ -2131,7 +2055,6 @@ app | SUCCESS =&gt; {
       state: started
       enabled: yes
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -2153,7 +2076,6 @@ changed: [db]
 PLAY RECAP ***********************************************************************************************************
 db                         : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 </code></pre>
-
 <pre><code>ubuntu@ip-172-31-22-5:~$ sudo systemctl status mongod
 ● mongod.service - MongoDB Database Server
      Loaded: loaded (/lib/systemd/system/mongod.service; enabled; vendor preset: enabled)
@@ -2165,7 +2087,6 @@ db                         : ok=6    changed=4    unreachable=0    failed=0    s
              └─13440 /usr/bin/mongod --config /etc/mongod.conf
 Apr 06 12:02:22 ip-172-31-22-5 systemd[1]: Started MongoDB Database Server.
 </code></pre>
-
 <ul>
 <li>Configuración y creación de superuser de MONGODB:  </li>
 </ul>
@@ -2234,7 +2155,6 @@ Apr 06 12:02:22 ip-172-31-22-5 systemd[1]: Started MongoDB Database Server.
       name: mongod
       state: restarted
 </code></pre>
-
 <blockquote>
 <p>las variables hacen referencias al archivo host_vars/db/secret.yaml  </p>
 </blockquote>
@@ -2255,7 +2175,6 @@ vault_password_file=./key.txt
 db_admin_user: superadmin
 db_admin_pass: PassMy1243r
 </code></pre>
-
 <ul>
 <li>Comprobamos que está todo en orden:  </li>
 </ul>
@@ -2263,7 +2182,6 @@ db_admin_pass: PassMy1243r
 ubuntu@ip-172-31-22-5:~$ cat /etc/mongod.conf 
 ubuntu@ip-172-31-22-5:~$ mongo admin -u superadmin -p PassMy1243r
 </code></pre>
-
 <ul>
 <li>Configuramos ahora el primer usuario <a href="https://docs.ansible.com/ansible/latest/collections/community/mongodb/mongodb_user_module.html">mongo</a>:  </li>
 </ul>
@@ -2294,7 +2212,6 @@ ubuntu@ip-172-31-22-5:~$ mongo admin -u superadmin -p PassMy1243r
         - db: &quot;{{ db_name_todo }}&quot;
           role: readWrite
 </code></pre>
-
 <pre><code>[isx46410800@miguel project_real]$ ansible-vault edit host_vars/db/secret.yaml 
 db_admin_user: superadmin
 db_admin_pass: PassMy1243r
@@ -2302,7 +2219,6 @@ db_name_todo: test
 db_todo_user: todo
 db_todo_pass: todo
 </code></pre>
-
 <pre><code>[isx46410800@miguel project_real]$ ansible-inventory --host db
 {
     &quot;ansible_host&quot;: &quot;35.176.225.221&quot;,
@@ -2315,7 +2231,6 @@ db_todo_pass: todo
     &quot;db_todo_user&quot;: &quot;todo&quot;
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Lanzamos solo la tercera parte del playbook añadido con la orden:<br />
@@ -2338,7 +2253,6 @@ db_todo_pass: todo
       name: mongod
       state: restarted
 </code></pre>
-
 <p><code>[isx46410800@miguel project_real]$ ansible-playbook playbooks/database.yaml --tags db-config</code>  </p>
 <h4 id="backend-app">Backend APP</h4>
 <ul>
@@ -2381,7 +2295,6 @@ db_todo_pass: todo
     args:
       chdir: /opt/build_dir/curso_ansible/server
 </code></pre>
-
 <pre><code>[isx46410800@miguel project_real]$ cat ansible.cfg 
 [defaults]
 INVENTORY=./inventory_project
@@ -2391,7 +2304,6 @@ roles_path=./roles
 - src: gantsign.golang
   name: gantsign.golang
 </code></pre>
-
 <p><code>[isx46410800@miguel project_real]$ ansible-playbook playbooks/backend.yaml --tags be-pre-build</code>  </p>
 <p><strong><em>*https://github.com/kubernetes-tn/go-to-do-app</em></strong>*</p>
 <p><strong><em>*https://github.com/abdennour/ansible-course</em></strong>*</p>
@@ -2428,17 +2340,18 @@ roles_path=./roles
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../jenkins/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../tomcat/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../jenkins/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../tomcat/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

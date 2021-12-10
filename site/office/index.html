@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -129,6 +132,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#aplicaciones-365">APLICACIONES 365</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#aplicaciones-adicionales">APLICACIONES ADICIONALES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#admin">ADMIN</a>
     </li>
     </ul>
                     </li>
@@ -216,6 +221,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -258,25 +264,21 @@
 <pre><code>Microsoft 365 Enterprise ofrece servicios de clase empresarial para organizaciones que quieren una solución de productividad que incluya características seguras de protección contra amenazas, seguridad, cumplimiento de normas y análisis.  
 Hay tres planes disponibles de Microsoft 365 Enterprise, que le permiten ajustar aún más lo que se incluye en su implementación: E3, E5 y F3 (anteriormente conocido como F1). E5 incluye las mismas características que E3 y las herramientas más recientes de protección contra amenazas avanzada, seguridad y colaboración. F3 está diseñado para trabajadores de primera línea mediante recursos y herramientas dedicadas que les permiten dar lo mejor de sí.
 </code></pre>
-
 <ul>
 <li><a href="https://www.microsoft.com/es-es/microsoft-365/business?rtc=1">Microsoft 365 para empresas</a>  </li>
 </ul>
 <pre><code>Microsoft 365 para empresas está diseñado para pequeñas y medianas organizaciones. Como Microsoft 365 Enterprise, Microsoft 365 para empresas ofrece el conjunto completo de herramientas de productividad de Office 365 e incluye características de seguridad y administración de dispositivos. No incluye algunas de las herramientas de protección de la información, cumplimiento y análisis más avanzadas disponibles para los suscriptores de Enterprise. Se ha diseñado para organizaciones que necesitan hasta 300 licencias. Si su organización es más grande, tendrá que suscribirse a un plan de Microsoft 365 Enterprise.
 </code></pre>
-
 <ul>
 <li><a href="https://www.microsoft.com/en-us/education">Microsoft 365 Educación</a>  </li>
 </ul>
 <pre><code>Microsoft 365 Educación está disponible para organizaciones educativas y permite a los profesores dar rienda suelta a la creatividad, fomentar el trabajo en equipo y proporcionar una experiencia segura y sencilla en una única solución económica diseñada para el ámbito educativo. Las licencias académicas se pueden modificar para adaptarse a las necesidades de cualquier institución, incluidas soluciones de productividad y seguridad para profesores, miembros del personal y estudiantes.
 </code></pre>
-
 <ul>
 <li><a href="https://www.microsoft.com/es-es/microsoft-365/explore-microsoft-365-for-home?rtc=1">Microsoft 365 Hogar</a>  </li>
 </ul>
 <pre><code>Microsoft 365 Hogar tiene el propósito de ofrecer las mismas ventajas de productividad en su vida personal y familiar. Microsoft 365 Hogar tiene dos planes: Microsoft 365 Familia y Microsoft 365 Personal. Office Home y Estudiantes 2019 están disponibles como compras de pago único, pero no incluyen ninguno de los beneficios de la nube de Microsoft 365. Compare planes para ver el plan que mejor le convenga.
 </code></pre>
-
 <h2 id="creaciones-grupos-y-ad">CREACIONES GRUPOS y AD</h2>
 <ul>
 <li>
@@ -380,6 +382,51 @@ Windows
 Workplace Analytics
 Yammer
 </code></pre>
+<h2 id="admin">ADMIN</h2>
+<ul>
+<li>
+<p>Agregamos un dominio en el portal de admin de 365. Configuración - dominios - agregar dominio - nombre - crear registro dns - no agregar servicios.  </p>
+</li>
+<li>
+<p>Creamos un usuario con usuarios - usuario activo - rellenar datos. Para asignar licencias se selecciona el contacto y en licencias, se le añade licencia y aplicaciones. Tambien en este apartado podemos modificar nombre, datos de perfil de usuario.  </p>
+</li>
+<li>
+<p>Para eliminar un usuario, selecionamos y eliminamos, pero se quedan 30 dias en elimnados. Para eliminar permanentemente, vamos a mostrar todo - azure active directory - usuarios - usuarios eliminados y eliminar total.  </p>
+</li>
+<li>
+<p>Cambiamos contraseña selecionando usuario y le damos arriba a restablecer contraseña, Si queremos que lo haga un usuario de manera normal. Configuracion - conf de la organizacion - seguridad y privacidad - autoservicio de restablecimiento de contraseña - vaya al portal de azure - y selecionamos que opcion coger.  </p>
+</li>
+<li>
+<p>Podemos activar la verificación de dos pasos: usuario - usuario activo y damos autenticación multifactor y elegios usuario. Otra manera para toda la organizacion: mostrar todo - portal azure AD - azure AD - propiedades - admiinistracion valores predeterminados de seguridad(activar o no).  </p>
+</li>
+<li>
+<p>Bloquear acceso a usuario. Selecionamos usuario y arriba bloquear inicio de sesion.  </p>
+</li>
+<li>
+<p>Crear un grupo: grupos - crear nuevo grupo activo - agregar - tipo de grupo y selecionamos miembros.  </p>
+</li>
+<li>
+<p>Crear un buzon compartido: grupos - buzones compartidos - agregar nuevo - nombre y  despues selecionamos los miembros.  </p>
+</li>
+<li>
+<p>Cambiar caducidad contraseñas: configuracion - conf de la organizacion - seguridad y privacidad - directiva de expiración de contraseñas y cambiamos.  </p>
+</li>
+<li>
+<p>Comprobar estado del servicio: mostrar todo - mantenimiento - estado del servicio. Lo mismo pero centro de mensajes, nos indica las novedades que vendran de actualizaciones.    </p>
+</li>
+<li>
+<p>Contactar con soporte Microsoft: mostrar todo - soporte tecnico - nueva solicitud.  </p>
+</li>
+<li>
+<p>Poner alias de email donde varios emails llegarán al email principal, solo sirven para llegadas, para enviar solo desde el principal. Usuarios - usuarios activos - adminisrar nombre y email y ponemos alias.  </p>
+</li>
+<li>
+<p>Habilitar usuarios invitados: configuracion - conf de la organizacion - servicios - grupos de 365 y activar las dos pestañas. La otra opcion: ir al a teams - portal teams - configuracion de toda la org - acceso de invitado y activado. La otra es ir al portal de Azure AD - azure AD - informacion general - external identities - conf de coloboracion externa y activamos lo que toque. Sharepoint - directivas - uso comportido - activar lo primero.  </p>
+</li>
+<li>
+<p>Cancelar suscripion 365: facturación - sus productos - selecionamos - tres puntos - cancelar.  </p>
+</li>
+</ul>
               
             </div>
           </div>
@@ -413,17 +460,18 @@ Yammer
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../azure/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../markdown/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../azure/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../markdown/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

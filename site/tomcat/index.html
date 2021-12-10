@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -77,6 +76,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -240,6 +243,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -295,7 +299,6 @@ ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vi /home/ubuntu/tomcat/webapps
 ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo vi /home/ubuntu/tomcat/webapps/host-manager/META-INF/context.xml
 ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
 </code></pre>
-
 <p><img alt="" src="../images/tomcat_1.png" />  </p>
 <ul>
 <li>
@@ -319,7 +322,6 @@ ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
 /logs - Log files are here by default.
 /webapps - This is where your webapps go.
 </code></pre>
-
 <ul>
 <li>CATALINA_HOME and CATALINA_BASE:  </li>
 </ul>
@@ -327,7 +329,6 @@ ubuntu@ip-172-31-38-253:/home/ubuntu/tomcat$ sudo systemctl restart tomcat
 CATALINA_BASE: Represents the root of a runtime configuration of a specific Tomcat instance. If you want to have multiple Tomcat instances on one machine, use the CATALINA_BASE property.
 If you set the properties to different locations, the CATALINA_HOME location contains static sources, such as .jar files, or binary files. The CATALINA_BASE location contains configuration files, log files, deployed applications, and other runtime requirements.
 </code></pre>
-
 <ul>
 <li>Ejemplo APP:  </li>
 </ul>
@@ -339,14 +340,12 @@ If you just want to browse the contents, you can unpack the war file with the ja
         jar -xvf sample.war     
 Note: CATALINA_BASE is usually the directory in which you unpacked the Tomcat distribution. For more information on CATALINA_HOME, CATALINA_BASE and the difference between them see RUNNING.txt in the directory you unpacked your Tomcat distribution.
 </code></pre>
-
 <ul>
 <li>Copiamos el ejemplo de demo app:  </li>
 </ul>
 <pre><code>[isx46410800@miguel .ssh]$ scp -i mykeypair.pem /home/isx46410800/Documents/tomcat/DemoApp.tar.gz  ubuntu@3.8.187.27:/home/ubuntu
 DemoApp.tar.gz                                                                      100%    0     0.0KB/s   00:00 
 </code></pre>
-
 <ul>
 <li>Estructura: el cliente se conecta al servidor por diferentes puertos que hace peticiones  como servicios. el engine se encarga de gestionar estas peticiones a través del host que contiene todas las aplicaciones que hay dentro del contexto.  </li>
 </ul>
@@ -379,7 +378,6 @@ Architecture:   amd64
 JVM Version:    11.0.10+9-Ubuntu-0ubuntu1.20.04
 JVM Vendor:     Ubuntu
 </code></pre>
-
 <blockquote>
 <p>Catalina base nos dice cual es la intancia activa, si hubiera varias instancias se debería poner cual es la activa.  </p>
 </blockquote>
@@ -390,7 +388,6 @@ JVM Vendor:     Ubuntu
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 export CATALINA_HOME=/home/ubuntu/tomcat
 </code></pre>
-
 <ul>
 <li>Podemos usar catalina.sh <em>run</em> para iniciar en foreground o <em>start</em> en background.  </li>
 </ul>
@@ -414,7 +411,6 @@ Connection closed by foreign host.
 root@ip-172-31-29-160:/home/ubuntu/tomcat/conf# ps ax | grep java
   15743 pts/0    S+     0:00 grep --color=auto java
 </code></pre>
-
 <ul>
 <li>Para que no pase eso, segun la docu ponemos puerto -1 o cambiamos la string de shutdown por algo dificil de acertar:<br />
 <code>&lt;Server port="-1" shutdown="SHUTDOWN"&gt;</code>  </li>
@@ -441,7 +437,6 @@ drwxr-xr-x. 2 isx46410800 isx46410800 4096 Jul  5  2020 META-INF
 drwxr-xr-x. 3 isx46410800 isx46410800 4096 Jul  5  2020 WEB-INF
 [isx46410800@miguel tomcat]$ sudo cp -r ejemploWARdir/web1/ /home/tomcat/tomcat/webapps/.
 </code></pre>
-
 <p><img alt="" src="../images/tomcat_4.png" />  </p>
 <ul>
 <li>
@@ -564,7 +559,6 @@ java.util.logging.ConsoleHandler.level = FINE
 java.util.logging.ConsoleHandler.formatter = org.apache.juli.OneLineFormatter
 java.util.logging.ConsoleHandler.encoding = UTF-8
 </code></pre>
-
 <blockquote>
 <p>el .handlers es el que coge de predeterminado  </p>
 </blockquote>
@@ -590,7 +584,6 @@ total 100
 -rw-r-----. 1 tomcat tomcat     0 may 19 13:25 manager.2021-05-19.log
 -rw-r-----. 1 tomcat tomcat  4328 may 20 20:53 manager.2021-05-20.log
 </code></pre>
-
 <ul>
 <li>Podemos personaliar uno:  </li>
 </ul>
@@ -601,7 +594,6 @@ total 100
 3manager.org.apache.juli.AsyncFileHandler.encoding = UTF-8
 3manager.org.apache.juli.AsyncFileHandler.formatter = java.util.logging.XMLFormatter
 </code></pre>
-
 <ul>
 <li>Vemos que se genera contenido en el personalizado:  </li>
 </ul>
@@ -628,7 +620,6 @@ cat: mis-logs/: Es un directorio
   &lt;message&gt;HTMLManager: init: Associated with Deployer 'Catalina:type=Deployer,host=localhost'&lt;/message&gt;
 &lt;/record&gt;
 </code></pre>
-
 <h2 id="valves">VALVES</h2>
 <ul>
 <li>
@@ -653,7 +644,6 @@ cat: mis-logs/: Es un directorio
                pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b %B&quot; /&gt;
       &lt;/Host&gt;
 </code></pre>
-
 <ul>
 <li>Vemos el contenido:  </li>
 </ul>
@@ -665,7 +655,6 @@ total 12
 0:0:0:0:0:0:0:1 - admin [21/May/2021:00:41:22 +0200] &quot;GET /manager/text/stop?path=/app2 HTTP/1.1&quot; 200 70 70
 0:0:0:0:0:0:0:1 - admin [21/May/2021:00:41:25 +0200] &quot;GET /manager/text/start?path=/app2 HTTP/1.1&quot; 200 73 73
 </code></pre>
-
 <ul>
 <li>Ahora hacemos un ejemplo que permita o no unas ips o puertos:  </li>
 </ul>
@@ -697,7 +686,6 @@ MariaDB [seguridad]&gt; grant all on seguridad.* to 'desa'@'localhost';
 Query OK, 0 rows affected (0.000 sec)
 MariaDB [seguridad]&gt; commit;
 </code></pre>
-
 <ul>
 <li>
 <p>Instalamos el <a href="https://mariadb.com/kb/en/mariadb-connector-j-2-6-1/">driver</a> jdbc de mariadb en nuestro caso en:<br />
@@ -720,7 +708,6 @@ MariaDB [seguridad]&gt; commit;
                         maxIdle=&quot;3&quot;/&gt;
 &lt;/Context&gt;
 </code></pre>
-
 <h2 id="realm">REALM</h2>
 <ul>
 <li>Son otras opciones de seguridad para en contra de Tomcat, proteger recursos, impedir accesos indeseados...</li>
@@ -736,7 +723,6 @@ MariaDB [seguridad]&gt; commit;
                resourceName=&quot;UserDatabase&quot;/&gt;
       &lt;/Realm&gt;
 </code></pre>
-
 <ul>
 <li>
 <p>Sirven para proteger recursos webs y se basa en usuarios y roles asociados a las aplicaciones.  </p>
@@ -749,7 +735,6 @@ MariaDB [seguridad]&gt; commit;
                 &lt;Realm className=&quot;org.apache.catalina.realm.MemoryRealm&quot; pathname=&quot;conf/usuarios.xml&quot;/&gt;
 &lt;/Context&gt;
 </code></pre>
-
 <ul>
 <li>en usuarios.xml:  </li>
 </ul>
@@ -758,7 +743,6 @@ MariaDB [seguridad]&gt; commit;
         &lt;user username=&quot;usu1&quot; password=&quot;usu1&quot; roles=&quot;usuario&quot;/&gt;
 &lt;/tomcat-users&gt;
 </code></pre>
-
 <ul>
 <li>Y con la app que pasamos, indicamos que solo podrá entrar segun el usuario o roles indicados en la app.  </li>
 </ul>
@@ -789,7 +773,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
 -rwxr-xr-x. 1 root root 1961464 may 22 15:49 mod_jk.so
 [root@miguel apache-2.0]# cp mod_jk.so /etc/httpd/modules/
 </code></pre>
-
 <ul>
 <li>Despues añadimos un archivo a la configuracion de apache en /etc/httpd/conf/httpd.conf:  IncludeOptional conf/mod_jk.conf</li>
 </ul>
@@ -814,7 +797,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
     # Mapeamos las URL contra un conjunto de workers
     JkMount  /* MisTomcat
 </code></pre>
-
 <ul>
 <li>Creamos nuestros ficheros de workers.properties de lo que será nuestros tomcats diferentes, clusters etc(conf/workers.properties).  </li>
 </ul>
@@ -843,7 +825,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
      worker.MisTomcat.balance_workers=worker1
      #worker.MisTomcat.balance_workers=worker1,worker2,worker3
 </code></pre>
-
 <blockquote>
 <p>Por ahora comentamos los workers2 y 3 porque solo trabajamos con uno.  </p>
 </blockquote>
@@ -857,7 +838,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
                secretRequired=&quot;false&quot;
                redirectPort=&quot;8443&quot; /&gt;
 </code></pre>
-
 <ul>
 <li>Ahora vemos que al pasarle al localhost sin puerto algo, nos manda al tomcat:  </li>
 </ul>
@@ -869,7 +849,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
 <pre><code>[tomcat@miguel ~]$ vim tomcat1/conf/server.xml 
 [tomcat@miguel ~]$ vim tomcat2/conf/server.xml 
 </code></pre>
-
 <ul>
 <li>
 <p>Eliminamos la variable del .bashrc que apuntaba cual era el tomcat, ya que ahora al tener 3 no podemos indicar que sea el primero solo. También podemos abrir tres terminales y exportar la variable con el home correspondiente:<br />
@@ -909,7 +888,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
      worker.MisTomcat.balance_workers=worker1,worker2,worker3
      worker.MisTomcat.sticky_session=true
 </code></pre>
-
 <ul>
 <li>
 <p>Paramos y arrancamos de nuevo el apache.  </p>
@@ -922,7 +900,6 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
 [isx46410800@miguel tomcat]$ sudo cp cluster.war /home/tomcat/tomcat1/webapps/.
 [isx46410800@miguel tomcat]$ sudo cp cluster.war /home/tomcat/tomcat2/webapps/.
 </code></pre>
-
 <ul>
 <li>Probamos: http://localhost/cluster/hello.jsp  </li>
 </ul>
@@ -935,14 +912,12 @@ apxs: /usr/bin/apxs /usr/share/man/man1/apxs.1.gz
 <pre><code># Con esto podemos monitorizar jkstatus
         JkMount /jkmanager/* jkstatus
 </code></pre>
-
 <ul>
 <li>Del worker properties:  </li>
 </ul>
 <pre><code># Activar los workers
 worker.jkstatus.type=status
 </code></pre>
-
 <ul>
 <li>Comprobamos con http://localhost/jkmanager/  </li>
 </ul>
@@ -997,7 +972,6 @@ worker.jkstatus.type=status
            &lt;Context path=&quot;&quot; docBase=&quot;/home/tomcat/tomcat/webapps/empresa2&quot; debug=&quot;0&quot; reloadable=&quot;true&quot;/&gt;
       &lt;/Host&gt;
 </code></pre>
-
 <blockquote>
 <p>el alias es a lo que responde la petición, con este nombre referido.  </p>
 </blockquote>
@@ -1007,7 +981,6 @@ worker.jkstatus.type=status
 <pre><code>192.168.1.113 www.empresa1.com
 192.168.1.113 www.empresa2.com
 </code></pre>
-
 <ul>
 <li>Copiamos la app de prueba de virtual host y comprobamos que por los dos alias te responde segun lo indicado en el server.xml  </li>
 </ul>
@@ -1060,17 +1033,18 @@ worker.jkstatus.type=status
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../ansible/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../elastic/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../ansible/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../elastic/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

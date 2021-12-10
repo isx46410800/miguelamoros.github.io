@@ -19,6 +19,8 @@ nav:
         - AWS: aws.md
         - Jenkins: jenkins.md
         - Ansible: ansible.md
+        - Devops: devops.md
+        - Testing: testing.md
         - Tomcat: tomcat.md
         - ELKS: elastic.md
         - Azure: azure.md

@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -125,6 +124,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
                     </li>
                 </ul>
                 <ul>
@@ -254,6 +257,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -262,29 +266,24 @@
 <pre><code># !/usr/bin/python3
 # -*-coding: utf-8-*-
 </code></pre>
-
 <h2 id="server-python">Server Python</h2>
 <p><code>python -m SimpleHTTPDServer 80</code>  </p>
 <h2 id="mostrar-algo">Mostrar algo</h2>
 <pre><code>print(&quot;Uso windows&quot;)
 </code></pre>
-
 <h2 id="mostrar-algo-con-formato">Mostrar algo con formato</h2>
 <pre><code>print(&quot;Hello World, my name is {}&quot; .format(name))
 print(f'My Python version is {version}')
 </code></pre>
-
 <h2 id="importar-librerias">Importar librerias</h2>
 <pre><code>import platform
 from xxxx import xx
 </code></pre>
-
 <h2 id="variables">Variables</h2>
 <pre><code>x=100
 y=True
 z=&quot;Miguel&quot;
 </code></pre>
-
 <h2 id="condicional">Condicional</h2>
 <pre><code>x = 25
 y = 15
@@ -295,11 +294,9 @@ elif x == y:
 else:
     print(&quot;x is lesser than y: where x is {} and y {}&quot; .format(x,y))
 </code></pre>
-
 <pre><code>tengoHambre = True
 y = &quot;Necesito comer&quot; if tengoHambre else &quot;solo necesito beber&quot;
 </code></pre>
-
 <pre><code>a = True
 b = False
 # comparamos a y b
@@ -308,20 +305,17 @@ if a and b:
 else:
     print(&quot;Expresiones son False&quot;)
 </code></pre>
-
 <h2 id="bucle-for-iterar-elementos">Bucle for (iterar elementos)</h2>
 <pre><code>food = [&quot;breakfast&quot;, &quot;lunch&quot;, &quot;snack&quot;, &quot;dinner&quot;]
 for i in food:
     print(i)
 </code></pre>
-
 <h2 id="bucle-while">Bucle while</h2>
 <pre><code>food = [&quot;breakfast&quot;, &quot;lunch&quot;, &quot;snack&quot;, &quot;dinner&quot;]
 while m &lt; 4:
     print(food[m])
     m +=1
 </code></pre>
-
 <h2 id="funciones">Funciones</h2>
 <pre><code>def message():
     print(&quot;Mi version de python es la {}&quot; .format(platform.python_version()))
@@ -330,7 +324,6 @@ def operation(n=25):
     print(n)
     return n*2
 </code></pre>
-
 <h2 id="test-main">Test main</h2>
 <pre><code>if __name__ == &quot;__main__&quot;:
     runMe()
@@ -338,7 +331,6 @@ def operation(n=25):
     name(2)
     print(x)
 </code></pre>
-
 <h2 id="objetos">Objetos</h2>
 <pre><code>class Time:
     h = &quot;horas&quot;
@@ -359,17 +351,14 @@ def main2():
     how_time.seconds()
 main2()
 </code></pre>
-
 <h2 id="mayusculas-minusculas-letra-capital">Mayusculas, minusculas, letra capital</h2>
 <pre><code>mayus = &quot;hello world&quot;.upper()
 minus = &quot;hello world&quot;.lower()
 capi = &quot;hello world&quot;.capitalize()
 </code></pre>
-
 <h2 id="ver-tipo-de-dato">Ver tipo de dato</h2>
 <pre><code>print(type(w)) #float
 </code></pre>
-
 <h2 id="listas">Listas</h2>
 <pre><code>x = [1,2,3,4]
 print(x[2])
@@ -377,7 +366,6 @@ x[2] = 10
 for i in x:
     print(i)
 </code></pre>
-
 <pre><code># LISTA ACCIONES -- TUPLAS SON INMUTABLES Y NO SE PUEDE
 def main():
     lista = ['perro', 'gato', 'cerdo', 'caballo']
@@ -402,7 +390,6 @@ def print_lista(lista):
         print(i, end=' ', flush=True)
     print()
 </code></pre>
-
 <h2 id="tuplas">Tuplas</h2>
 <pre><code>t = (1,2,3,4,5)
 # cosas con tuplas
@@ -411,7 +398,6 @@ print(t[2])
 for e in t:
     print(e)
 </code></pre>
-
 <h2 id="diccionarios">Diccionarios</h2>
 <pre><code>dic = { 'x' : 5, 'y' : 'miguel', 'z' : False }
 # cosas con diccionarios
@@ -425,7 +411,6 @@ for e in dic:
     print(f'el id es {e}')
     print(f'el valor es {dic[e]}')
 </code></pre>
-
 <pre><code>gente = {'1': &quot;miguel&quot;, '2': &quot;cristina&quot;, '3': &quot;isabel&quot;}
 gente['4'] = 'maria'
 for k in gente:
@@ -437,7 +422,6 @@ for k in gente.keys():
 for v in gente.values():
     print(f'valor: {v}')
 </code></pre>
-
 <h2 id="rangos">Rangos</h2>
 <pre><code>r = range(5) # no se puede asignar sino es con una lista
 ra = list(range(5))
@@ -449,7 +433,6 @@ for e in ra:
 for e in rang:
     print(e)
 </code></pre>
-
 <h2 id="list-comprension">List Comprension</h2>
 <pre><code># de una lista
 lista = range(11)
@@ -461,11 +444,9 @@ tupla2 = [ (y*2, x*2) for x,y in tupla]
 print(lista2)
 print(tupla2)
 </code></pre>
-
 <h2 id="len">Len</h2>
 <pre><code>len(*args/lista)
 </code></pre>
-
 <h2 id="objetos_1">Objetos</h2>
 <pre><code># definimos una clase
 class mobile:
@@ -485,7 +466,6 @@ def main():
     x.old_mobile()
     x.new_mobile()
 </code></pre>
-
 <pre><code>class Animal:
     def __init__(self, type, name, sound):
         self._type = type
@@ -509,7 +489,6 @@ def main():
     print_animal(Animal(&quot;Kitten&quot;, &quot;Fluffly&quot;, &quot;Meow&quot;))
     print_animal(Animal(&quot;Duck&quot;, &quot;Donald&quot;, &quot;Quak&quot;))
 </code></pre>
-
 <h2 id="ficheros">Ficheros</h2>
 <ul>
 <li>Leer</li>
@@ -523,7 +502,6 @@ def main():
     for line in file:
         print(line.rstrip()) #rstrip elimina espacios o lo que se ponga en ()
 </code></pre>
-
 <ul>
 <li>Escribir</li>
 </ul>
@@ -536,7 +514,6 @@ def main():
     fileOutput.close() # cierra el doc nuevo
     print('\nDone.') # printa que se ha realizado todo
 </code></pre>
-
 <ul>
 <li>Copiar</li>
 </ul>
@@ -557,7 +534,6 @@ def main():
     fileOutput.close() # cierra el doc nuevo
     print('\nDone.') # printa que se ha realizado todo
 </code></pre>
-
 <h2 id="modulos">Módulos</h2>
 <pre><code>import os, datetime, sys
 def main():
@@ -609,17 +585,18 @@ def main():
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../gitlab/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../bash_scripting/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../gitlab/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../bash_scripting/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

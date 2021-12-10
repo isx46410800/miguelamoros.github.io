@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>SAMBA - Miguel's Notes</title>
+  <title>QA Y TESTING - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "SAMBA";
-    var mkdocs_page_input_path = "samba.md";
+    var mkdocs_page_name = "QA Y TESTING";
+    var mkdocs_page_input_path = "testing.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -146,16 +146,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">SAMBA</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#instalacion">INSTALACION</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ficheros">FICHEROS</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ordenes">ORDENES</a>
-    </li>
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
                     </li>
                 </ul>
                 <ul>
@@ -207,10 +199,10 @@
     
       
     
-    <li>SAMBA</li>
+    <li>QA Y TESTING</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/samba.md"> Edit on isx46410800/python</a>
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/testing.md"> Edit on isx46410800/python</a>
       
     </li>
   </ul>
@@ -221,243 +213,124 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="samba">SAMBA</h1>
+                <h1 id="qa-y-testing">QA Y TESTING</h1>
+<h2 id="httpie">HTTPIE</h2>
 <ul>
 <li>
-<p>Dos demonios: smbd y nmbd.  </p>
+<p>HTTPie es un cliente HTTP de línea de comandos que tiene como objetivo hacer que la interacción CLI con los servicios web sea lo más amigable posible para los humanos. HTTPie está diseñado para probar, depurar y, en general, interactuar con API y servidores HTTP.  </p>
 </li>
 <li>
-<p>Fichero de conf smb.conf.  </p>
+<p><a href="https://httpie.io/docs#installation">INSTALACION</a><br />
+<code>dnf install httpie</code><br />
+<code>dnf upgrade httpie</code>  </p>
 </li>
 <li>
-<p>Topologia de red Peer to Peer: una red entre iguales, a su bola. Cliente/servidor.  </p>
+<p>GET:<br />
+<code>http get &lt;url.api/&gt;</code><br />
+<code>http get &lt;url.api/users&gt; Content-Type:aplication/json Api-Token:xxx</code>  </p>
 </li>
 <li>
-<p>Puertos 139(netbios-ssn) y 445(microsoft-ds)  </p>
+<p>POST:<br />
+<code>http post &lt;url.api/users&gt; username=xxx password=xxx</code><br />
+<code>http post &lt;url.api/&gt; Content-Type:aplication/json Api-Token:xxx</code></p>
 </li>
 <li>
-<p><code>testparm</code> test de configuracion de samba</p>
-</li>
-<li>
-<p><code>smbtree</code> hace un mensaje de broadcaste y salen los que contesten.  </p>
-</li>
-<li>
-<p>Forma: <code>\\server\recurs</code></p>
+<p>PUT:<br />
+<code>echo '{"username":"miguel", "email" : xxx...}' | http put &lt;http:api.url/users&gt; Content-Type:aplication/json Api-Token:xxx</code><br />
+<code>http put &lt;http:api.url/users&gt; Content-Type:aplication/json Api-Token:xxx @/path/file/modifications.json</code>  </p>
 </li>
 </ul>
-<h2 id="instalacion">INSTALACION</h2>
+<h2 id="postman">POSTMAN</h2>
 <ul>
-<li>Dockerfile:  </li>
+<li>
+<p><a href="https://www.postman.com/">Postman</a> es una aplicación que nos permite realizar pruebas API. Es un cliente HTTP que nos da la posibilidad de testear 'HTTP requests' a través de una interfaz gráfica de usuario, por medio de la cual obtendremos diferentes tipos de respuesta que posteriormente deberán ser validados.  </p>
+</li>
+<li>
+<p><a href="https://learning.postman.com/docs/getting-started/introduction/">guia</a>  </p>
+</li>
+<li>
+<p>Los requests son peticiones a un servidor.  </p>
+</li>
+<li>
+<p>Se pueden crear colecciones de peticiones sobre una API. Dentro de esta coleccion se puede crear diferentes ambientes como de test-local o producción. Dentro de cada ambiente se puede crear diferentes variables como la url de local y la url de producción para cambiar rapido una petición sin cambiar cosas.  </p>
+</li>
+<li>
+<p>Para poner cosas en las peticiones, se puede poner en Body-raw-json. Como username, password, y en Headers content-type, api-token.  </p>
+</li>
+<li>
+<p>Las peticiones mas usadas son GET, POST, PUT, PATCH, DELETE. La diferencia entre put y patch es que con put necesitas poner todos los campos para modificar algo mientras que patch solo el campo modificado.  </p>
+</li>
+<li>
+<p>En la url de petición tambien se pueden pasar parametros debajo de la caja de peticiones como:<br />
+<code>GET http://url/users?limit=10&amp;lang=es-es&amp;role=admin</code>  </p>
+</li>
+<li>
+<p>El collection Runner hace que de un conjunto de colección, se hagan las peticiones todas de golpe por orden. No obstante, tambien podrias crear un script para decir que vaya a tal petición si hace una, que salte otras, etc.  </p>
+</li>
+<li>
+<p>Podemos crear diferentes workspaces para cada api a probar.  </p>
+</li>
+<li>
+<p>Podemos importar/exportar colecciones a postman. Así como compartir colección donde nos dará una url para un compañero de equipo.  </p>
+</li>
+<li>
+<p>Podemos aprender Postman y sacar certificados con EXPLORE - <a href="https://www.postman.com/company/student-program/">Postman student programm</a>.  </p>
+</li>
+<li>
+<p>En la pestaña TESTS podemos probar pruebas, tenemos snipets con ya pruebas utilizadas para poder hacer tests de nuestra api. Al hacer SEND nos saldrá abajo el Test Result de la prueba.  </p>
+</li>
 </ul>
-<pre><code># Version: 0.0.1
-# @edt M06 2019-2020
-# samba
-# -------------------------------------
-FROM fedora:27
-LABEL author=&quot;Miguel Amoros&quot;
-LABEL description=&quot;SAMBA server 2019-2020 - PAM&quot;
-RUN dnf -y install procps samba samba-client nss-pam-ldapd cifs-utils passwd pam_mount authconfig
-RUN mkdir /opt/docker
-COPY * /opt/docker/
-RUN chmod +x /opt/docker/install.sh /opt/docker/startup.sh
-WORKDIR /opt/docker
-CMD [&quot;/opt/docker/startup.sh&quot;]
+<pre><code>pm.test(&quot;Status code is 200&quot;, function () {
+    pm.response.to.have.status(200);
+});
 </code></pre>
 <ul>
-<li>Authconfig.sh:  </li>
+<li>
+<p>También está la pestaña pre-request script para poner codigo que hacer antes de la petición.  </p>
+</li>
+<li>
+<p>En la pestaña general de postman de EXPLORE tenemos colecciones y apis ya creadas para probar funciones, tests,etc. Para usarlo, tenemos que hacer un FORK de las colecciones ya hechas.  </p>
+</li>
+<li>
+<p>Podemos printar las respuestas de manera más bonitas con código, para ello lo pondremos en la pestaña test y lo vemos en el resultado en VISUALIZE.  </p>
+</li>
 </ul>
-<pre><code>#! /bin/bash
-authconfig --enableshadow --enablelocauthorize --enableldap --enableldapauth --enablemkhomedir --ldapserver='ldapserver' --ldapbase='dc=edt,dc=org' --updateall
+<pre><code>const template =
+&lt;table bgcolor=&quot;ffff&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;{{name}}&lt;/th&gt;
+        &lt;th&gt;{{species}}&lt;/th&gt;
+    &lt;/tr&gt;
+    {{#each response.results}}
+    &lt;tr&gt;
+        &lt;td&gt;{{name}}&lt;/td&gt;
+        &lt;td&gt;{{species}}&lt;/td&gt;
+    &lt;/tr&gt;
+    {{/each}}
+&lt;/table&gt;;
+
+pm.visualizer.set(template, {
+    response: pm.response.json()
+})
 </code></pre>
+<blockquote>
+<p>la info viene de un contenido RESULTS y sus campos name, species.  </p>
+</blockquote>
 <ul>
-<li>Install.sh:  </li>
+<li>Tambien se puede generar peticiones dinamicas como por ejemplo hacer que cada vez te vaya diciendo un id de tu pagina:  </li>
 </ul>
-<pre><code>#! /bin/bash
-# @edt ASIX M06 2019-2020
-# instal.lacio
-# -------------------------------------
-# creacio usuaris locals
-useradd local1
-useradd local2
-useradd local3
-echo &quot;local1&quot; | passwd --stdin local1
-echo &quot;local2&quot; | passwd --stdin local2
-echo &quot;local3&quot; | passwd --stdin local3
-# Configuració client autenticació ldap
-bash /opt/docker/auth.sh
-# SAMBA
-## Configuracio shares Samba
-mkdir /var/lib/samba/public
-chmod 777 /var/lib/samba/public
-cp /opt/docker/* /var/lib/samba/public/.
-mkdir /var/lib/samba/privat
-#chmod 777 /var/lib/samba/privat
-cp /opt/docker/*.md /var/lib/samba/privat/.
-cp /opt/docker/smb.conf /etc/samba/smb.conf
-## creacio usuaris unix locals i samba locals
-useradd lila
-useradd roc
-useradd patipla
-useradd pla
-echo -e &quot;lila\nlila&quot; | smbpasswd -a lila
-echo -e &quot;roc\nroc&quot; | smbpasswd -a roc
-echo -e &quot;patipla\npatipla&quot; | smbpasswd -a patipla
-echo -e &quot;pla\npla&quot; | smbpasswd -a pla
+<pre><code>const postId = Math.floor(Math.random() * 100) * 1);
+pm.globals.set(&quot;postId&quot;, postId);
+console.log(&quot;PostId&quot;, postId);
 </code></pre>
+<h3 id="curso-experto">Curso Experto</h3>
 <ul>
-<li>Startup.sh:  </li>
-</ul>
-<pre><code>#! /bin/bash
-# @edt ASIX M06 2019-2020
-# startup.sh
-# -------------------------------------
-#instalacio / preparacio
-/opt/docker/install.sh &amp;&amp; echo &quot;Install Ok&quot;
-# activar els serveis ldap
-/sbin/nscd &amp;&amp; echo &quot;nscd Ok&quot;
-/sbin/nslcd &amp;&amp; echo &quot;nslcd Ok&quot;
-# activar els serveis samba
-/usr/sbin/smbd &amp;&amp; echo &quot;smb Ok&quot;
-# creacion de users samba dels users ldap, creando sus cuentas y directorios
-bash /opt/docker/usersSambaUnixLdap.sh
-# servei per a detached
-/usr/sbin/nmbd -F
-</code></pre>
-<ul>
-<li>usersldap.sh:  </li>
-</ul>
-<pre><code>llistaUsers=&quot;pere marta anna pau pere jordi&quot;
-for user in $llistaUsers
-do
-    echo -e &quot;$user\n$user&quot; | smbpasswd -a $user
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir &amp;&amp; echo &quot;directori home creat&quot;
-        cp -ra /etc/skel/. $homedir &amp;&amp; echo &quot;skel copiado&quot;
-        chown -R $uid.$gid $homedir &amp;&amp; echo &quot;chown ok&quot;
-    fi
-done
-for user in user{01..05}
-do
-    echo -e &quot;jupiter\njupiter&quot; | smbpasswd -a $user &amp;&amp; echo &quot;usuari $user creat&quot;
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir
-        cp -ra /etc/skel/. $homedir
-        chown -R $uid.$gid $homedir
-    fi
-done
-for user in user{06..10}
-do
-    echo -e &quot;jupiter\njupiter&quot; | smbpasswd -a $user &amp;&amp; echo &quot;usuari $user creat&quot;
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir
-        cp -ra /etc/skel/. $homedir
-        chown -R $uid.$gid $homedir
-    fi 
-done
-</code></pre>
-<h2 id="ficheros">FICHEROS</h2>
-<ul>
-<li>smb.conf:  </li>
-</ul>
-<pre><code>[global]
-        workgroup = MYGROUP
-        server string = Samba Server Version %v
-        log file = /var/log/samba/log.%m
-        max log size = 50
-        security = user
-        passdb backend = tdbsam
-        load printers = yes
-        cups options = raw
-[homes]
-        comment = Home Directories
-        browseable = no
-        writable = yes
-;       valid users = %S
-;       valid users = MYDOMAIN\%S
-[printers]
-        comment = All Printers
-        path = /var/spool/samba
-        browseable = no
-        guest ok = no
-        writable = no
-        printable = yes
-[documentation]
-        comment = Documentació doc del container
-        path = /usr/share/doc
-        public = yes
-        browseable = yes
-        writable = no
-        printable = no
-        guest ok = yes
-[manpages]
-        comment = Documentació man  del container
-        path = /usr/share/man
-        public = yes
-        browseable = yes
-        writable = no
-        printable = no
-        guest ok = yes
-[public]
-        comment = Share de contingut public
-        path = /var/lib/samba/public
-        public = yes
-        browseable = yes
-        writable = yes
-        printable = no
-        guest ok = yes
-[privat]
-        comment = Share d'accés privat
-        path = /var/lib/samba/privat
-        public = no
-        browseable = no
-        writable = yes
-        printable = no
-        guest ok = yes
-</code></pre>
-<h2 id="ordenes">ORDENES</h2>
-<ul>
-<li>smbtree</li>
-<li>smbtree -D</li>
-<li>smbtree -S</li>
-<li>smbclient (-N) //server/recurs</li>
-<li>smbclient //server/recurs -U user%password</li>
-<li>smbget -R smb://server/recurs/file</li>
-<li>mount -t cifs //server/share / mnt -o guest</li>
-<li>/etc/samba/smb.conf</li>
-<li>/etc/samba/lmhosts</li>
-<li>useradd lila -&gt; smbpasswd -a lila</li>
-<li>borrar: smbpasswd -x lila</li>
-<li>smbclient -d0 //samba/public -u lila</li>
-<li>pdbedit // pdbedit -Lv</li>
+<li><a href="https://postmanstudent.notion.site/postmanstudent/Guide-for-Postman-Student-Expert-Program-7a03387662c14c23b687f1952c82d6d3">tutorial</a>  </li>
 </ul>
               
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../kerberos/" class="btn btn-neutral float-right" title="KERBEROS">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../pam/" class="btn btn-neutral" title="PAM"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -481,10 +354,6 @@ done
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../pam/" style="color: #fcfcfc">&laquo; Previous</a></span>
-    
-    
-      <span><a href="../kerberos/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>SAMBA - Miguel's Notes</title>
+  <title>M.Virtuales - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "SAMBA";
-    var mkdocs_page_input_path = "samba.md";
+    var mkdocs_page_name = "M.Virtuales";
+    var mkdocs_page_input_path = "virtuales.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -78,8 +78,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">M.Virtuales</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
                 <ul>
@@ -146,16 +148,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">SAMBA</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#instalacion">INSTALACION</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ficheros">FICHEROS</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ordenes">ORDENES</a>
-    </li>
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
                     </li>
                 </ul>
                 <ul>
@@ -207,10 +201,10 @@
     
       
     
-    <li>SAMBA</li>
+    <li>M.Virtuales</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/samba.md"> Edit on isx46410800/python</a>
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/virtuales.md"> Edit on isx46410800/python</a>
       
     </li>
   </ul>
@@ -221,229 +215,93 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="samba">SAMBA</h1>
+                <h1 id="hyper-v">HYPER-V</h1>
 <ul>
 <li>
-<p>Dos demonios: smbd y nmbd.  </p>
+<p><a href="https://docs.microsoft.com/es-es/virtualization/hyper-v-on-windows/about/">DOCUMENTACION HYPER-V</a>  </p>
 </li>
 <li>
-<p>Fichero de conf smb.conf.  </p>
+<p><a href="https://www.veeam.com/blog/es/how-to-configure-hyperv-virtual-switch.html">CONFIGURAR</a>  </p>
 </li>
 <li>
-<p>Topologia de red Peer to Peer: una red entre iguales, a su bola. Cliente/servidor.  </p>
+<p><a href="https://www.youtube.com/playlist?list=PLn5IkU1ZhgiaHniso3RdsF12ehcTd0jTD">YOUTUBE</a>  </p>
 </li>
 <li>
-<p>Puertos 139(netbios-ssn) y 445(microsoft-ds)  </p>
+<p>Para ver si tenemos habilitado la virtualización se puede hacer desde la BIOS y en windows en Administrador de tareas - CPU y abajo ver que ponga habilitada.  </p>
 </li>
 <li>
-<p><code>testparm</code> test de configuracion de samba</p>
+<p>Añadimos el Hyper-V en panel de control - programas - activar o desactivar caracteristicas y añadimos todo lo de HyperV. Con powershell lo hacemos con <code>Enable-WindowsOptionalFeature -Online - FeatureName:Microsift-Hyper-V -All</code>.  </p>
 </li>
 <li>
-<p><code>smbtree</code> hace un mensaje de broadcaste y salen los que contesten.  </p>
+<p>Acciones configuración de Hyper-V nos sirve para indicar en que carpeta se guardarán los discos duros y las maquinas virtuales.  </p>
 </li>
 <li>
-<p>Forma: <code>\\server\recurs</code></p>
+<p>Crear MV: nuevo - maquina virtual y ponemos nombre, generacion, donde guardala, asignar memoria, la red, el disco duro y el SO. También en creacion rapida - nombre - iso y red. Luego te saldrán configuracion predeterminadas que se pueden cambiar en configuración.  </p>
+</li>
+<li>
+<p>Tipos de redes:  </p>
+<ul>
+<li>Externa: las maquinas se conectan con las maquinas y con la externa, ya que coge el adaptador fisico propio. Crea un puente</li>
+<li>Interna: solo se conecta a las maquinas virtuales sin salida a internet.</li>
+<li>Privada: solamente a red interna.  <blockquote>
+<p>Se crean en administrador de commutadores virtuales.  </p>
+</blockquote>
 </li>
 </ul>
-<h2 id="instalacion">INSTALACION</h2>
+</li>
+<li>
+<p>Tambien se pueden crear discos duros y luego se pueden asignar a maquinas en los pasos de creación de maquinas virtuales en nuevo - discos duros.  </p>
+</li>
+<li>
+<p>Conectar dispositivos USB de fuera a la maquina virtual: cuando le damos a conectar - le damos a mostrar - recursos locales - mas y selecionamos.  </p>
+</li>
+<li>
+<p>Habilitar HyperV o Vmware segun lo que se vaya a usar:  </p>
 <ul>
-<li>Dockerfile:  </li>
+<li><code>bcedit /set hypervisorlaunchtype off</code> (habilita vmware)  </li>
+<li><code>bcedit /set hypervisorlaunchtype auto</code> (habilita vmware)  </li>
 </ul>
-<pre><code># Version: 0.0.1
-# @edt M06 2019-2020
-# samba
-# -------------------------------------
-FROM fedora:27
-LABEL author=&quot;Miguel Amoros&quot;
-LABEL description=&quot;SAMBA server 2019-2020 - PAM&quot;
-RUN dnf -y install procps samba samba-client nss-pam-ldapd cifs-utils passwd pam_mount authconfig
-RUN mkdir /opt/docker
-COPY * /opt/docker/
-RUN chmod +x /opt/docker/install.sh /opt/docker/startup.sh
-WORKDIR /opt/docker
-CMD [&quot;/opt/docker/startup.sh&quot;]
-</code></pre>
+</li>
+<li>
+<p>Cuando da error de PING entre maquinas puede ser que haya que desactivar el firewall o en las reglas de firewall en la seguridad de windows, activar el protocolo ICMP entrantes.  </p>
+</li>
+<li>
+<p>El error de PXE que no deja el modo seguro arrancar la maquina virtual se soluciona yendo a la condiguración - seguridad y desactivar el arranque seguro.  </p>
+</li>
+<li>
+<p>Hacer plantillas de maquinas virtuales:  </p>
 <ul>
-<li>Authconfig.sh:  </li>
+<li>Hacer snapshoot o instantaneas y despues clonar desde una instantanea.</li>
+<li>Dentro de una maquina, en el estado que ya queremos que se haga luego la copia, vamos a Equipo - unidad C - system32 - sysprep y ejecutamos y elegimos iniciar y habilitamos opcion y apagado. Una vez apagado, vamos a la MV , boton derecho exportar y la guardamos donde queramos. También podemos copiar el disco duro de la MV para también hacer una plantilla del disco duro y asi seleccionamos ese disco al crear la nueva MV. Luego importar maquina en acciones - selecionamos donde la otra, nueva identificador.  </li>
 </ul>
-<pre><code>#! /bin/bash
-authconfig --enableshadow --enablelocauthorize --enableldap --enableldapauth --enablemkhomedir --ldapserver='ldapserver' --ldapbase='dc=edt,dc=org' --updateall
-</code></pre>
-<ul>
-<li>Install.sh:  </li>
+</li>
+<li>
+<p>Para poder tener HyperV dentro de una maquina virtual (virtualizacion anidada) se ha de indicar en la maquina fisica: <code>Set-VMProcessor -VMName DC01 -ExposeVirtualizationExtensions $true</code>  </p>
+</li>
+<li>
+<p>Se puede migrar toda la maquina virtual de dentro de una maquina virtual a otro servidor de maquina virtual para meterle dentro esta maquina virtual (Shared Nothing Live Migration), se hace en caliente y en funcionamiento sin perder tiempo ni información. Vamos a la MV - boton derecho - mover - mover MV y seleccionar donde - y selecionamos el host a mover - mover todos los elementos y elegimos la carpeta de destino.  </p>
+</li>
 </ul>
-<pre><code>#! /bin/bash
-# @edt ASIX M06 2019-2020
-# instal.lacio
-# -------------------------------------
-# creacio usuaris locals
-useradd local1
-useradd local2
-useradd local3
-echo &quot;local1&quot; | passwd --stdin local1
-echo &quot;local2&quot; | passwd --stdin local2
-echo &quot;local3&quot; | passwd --stdin local3
-# Configuració client autenticació ldap
-bash /opt/docker/auth.sh
-# SAMBA
-## Configuracio shares Samba
-mkdir /var/lib/samba/public
-chmod 777 /var/lib/samba/public
-cp /opt/docker/* /var/lib/samba/public/.
-mkdir /var/lib/samba/privat
-#chmod 777 /var/lib/samba/privat
-cp /opt/docker/*.md /var/lib/samba/privat/.
-cp /opt/docker/smb.conf /etc/samba/smb.conf
-## creacio usuaris unix locals i samba locals
-useradd lila
-useradd roc
-useradd patipla
-useradd pla
-echo -e &quot;lila\nlila&quot; | smbpasswd -a lila
-echo -e &quot;roc\nroc&quot; | smbpasswd -a roc
-echo -e &quot;patipla\npatipla&quot; | smbpasswd -a patipla
-echo -e &quot;pla\npla&quot; | smbpasswd -a pla
-</code></pre>
+<h1 id="vmware">VMWARE</h1>
 <ul>
-<li>Startup.sh:  </li>
+<li>
+<p><a href="https://www.profesionalreview.com/2020/06/14/vmware-maquina-virtual-guia/">DOCUMENTACION VMWARE</a>  </p>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/es-es/azure/vmware-cloudsimple/quickstart-create-private-cloud-vmware-virtual-machine">NUBE</a>  </p>
+</li>
+<li>
+<p><a href="https://docs.vmware.com/es/VMware-Fusion/12/com.vmware.fusion.using.doc/GUID-7705D72C-9D90-4363-8A05-7DC3B2CAFE80.html">CONFIGURAR</a>  </p>
+</li>
 </ul>
-<pre><code>#! /bin/bash
-# @edt ASIX M06 2019-2020
-# startup.sh
-# -------------------------------------
-#instalacio / preparacio
-/opt/docker/install.sh &amp;&amp; echo &quot;Install Ok&quot;
-# activar els serveis ldap
-/sbin/nscd &amp;&amp; echo &quot;nscd Ok&quot;
-/sbin/nslcd &amp;&amp; echo &quot;nslcd Ok&quot;
-# activar els serveis samba
-/usr/sbin/smbd &amp;&amp; echo &quot;smb Ok&quot;
-# creacion de users samba dels users ldap, creando sus cuentas y directorios
-bash /opt/docker/usersSambaUnixLdap.sh
-# servei per a detached
-/usr/sbin/nmbd -F
-</code></pre>
+<h1 id="virtualbox">VIRTUALBOX</h1>
 <ul>
-<li>usersldap.sh:  </li>
-</ul>
-<pre><code>llistaUsers=&quot;pere marta anna pau pere jordi&quot;
-for user in $llistaUsers
-do
-    echo -e &quot;$user\n$user&quot; | smbpasswd -a $user
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir &amp;&amp; echo &quot;directori home creat&quot;
-        cp -ra /etc/skel/. $homedir &amp;&amp; echo &quot;skel copiado&quot;
-        chown -R $uid.$gid $homedir &amp;&amp; echo &quot;chown ok&quot;
-    fi
-done
-for user in user{01..05}
-do
-    echo -e &quot;jupiter\njupiter&quot; | smbpasswd -a $user &amp;&amp; echo &quot;usuari $user creat&quot;
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir
-        cp -ra /etc/skel/. $homedir
-        chown -R $uid.$gid $homedir
-    fi
-done
-for user in user{06..10}
-do
-    echo -e &quot;jupiter\njupiter&quot; | smbpasswd -a $user &amp;&amp; echo &quot;usuari $user creat&quot;
-    line=$(getent passwd $user)
-    uid=$(echo $line | cut -d: -f3)
-    gid=$(echo $line | cut -d: -f4)
-    homedir=$(echo $line | cut -d: -f6)
-    echo &quot;$user $uid $gid $homedir&quot;
-    if [ ! -d $homedir ]; then
-        mkdir -p $homedir
-        cp -ra /etc/skel/. $homedir
-        chown -R $uid.$gid $homedir
-    fi 
-done
-</code></pre>
-<h2 id="ficheros">FICHEROS</h2>
-<ul>
-<li>smb.conf:  </li>
-</ul>
-<pre><code>[global]
-        workgroup = MYGROUP
-        server string = Samba Server Version %v
-        log file = /var/log/samba/log.%m
-        max log size = 50
-        security = user
-        passdb backend = tdbsam
-        load printers = yes
-        cups options = raw
-[homes]
-        comment = Home Directories
-        browseable = no
-        writable = yes
-;       valid users = %S
-;       valid users = MYDOMAIN\%S
-[printers]
-        comment = All Printers
-        path = /var/spool/samba
-        browseable = no
-        guest ok = no
-        writable = no
-        printable = yes
-[documentation]
-        comment = Documentació doc del container
-        path = /usr/share/doc
-        public = yes
-        browseable = yes
-        writable = no
-        printable = no
-        guest ok = yes
-[manpages]
-        comment = Documentació man  del container
-        path = /usr/share/man
-        public = yes
-        browseable = yes
-        writable = no
-        printable = no
-        guest ok = yes
-[public]
-        comment = Share de contingut public
-        path = /var/lib/samba/public
-        public = yes
-        browseable = yes
-        writable = yes
-        printable = no
-        guest ok = yes
-[privat]
-        comment = Share d'accés privat
-        path = /var/lib/samba/privat
-        public = no
-        browseable = no
-        writable = yes
-        printable = no
-        guest ok = yes
-</code></pre>
-<h2 id="ordenes">ORDENES</h2>
-<ul>
-<li>smbtree</li>
-<li>smbtree -D</li>
-<li>smbtree -S</li>
-<li>smbclient (-N) //server/recurs</li>
-<li>smbclient //server/recurs -U user%password</li>
-<li>smbget -R smb://server/recurs/file</li>
-<li>mount -t cifs //server/share / mnt -o guest</li>
-<li>/etc/samba/smb.conf</li>
-<li>/etc/samba/lmhosts</li>
-<li>useradd lila -&gt; smbpasswd -a lila</li>
-<li>borrar: smbpasswd -x lila</li>
-<li>smbclient -d0 //samba/public -u lila</li>
-<li>pdbedit // pdbedit -Lv</li>
+<li>
+<p><a href="https://www.profesionalreview.com/2018/11/21/crear-maquina-virtual-virtualbox/">DOCUMENTACIÓN VIRTUALBOX</a>  </p>
+</li>
+<li>
+<p><a href="https://www.fpgenred.es/VirtualBox/crear_una_mquina_virtual_a_partir_del_disco_de_otra.html">CONFIGURAR</a>  </p>
+</li>
 </ul>
               
             </div>
@@ -452,10 +310,10 @@ done
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../kerberos/" class="btn btn-neutral float-right" title="KERBEROS">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../docker/" class="btn btn-neutral float-right" title="Docker">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../pam/" class="btn btn-neutral" title="PAM"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../powershell/" class="btn btn-neutral" title="PowerShell/CMD"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -481,10 +339,10 @@ done
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../pam/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../powershell/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../kerberos/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../docker/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

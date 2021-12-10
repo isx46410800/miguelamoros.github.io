@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -384,6 +383,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -411,7 +411,6 @@ $ sudo dnf install docker-ce docker-ce-cli containerd.io
 $ sudo systemctl start docker
 $ sudo docker run hello-world
 </code></pre>
-
 <h2 id="comandos">COMANDOS</h2>
 <ul>
 <li>Crear un container Docker:  </li>
@@ -419,7 +418,6 @@ $ sudo docker run hello-world
 <pre><code>docker run --rm -it fedora:27//isx46410800/netcat:latest /bin/bash
 docker run --rm --name ldap -h ldap -d imagen
 </code></pre>
-
 <ul>
 <li>Descagar una imagen:<br />
 <code>docker pull fedora:27/imagen</code></li>
@@ -466,14 +464,12 @@ docker run --rm --name ldap -h ldap -d imagen
 docker tag imagen nuevoimagen:tag
 docker push nuevoimagen:tag
 </code></pre>
-
 <ul>
 <li>Copiar un fichero a fuera del docker o dentro:  </li>
 </ul>
 <pre><code>docker cp file container:/opt/docker/.
 docker cp container:/opt/docker/. file
 </code></pre>
-
 <ul>
 <li>Docker con puerto mapeado para el exterior:<br />
 <code>docker run --rm --name ldap -h ldap -p 389:389 -p 80:80 -it isx/ldap /bin/bash</code><blockquote>
@@ -488,7 +484,6 @@ docker network rm NameRed
 docker network inspect NameRed/container
 docker network create --subnet 172.19.0.0/16 NameRed
 </code></pre>
-
 <h3 id="volumes-en-docker">Volumes en Docker:</h3>
 <pre><code>docker volume create NOMBREVOLUMEN
 docker volume ls
@@ -497,7 +492,6 @@ ls /var/lib/docker/volumes
 --privileged
 -v volumen:contenido
 </code></pre>
-
 <p><code>docker run --rm --name ldap -h ldap -v NOMVOLUMEN:/var/lib/sambaloQueGuarda --privileged -it isx/ldap /bin/bash</code></p>
 <h3 id="docker-compose">Docker Compose:</h3>
 <pre><code>docker-compose up #enciende todos los dockers del file compose.yml
@@ -513,7 +507,6 @@ docker-compose pause/unpause ldap #pausar el servicio
 docker-compose start/stop ldap #iniciar servicio
 docker-compose scale ldap=2 #dos container ldap
 </code></pre>
-
 <h3 id="docker-swarm">Docker SWARM:</h3>
 <pre><code>docker swarm init #inicia el docker swarm
 docker node ls # lista de nodos del swarm
@@ -533,7 +526,6 @@ docker node update --label-add tipus=valor nomNode
 docker node inspect nomNode
 docker node update --availability active/drain/pause nomNode
 </code></pre>
-
 <h2 id="arquitectura">ARQUITECTURA</h2>
 <ul>
 <li>
@@ -562,7 +554,6 @@ docker node update --availability active/drain/pause nomNode
 RUN yum install -y httpd
 CMD[&quot;apachectl&quot;,&quot;-DFOREGROUND&quot;]
 </code></pre>
-
 <p><img alt="" src="../images/docker2.png" />  </p>
 <ul>
 <li>Contenedor es una capa addicional en tiempo real de ejecución, el empaquetado de todo el dockerfile. CAPA DE ESCRITURA. Recuerda que la capa del contenedor es temporal y que al eliminar el contenedor, todo lo que haya dentro de ella desaparecerá.    </li>
@@ -664,7 +655,6 @@ VOLUME /tmp/
 # Como arrancar el container
 CMD [&quot;apachectl&quot;, &quot;-DFOREGROUND&quot;]
 </code></pre>
-
 <ul>
 <li>
 <p>Podemos usar un fichero <code>.dockerignore</code> para ignorar ficheros que no queremos que copiemos en el container.  </p>
@@ -681,7 +671,6 @@ CMD [&quot;apachectl&quot;, &quot;-DFOREGROUND&quot;]
   useradd miguel &amp;&amp; \
   useradd miguelito
 </code></pre>
-
 <h4 id="cmd-vs-entrypoint">CMD VS ENTRYPOINT</h4>
 <ul>
 <li><strong>CMD</strong>: Este comando se encarga de pasar valores por defecto a un contenedor. Entre estos valores se pueden pasar ejecutables. Este comando tiene tres posibles formas de pasar los parámetros:  </li>
@@ -736,7 +725,6 @@ EXPOSE 443
 # arranque
 CMD [&quot;/opt/docker/startup.sh&quot;]
 </code></pre>
-
 <ul>
 <li>Podemos eliminar imagenes none con el comando:<br />
 <code>docker images -f dangling=true | xargs docker rmi</code>  </li>
@@ -779,7 +767,6 @@ RUN chmod +x /opt/docker/startup.sh
 # arranque
 CMD /opt/docker/startup.sh
 </code></pre>
-
 <h4 id="multi-stage-build">MULTI-STAGE-BUILD</h4>
 <ul>
 <li>Ejemplo de instalar varias capas de sistemas operativos:  </li>
@@ -797,17 +784,13 @@ COPY --from=builder /app/target/my-app-1.0-SNAPSHOT.jar /opt/app.jar
 # ejecutamos la app
 CMD java -jar /opt/app.jar
 </code></pre>
-
 <pre><code>[isx46410800@miguel multi]$ docker build -t isx46410800/java:app .
 </code></pre>
-
 <pre><code>[isx46410800@miguel multi]$ docker run -d isx46410800/java:app
 </code></pre>
-
 <pre><code>[isx46410800@miguel multi]$ docker logs trusting_galois
 Hello World!
 </code></pre>
-
 <ul>
 <li>Otro ejemplo:  </li>
 </ul>
@@ -818,7 +801,6 @@ RUN fallocate -l 30M /opt/file3
 FROM alpine
 COPY --from=test /opt/file2 /opt/myfile
 </code></pre>
-
 <blockquote>
 <p>El centos con los 3 files serian 260M pero solo coge de alpine que son 4 y coge el file que le interesa. El total de la imagen es 24M y no la suma de todo.  </p>
 </blockquote>
@@ -869,7 +851,6 @@ RUN chmod +x opt/docker/startup.sh
 # Arrancamos el servicio apache en segundo plano
 CMD [&quot;opt/docker/startup.sh&quot;]
 </code></pre>
-
 <ul>
 <li>Startup.sh:  </li>
 </ul>
@@ -879,7 +860,6 @@ echo &quot;iniciando container...&quot;
 # Encendiendo servicio apache
 apachectl -DFOREGROUND
 </code></pre>
-
 <ul>
 <li>
 <p>Imagen:<br />
@@ -897,7 +877,6 @@ apachectl -DFOREGROUND
 CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                NAMES
 abda827fb9f5        isx46410800/apache:php   &quot;opt/docker/startup.…&quot;   3 seconds ago       Up 1 second         0.0.0.0:80-&gt;80/tcp   apache_php
 </code></pre>
-
 <ul>
 <li>Entramos a <code>localhost:80</code> y nos saldrá la web <code>index.php</code>  </li>
 </ul>
@@ -985,7 +964,6 @@ docker ps
 CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                 NAMES
 fc84bdb48a38        mysql:5.7                &quot;docker-entrypoint.s…&quot;   3 seconds ago       Up 2 seconds        3306/tcp, 33060/tcp   mysql-db
 </code></pre>
-
 <ul>
 <li>
 <p>Para que arranque con todo lo necesario el container:<br />
@@ -1011,7 +989,6 @@ CONTAINER ID        IMAGE                    COMMAND                  CREATED   
 b24dff85293e        mysql:5.7                &quot;docker-entrypoint.s…&quot;   4 seconds ago       Up 2 seconds        33060/tcp, 0.0.0.0:3333-&gt;3306/tcp   mysql-db2
 b3254fe3706b        mysql:5.7                &quot;docker-entrypoint.s…&quot;   3 minutes ago       Up 3 minutes        3306/tcp, 33060/tcp                 mysql-db
 </code></pre>
-
 <ul>
 <li>
 <p>Para que arranque con todo lo necesario el container:<br />
@@ -1088,7 +1065,6 @@ docker-db=# \l
            |        |          |            |            | docker=CTc/docker
 (4 rows)
 </code></pre>
-
 <h3 id="jenkins">JENKINS</h3>
 <ul>
 <li>
@@ -1200,14 +1176,12 @@ docker-db=# \l
 <pre><code>mkdir mysql
 docker run --name mysql-db -v mysql:/var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
 </code></pre>
-
 <h3 id="volumes-anonymoys">VOLUMES ANONYMOYS</h3>
 <ul>
 <li>Son los que no ponemos ningún volumen de host y se nos añade a cualquier directorio al azar:  </li>
 </ul>
 <pre><code>docker run --name mysql-db -v /var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
 </code></pre>
-
 <ul>
 <li>Lo podemos descubrir(Normalmente en <code>/var/lib/docker/volumes // /user/home/docker/volumes</code>):  </li>
 </ul>
@@ -1228,7 +1202,6 @@ docker run --name mysql-db -v mysql:/var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=ju
 <p><code>/var/lib/docker/volumes // /user/home/docker/volumes</code>  </p>
 <pre><code>docker run --name mysql-db -v my-vol:/var/lib/sql -e &quot;MYSQL_ROOT_PASSWORD=jupiter&quot; -p 3306:3306 -d mysql:5-7
 </code></pre>
-
 <ul>
 <li>Lo podemos descubrir(Normalmente en <code>/user/home/docker/volumes</code>):  </li>
 </ul>
@@ -1256,7 +1229,6 @@ RUN chmod +x /opt/docker/startup.sh
 # Arrancamos el servicio apache en segundo plano
 CMD [&quot;/opt/docker/startup.sh&quot;]
 </code></pre>
-
 <ul>
 <li>Startup.sh:  </li>
 </ul>
@@ -1267,7 +1239,6 @@ echo &quot;iniciando container...&quot;
 # Encendiendo servicio apache
 apachectl -DFOREGROUND
 </code></pre>
-
 <ul>
 <li>
 <p>Creación volumen:<br />
@@ -1288,7 +1259,6 @@ apachectl -DFOREGROUND
 <pre><code>VIRTUALIZATION=docker
 ENV=dev
 </code></pre>
-
 <p><img alt="" src="../images/volume.png" /><br />
 <img alt="" src="../images/volume2.png" /><br />
 <img alt="" src="../images/volume3.png" /><br />
@@ -1309,7 +1279,6 @@ ENV=dev
 <pre><code>4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN 
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
 </code></pre>
-
 <ul>
 <li>
 <p>La red por defecto de docker es <code>bridge</code>:<br />
@@ -1355,7 +1324,6 @@ ENV=dev
 test2-----&gt; 172.124.10.2 -----&gt; netB
 test3-----&gt; 172.124.10.3 -----&gt; netB
 </code></pre>
-
 <pre><code>[isx46410800@miguel images]$ docker exec test3 /bin/bash -c &quot;ping -c3 test2&quot;
 PING test2 (172.124.10.2) 56(84) bytes of data.
 64 bytes from test2.netB (172.124.10.2): icmp_seq=1 ttl=64 time=0.148 ms
@@ -1379,7 +1347,6 @@ PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
 --- 172.18.0.2 ping statistics ---
 3 packets transmitted, 0 received, 100% packet loss, time 61ms
 </code></pre>
-
 <ul>
 <li>Para conectar con diferentes redes se utiliza <code>connect</code> pero solo se conectan con el nombre del container y no por la ip:<br />
 <code>docker network connect netB test1</code>  <blockquote>
@@ -1396,7 +1363,6 @@ PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
                     &quot;IPAMConfig&quot;: {},
                     ....
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -1413,7 +1379,6 @@ PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
 --- 172.18.0.2 ping statistics ---
 3 packets transmitted, 0 received, 100% packet loss, time 80ms
 </code></pre>
-
 <ul>
 <li>Para volver a desconectar se utiliza:<br />
 <code>docker network disconnect netB test1</code>  </li>
@@ -1421,7 +1386,6 @@ PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
 <pre><code>[isx46410800@miguel images]$ docker exec test3 /bin/bash -c &quot;ping -c3 test1&quot;
 ping: test1: Name or service not known
 </code></pre>
-
 <h3 id="eliminar-redes">ELIMINAR REDES</h3>
 <ul>
 <li>Para eliminar redes:<br />
@@ -1471,7 +1435,6 @@ ping: test1: Name or service not known
 [root@miguel /]# hostname
 miguel
 </code></pre>
-
 <h3 id="red-none">RED NONE</h3>
 <ul>
 <li>Esta red ya existe por defecto con docker igual que la de brigde. Sirve para que los container que creemos no tengan ninguna IP, no tendría apartado network:<br />
@@ -1492,7 +1455,6 @@ miguel
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
 196a13fe6198        nginx               &quot;nginx -g 'daemon of…&quot;   5 seconds ago       Up 2 seconds        0.0.0.0:8080-&gt;80/tcp   frosty_jenning
 </code></pre>
-
 <ul>
 <li>
 <p>Si observamos la parte de ports, veremos un <code>0.0.0.0</code> . Esto significa que podremos acceder al servicio en el puerto <code>8080</code>  utilizando localhost:<code>8080</code> , o <code>127.0.0.1:8080</code> , <code>192.168.100.2:8080</code> .</p>
@@ -1507,7 +1469,6 @@ docker ps -l
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 1d7e82ff15da        nginx               &quot;nginx -g 'daemon of…&quot;   3 seconds ago       Up 1 second         127.0.0.1:8081-&gt;80/tcp   musing_tesla
 </code></pre>
-
 <ul>
 <li>Como observamos, ahora en vez de <code>0.0.0.0</code>  vemos un <code>127.0.0.1</code> , lo que indica que nuestro servicio es accesible sólo vía localhost  y no usando <code>192.168.100.2</code> </li>
 </ul>
@@ -1553,7 +1514,6 @@ services:
     ports:
       - &quot;8080:80&quot;
 </code></pre>
-
 <ul>
 <li>
 <p>Para arrancarlo:<br />
@@ -1578,7 +1538,6 @@ services:
     environment:
       - &quot;MYSQL_ROOT_PASSWORD=jupiter&quot;
 </code></pre>
-
 <pre><code>version: '3'
 services:
   db:
@@ -1588,7 +1547,6 @@ services:
       - &quot;3306:3306&quot;
     env_file: variables.env
 </code></pre>
-
 <h3 id="volumenes">VOLÚMENES</h3>
 <ul>
 <li>Para los volúmenes, podemos crearlo añandiendolo en su sección y luego para asignarlo a un contenedor, añadimos la subsección volumes:  </li>
@@ -1605,7 +1563,6 @@ services:
 volumes:
    my-vol:
 </code></pre>
-
 <blockquote>
 <p>Creamos el volumen Named my-vol y lo añadimos al contenedor de nginx.  </p>
 </blockquote>
@@ -1618,7 +1575,6 @@ Creating volume &quot;nginx_my-vol&quot; with default driver
 Creating nginx ... 
 Creating nginx ... done
 </code></pre>
-
 <blockquote>
 <p>se llama de prefijo nginx, porque siempre coge el nombre del directorio actual.  </p>
 </blockquote>
@@ -1640,7 +1596,6 @@ services:
     volumes:
       - &quot;/home/isx46410800/Documents/curso_docker/docker-compose/nginx/html:/usr/share/nginx/html&quot;
 </code></pre>
-
 <h3 id="redes">REDES</h3>
 <ul>
 <li>Para crear redes, se ha de crear la seccion de <code>networks</code> y de cada contenedor si son diferentes, indicar la subsección network indicando la red:  </li>
@@ -1668,7 +1623,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <blockquote>
 <p>Creamos la red <code>my-net</code> y al estar en una red creada tiene DNS y podemos contactar por nombre de container, por nombre de servicio o por IP.  </p>
 </blockquote>
@@ -1696,7 +1650,6 @@ PING 172.21.0.2 (172.21.0.2) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.080/0.080/0.080/0.000 ms
 </code></pre>
-
 <h3 id="build-dockerfile">BUILD DOCKERFILE</h3>
 <ul>
 <li>
@@ -1724,7 +1677,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Si se llama diferente a Dockerfile, ponemos <code>context</code> para ver en que directorio está y <code>dockerfile</code> y el nombre del archivo:  </li>
 </ul>
@@ -1741,7 +1693,6 @@ networks:
     networks:
       - my-net
 </code></pre>
-
 <p>La construimos con <code>docker-compose build</code>:  </p>
 <pre><code>[isx46410800@miguel build]$ docker-compose build
 Building web
@@ -1750,7 +1701,6 @@ Step 1/1 : FROM httpd
 Successfully built 417af7dc28bc
 Successfully tagged isx46410800/httpd-build:latest
 </code></pre>
-
 <ul>
 <li>O construir image y hacer container de golpe con <code>docker-compose up -d</code>:  </li>
 </ul>
@@ -1763,7 +1713,6 @@ CONTAINER ID        IMAGE                      COMMAND              CREATED     
 240530fbf981        isx46410800/httpd-build2   &quot;httpd-foreground&quot;   4 seconds ago       Up 2 seconds        0.0.0.0:8082-&gt;80/tcp   apache2
 e8722f8e391d        isx46410800/httpd-build    &quot;httpd-foreground&quot;   29 seconds ago      Up 27 seconds       0.0.0.0:8081-&gt;80/tcp   apache
 </code></pre>
-
 <h3 id="cmd-cambiado">CMD CAMBIADO</h3>
 <ul>
 <li>Para cambiar el CMD de por defecto cuando se crea un contenedor podemos cambiarlo añadiendo la subsección <code>command</code>:  </li>
@@ -1781,7 +1730,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <h3 id="limitar-recursos_1">LIMITAR RECURSOS</h3>
 <ul>
 <li>Solo se puede en versión 2 con opciones como <code>mem_limit</code> o <code>cpuset</code>:  </li>
@@ -1794,7 +1742,6 @@ services:
     mem_limit: 20Mb
     cpuset: &quot;0&quot;
 </code></pre>
-
 <h3 id="politica-de-reinicio">POLÍTICA DE REINICIO</h3>
 <ul>
 <li>
@@ -1831,7 +1778,6 @@ docker-compose pause/unpause ldap #pausar el servicio
 docker-compose start/stop ldap #iniciar servicio
 docker-compose scale ldap=2 #dos container ldap
 </code></pre>
-
 <h2 id="proyectos-docker-compose">PROYECTOS DOCKER-COMPOSE</h2>
 <h3 id="mysql-wordpress">MYSQL-WORDPRESS</h3>
 <ul>
@@ -1876,7 +1822,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -1916,7 +1861,6 @@ volumes:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -1966,7 +1910,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2016,7 +1959,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2058,7 +2000,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2121,7 +2062,6 @@ services:
 networks:
   net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2154,7 +2094,6 @@ VOLUME /usr/share/zabbix /var/log/httpd
 RUN chmod +x /start.sh
 CMD /start.sh
 </code></pre>
-
 <ul>
 <li><code>docker-compose.yml</code>:  </li>
 </ul>
@@ -2188,7 +2127,6 @@ services:
 networks:
   net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2242,7 +2180,6 @@ services:
 networks:
   my-net:
 </code></pre>
-
 <ul>
 <li>Resultados:  </li>
 </ul>
@@ -2339,7 +2276,6 @@ services:
       placement:
         constraints: [node.role == manager]
 </code></pre>
-
 <ul>
 <li>Desplegamos con la orden:  </li>
 </ul>
@@ -2349,7 +2285,6 @@ Creating network AppMiguel_default
 Creating service AppMiguel_hello
 Creating service AppMiguel_visualizer
 </code></pre>
-
 <ul>
 <li>Comprobaciones de que estan los dos servicios <code>k19:hello(6) y visualizer</code>(1):  </li>
 </ul>
@@ -2366,7 +2301,6 @@ c0hgdykvxub7        AppMiguel_hello.4        isx46410800/k19:hello             i
 rx4khrovr84t        AppMiguel_hello.5        isx46410800/k19:hello             ip-172-31-18-60.eu-west-2.compute.internal    Running             Running about a minute ago                       
 fyxes66lquup        AppMiguel_hello.6        isx46410800/k19:hello             miguel                                        Running             Running about a minute ago                       
 </code></pre>
-
 <p><img alt="" src="../images/swarm3.png" /><br />
 <img alt="" src="../images/swarm4.png" />  </p>
 <h3 id="escalar-servicios">ESCALAR SERVICIOS</h3>
@@ -2378,7 +2312,6 @@ ID                  NAME                   MODE                REPLICAS         
 p46df6579rup        AppMiguel_hello        replicated          6/6                 isx46410800/k19:hello             *:80-&gt;80/tcp
 9n3iyb7ofvfx        AppMiguel_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080-&gt;8080/tcp
 </code></pre>
-
 <ul>
 <li>Escalamos con <code>docker service scale AppMiguel_hello=3</code>:  </li>
 </ul>
@@ -2387,7 +2320,6 @@ ID                  NAME                   MODE                REPLICAS         
 p46df6579rup        AppMiguel_hello        replicated          3/3                 isx46410800/k19:hello             *:80-&gt;80/tcp
 9n3iyb7ofvfx        AppMiguel_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080-&gt;8080/tcp
 </code></pre>
-
 <p><img alt="" src="../images/swarm5.png" />  </p>
 <h3 id="modo-global">MODO GLOBAL</h3>
 <ul>
@@ -2411,7 +2343,6 @@ services:
       placement:
         constraints: [node.role == manager]
 </code></pre>
-
 <h3 id="nodo-drainpauseactive">NODO DRAIN/PAUSE/ACTIVE</h3>
 <ul>
 <li>
@@ -2441,7 +2372,6 @@ services:
 <pre><code>[fedora@ip-172-31-18-60 swarm]$ docker node update --label-add sexo=hombre miguel
 miguel
 </code></pre>
-
 <ul>
 <li>Y hacemos deploy segun etiquetas:  </li>
 </ul>
@@ -2465,7 +2395,6 @@ services:
       placement:
         constraints: [node.role == manager]
 </code></pre>
-
 <h2 id="docker-registry">DOCKER REGISTRY</h2>
 <ul>
 <li>Sería la misma función que crear una cuenta en <code>Dockerhub</code> y después hacer:  </li>
@@ -2494,7 +2423,6 @@ a52169f2861d43450071e5bedeb01380fc2a26fe9030975b127b4a2452e5f62e
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 a52169f2861d        registry:2          &quot;/entrypoint.sh /etc…&quot;   3 seconds ago       Up 1 second         0.0.0.0:5000-&gt;5000/tcp   registry
 </code></pre>
-
 <ul>
 <li>Subimos una imagen:  </li>
 </ul>
@@ -2511,7 +2439,6 @@ registry: digest: sha256:90659bf80b44ce6be8234e6ff90a1ac34acbeb826903b02cfa0da11
 [isx46410800@miguel registry]$ ls data/docker/registry/v2/repositories/hello/
 _layers  _manifests  _uploads
 </code></pre>
-
 <ul>
 <li>
 <p>Bajar la imagen del registry:<br />
@@ -2561,17 +2488,18 @@ _layers  _manifests  _uploads
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../virtuales/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../kubernetes/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../virtuales/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../kubernetes/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

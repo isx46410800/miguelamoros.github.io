@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -246,6 +245,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -277,7 +277,6 @@ Resources:
             ImageId: ami-123456789
             InstanceType: t2.micro
 </code></pre>
-
 <ul>
 <li>Sintaxis compleja:  </li>
 </ul>
@@ -330,7 +329,6 @@ Resources:
               ToPort: 22
               CidrIp: 10.10.0.1/32
 </code></pre>
-
 <h3 id="create-stack">Create STACK</h3>
 <ul>
 <li>Vamos a consola , cloudformation, crear stack, crear template, subir fichero y ponemos nuestra instancia simple de código en el fichero y veremos como crea una instancia del tipo que se le indica:  </li>
@@ -344,7 +342,6 @@ Resources:
             ImageId: ami-123456789
             InstanceType: t2.micro
 </code></pre>
-
 <ul>
 <li>Para actualizar la que tenemos vamos a crear stack, replace current template, subimos fichero y veremos en los eventos como se actualiza:  </li>
 </ul>
@@ -397,7 +394,6 @@ Resources:
               ToPort: 22
               CidrIp: 10.10.0.1/32
 </code></pre>
-
 <blockquote>
 <p>Despues se puede borrar con Delete en los eventos.  </p>
 </blockquote>
@@ -420,7 +416,6 @@ Resources:
       - m1.large
     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
 </code></pre>
-
 <ul>
 <li>Ejemplo2:  </li>
 </ul>
@@ -439,7 +434,6 @@ Resources:
     MaxLength: 41
     AllowedPattern: ^[a-zA-Z0-9]*$
 </code></pre>
-
 <h3 id="recursos">Recursos</h3>
 <ul>
 <li>
@@ -463,7 +457,6 @@ Resources:
     Type: &quot;AWS::SQS::Queue&quot;
     Properties: {}
 </code></pre>
-
 <ul>
 <li>
 <p>Todos los tipos de <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/AWS_EC2.html">recursos</a> </p>
@@ -529,7 +522,6 @@ Properties:
   Volumes: 
     - Volume
 </code></pre>
-
 <h3 id="mapping">Mapping</h3>
 <ul>
 <li>
@@ -564,7 +556,6 @@ Resources:
       ImageId: !FindInMap [RegionMap, !Ref &quot;AWS::Region&quot;, HVM64]
       InstanceType: m1.small
 </code></pre>
-
 <h3 id="outputs">Outputs</h3>
 <ul>
 <li>
@@ -583,7 +574,6 @@ Resources:
     Description: The Instance ID
     Value: !Ref EC2Instance
 </code></pre>
-
 <pre><code>Outputs:
   BackupLoadBalancerDNSName:
     Description: The DNSName of the backup load balancer
@@ -593,7 +583,6 @@ Resources:
     Description: The Instance ID
     Value: !Ref EC2Instance
 </code></pre>
-
 <h3 id="conditions">Conditions</h3>
 <ul>
 <li>
@@ -638,7 +627,6 @@ Resources:
         - EC2Instance
         - AvailabilityZone
 </code></pre>
-
 <h3 id="functions">Functions</h3>
 <ul>
 <li>Hay diferentes <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html">funciones</a> internas en la creación de un template IAC </li>
@@ -692,7 +680,6 @@ Resources:
               IpProtocol: tcp
               ToPort: 80
 </code></pre>
-
 <blockquote>
 <p>Creamos una stack con el template, ponemos el parametro creado y vemos que sea crea tanto por la ip:80 como por consola.  </p>
 </blockquote>
@@ -765,7 +752,6 @@ Resources:
               IpProtocol: tcp
               ToPort: 80
 </code></pre>
-
 <h3 id="cfn-signal">Cfn-signal</h3>
 <ul>
 <li>
@@ -821,7 +807,6 @@ Resources:
       ResourceSignal:
         Timeout: PT5M
 </code></pre>
-
 <h3 id="rollback">Rollback</h3>
 <ul>
 <li>Cuando creamos una stack podemos indicar si queremos un rollback para poder volver a un estado anterior.  </li>
@@ -861,7 +846,6 @@ Outputs:
   OutputFromNestedStack:
     value: !GetAtt mystack.Outputs.WebsiteURL
 </code></pre>
-
 <h3 id="change-sets">Change sets</h3>
 <ul>
 <li>
@@ -916,7 +900,6 @@ Resources:
       MasterUsername: MyName
       MasterUserPassword: MyPassword
 </code></pre>
-
 <h3 id="detect-drift-stack">Detect drift stack</h3>
 <ul>
 <li>
@@ -962,17 +945,18 @@ Resources:
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../terraform/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../jenkins/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../terraform/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../jenkins/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

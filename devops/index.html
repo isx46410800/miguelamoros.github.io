@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>CURSO DEVOPS INTEGRADO - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "CURSO DEVOPS INTEGRADO";
+    var mkdocs_page_input_path = "devops.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../soporte/">Soporte TI</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">VSCode</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../terraform/">Terraform</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../aws/">AWS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../elastic/">ELKS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>CURSO DEVOPS INTEGRADO</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/devops.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="curso-devops-integrado">CURSO DEVOPS INTEGRADO</h1>
+<ul>
+<li><a href="https://azure.microsoft.com/es-es/overview/devops-tutorial/#documentation">QUÉ ES DEVOPS</a>  </li>
+</ul>
+<p><img alt="" src="../images/devops.png" />  </p>
+<ul>
+<li>La idea es una aplicación hecha en angular con base de datos postgres y servidor web nginx. La cuestión es tener 5 nodos: uno de test, dos de preproducción y dos de producción. De manera más robusta sería tener en cada nodo la app, el server web y la bbdd pero actualmente solo necesitamos tener en cada nodo Docker Engine instalado para una mayor facilidad y rapidez.  </li>
+</ul>
+<h2 id="instalacion">INSTALACIÓN</h2>
+<p><img alt="" src="../images/devops1.png" /><br />
+<img alt="" src="../images/devops2.png" />  </p>
+<blockquote>
+<p>Instalamos Docker engine y docker compose en nuestra máquina. Comprovamos con --version.  </p>
+</blockquote>
+<p><strong>*NOTA WINDOWS+</strong>  </p>
+<blockquote>
+<p>Podemos instalar docker engine en <a href="https://docs.docker.com/desktop/windows/install/">windows</a>. Instalamos <a href="https://www.docker.com/products/docker-desktop">docker desktop</a>. Activamos virtualización en la bios y activamos WSL2 con <code>Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")</code>  </p>
+</blockquote>
+<ul>
+<li>
+<p>Cogemos del repositorio de <a href="https://hub.docker.com/r/sotobotero/udemy-devops/tags">dockerhub</a> del profe la imagen a descargar que contiene la app de facturación en angular a utilizar en este curso:<br />
+<code>docker pull sotobotero/udemy-devops:0.0.1</code>  </p>
+</li>
+<li>
+<p>Iniciamos el contenedor de la app mapeando puertos web y para puerto gráfico:<br />
+<code>docker run -p 80:80 -p 8080:8080 --name billingapp sotobotero/udemy-devops:0.0.1</code>  </p>
+<blockquote>
+<p>Comprobamos que funcionan en www.localhost:80 y www.localhost:8080/swagger-ui/index.html.  </p>
+</blockquote>
+</li>
+</ul>
+<h2 id="docker-compose">DOCKER-COMPOSE</h2>
+<h3 id="v1-scratch">V1 SCRATCH</h3>
+<ul>
+<li>Creamos un docker-compose de prueba con dos nombres diferentes para ver como arranca de manera directa o con un nombre diferente:  </li>
+</ul>
+<pre><code>version: '3.1'
+
+services:
+
+  db:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: postgres    
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    depends_on: 
+      - db
+    ports:
+       - 9090:8080
+</code></pre>
+<blockquote>
+<p>Descargamos con <code>docker-compose pull // docker-compose -f fichero.yml pull</code> e iniciamos con <code>docker-compose -f fichero.yml up -d</code><br />
+Ahora podemos entrar de manera grafica a postgres con admirer en www.localhost:9090 e introducimos las credenciales y funcionando.  </p>
+</blockquote>
+<ul>
+<li>Ahora vamos a crear from scratch un Dockerfile para crear la app de facturación:  </li>
+</ul>
+<pre><code>#Creamos nuestra app de facturación
+
+#Partimos de imagen base
+FROM nginx:alpine
+
+#Instalamos java
+RUN apk -U add openjdk8 &amp;&amp; rm -rf /var/cache/apk/*;
+RUN apk add ttf-dejavu
+
+#Instalamos java microservicios y variables
+ENV JAVA_OPTS=&quot;&quot;
+ARG JAR_FILE
+ADD ${JAR_FILE} app.jar
+
+#Instalamos la app en nginx server y creamos un volumen para info y conf
+VOLUME /tmp
+RUN rm -rf /usr/share/nginx/html/*
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY dist/billingApp /usr/share/nginx/html
+COPY appshell.sh appshell.sh
+
+#mapeamos puertos
+EXPOSE 80 8080
+ENTRYPOINT [&quot;sh&quot;, &quot;/appshell.sh&quot;]
+</code></pre>
+<blockquote>
+<p>Lo construimos con <code>docker build -t facturacionapp:prod --no-cache --build-arg JAR_FILE=target/*.jar .</code><br />
+Lo iniciamos con los puertos EXPOSE <code>docker run -p 80:80 -p 8080:8080 --name billingapp facturacionapp:prod</code><br />
+Luego podemos subir nuestra version a Dockerhub con <code>docker tag facturacionapp:prod isx46410800/facturacionapp:1.0</code> y la subimos<code>docker push isx46410800/facturacionapp:1.0</code></p>
+</blockquote>
+<h3 id="v2-services">V2 SERVICES</h3>
+<ul>
+<li>
+<p>Siempre es <code>local-host:container</code>.  </p>
+</li>
+<li>
+<p>Ahora creamos nuestra app de facturación pero servicio a servicio separado en el docker-compose. Por un lado nos descargamos una imagen de nginx, por otro lado java y despues construimos manualmente con Dockerfile nuestra app angular y nuestra bbdd de postgresql:  </p>
+</li>
+</ul>
+<pre><code>version: '3.1'
+
+services:
+#database engine service
+  postgres_db:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+    ports:
+      - 5432:5432
+    volumes:
+        #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
+      - ./dbfiles:/docker-entrypoint-initdb.d
+      - /var/lib/postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: postgres
+#database admin service
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    depends_on:
+      - postgres_db
+    ports:
+       - 9090:8080
+#Billin app backend service
+  billingapp-back:
+    build:
+      context: ./java
+      args:
+        - JAR_FILE=*.jar
+    container_name: billingApp-back
+    environment:
+       - JAVA_OPTS=
+         -Xms256M
+         -Xmx256M
+    depends_on:
+      - postgres_db
+    ports:
+      - 8080:8080
+#Billin app frontend service
+  billingapp-front:
+    build:
+      context: ./angular
+    container_name: billingApp-front
+    depends_on:
+      - billingapp-back
+    ports:
+      - 80:80
+</code></pre>
+<blockquote>
+<p>Construir las imagenes definidas en la orquestación: <code>docker-compose -f stack-billing.yml build</code><br />
+Inicializar los contenedores de los servicios de la orquestación: <code>docker-compose -f stack-billing.yml up -d</code>  <br />
+No se ha especificado, pero todo esto se crea en una misma red virtual para que se puedan comunicar entre los diferentes servicios.  </p>
+</blockquote>
+<ul>
+<li>Resumen de comandos en DOCKER-COMPOSE:  </li>
+</ul>
+<pre><code>Eliminar todos los contenedores detenidos: `docker system prune` 
+Eliminar todas las imágenes: docker rmi $(docker images -a -q)
+Listar los volumenes: docker volume ls 
+Eliminar todos los volumenes: docker volume prune
+Construir las imagenes definidas en la orquestación: docker-compose -f stack-billing.yml build
+Inicializar los contenedores de los servicios de la orquestación: docker-compose -f stack-billing.yml up -d
+Detener todos los servicios de la orquestación: docker-compose -f stack-billing.yml stop
+Escalar un servicio al iniciar la orquestación: docker-compose -f stack-billing.yml up --scale  billingapp-front=3 -d --force-recreate
+Detener todos los contenedores: docker stop $(docker ps -a -q)
+Listar las redes virtuales: docker network ls
+Eliminar las redes virtuales: docker network prune
+Reconstruir las imagenes: docker-compose -f stack-billing.yml build --no-cache
+Reconstruir los contenedores d ela orquestación: docker-compose -f stack-billing.yml up -d --force-recreate
+</code></pre>
+<ul>
+<li>
+<p>Al crear los volumenes veremos que en las rutas indicadas tendremos los registros de la bbdd que vamos rellenando aunque detengamos y borremos nuestro docker-compose.  </p>
+</li>
+<li>
+<p>Podemos escalar servicios con este comando:<br />
+<code>docker-compose -f stack-billing.yml up --scale billingapp-front=3 -d --force-recreated</code>  </p>
+<blockquote>
+<p>Tener cuidado que no este puesto el container name y poner un rango de puertos(80-83:80) en este caso en el front que escalamos.  </p>
+</blockquote>
+</li>
+<li>
+<p>La otra forma de escalar seria añadir directamente en el docker-compose.yaml:  </p>
+</li>
+</ul>
+<pre><code>#Billin app frontend service
+  billingapp-front:
+    build:
+      context: ./angular
+    deploy:
+        replicas: 3
+        resources:
+            limits:
+                cpus: &quot;0.10&quot;
+                memory: 250M
+            reservations:
+                cpus: &quot;0.1&quot;
+                memory: 120M
+    #container_name: billingApp-front
+    depends_on:
+      - billingapp-back
+    ports:
+      - 80-83:80
+</code></pre>
+<blockquote>
+<p>Con <code>docker stats</code> vemos las estadisticas que por ejemplo delimitamos en el fichero docker-compose.yml.  </p>
+</blockquote>
+<h3 id="v3-services-testprod">V3 SERVICES TEST/PROD</h3>
+<ul>
+<li>Ahora veremos como montar de nuevo nuestra infraestructura de app, bbdd, server web y java, primero deploy en test y luego en producción:  </li>
+</ul>
+<pre><code>version: '3.1'
+
+services:
+#database engine service
+  postgres_db_prod:
+    container_name: postgres_prod
+    image: postgres:latest
+    restart: always
+    networks:
+      - env_prod      
+    environment:
+    ports:
+      - 5432:5432
+    volumes:
+        #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
+      - ./dbfiles:/docker-entrypoint-initdb.d
+      - /var/lib/postgres_data_prod:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: postgres  
+#database engine service
+  postgres_db_prep:
+    container_name: postgres_prep
+    image: postgres:latest
+    restart: always
+    networks:     
+      - env_prep
+    environment:
+    ports:
+      - 4432:5432
+    volumes:
+        #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
+      - ./dbfiles:/docker-entrypoint-initdb.d
+      - /var/lib/postgres_data_prep:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: postgres    
+#database admin service
+#Use for All enviroments
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    networks:
+      - env_prod
+      - env_prep
+    depends_on: 
+      - postgres_db_prod
+      - postgres_db_prep   
+    ports:
+       - 9090:8080
+
+#ENV_PROD
+#Billin app backend service
+  billingapp-back-prod:
+    build:
+      context: ./java
+      args:
+        - JAR_FILE=billing-0.0.3-SNAPSHOT.jar
+    networks:
+      - env_prod     
+    container_name: billingApp-back-prod     
+    environment:
+       - JAVA_OPTS=
+         -Xms256M 
+         -Xmx256M         
+    depends_on:     
+      - postgres_db_prod
+    ports:
+      - 8080:8080 
+#Billin app frontend service
+  billingapp-front_prod:
+    build:
+      context: ./angular 
+    networks:
+      - env_prod      
+    deploy:
+        replicas: 2
+        resources:
+           limits: 
+              cpus: &quot;0.15&quot;
+              memory: 250M
+#recusos dedicados, mantiene los recursos disponibles del host para el contenedor
+           reservations:
+              cpus: 0.1
+              memory: 128M
+    #container_name: billingApp-front
+    depends_on:     
+      - billingapp-back-prod
+#rango de puertos para escalar    
+    ports:
+      - 8081-8082:80
+
+
+#ENV_PREP
+#Billin app backend service
+  billingapp-back-prep:
+    build:
+      context: ./java
+      args:
+        - JAR_FILE=billing-0.0.2-SNAPSHOT.jar
+    networks:    
+      - env_prep
+    container_name: billingApp-back-prep      
+    environment:
+       - JAVA_OPTS=
+         -Xms256M 
+         -Xmx256M         
+    depends_on:     
+      - postgres_db_prep
+    ports:
+      - 7080:7080 
+
+
+#Billin app frontend service
+  billingapp-front-prep:
+    build:
+      context: ./angular 
+    networks:     
+      - env_prep
+    deploy:
+        replicas: 2
+        resources:
+           limits: 
+              cpus: &quot;0.15&quot;
+              memory: 250M
+#recusos dedicados, mantiene los recursos disponibles del host para el contenedor
+           reservations:
+              cpus: 0.1
+              memory: 128M
+    #container_name: billingApp-front
+    depends_on:     
+      - billingapp-back-prep
+#rango de puertos para escalar    
+    ports:
+      - 7081-7082:81
+
+
+networks:
+  env_prod:
+    driver: bridge  
+    #activate ipv6
+    driver_opts: 
+            com.docker.network.enable_ipv6: &quot;true&quot;
+    #IP Adress Manager
+    ipam: 
+        driver: default
+        config:
+        - 
+          subnet: 172.16.232.0/24
+          gateway: 172.16.232.1
+        - 
+          subnet: &quot;2001:3974:3979::/64&quot;
+          gateway: &quot;2001:3974:3979::1&quot;
+  env_prep:   
+    driver: bridge  
+    #activate ipv6
+    driver_opts: 
+            com.docker.network.enable_ipv6: &quot;true&quot;
+    #IP Adress Manager
+    ipam:
+        driver: default
+        config:
+        - 
+          subnet: 172.16.235.0/24
+          gateway: 172.16.235.1
+        - 
+          subnet: &quot;2001:3984:3989::/64&quot;
+          gateway: &quot;2001:3984:3989::1&quot;
+</code></pre>
+<blockquote>
+<p>Se especificas las networks que creamos y copiamos un clon de servicio de prod y pre teniendo en cuenta cambiar el path de la bbdd para que no se conflicten.<br />
+<code>docker-compose -f stack-billing.yml build --no-cache</code><br />
+<code>docker-compose -f stack-billing.yml up -d --force-recreate</code>  </p>
+</blockquote>
+<h2 id="kubernettes">KUBERNETTES</h2>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

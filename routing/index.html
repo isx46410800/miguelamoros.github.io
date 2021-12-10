@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -226,6 +225,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -318,7 +318,6 @@ ultimo host 10.255.223.254 /19  10.255.110|11111.11111110 /19
 red 10.255.192.0/19
 broadcast 10.255.223.255/19
 </code></pre>
-
 <h2 id="subnetting">SUBNETTING</h2>
 <ul>
 <li>Numero de dispositivos por red: 2**bitsHosts - 2  </li>
@@ -337,7 +336,6 @@ broadcast 10.255.223.255/19
 192.168.0110|10|00.00000000 /22 &gt;&gt; 192.168.104.0 /22
 192.168.0110|11|00.00000000 /22 &gt;&gt; 192.168.108.0 /22
 </code></pre>
-
 <h2 id="vlsm-vlans">VLSM - VLANS</h2>
 <ul>
 <li>
@@ -377,7 +375,6 @@ broadcast 10.255.223.255/19
 192.168.230.010001|00       /30 &gt;&gt; 192.168.230.68 /30 red
 192.168.230.010001|11       /30 &gt;&gt; 192.168.230.71 /30 broadcast
 </code></pre>
-
 <h2 id="conf-router">CONF ROUTER</h2>
 <ul>
 <li>
@@ -436,7 +433,6 @@ ping + ip destino, desde pc origen
 router1#show interfaces fastEthernet 0/0
 router1#show interfaces serial 0/0/0
 </code></pre>
-
 <ul>
 <li>Pautas:  </li>
 </ul>
@@ -448,7 +444,6 @@ router1#show interfaces serial 0/0/0
 - TABLAS DE ENRUTAMIENTO ESTATICAS( TODAS LAS REDES POR ROUTER Y POR DEFECTO)
   DINAMICAS(RIP/RIP2) PARA CADA LO QUE TIENE CONECTADA A CADA EXTREMO
 </code></pre>
-
 <h2 id="router-pc-dhcp">ROUTER / PC / DHCP</h2>
 <ul>
 <li>Ejemplo:  </li>
@@ -552,17 +547,18 @@ Building configuration...
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../backup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../files/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../backup/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../files/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

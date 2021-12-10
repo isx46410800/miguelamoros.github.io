@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -236,6 +235,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -255,7 +255,6 @@ fi
 echo &quot;Los argumentos son $1 y $2&quot;
 exit 0
 </code></pre>
-
 <h2 id="validar-help">validar help</h2>
 <pre><code>#help
 if [ $1 == &quot;--help&quot; -o $1 == &quot;-h&quot; ]
@@ -264,7 +263,6 @@ then
     exit 0
 fi
 </code></pre>
-
 <h2 id="comparadores">comparadores</h2>
 <ul>
 <li>-lt / -gt / -eq / -ne / -ge / -le <em>más grande, menor que...</em></li>
@@ -289,7 +287,6 @@ then
         fi
 fi
 </code></pre>
-
 <h2 id="conficional-if">conficional if</h2>
 <pre><code>edad=$1
 echo $edad
@@ -303,7 +300,6 @@ else
     echo &quot;Ya es mayor de edad&quot;
 fi
 </code></pre>
-
 <h2 id="bucle-for">bucle for</h2>
 <pre><code>count=0
 for arg in $*
@@ -313,7 +309,6 @@ do
 done
 exit 0
 </code></pre>
-
 <h2 id="bucle-while">bucle while</h2>
 <pre><code>cont=0
 MAX=$1
@@ -324,7 +319,6 @@ do
 done
 exit 0
 </code></pre>
-
 <h2 id="bucle-esac">bucle esac</h2>
 <pre><code>for mes in $*
 do
@@ -341,7 +335,6 @@ do
 done
 exit 0
 </code></pre>
-
 <h2 id="leer-por-entrada-standard">leer por entrada standard</h2>
 <pre><code>count=0
 while read -r line
@@ -351,7 +344,6 @@ do
 done
 exit 0
 </code></pre>
-
 <pre><code>MAX=$1
 cont=1
 while read -r line &amp;&amp; [ $cont -le $MAX ]
@@ -362,7 +354,6 @@ do
 done
 exit 0
 </code></pre>
-
 <h2 id="separar-opciones-con-shift">separar opciones con shift</h2>
 <pre><code>opciones=''
 argumentos=''
@@ -390,7 +381,6 @@ echo &quot;numeros: $numeros&quot;
 echo &quot;files: $files&quot;
 exit 0
 </code></pre>
-
 <h2 id="mirar-si-es-directorio-regular-file">mirar si es directorio, regular file...</h2>
 <pre><code>#files y dir a copiar
 llistafiles=$(echo $* | cut -d' ' -f1-$(($#-1)))
@@ -413,7 +403,6 @@ do
 done
 exit 0
 </code></pre>
-
 <pre><code>for dir in $*
 do
     # miramos si es un help
@@ -452,7 +441,6 @@ do
 done
 exit 0
 </code></pre>
-
 <h2 id="mayusculas-copiar-buscar-ordenar">Mayusculas , copiar , buscar , ordenar</h2>
 <p><code>tr</code><br />
 echo "hola" | tr -s '[a-z]' '[A-Z]'<br />
@@ -550,17 +538,18 @@ ordenar unico y quita los repetidos
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../python/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../powershell/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../python/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../powershell/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

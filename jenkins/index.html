@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Miguel's Notes</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -370,6 +369,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -444,7 +444,6 @@ networks:
   net:
 
 </code></pre>
-
 <h4 id="notas-a-tener-en-cuenta">NOTAS A TENER EN CUENTA</h4>
 <ul>
 <li>Al instalar se crea el usuario y grupo Jenkins</li>
@@ -492,7 +491,6 @@ RUN /usr/sbin/sshd-keygen &gt; /dev/null 2&gt;&amp;1
 # activamos servicio ssh detached
 CMD /usr/sbin/sshd -D
 </code></pre>
-
 <pre><code>version: '3'
 services:
   jenkins:
@@ -514,7 +512,6 @@ services:
 networks:
   net:
 </code></pre>
-
 <p>Hacemos el Docker-compose</p>
 <pre><code>[isx46410800@miguel jenkins]$ docker-compose up -d
 jenkins is up-to-date
@@ -525,7 +522,6 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 172b5c2a9f99        remote_host         &quot;/bin/sh -c '/usr/sb…&quot;   6 seconds ago       Up 3 seconds                                            remote_host
 4f52a64e7618        jenkins/jenkins     &quot;/sbin/tini -- /usr/…&quot;   5 hours ago         Up 3 hours          50000/tcp, 0.0.0.0:9090-&gt;8080/tcp   jenkins
 </code></pre>
-
 <h3 id="credenciales">Credenciales</h3>
 <p>Para comprobar que el SSH y JENKINS se ven y comunican, hacemos primero un ping desde Jenkins con <code>ping remote_host</code> y despues nos conectamos por ssh con el usuario creado alli <code>ssh remote_user@remote_host</code> o copiando la llave publica a Jenkins y desde ahi <code>ssh -i remotessh-key remote_user@remote_host</code></p>
 <ul>
@@ -575,7 +571,6 @@ services:
 networks:
   net:
 </code></pre>
-
 <p>Nos conectamos al container nuevo y para entrar a la bbdd se pone el comando <code>mysql -u root -p</code>.  </p>
 <p><img alt="" src="../images/mysql.png" />  </p>
 <p>Añadimos lo siguiente en el Dockerfile para poder utilizar mysql por ssh y aws:  </p>
@@ -584,7 +579,6 @@ RUN yum -y install mysql
 # Instalamos aws cli para amazon que está en un paquete de epel-pip
 RUN yum -y install epel-release &amp;&amp; yum -y install python-pip &amp;&amp; pip install --upgrade pip &amp;&amp; yum -y install awscli
 </code></pre>
-
 <p>Una vez cambiado hacemos un <code>docker-compose build</code> para que vuelva construir todo con los cambios nuevos y despues enchegar de nuevo con las nuevas construcciones <code>docker-compose up -d</code>.  </p>
 <p>Hacemos un ping desde ssh container a db container para comprobar conexion:  </p>
 <pre><code>[root@e1825be6ec48 /]# ping db_host
@@ -592,7 +586,6 @@ PING db_host (172.21.0.4) 56(84) bytes of data.
 64 bytes from db.jenkins_net (172.21.0.4): icmp_seq=1 ttl=64 time=0.162 ms
 64 bytes from db.jenkins_net (172.21.0.4): icmp_seq=2 ttl=64 time=0.083 ms
 </code></pre>
-
 <p>Después de esto nos conectamos a la bbdd del container desde ssh con opcion -h de host:<br />
 <code>[root@e1825be6ec48 /]# mysql -u root -h db_host -p</code>  </p>
 <h3 id="creacion-bbdd-simple">Creacion bbdd simple</h3>
@@ -663,7 +656,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 -- Dump completed on 2020-09-25 18:19:57
 </code></pre>
-
 <ul>
 <li>
 <p>Configuramos a través del aws cli de amazon para poder subir el DUMP al bucket de s3 de amazon. A través de las credenciales obtenidas en bucket configuramos las variables de entorno.  </p>
@@ -705,7 +697,6 @@ export AWS_ACCESS_KEY_ID=AKIA5RIFOUI3AQMRXFFQ &amp;&amp; \
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET &amp;&amp; \
 aws s3 cp /tmp/db-$DATE.sql s3://$BUCKET_NAME
 </code></pre>
-
 <ul>
 <li>Configuramos ahora las credenciales de la bbdd en jenkins con una variable de db_name y el passwd de nuestra bbdd que era 1234:  </li>
 </ul>
@@ -738,7 +729,6 @@ aws s3 cp /tmp/db-$DATE.sql s3://$BUCKET_NAME
 <pre><code>volumes:
       - $PWD/dumpremotessh-aws.sh:/tmp/dumpremote.sh
 </code></pre>
-
 <ul>
 <li>
 <p>Ahora si creamos en mysql otra db y en amazon otro bucket, cambiamos los parametros del job y nos crea lo mismo sin cambiar el script.  </p>
@@ -762,7 +752,6 @@ RUN curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;get-pip.py&qu
 RUN pip install -U ansible
 USER jenkins
 </code></pre>
-
 <ul>
 <li>Modificamos el docker-compose:  </li>
 </ul>
@@ -778,7 +767,6 @@ USER jenkins
     networks:
       - net
 </code></pre>
-
 <ul>
 <li>
 <p>Hacemos docker-compose build y up -d</p>
@@ -796,7 +784,6 @@ ansible_connection = ssh
 # aque maquina me voy a conectar con el nombre test1 y con que usuario y donde esta la llave privada para conectarme
 test1 ansible_host=remote_host ansible_user=remote_user ansible_private_key_file=/var/jenkins_home/ansible/remotessh-key
 </code></pre>
-
 <blockquote>
 <p>Despues lo copiamos dentro de <code>[isx46410800@miguel jenkins]$ cp hosts jenkins_home/ansible/</code> para que esté dentro del container jenkins-ansible ya que aqui está el volumen de la xixa del container que se guarda.  </p>
 </blockquote>
@@ -815,7 +802,6 @@ test1 ansible_host=remote_host ansible_user=remote_user ansible_private_key_file
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <h3 id="playbooks">Playbooks</h3>
 <p>Los Playbooks describen configuraciones, despliegue, y orquestación en Ansible. ​ El formato del Playbook es YAML. ​ Cada Playbook asocia un grupo de hosts a un conjunto de roles. Cada rol está representado por llamadas a lo que Ansible define como Tareas.  </p>
 <ul>
@@ -827,7 +813,6 @@ test1 ansible_host=remote_host ansible_user=remote_user ansible_private_key_file
 
     - shell: echo &quot;Hola Mundo desde Ansible y Jenkins&quot; &gt; /tmp/hola-ansible.txt
 </code></pre>
-
 <ul>
 <li>Para comprobar el funcionamiento:<br />
 <code>jenkins@7cafd0984215:~/ansible$ ansible-playbook -i hosts play.yml</code>  </li>
@@ -856,7 +841,6 @@ test1 ansible_host=remote_host ansible_user=remote_user ansible_private_key_file
     - debug:
        var: MSG
 </code></pre>
-
 <p><img alt="" src="../images/ansible5.png" /><br />
 <img alt="" src="../images/ansible6.png" /><br />
 <img alt="" src="../images/ansible7.png" /><br />
@@ -876,7 +860,6 @@ test1 ansible_host=remote_host ansible_user=remote_user ansible_private_key_file
        msg: &quot;Yo sí me voy a ejecutar :)&quot;
      tags: si-exec
 </code></pre>
-
 <blockquote>
 <p>solo se ejecutan las tareas que ponen en RUN de tags en jenkins, el resto no:  </p>
 </blockquote>
@@ -911,7 +894,6 @@ do
         sleep 5
 done
 </code></pre>
-
 <p><img alt="" src="../images/ansible11.png" />  </p>
 <blockquote>
 <p>copiamos el script en el container db y lo ejecutamos para que se llene la bbdd creada.  </p>
@@ -973,7 +955,6 @@ RUN chmod +x /start.sh
 # arranca el container con el script
 CMD /start.sh
 </code></pre>
-
 <ul>
 <li>Modificamos el docker-compose para añadir el nuevo container nginx-php con ssh:  </li>
 </ul>
@@ -987,7 +968,6 @@ CMD /start.sh
     networks:
       - net
 </code></pre>
-
 <blockquote>
 <p>creamos un servicio <code>web</code> con el nombre container y la imagen <code>ansible-web</code> que se crea a través del dockerfile con la ruta en context.  </p>
 </blockquote>
@@ -1005,7 +985,6 @@ CMD /start.sh
 <pre><code>[root@7d0d237e1686 /]# cat /var/www/html/index.php
 &lt;?php phpinfo(); ?&gt;
 </code></pre>
-
 <blockquote>
 <p>Hacemos esto solo de prueba para nuestro navegador  </p>
 </blockquote>
@@ -1050,7 +1029,6 @@ web1 | SUCCESS =&gt; {
     &quot;ping&quot;: &quot;pong&quot;
 }
 </code></pre>
-
 <ul>
 <li>Ahora vamos hacer lo anterior pero de manera automatizada en Jenkins. Para ello creamos un playbook nuevo:  </li>
 </ul>
@@ -1061,7 +1039,6 @@ web1 | SUCCESS =&gt; {
         src: table.j2
         dest: /var/www/html/index.php
 </code></pre>
-
 <ul>
 <li>Cambiamos unos datos del fichero table.j2 donde contenia los datos a mostrar en el index.php para poder pasar las cosas por parametros en Jenkins: </li>
 </ul>
@@ -1069,7 +1046,6 @@ web1 | SUCCESS =&gt; {
   ----&gt; CAMBIOS
   $sql = &quot;SELECT id, nombre, apellido, edat FROM registro {% IF EDAD is defined %} where edat = {{ EDAD }} {% endif %}&quot;;----
 </code></pre>
-
 <blockquote>
 <p>queremos decir que si el parametro que pasamos EDAD está defenido haga la consulta donde la edad sea igual al parametro.  </p>
 </blockquote>
@@ -1170,7 +1146,6 @@ echo &quot;JOB_NAME: $JOB_NAME&quot;
 echo &quot;JAVA_HOME: $JAVA_HOME&quot;
 echo &quot;JENKINS_URL: $JENKINS_URL&quot;
 </code></pre>
-
 <blockquote>
 <p><a href="https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-belowJenkinsSetEnvironmentVariables">lista variables</a>  </p>
 </blockquote>
@@ -1194,7 +1169,6 @@ JAVA_HOME: /usr/local/openjdk-8
 JENKINS_URL: http://localhost:9090/
 Finished: SUCCESS
 </code></pre>
-
 <ul>
 <li>Podemos crear propias en <code>manage jenkins- conf sistem</code> y clicamos en la opcion de variables de entorno:  </li>
 </ul>
@@ -1202,13 +1176,11 @@ Finished: SUCCESS
 <pre><code>echo &quot;PLATAFORMA: $PLATAFORMA&quot;
 echo &quot;PAIS: $PAIS&quot;
 </code></pre>
-
 <pre><code>+ echo PLATAFORMA: UDEMY
 PLATAFORMA: UDEMY
 + echo PAIS: ESPAÑA
 PAIS: ESPAÑA
 </code></pre>
-
 <h3 id="cambio-url">Cambio URL</h3>
 <ul>
 <li>Podemos crear propias en <code>manage jenkins- conf sistem</code> y clicamos en la opcion de Jenkins Location:  </li>
@@ -1217,7 +1189,6 @@ PAIS: ESPAÑA
 <pre><code>192.168.1.44 host2
 127.0.0.1 loopback.jenkins
 </code></pre>
-
 <p><code>http://loopback.jenkins:9090/</code>  </p>
 <h3 id="cron">CRON</h3>
 <ul>
@@ -1264,7 +1235,6 @@ crumb=$(curl -u &quot;jenkins:1234&quot; -s 'http://127.0.0.1:9090/crumbIssuer/a
 # autenticamos el crumb a traves de variable pasada de crumb
 curl -u &quot;jenkins:1234&quot; -H &quot;$crumb&quot; -X POST http://127.0.0.1:9090/job/7-ENV/build?delay=0sec
 </code></pre>
-
 <ul>
 <li>Ahora con parametros:  </li>
 </ul>
@@ -1275,7 +1245,6 @@ crumb=$(curl -u &quot;jenkins:1234&quot; -s 'http://127.0.0.1:9090/crumbIssuer/a
 curl -u &quot;jenkins:1234&quot; -H &quot;$crumb&quot; -X POST http://127.0.0.1:9090/job/6-db-playbook-ansible-nginx-php/buildWithParameters?EDAD=23
 [isx46410800@miguel jenkins]$ bash crumb.sh
 </code></pre>
-
 <blockquote>
 <p>nos sale el index-php solo con los de 22  </p>
 </blockquote>
@@ -1304,7 +1273,6 @@ curl -u &quot;jenkins:1234&quot; -H &quot;$crumb&quot; -X POST http://127.0.0.1:
 IAM User Name,Smtp Username,Smtp Password
 &quot;jenkins-user&quot;,AKIA5RIFOUI3LWLFOOG7,BFW538mmwDzTr4eaMMAzSVlQA57NeH1/Hqvnn3ABJsZ6
 </code></pre>
-
 <p><img alt="" src="../images/trick9.png" />  </p>
 <ul>
 <li>Creamos un email de admin en amazon:  </li>
@@ -1318,7 +1286,6 @@ IAM User Name,Smtp Username,Smtp Password
 Test configuration: miguel14amoros@gmail.com
 Email was successfully sent
 </code></pre>
-
 <h3 id="gmail-como-server-de-correo">Gmail como server de correo</h3>
 <ul>
 <li>Ponemos nuestro gmail como direccion de correo y luego rellenamos la parte de correo:  </li>
@@ -1430,7 +1397,6 @@ Email was successfully sent
     networks:
       - net
 </code></pre>
-
 <ul>
 <li>
 <p>Ponemos la url en /etc/hosts para asignar la ip al servicio mejor:<br />
@@ -1476,7 +1442,6 @@ Email was successfully sent
     remote = origin
     merge = refs/heads/master
 </code></pre>
-
 <ul>
 <li>En jenkins vamos a credenciales y le damos al de la llave naranja y creamos las credenciales del git de dentro del docker:  </li>
 </ul>
@@ -1516,7 +1481,6 @@ curl -u &quot;jenkins:1234&quot; -H &quot;$crumb&quot; -X POST http://jenkins.lo
   fi
 fi
 </code></pre>
-
 <blockquote>
 <p>Con esto lo que queremos hacer es que cuando hagamos un push al repo git, como hay cambios, se haga automatico un job en el job de maven.  </p>
 </blockquote>
@@ -1553,7 +1517,6 @@ fi
 <pre><code>job('job_dsl_example') {
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl.png" /><br />
 <img alt="" src="../images/dsl2.png" /><br />
 <img alt="" src="../images/dsl3.png" />  </p>
@@ -1565,7 +1528,6 @@ fi
     description('This is my awesome Job')
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl4.png" /><br />
 <img alt="" src="../images/dsl5.png" />  </p>
 <blockquote>
@@ -1584,7 +1546,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl6.png" /><br />
 <img alt="" src="../images/dsl7.png" />  </p>
 <blockquote>
@@ -1606,7 +1567,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl8.png" />  </p>
 <blockquote>
 <p>Con SCM definimos la url y la branch del codigo fuente git en este caso.  </p>
@@ -1630,7 +1590,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl9.png" />  </p>
 <blockquote>
 <p>Definimos un trigger en este caso con un cron.  </p>
@@ -1658,7 +1617,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl10.png" />  </p>
 <blockquote>
 <p>Paso de hacer un hello world   </p>
@@ -1689,7 +1647,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl11.png" />  </p>
 <blockquote>
 <p>Indicamos el aviso de notificaciones.  </p>
@@ -1742,7 +1699,6 @@ fi
     }
 }
 </code></pre>
-
 <p><a href="https://github.com/jenkinsci/ansible-plugin">AYUDA ANSIBLE DSL</a>  </p>
 <ul>
 <li>Creamos nuestro archivo jobdsl de ansible.js:  </li>
@@ -1766,7 +1722,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl16.png" /><br />
 <img alt="" src="../images/dsl17.png" /><br />
 <img alt="" src="../images/dsl18.png" /> 
@@ -1810,7 +1765,6 @@ fi
     }
 }
 </code></pre>
-
 <p><img alt="" src="../images/dsl23.png" /><br />
 <img alt="" src="../images/dsl24.png" /> 
 <img alt="" src="../images/dsl25.png" /><br />
@@ -1892,7 +1846,6 @@ job('maven_dsl') {
     }
 }
 </code></pre>
-
 <h2 id="pipelines">PIPELINES</h2>
 <ul>
 <li>
@@ -1955,7 +1908,6 @@ job('maven_dsl') {
     }
 }
 </code></pre>
-
 <ul>
 <li>AGENT: es quien ejecuta el pipeline. ANY quiere decir que cualquiera que esté libre lo ejecute, sino, hay que especificar el agente.  </li>
 </ul>
@@ -1979,7 +1931,6 @@ job('maven_dsl') {
     }
 }
 </code></pre>
-
 <h3 id="post-actions">POST-ACTIONS</h3>
 <pre><code>pipeline {
     agent any
@@ -2009,7 +1960,6 @@ job('maven_dsl') {
     }
 }
 </code></pre>
-
 <h3 id="retry">RETRY</h3>
 <pre><code>pipeline {
     agent any
@@ -2024,7 +1974,6 @@ job('maven_dsl') {
     }
 }
 </code></pre>
-
 <h3 id="timeout">TIMEOUT</h3>
 <pre><code>pipeline {
     agent any
@@ -2058,7 +2007,6 @@ pipeline {
     }
 }
 </code></pre>
-
 <h3 id="variables-env">VARIABLES ENV</h3>
 <pre><code>pipeline {
     agent any
@@ -2076,7 +2024,6 @@ pipeline {
     }
 }
 </code></pre>
-
 <h3 id="credenciales_1">CREDENCIALES</h3>
 <pre><code>pipeline {
     agent any
@@ -2092,7 +2039,6 @@ pipeline {
     }
 }
 </code></pre>
-
 <h2 id="cicd">CI/CD</h2>
 <h3 id="build">BUILD</h3>
 <ul>
@@ -2113,7 +2059,6 @@ services:
     networks:
       - net
 </code></pre>
-
 <ul>
 <li>
 <p>Cambiamos permisos para tener docker dentro con usuario jenkins:<br />
@@ -2144,7 +2089,6 @@ echo &quot;*************&quot;
 # Para luego pasarle como argumento la orden
 docker run --rm -v /root/.m2:/root/.m2 -v $PWD/java-app:/app -w /app maven:3-alpine &quot;$@&quot;
 </code></pre>
-
 <blockquote>
 <p>Ejecutamos:  ./jenkins/build/mvn.sh mvn -B -DskipTests clean package  </p>
 </blockquote>
@@ -2165,7 +2109,6 @@ docker run --rm -v /root/.m2:/root/.m2 -v $PWD/java-app:/app -w /app maven:3-alp
 app.jar
 / # 
 </code></pre>
-
 <ul>
 <li>Creamos un docker-compose para automatizar esta creacion de la imagen:  </li>
 </ul>
@@ -2177,7 +2120,6 @@ services:
       context: .
       dockerfile: Dockerfile-java
 </code></pre>
-
 <ul>
 <li>
 <p>Comprobamos:<br />
@@ -2196,7 +2138,6 @@ echo &quot;*** Building image ***&quot;
 echo &quot;######################&quot;
 cd jenkins/build/ &amp;&amp; docker-compose -f docker-compose-build.yml build --no-cache
 </code></pre>
-
 <ul>
 <li>Lo comprobamos:  </li>
 </ul>
@@ -2220,7 +2161,6 @@ Removing intermediate container dd03ae766c0e
 Successfully built 48409229a4e8
 Successfully tagged app:13
 </code></pre>
-
 <ul>
 <li>Lo agregamos al Jenkinsfile:  </li>
 </ul>
@@ -2253,7 +2193,6 @@ Successfully tagged app:13
     }
 }
 </code></pre>
-
 <h3 id="test">TEST</h3>
 <ul>
 <li>
@@ -2269,7 +2208,6 @@ total 12
 -rw-r--r--. 1 root root  270 Sep 30 02:45 com.mycompany.app.AppTest.txt
 -rw-r--r--. 1 root root 4764 Sep 30 02:45 TEST-com.mycompany.app.AppTest.xml
 </code></pre>
-
 <ul>
 <li>Ahora queremos automatizar los tests con un script:  </li>
 </ul>
@@ -2282,7 +2220,6 @@ echo &quot;################&quot;
 docker run --rm -v /root/.m2:/root/.m2 -v /home/ricardo/jenkins/jenkins_home/workspace/pipeline-docker-maven/java-app:/app -w /app maven:3-alpine &quot;$@&quot;
 [isx46410800@miguel pipelines]$ chmod +x jenkins/test/test.sh
 </code></pre>
-
 <ul>
 <li>Comprobamos:  </li>
 </ul>
@@ -2291,7 +2228,6 @@ docker run --rm -v /root/.m2:/root/.m2 -v /home/ricardo/jenkins/jenkins_home/wor
 *** Testing  ***
 ################
 </code></pre>
-
 <ul>
 <li>Agregamos el test al Jenkinsfile:  </li>
 </ul>
@@ -2301,7 +2237,6 @@ docker run --rm -v /root/.m2:/root/.m2 -v /home/ricardo/jenkins/jenkins_home/wor
         }
         }
 </code></pre>
-
 <h3 id="push-a-maquina-remota-aws">PUSH A MAQUINA REMOTA AWS</h3>
 <ul>
 <li>
@@ -2325,7 +2260,6 @@ docker run --rm -v /root/.m2:/root/.m2 -v /home/ricardo/jenkins/jenkins_home/wor
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 2ebffab5d6d6        registry:2          &quot;/entrypoint.sh /etc…&quot;   50 seconds ago      Up 49 seconds       0.0.0.0:5000-&gt;5000/tcp   registry
 </code></pre>
-
 <ul>
 <li>
 <p>En contenido está en <code>/var/lib/registry</code>  </p>
@@ -2351,7 +2285,6 @@ drwxr-xr-x. 3 root root 4096 Oct  1 18:38 _layers
 drwxr-xr-x. 4 root root 4096 Oct  1 18:38 _manifests
 drwxr-xr-x. 2 root root 4096 Oct  1 18:38 _uploads
 </code></pre>
-
 <blockquote>
 <p>Como pusimos que el contenido que vaya al contenedor de registros se guarde en nuestra carpeta creada de tmp_registry, vemos ahi la xixa nueva.  </p>
 </blockquote>
@@ -2367,7 +2300,6 @@ drwxr-xr-x. 2 root root 4096 Oct  1 18:38 _uploads
 [isx46410800@miguel pipelines]$ sudo systemctl daemon-reload 
 [isx46410800@miguel pipelines]$ sudo systemctl restart docker
 </code></pre>
-
 <ul>
 <li>Probamos ahora subirlo desde casa al docker registry de AWS:<br />
 <code>[isx46410800@miguel pipelines]$ docker pull hello-world</code><br />
@@ -2379,7 +2311,6 @@ total 8
 drwxr-xr-x. 5 root root 4096 Oct  1 18:38 hello-world
 drwxr-xr-x. 5 root root 4096 Oct  1 18:56 hello-world-casa
 </code></pre>
-
 <h3 id="certificado-ssl-registry-con-autenticacion">CERTIFICADO SSL REGISTRY CON AUTENTICACION</h3>
 <ul>
 <li>Creamos unos directorios <code>tmp-jenkins/certs</code>  </li>
@@ -2395,7 +2326,6 @@ drwxr-xr-x. 5 root root 4096 Oct  1 18:56 hello-world-casa
   }
 }
 </code></pre>
-
 <ul>
 <li>
 <p>Arrancamos el contenedor:<br />
@@ -2410,7 +2340,6 @@ drwxr-xr-x. 5 root root 4096 Oct  1 18:56 hello-world-casa
 # certbot certonly --email miguel14amoros@gmail.com --agree-tos --non-interactive --webroot -w &quot;/mnt&quot; -
 d 18.133.221.84
 </code></pre>
-
 <ul>
 <li>PUSH de imagen con scrip a nuestro registry de amazon o dockerhub. Creamos un directorio en pipelines/jenkins/push:  </li>
 </ul>
@@ -2427,7 +2356,6 @@ docker tag $IMAGE:$BUILD_TAG $REGISTRY/$IMAGE:$BUILD_TAG
 echo &quot;*** Pushing image ***&quot;
 docker push $REGISTRY/$IMAGE:$BUILD_TAG
 </code></pre>
-
 <blockquote>
 <p>Tenemos ya bajada una imagen llamada APP y un export BUILD_TAG=13  </p>
 </blockquote>
@@ -2466,7 +2394,6 @@ docker push $REGISTRY/$IMAGE:$BUILD_TAG
     }
 }
 </code></pre>
-
 <h3 id="deploy">DEPLOY</h3>
 <ul>
 <li>En deploy/deploy.sh  </li>
@@ -2478,7 +2405,6 @@ echo $BUILD_TAG &gt;&gt; /tmp/.auth
 # Copiamos el fichero a AWS
 scp -i ~/.ssh/mykeypair.pem /tmp/.auth fedora@18.133.221.84:/tmp/.auth
 </code></pre>
-
 <ul>
 <li>
 <p>Lo copiamos a nuestra AWS:<br />
@@ -2494,7 +2420,6 @@ services:
     image: &quot;$REGISTRY/$IMAGE:$TAG&quot;
     container_name: app
 </code></pre>
-
 <ul>
 <li>Exportamos las variables:  </li>
 </ul>
@@ -2502,7 +2427,6 @@ services:
 [fedora@ip-172-31-28-138 jenkins]$ export IMAGE=$(sed -n '1p' /tmp/.auth)
 [fedora@ip-172-31-28-138 jenkins]$ export TAG=$(sed -n '2p' /tmp/.auth)
 </code></pre>
-
 <ul>
 <li>
 <p>Comprobamos que descarga la imagen:<br />
@@ -2520,7 +2444,6 @@ export TAG=$(sed -n '2p' /tmp/.auth)
 docker login
 cd ~/jenkins &amp;&amp; docker-compose up -d
 </code></pre>
-
 <ul>
 <li>Añadimos en deploy/deploy.sh:  </li>
 </ul>
@@ -2531,7 +2454,6 @@ echo $BUILD_TAG &gt;&gt; /tmp/.auth
 scp -i ~/.ssh/mykeypair.pem /tmp/.auth fedora@18.133.221.84:/tmp/.auth
 scp -i ~/.ssh/mykeypair.pem ./jenkins/deploy/publish.sh fedora@18.133.221.84:/tmp/publish.sh
 </code></pre>
-
 <p><code>[isx46410800@miguel pipelines]$ bash jenkins/deploy/deploy.sh</code>  </p>
 <ul>
 <li>
@@ -2550,7 +2472,6 @@ scp -i ~/.ssh/mykeypair.pem /tmp/.auth fedora@18.133.221.84:/tmp/.auth
 scp -i ~/.ssh/mykeypair.pem ./jenkins/deploy/publish.sh fedora@18.133.221.84:/tmp/publish.sh
 ssh -i ~/.ssh/mykeypair.pem fedora@18.133.221.84 /tmp/publish.sh
 </code></pre>
-
 <p><img alt="" src="../images/deploy.png" />  </p>
 <ul>
 <li>Añadimos al Jenkinsfile la parte del deploy:  </li>
@@ -2561,7 +2482,6 @@ ssh -i ~/.ssh/mykeypair.pem fedora@18.133.221.84 /tmp/publish.sh
             }
         }
 </code></pre>
-
 <h3 id="cicd_1">CI/CD</h3>
 <ul>
 <li>Creamos un proyecto de <code>pipeline-maven</code> en nuestro git-server y seguimos los pasos que nos indica el repositorio vacio para poder meter todo el contenido de pipelines en nuestro git.  </li>
@@ -2573,7 +2493,6 @@ Initialized empty Git repository in /home/isx46410800/Documents/jenkins/pipeline
 [isx46410800@miguel pipelines]$ git add Jenkinsfile java-app/ jenkins/
 [isx46410800@miguel pipelines]$ git commit -m &quot;contenido jenkins ci/cd pipeline&quot;; git push -u origin master
 </code></pre>
-
 <ul>
 <li>
 <p>Cambiamos la ruta del deploy.sh por /opt y lo copiamos al container de jenkins para que use la llave ssh:<br />
@@ -2610,7 +2529,6 @@ echo &quot;*************&quot;
 PROJECT=&quot;/home/isx46410800/Documents/jenkins/jenkins_home/workspace/pipeline-docker-maven&quot;
 docker run --rm -v /root/.m2:/root/.m2 -v $PROJECT/java-app:/app -w /app maven:3-alpine &quot;$@&quot;
 </code></pre>
-
 <ul>
 <li>Despues entramos al container jenkins para hacer la conexion ssh manual para que no nos pida lo de autenticar conexion en los cripts:<br />
 <code>ssh -i /opt/mykeypair.pem fedora@18.133.221.84</code>  <blockquote>
@@ -2646,7 +2564,6 @@ docker run --rm -v /root/.m2:/root/.m2 -v $PROJECT/java-app:/app -w /app maven:3
             }
         }
 </code></pre>
-
 <ul>
 <li>Resultados finales: bajamos el codigo fuente de la app maven, la compilamos, subimos la imagen a dockerhub y mandamos los archivos a AWS para hacer el deploy alli.  </li>
 </ul>
@@ -2689,17 +2606,18 @@ docker run --rm -v /root/.m2:/root/.m2 -v $PROJECT/java-app:/app -w /app maven:3
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../aws/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../ansible/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../aws/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ansible/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>

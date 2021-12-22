@@ -126,6 +126,54 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#kubernettes">KUBERNETTES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#instalacion_1">INSTALACIÓN</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pods">PODS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#variables-y-secrets">VARIABLES Y SECRETS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#volumes-y-configmaps">VOLUMES Y CONFIGMAPS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#deploys-y-services">DEPLOYS Y SERVICES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#orquestacion-real">ORQUESTACIÓN REAL</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#git">GIT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jenkins">JENKINS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#pipelines">PIPELINES</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sonarqube">SONARQUBE</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#instalacion-y-configuracion">INSTALACIÓN Y CONFIGURACIÓN</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#analisis-de-resultados">ANALISIS DE RESULTADOS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#docker">DOCKER</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kubernetes">KUBERNETES</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prometeus">PROMETEUS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#grafana">GRAFANA</a>
     </li>
     </ul>
                     </li>
@@ -638,6 +686,1079 @@ networks:
 <code>docker-compose -f stack-billing.yml up -d --force-recreate</code>  </p>
 </blockquote>
 <h2 id="kubernettes">KUBERNETTES</h2>
+<h3 id="instalacion_1">INSTALACIÓN</h3>
+<ul>
+<li>
+<p>La arquitectura consta de un cluster donde hay nodos que trabajan(master y workers), donde dentro estan los pods. En este cluster tenemos Control manager, etcd(bbdd) y scheduler. Tenemos un Apiserver que es quien nos provee la interaccion con el cluster a traves de los comandos <strong>kubectl</strong> o manera grafica con el <strong>kubernetes dashboard</strong>.  </p>
+</li>
+<li>
+<p>Normalmente se usa la infraestructura de amazon, azure o google.  </p>
+</li>
+<li>
+<p>Minikube simula la infraestrura de un cluster de kubernetes y contiene todos los componentes necesarios en un solo nodo.  </p>
+</li>
+<li>
+<p>Vemos si nuestro Linux tiene virtualización:<br />
+<code>grep -E --color 'vmx|svm' /proc/cpuinfo</code>  </p>
+</li>
+<li>
+<p>Descargar kubectl y hacerlo ejecutable:<br />
+<code>curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/linux/amd64/kubectl &amp;&amp; chmod +x kubectl</code>  </p>
+</li>
+<li>
+<p>Crear el directorio para kubectl:<br />
+<code>sudo mv ./kubectl /usr/local/bin/kubectl</code></p>
+</li>
+<li>
+<p>Verificar version:<br />
+<code>kubectl version --client</code></p>
+</li>
+<li>
+<p>Descargar minnukube y hacerlo ejecutable:<br />
+<code>curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &amp;&amp; chmod +x minikube</code>  </p>
+</li>
+<li>
+<p>Crear el directorio para minikube:<br />
+<code>sudo mkdir -p /usr/local/bin/</code>  </p>
+</li>
+<li>
+<p>Lanzar el ejecutable:<br />
+<code>sudo install minikube /usr/local/bin/</code>  </p>
+</li>
+<li>
+<p>Comandos para operar minikube, lo lanzamos con <code>minikube start</code>:  </p>
+</li>
+</ul>
+<pre><code>minikube start 
+minikube status
+minikube stop
+</code></pre>
+<blockquote>
+<p>Por defecto cuando hacemos start se ha de indicar cual es el hipervisor a trabajar, por defecto coge docker, pero se le puede poner hyperV, virtualbox,etc.<br />
+Un hipervisor o monitor de máquina virtual ​ es una capa de software para realizar una virtualización de hardware que permite utilizar, al mismo tiempo, diferentes sistemas operativos en una misma computadora.  </p>
+</blockquote>
+<ul>
+<li>Comprobamos que está encendido y el contenedor docker que se crea:  </li>
+</ul>
+<pre><code>[miguel@fedora Downloads]$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+[miguel@fedora Downloads]$ docker ps
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED              STATUS              PORTS                                                                                                                                  NAMES
+82f6891e5f44   gcr.io/k8s-minikube/kicbase:v0.0.28   &quot;/usr/local/bin/entr…&quot;   About a minute ago   Up About a minute   127.0.0.1:49157-&gt;22/tcp, 127.0.0.1:49156-&gt;2376/tcp, 127.0.0.1:49155-&gt;5000/tcp, 127.0.0.1:49154-&gt;8443/tcp, 127.0.0.1:49153-&gt;32443/tcp   minikube
+</code></pre>
+<ul>
+<li>
+<p>Lanzar el dashboard grafico donde nos manda a una url para manejarlo:<br />
+<code>minikube dashboard</code>  </p>
+</li>
+<li>
+<p>Eliminar el cluster de minikube:<br />
+<code>minikube delete</code>  </p>
+</li>
+<li>
+<p>Inicar un nuevo cluster de minikube usando el controlador hypervisor de virtualbox:<br />
+<code>minikube start --driver=virtualbox</code>  </p>
+</li>
+</ul>
+<h3 id="pods">PODS</h3>
+<ul>
+<li>
+<p>Vamos a crear dentro de un cluster una app para que el cliente desde fuera pueda acceder desde el navegador. Para ello se crea un POD a través de la imagen de la app, con volumenes persistentes y este pod tiene una IP no visible. Para que sea visible desde fuera, se crea un servicio para poder acceder a el desde una petición de fuera.  </p>
+</li>
+<li>
+<p>Creamos un pod desde nuestra imagen de un repositorio dockerhub:<br />
+<code>kubectl run kbillingapp --image=sotobotero/udemy-devops:0.0.1 --port=80 80</code>  </p>
+</li>
+<li>
+<p>Lo vemos con <code>kubetctl get pods</code> y <code>kubectl describe pod name_pod</code>.  </p>
+</li>
+<li>
+<p>El pod tiene un IP no visible desde fuera y para que se pueda acceder se ha de exponer esta ip como si hicieramos un servicio:<br />
+<code>kubectl expose pod kbillingapp --type=LoadBalancer --port=8080 --target-port=80</code>  </p>
+</li>
+</ul>
+<pre><code>[miguel@fedora Downloads]$ kubectl get services
+NAME          TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kbillingapp   LoadBalancer   10.105.34.39   &lt;pending&gt;     8080:30424/TCP   9s
+kubernetes    ClusterIP      10.96.0.1      &lt;none&gt;        443/TCP          25m
+</code></pre>
+<blockquote>
+<p>Al ser minikube y no tener mas nodos trabajando (vida real no pasaria) tenemos que pasar otro comando para obtener esa ip externa y acceder:  </p>
+</blockquote>
+<pre><code>[miguel@fedora Downloads]$ minikube service kbillingapp
+|-----------|-------------|-------------|---------------------------|
+| NAMESPACE |    NAME     | TARGET PORT |            URL            |
+|-----------|-------------|-------------|---------------------------|
+| default   | kbillingapp |        8080 | http://192.168.49.2:30424 |
+|-----------|-------------|-------------|---------------------------|
+</code></pre>
+<h3 id="variables-y-secrets">VARIABLES Y SECRETS</h3>
+<ul>
+<li>En este caso vamos a tener dos pods: uno con una bbdd postgres que contiene volumenes persistentes y otro el pgadmin grafico. Esto tendrá un servicio para poder acceder desde fuera de manera grafica.  </li>
+</ul>
+<p><img alt="" src="../images/devops4.png" />  </p>
+<ul>
+<li>Para ello, vamos a crear en un <a href="https://kubernetes.io/docs/concepts/configuration/secret/">SECRET</a> fichero yaml, las credenciales de entrada para postgresql para que esten encriptadas y no sean visibles, lo hacemos en base64 con el comando <code>echo -n "palabra" | base64</code> y para descodificarlo <code>echo "xxxx" | base64 -d</code>:  </li>
+</ul>
+<pre><code>#object that store enviroments variables that could be have sensitive data like a password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  labels:
+    app: postgres
+    #meant that we can use arbitrary key pair values
+type: Opaque
+data:
+  POSTGRES_DB: cG9zdGdyZXM=
+  POSTGRES_USER: cG9zdGdyZXM=
+  POSTGRES_PASSWORD: cXdlcnR5
+</code></pre>
+<blockquote>
+<p>Fichero secret-dev.yaml  </p>
+</blockquote>
+<ul>
+<li>Creamos otro secret para el PGADMIN grafico:  </li>
+</ul>
+<pre><code>#object that store enviroments variables that could be have sensitive data like a password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgadmin-secret
+  labels:
+    app: postgres
+    #meant that we can use arbitrary key pair values
+type: Opaque
+data:
+  PGADMIN_DEFAULT_EMAIL: YWRtaW5AYWRtaW4uY29t
+  PGADMIN_DEFAULT_PASSWORD: cXdlcnR5
+  PGADMIN_PORT: ODA=
+</code></pre>
+<blockquote>
+<p>Fichero secret-pgadmin.yaml  </p>
+</blockquote>
+<h3 id="volumes-y-configmaps">VOLUMES Y CONFIGMAPS</h3>
+<ul>
+<li>Ahora creamos un volumen para la data persistente y un reclamo de espacio para ello. También creamos un configmap para la configuración de que lance un script a la hora de crear todo:  </li>
+</ul>
+<pre><code>#persistence volumen (PV) is a piece of storage that have idependent lifecycle from pods 
+#thees preserve data throug restartin, rescheduling and even deleting pods
+#PersistenceVolumeCalin is a request for storage by the user that can be fulfilled by teh PV
+kind: PersistentVolume
+#version of ApiServer on control panel node (/api/v1) check using kubectl api-versions
+apiVersion: v1
+metadata:
+  name: postgres-volume
+  labels:
+    #it is aplugin suport many luke amazon EBS azure disk etc.  local = local storage devices mounted on nodes.
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+    #many pods on shcheduled on differents nodes can read and write
+  accessModes:
+    - ReadWriteMany
+    #path on cluster's node
+  hostPath:
+    path: &quot;/mnt/data/&quot;
+</code></pre>
+<pre><code>#it is a reques of resource (persistence volume) from a pod by example, teh pod claim by a storage throug PVC
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+</code></pre>
+<pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-script-configmap
+data:
+  initdb.sh: |-
+   #!/bin/bash
+   set -e
+   psql -v ON_ERROR_STOP=1 --username &quot;$POSTGRES_USER&quot; --dbname &quot;$POSTGRES_DB&quot; &lt;&lt;-EOSQL
+    CREATE USER billingapp WITH PASSWORD 'qwerty';
+    CREATE DATABASE billingapp_db;
+    GRANT ALL PRIVILEGES ON DATABASE billingapp_db TO billingapp;
+   EOSQL
+</code></pre>
+<h3 id="deploys-y-services">DEPLOYS Y SERVICES</h3>
+<ul>
+<li>Ahora definimos el deloy completo de la base de datos que contiene un fichero de variables de entorno, un volumen persistente, el reclamo de espacio del volumen y el configmap con el script de iniciación.  </li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    app: postgres
+spec:
+#Pods number replicates
+  replicas: 1
+  #Define how the Deployment identify the pods that it could manage
+  selector: 
+    matchLabels:
+     app: postgres
+     #pod template specification
+  template:
+    metadata:
+    #define teh labels for all pods
+      labels:
+        app: postgres       
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          imagePullPolicy: IfNotPresent
+          #open the port to allow send and receive traffic in teh container
+          ports:
+            - containerPort: 5432
+            #read envars from secret file
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+          #This is the path in the container on which the mounting will take place.
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+            - mountPath: /docker-entrypoint-initdb.d
+              name : init-script
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-claim
+        - name: init-script
+          configMap:
+             name: postgres-init-script-configmap
+</code></pre>
+<ul>
+<li>Ahora hacemos el deploy del pgadmin gráfico para acceder a la bbdd graficamente con el puerto y fichero de varibles de entorno:  </li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-deployment
+spec:
+  selector:
+   matchLabels:
+    app: pgadmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin4
+          image: dpage/pgadmin4        
+          envFrom:
+            - secretRef:
+                name: pgadmin-secret
+          ports:
+            - containerPort: 80
+              name: pgadminport
+</code></pre>
+<ul>
+<li>Ahora tenemos que crear los servicios de ambos pods para poder acceder desde fuera en internet a través de un puerto publico y están en nodo port porque solo tenemos un nodo, sino seria por loadbalancer por diferentes ip y su carga:  </li>
+</ul>
+<pre><code>kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-service
+  labels:
+    app: postgres
+spec:  
+  ports:
+  - name: postgres
+    port: 5432
+    nodePort : 30432 
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+   app: postgres
+</code></pre>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+  labels:
+    app: pgadmin
+spec:
+  selector:
+   app: pgadmin
+  type: NodePort
+  ports:
+   - port: 80
+     nodePort: 30200
+</code></pre>
+<ul>
+<li>
+<p>Para crearlo ahora en kubernetes usamos <code>kubectl apply -f fichero.yaml</code>. Primero los secrets, despues el configmap, despues los volumenes, despues los deploys y si está todo OK, por ultimo los servicios. Comprobamos todo con <code>kubectl get all</code>.  </p>
+</li>
+<li>
+<p>Con todo lanzado ahora nos podemos conectar desde fuera por la ip de cada uno, no obstante, al ser nuestro un minikube, debemos usar la ip de este y el puerto de cada cosa. Para ver la ip usamos <code>minikube ip</code>. Ahora tenemos la ip y usamos el puerto de postgres y el puerto de pgadmin para conectarse a cada cosa. Dentro de pgadmin nos podemos conectar a la bbdd de postgres con la ip del pod o la ip del cluster y su puerto correspondente. Si no queremos usar el pgadmin como grafico de bbdd, podemos usar otro motor y nos conectamos al servicio postgres desde fuera y lo tendremos igual.  </p>
+</li>
+<li>
+<p>Podemos eliminar todo lo realizado con <code>kubectl delete -f ./</code>.  </p>
+</li>
+</ul>
+<h3 id="orquestacion-real">ORQUESTACIÓN REAL</h3>
+<p><img alt="" src="../images/devops9.png" />  </p>
+<ul>
+<li>Ahora añadiremos el servicio backend y frontend de nuestra aplicación. El frotend está basado en un server nginx y escrita en angular por lo que al usuario que hace la petición le daremos respuesta html. El backend está escrito en springboot. En este caso también se pone una ip fija al servicio postgres ya que la bbdd no sería eficiente que vaya cambiando la ip y no encontraría la info nuestro backend para poder dar respuesta a las peticiones de los usuarios en el frontend a través del navegador.  </li>
+</ul>
+<pre><code>kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-service
+  labels:
+    app: postgres
+spec: 
+  clusterIP: 10.96.1.2 
+  ipFamilies:
+  - IPv4
+  ports:
+  - name: postgres
+    port: 5432
+    nodePort : 30432 
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+   app: postgres
+</code></pre>
+<ul>
+<li>Para que el engine apunte al registro de imagenes en local usamos:<br />
+<code>minikube docker-env</code>  </li>
+</ul>
+<pre><code>[miguel@fedora deploy_app]$ minikube docker-env
+export DOCKER_TLS_VERIFY=&quot;1&quot;
+export DOCKER_HOST=&quot;tcp://192.168.49.2:2376&quot;
+export DOCKER_CERT_PATH=&quot;/home/miguel/.minikube/certs&quot;
+export MINIKUBE_ACTIVE_DOCKERD=&quot;minikube&quot;
+
+# To point your shell to minikube's docker-daemon, run:
+# eval $(minikube -p minikube docker-env)
+</code></pre>
+<p><code>eval $(minikube docker-env)</code>  </p>
+<blockquote>
+<p>Ahora ya estamos listo para poder crear las imagenes personalizadas y se puedan usar en minikube. Esto solo valdrá en esta terminal.  </p>
+</blockquote>
+<ul>
+<li>
+<p>Creamos la imagen de java jar:<br />
+<code>docker build -t billingapp-back:0.0.4 --no-cache --build-arg JAR_FILE=/*.jar .</code>  </p>
+</li>
+<li>
+<p>Creamos la imagen de angular:<br />
+<code>docker build -t billingapp-front:0.0.4 --no-cache  .</code>  </p>
+</li>
+<li>
+<p>Una vez creadas las dos imagenes, creamos los dos deployments y los dos servicios de la aplicación a partir de estas imagenes y le ponemos las replicas que necesitamos:  </p>
+</li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-app-back-deployment
+spec:
+  selector:
+   matchLabels:
+    app: billing-app-back
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: billing-app-back
+    spec:
+      containers:
+        - name: billing-app-back
+          image: billingapp-back:0.0.4       
+          ports:
+            - containerPort: 7080
+              name: billingappbport
+</code></pre>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-app-front-deployment
+spec:
+  selector:
+   matchLabels:
+    app: billing-app-front
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: billing-app-front
+    spec:
+      containers:
+        - name: billing-app-front
+          image: billingapp-front:0.0.4 
+          ports:
+            - containerPort: 80
+              name: billingappfport
+</code></pre>
+<pre><code>kind: Service
+apiVersion: v1
+metadata:
+  name: billing-app-back-service
+  labels:
+    app: billing-app-back
+spec:   
+  ports:
+  - name: billing-app-back
+    port: 7080
+    nodePort : 30780 
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+   app: billing-app-back
+</code></pre>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: billing-app-front-service
+  labels:
+    app: billing-app-front
+spec:
+  selector:
+   app: billing-app-front
+  type: NodePort 
+  ports:
+   - port: 80
+     nodePort: 30100
+</code></pre>
+<ul>
+<li>Ahora con todos los servicios metidos, con <code>minikube ip</code> podemos ir con esta ip y el puerto de cada cosa para ver que todo funciona. INtroducir registros y ver como se guardan en la base de datos.  </li>
+</ul>
+<p><img alt="" src="../images/devops5.png" /><br />
+<img alt="" src="../images/devops6.png" /><br />
+<img alt="" src="../images/devops7.png" /><br />
+<img alt="" src="../images/devops8.png" />  </p>
+<h2 id="git">GIT</h2>
+<ul>
+<li>
+<p>Es un sistema de gestión de versiones distribuido y opensource.  </p>
+</li>
+<li>
+<p>Hay dos maneras de trabajo: <a href="https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development">trunked based</a> es la manera más basica de dos ramas y merge; y <a href="https://www.atlassian.com/es/git/tutorials/comparing-workflows/gitflow-workflow">gitflow</a> que consiste en trabajar en 5 ramas: master, develop, features(donde se va poniendo el codigo nuevo), releases(donde se prueba develop unido de features en entorno de pruebas) y hotfix(rama que sale de urgencia de master para arreglar fallos urgentes de master en producción).  </p>
+</li>
+<li>
+<p>Comandos básicos:  </p>
+</li>
+</ul>
+<pre><code>git init
+git commit -m &quot;&quot;
+git push -u origin master
+git branch
+git checkout 
+git branch nueva_rama
+git checkout -b nueva_rama
+git pull origin master
+git push origin features/ma-1.0
+git merge master
+</code></pre>
+<ul>
+<li>
+<p>Para usar el tipo GITFLOW se instala:<br />
+<code>sudo dnf copr enable elegos/gitflow</code><br />
+<code>dnf install git-flow</code>  </p>
+</li>
+<li>
+<p>Resumen: En este artículo, hemos explicado el flujo de trabajo de Gitflow. Gitflow es uno de los muchos estilos de flujos de trabajo de Git que podéis utilizar tu equipo y tú.  </p>
+</li>
+<li>
+<p>El flujo general de Gitflow es el siguiente:  </p>
+</li>
+<li>Se crea una rama develop a partir de main.</li>
+<li>Se crea una rama release a partir de la develop.</li>
+<li>Se crean ramas feature a partir de la develop.</li>
+<li>Cuando se termina una rama feature, se fusiona en la rama develop.</li>
+<li>Cuando la rama release está lista, se fusiona en las ramas develop y main.</li>
+<li>Si se detecta un problema en main, se crea una rama hotfix a partir de main.</li>
+<li>
+<p>Una vez terminada la rama hotfix, esta se fusiona tanto en develop como en main.</p>
+</li>
+<li>
+<p>Con comandos git flow:  </p>
+</li>
+</ul>
+<pre><code># inicio repo git flow
+git flow init
+# Creación de una rama de función
+git flow feature start feature_branch
+# Finalización de una rama de función
+git flow feature finish feature_branch
+# Ramas de publicación
+$ git flow release start 0.1.0
+Switched to a new branch 'release/0.1.0'
+# Para finalizar una rama release, utiliza los siguientes métodos:
+git flow release finish '0.1.0'
+# Ramas de corrección
+git flow hotfix start hotfix_branch
+# una rama hotfix se fusiona tanto en main como en develop.
+git flow hotfix finish hotfix_branch
+</code></pre>
+<ul>
+<li>Con comandos git:  </li>
+</ul>
+<pre><code># inicio repo git flow
+git init
+# rama developer
+git branch develop
+git push -u origin develop
+# Creación de una rama de función
+git checkout develop
+git checkout -b feature_branch
+# Finalización de una rama de función
+git checkout develop
+git merge feature_branch
+# Ramas de publicación
+git checkout develop
+git checkout -b release/0.1.0
+Switched to a new branch 'release/0.1.0'
+# Para finalizar una rama release, utiliza los siguientes métodos:
+git checkout main
+git merge release/0.1.0
+# Ramas de corrección
+git checkout main
+git checkout -b hotfix_branch
+# una rama hotfix se fusiona tanto en main como en develop.
+git checkout main
+git merge hotfix_branch
+git checkout develop
+git merge hotfix_branch
+git branch -D hotfix_branch
+</code></pre>
+<ul>
+<li>Ejemplo: A continuación, se incluye un ejemplo completo que demuestra un flujo de ramas de función. Vamos a suponer que tenemos una configuración del repositorio con una rama main:  </li>
+</ul>
+<pre><code>git checkout main
+git checkout -b develop
+git checkout -b feature_branch
+# work happens on feature branch
+git checkout develop
+git merge feature_branch
+git checkout main
+git merge develop
+git branch -d feature_branch
+</code></pre>
+<ul>
+<li>Además del flujo de feature y release, aquí tenemos un ejemplo de hotfix:  </li>
+</ul>
+<pre><code>git checkout main
+git checkout -b hotfix_branch
+# work is done commits are added to the hotfix_branch
+git checkout develop
+git merge hotfix_branch
+git checkout main
+git merge hotfix_branch
+</code></pre>
+<h2 id="jenkins">JENKINS</h2>
+<ul>
+<li>
+<p>Usaremos una imagen <a href="https://www.jenkins.io/">jenkins</a> con la capa <a href="https://www.jenkins.io/projects/blueocean/">blueocean</a> y dentro contiene maven.  </p>
+</li>
+<li>
+<p>Maven es una herramienta de software para la gestión y construcción de proyectos Java creada por Jason van Zyl, de Sonatype, en 2002. Es similar en funcionalidad a Apache Ant, pero tiene un modelo de configuración de construcción más simple, basado en un formato XML:  </p>
+</li>
+</ul>
+<pre><code>FROM jenkinsci/blueocean
+USER root
+RUN apk update &amp;&amp; apk add wget
+RUN  wget --no-verbose -O /tmp/apache-maven-3.6.3-bin.tar.gz https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN tar xzf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt/ 
+RUN ln -s  /opt/apache-maven-3.6.3 /opt/maven 
+RUN ln -s /opt/maven/bin/mvn /usr/local/bin 
+RUN rm /tmp/apache-maven-3.6.3-bin.tar.gz 
+RUN chown jenkins:jenkins /opt/maven;
+ENV MAVEN_HOME=/opt/mvn
+USER jenkins
+</code></pre>
+<ul>
+<li>
+<p>Construimos la imagen <code>docker build -t jenkins/blueocean --no-cache .</code> y el contenedor <code>docker run --name jenkinsblue -p 8080:8080 -p 50000:50000 jenkins/blueocean</code>.  </p>
+</li>
+<li>
+<p>Entramos a localhost:8080 y pegamos el hash que nos dio al construir el container o lo vemos en el fichero que nos indica y seguimos los pasos de instalación.  </p>
+</li>
+</ul>
+<h3 id="pipelines">PIPELINES</h3>
+<h4 id="1">1</h4>
+<ul>
+<li><a href="https://www.jenkins.io/doc/book/pipeline/getting-started/">tutorial</a>  <blockquote>
+<p>Hacemos una pequeña prueba de construir con nuestro gitlab el codigo de billing/pom.xml, añadiendo nuestra credenciales en un proyecto de top-level maven. Probamos la construcción y nos salga SUCCESS.</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="2">2</h4>
+<ul>
+<li>
+<p>Ahora vamos a probar de añadir un WEBHOOK con git para que cuando se haga un cambio en el codigo, automaticamente se lo comunique a jenkins y pueda lanzar un nuevo build. </p>
+</li>
+<li>
+<p>Para ello, usaremos la herramienta <a href="https://ngrok.com/">NGROK</a>. ngrok es un ejecutable único y sin dependencias que podemos descargar para Windows, Linux, macOS y FreeBSD, y que con una simple instrucción nos permite exponer hacia el exterior cualquier servicio web local que tengamos en nuestro ordenador, en cualquier puerto.  </p>
+</li>
+<li>
+<p>Seguimos las instrucciones de registro y luego lanzamos el ngrok para que nos de la url a redirigir entre git y jenkins con <code>ngrok http puerto_jenkins(8080)</code>.  </p>
+</li>
+<li>
+<p>Vamos a Github donde el codigo de nuestro repo, vamos a settings y añadimos webhook con la url indicada en ngrok <code>https://64c1-90-168-170-12.ngrok.io/github-webhook/</code> en json y que haga push en cada cosa que pase. Veremos en ngrok en la consola que nos sale STATUS 200 OK.  </p>
+</li>
+<li>
+<p>Ahora haremos una nueva rama <code>git branch feature/addtest master</code>para hacer cambios y subirlo a git esta nueva rama y cuando detecte este cambio, se lanzará un nuevo webhook que lo podremos comprobar en la consola de ngrok y en github para ver que sí funciona y ahora podamos construir un nuevo pipeline automatico al hacer cambios en el repo.  </p>
+</li>
+</ul>
+<pre><code>Session Status                online                                                          
+Account                       isx46410800 (Plan: Free)                                        
+Version                       2.3.40                                                          
+Region                        United States (us)                                              
+Web Interface                 http://127.0.0.1:4040                                           
+Forwarding                    http://64c1-90-168-170-12.ngrok.io -&gt; http://localhost:8080     
+Forwarding                    https://64c1-90-168-170-12.ngrok.io -&gt; http://localhost:8080                                                                       
+Connections                   ttl     opn     rt1     rt5     p50     p90                     
+                              4       0       0.00    0.00    5.19    6.19                       
+HTTP Requests                                                                              
+-------------      
+POST /github-webhook/          200 OK                                                         
+POST /github-webhook/          200 OK  
+</code></pre>
+<ul>
+<li>
+<p>Ahora administraremos jenkins y agregaremos al sistema nuestro servidor github con un secret token que obtendremos de settings - developer options - token de github. Lo añadimos y creamos un nuevo pipeline - github project - repo git con credenciales de usuario - proyecto maven y ponemos clean install y el pom.xml.  </p>
+</li>
+<li>
+<p>Ahora hacemos algun cambio en la rama de test y lo subimos y veremos como se lanza correctamente. Una vez que está SUCCESS y estamos satisfechos , hacemos en github un PULL REQUEST(es hacer como un merge a la rama master para integrar lo nuevo) y vemos en settings si está activado lo de eliminar automaticamente al hacer un pull request. Hacemos merge y ya en nuestro local de consola podemos eliminar tambien esta rama.  </p>
+</li>
+</ul>
+<h4 id="3">3</h4>
+<ul>
+<li>
+<p>En estos pasos hacemos un actualización del codigo de billing añadiendo nuevos test de pruebas. Despues configuramos el build indicando github project, repo git, credenciales, la nueva rama feature/addtest como rama a construir, en comportamientos especiales indicamos jenkins y un email, quitamos el webhook automatico y en el build dejamos el clean install en un projecto maven y añadimos con comando shell: git branch, git checkout origin/master y git merge de la nueva rama. Despues en acciones de despues del build hacemos push solo si está todo SUCCESS e indicamos las ramas de master y origin como si fuese el merge.  </p>
+</li>
+<li>
+<p>Acabaremos teniendo en nuestra repositorio github solo una rama y el contenido unido automatizado todo.  </p>
+</li>
+<li>
+<p><a href="https://plugins.jenkins.io/git/">plugin git jenkins</a> usado para acciones de postbuild,etc.  </p>
+</li>
+</ul>
+<h4 id="4">4</h4>
+<ul>
+<li>
+<p>Añadiendo <a href="https://slack.com/">SLACK</a> a la integración del proceso automatizado.  </p>
+</li>
+<li>
+<p>Creamos un canal normal y luego vamos a apliaciones y buscamos jenkins y lo integramos al canal que hemos creado antes para vincularlo. A continuación, te indica los pasos para integrarlo en el servidor jenkins. Despues en jenkins vamos a plugins e instalamos <code>slack notification</code>. Despues una vez reiniciado, vamos a configurar - sistema - slack y metemos los datos que nos indica el tutorial de integración. Probamos conexion y SUCCESS/SAVE.  </p>
+</li>
+<li>
+<p>Ahora configuramos el projecto y al final del todo indicamos en postbuild las notificaciones de slack. Hacemos algun cambio en el projecto y vemos el resultado en slack.  </p>
+</li>
+</ul>
+<h2 id="sonarqube">SONARQUBE</h2>
+<h3 id="instalacion-y-configuracion">INSTALACIÓN Y CONFIGURACIÓN</h3>
+<ul>
+<li>
+<p>SonarQube es una plataforma para evaluar código fuente. Es software libre y usa diversas herramientas de análisis estático de código fuente como Checkstyle, PMD o FindBugs para obtener métricas que pueden ayudar a mejorar la calidad del código de un programa.  </p>
+</li>
+<li>
+<p><a href="https://docs.sonarqube.org/latest/analysis/jenkins/">Integracion con jenkins</a>  </p>
+</li>
+<li>
+<p>Lo vamos a instalar en docker:<br />
+<code>docker pull sonarqube</code><br />
+<code>docker run --name sonarqube -p 9000:9000 -p 9002:9002 sonarqube -d</code>  </p>
+</li>
+<li>
+<p>Ahora creamos una red virtual para jenkins y sonarqube se puedan comunicar:  </p>
+</li>
+</ul>
+<pre><code>[miguel@fedora ~]$ docker network create jenkins_sonarqube
+0fb0f16f8d5b6db1c9416c0bcbb0b703696acfc41f90b4b84a9c113952a047f9
+[miguel@fedora ~]$ docker network connect jenkins_sonarqube sonarqube 
+[miguel@fedora ~]$ docker network connect jenkins_sonarqube jenkinsblue
+</code></pre>
+<blockquote>
+<p>Podemos comprobar las redes con <code>docker container inspect container_name</code>  </p>
+</blockquote>
+<ul>
+<li>
+<p>Nos conectamos a sonarqube con <code>localhost:9000</code>  </p>
+</li>
+<li>
+<p>Configuramos sonarqube. Vamos a Administration - security - users - creamos token para jenkins <code>ccca6584e7016f16486388e025e1ce0251c22d90</code>  </p>
+</li>
+<li>
+<p>Ahora vamos a Jenkins, instalamos el plugin de Sonarqube scanner, vamos despues a manage jenkins - sistema - sonarqube y añadimos el token como credenciales de sonarqube(nombre container o ip publica si es remoto). Despues volvemos a Manage jenkins - global tools y en Sonarqube scanner instalamos la ultima version.  </p>
+</li>
+<li>
+<p>Ahora vamos a configurar nuestro ultimo pipeline de webhook con slack y añadimos un nuevo paso que pondremos primero en BUILD: nuevo execute con sonarqube, le ponemos un nombre, le ponemos de argumento -X para debugging y despues ponemos las siguientes variables para indicarle donde tiene que analizar el código:  </p>
+</li>
+</ul>
+<pre><code>sonar.projectKey=sonarqube
+sonar.sources=billing/src/main/java
+sonar.java.binaries=billing/target/classes
+</code></pre>
+<blockquote>
+<p>Nombre proyecto, codigo fuente y binarios.  </p>
+</blockquote>
+<ul>
+<li>Veremos ahora un nuevo icono y menu de SUCCESS de Sonarqube.  </li>
+</ul>
+<p><img alt="" src="../images/devops10.png" />  </p>
+<h3 id="analisis-de-resultados">ANALISIS DE RESULTADOS</h3>
+<ul>
+<li>
+<p><a href="https://docs.sonarqube.org/latest/user-guide/metric-definitions/">GUIA</a>  </p>
+</li>
+<li>
+<p>Sonarqube nos analiza las lineas de codigo y podemos encontrar: bugs, code smell(mejoras de codigo),etc. Podemos ir a ISSUES y analizar cada linea y ver donde se puede mejorar, asignar a gente, comentarlo, marcar que ya está corregido, ver que lineas afectan, etc.  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/devops11.png" /><br />
+<img alt="" src="../images/devops12.png" />  </p>
+<h3 id="docker">DOCKER</h3>
+<ul>
+<li>
+<p>Ahora vamos a montar automaticamente los container con docker. Instalamos el plugin <code>docker build and publish</code> en jenkins.  </p>
+</li>
+<li>
+<p>Creamos puente de conexion entre mi maquina y docker engine <code>ip route show default | awk '/default/ {print $3}'</code>  </p>
+</li>
+<li>
+<p>En /lib/systemd/system/docker.service añadimos <code>ExecStart=/usr/bin/dockerd -H fd:// -H=tcp://0.0.0.0:2375</code>  </p>
+</li>
+<li>
+<p>Reiniciamos ambos servicios y comprobamos que tengamos los containers encendidos <code>systemctl daemon-reload y service restart docker</code>.  </p>
+</li>
+<li>
+<p>Comprobamos que podemos entrar a la API de docker engine <code>curl http://localhost:2375/images/json</code>  </p>
+</li>
+</ul>
+<p><img alt="" src="../images/devops13.png" />  </p>
+<blockquote>
+<p>En configurar nuestro pipeline de webhook.  </p>
+</blockquote>
+<ul>
+<li>Ahora hemos cambiado los Dockerfiles y unos ficheros para poner otro puerto y hemos modificado el pipeline para construir la imagen automatizada y subida a dockerhub.  </li>
+</ul>
+<p><img alt="" src="../images/devops14.png" /><br />
+<img alt="" src="../images/devops15.png" />  </p>
+<h3 id="kubernetes">KUBERNETES</h3>
+<ul>
+<li>
+<p>Ahora nos conectamos al contenedor de jenkins para instalar la herramienta kubect de administración de kubernetes:<br />
+<code>docker exec -it --user=root jenkinsblue /bin/bash</code>  </p>
+</li>
+<li>
+<p>Descargar kubectl y hacerlo ejecutable:<br />
+<code>curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/linux/amd64/kubectl &amp;&amp; chmod +x kubectl</code>  </p>
+</li>
+<li>
+<p>Crear el directorio para kubectl:<br />
+<code>sudo mv ./kubectl /usr/local/bin/kubectl</code></p>
+</li>
+<li>
+<p>Verificar version:<br />
+<code>kubectl version --client</code>  </p>
+</li>
+<li>
+<p>Ahora salimos y conectamos jenkins a la red de minikube:<br />
+<code>docker network connect minikube jenkinsblue</code>  </p>
+</li>
+<li>
+<p>Ahora vamos a jenkins e instalamos el plugin de kubernetes.  </p>
+</li>
+<li>
+<p>Ahora con los ficheros personalizados para Jenkins, creamos un service account para crear la conexion de jenkins con kubernetes. Despues vemos cual es nuestra url y como obtener el token para poder acceder despues al deploy de kubernetes.<br />
+<code>kubectl apply -f jenkins-account.yaml</code>  </p>
+</li>
+</ul>
+<pre><code>#this file define a service account for kubernetesplugins on jenkins
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins
+  namespace: default
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jenkins
+  namespace: default
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods&quot;,&quot;services&quot;]
+  verbs: [&quot;create&quot;,&quot;delete&quot;,&quot;get&quot;,&quot;list&quot;,&quot;patch&quot;,&quot;update&quot;,&quot;watch&quot;]
+- apiGroups: [&quot;apps&quot;]
+  resources: [&quot;deployments&quot;]
+  verbs: [&quot;create&quot;,&quot;delete&quot;,&quot;get&quot;,&quot;list&quot;,&quot;patch&quot;,&quot;update&quot;,&quot;watch&quot;]
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods/exec&quot;]
+  verbs: [&quot;create&quot;,&quot;delete&quot;,&quot;get&quot;,&quot;list&quot;,&quot;patch&quot;,&quot;update&quot;,&quot;watch&quot;]
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods/log&quot;]
+  verbs: [&quot;get&quot;,&quot;list&quot;,&quot;watch&quot;]
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;secrets&quot;]
+  verbs: [&quot;get&quot;]
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;persistentvolumeclaims&quot;]
+  verbs: [&quot;create&quot;,&quot;delete&quot;,&quot;get&quot;,&quot;list&quot;,&quot;patch&quot;,&quot;update&quot;,&quot;watch&quot;]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jenkins
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: jenkins
+subjects:
+- kind: ServiceAccount
+  name: jenkins
+---
+# Allows jenkins to create persistent volumes
+# This cluster role binding allows anyone in the &quot;manager&quot; group to read secrets in any namespace.
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jenkins-crb
+subjects:
+- kind: ServiceAccount
+  namespace: default
+  name: jenkins
+roleRef:
+  kind: ClusterRole
+  name: jenkinsclusterrole
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  # &quot;namespace&quot; omitted since ClusterRoles are not namespaced
+  name: jenkinsclusterrole
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;persistentvolumes&quot;]
+  verbs: [&quot;create&quot;,&quot;delete&quot;,&quot;get&quot;,&quot;list&quot;,&quot;patch&quot;,&quot;update&quot;,&quot;watch&quot;]
+</code></pre>
+<ul>
+<li>Obtenemos la url y el token:  </li>
+</ul>
+<pre><code>ver la configuracion de minikube
+kubectl config view
+consultar los server account  
+kubectl --namespace default get serviceaccount
+vel el detalle del server account 
+kubectl --namespace default get serviceaccount jenkins -o yaml
+obtener el token del server account
+kubectl describe secrets/jenkins-token-rk2mg
+</code></pre>
+<ul>
+<li>Despues vamos a sistema - cloud. Abrimos en pestaña nueva, indicamos kubernetes y con los comandos de antes indicamos la url y el contenido del certificado de autoridad. Indicamos las credenciales y test conection. Con esto ya confirmamos que tenemos conexion de jenkins con la api del cluster de kubernetes.  </li>
+</ul>
+<p><img alt="" src="../images/devops16.png" /><br />
+<img alt="" src="../images/devops17.png" />  </p>
+<pre><code>pipeline {
+  agent any
+  stages {
+    stage('clone repository') {
+      steps {
+        sh '''java -version
+mvn --version
+git --version'''
+      }
+    }
+
+    stage('Deploy billing App') {
+      steps {
+        withCredentials(bindings: [
+                      string(credentialsId: 'kubernete-jenkis-server-account', variable: 'api_token')
+                      ]) {
+            sh 'kubectl --token $api_token --server https://192.168.49.2:8443 --insecure-skip-tls-verify=true apply -f deployment-billing-app-back-jenkins.yaml '
+          }
+
+        }
+      }
+
+    }
+  }
+</code></pre>
+<p><img alt="" src="../images/devops18.png" />  </p>
+<ul>
+<li>
+<p>Despues lo comprobamos el deploy en el kubernetes dashboard y probarlo en la ip de minikube con el puerto indicado en el yaml.  </p>
+</li>
+<li>
+<p>Podemos unir los dos pipelines indicando en el de webhook accion de despues ejecutar con otros proyectos y le ponemos el nombre del deploy_kubernetes y haría los dos deploy seguidos de pipelines.  </p>
+</li>
+</ul>
+<h2 id="prometeus">PROMETEUS</h2>
+<ul>
+<li>
+<p><a href="https://prometheus.io/docs/introduction/overview/">Prometheus</a> es un software especializado como sistema de monitorización y alertas escrito en el lenguaje de programación Go. Todos los datos y métricas se almacenan en la base de datos como series temporales (junto al instante de tiempo en el que el valor se ha registrado). También es posible añadir etiquetas de tipo clave-valor junto a estas métricas.</p>
+</li>
+<li>
+<p>Prometheus tiene 3 componentes principales.  </p>
+</li>
+<li>Servidor: Almacena los datos de las métricas.</li>
+<li>Librería Cliente: Se usa para calcular y exponer las métricas al cliente.</li>
+<li>
+<p>Gestor de alertas: Genera alertas basadas en reglas.</p>
+</li>
+<li>
+<p>Métricas en Prometheus:</p>
+</li>
+<li>El tipo de métrica contador es un valor que solo se puede incrementar o bien resetear. Se puede usar para contar el número de peticiones o de errores en una aplicación, que son métricas que nunca se reducen.</li>
+<li>Gauge o medidor es un valor numérico que puede incrementarse o decrementar. Un ejemplo puede ser el número de servidores en un sistema distribuido.</li>
+<li>
+<p>El histograma representa los valores en agrupaciones predefinidas y acumuladas en el tiempo. Por ejemplo, se puede usar un histograma para medir los tiempos de respuesta de nuestra aplicación en los intervalos de tiempo establecidos para cada petición de un cliente.</p>
+</li>
+<li>
+<p>Comandos seccion:  </p>
+</li>
+</ul>
+<pre><code>1- Namespaces: Clusters virtuales en un mismo cluster fisico (separacion logic ade clusters)
+    https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+2-verificar namespaces
+   kubectl get namespace
+3- Crear el namespace si no existe
+   kubectl create namespace monitoring
+4-Crear role de monitorizacion
+   Referencia Authoriation
+   https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+   kubectl apply -f moniring-role.yaml
+5- Crear fichero de configuracion para externalizar la configuracion de prometheus(independiente del ciclo de vida del contenedor)
+   kubectl apply -f configmap-prometheus.yaml
+6- Crear el contenedor y el servicio de prometheus (el contenedor)
+   kubectl apply -f deployment-prometheus.yaml
+7- verificar los pods del namespace  monitoring
+   kubectl get all --namespace=monitoring
+</code></pre>
+<blockquote>
+<p>Vamos a minikube ip para saber la ip y el puerto 30000 para ver que tenemos ya prometheus en marcha.  </p>
+</blockquote>
+<ul>
+<li>
+<p>Dentro de prometheus, en status-target vemos los jobs creados en los jobs del yaml.  </p>
+</li>
+<li>
+<p>Despues creamos servicios de metricas y alertas.</p>
+</li>
+</ul>
+<h2 id="grafana">GRAFANA</h2>
+<ul>
+<li><a href="https://grafana.com/grafana/">Grafana</a> es el componente que nos permitirá crear dashboards para comprender lo que está pasando en nuestro sistema monitorizado. Se integra perfectamente con el software de Prometheus que, aunque ya nos proporciona estos gráficos en su propia interfaz gráfica, están pensados como un mecanismo de test o debug.  </li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:latest
+        ports:
+        - name: grafana
+          containerPort: 3000
+        resources:
+          limits:
+            memory: &quot;1Gi&quot;
+            cpu: &quot;1000m&quot;
+          requests: 
+            memory: 500M
+            cpu: &quot;500m&quot;
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '3000'
+spec:
+  selector: 
+    app: grafana
+  type: NodePort  
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 32000
+###############################################
+#grafana public templates
+#https://grafana.com/grafana/dashboards?dataSource
+#https://grafana.com/grafana/dashboards/6417
+#https://grafana.com/grafana/dashboards/8588
+</code></pre>
+<pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+#This data source is fro prometheus, You can add more datasources here adding more .yml files
+data:
+  prometheus.yaml: |-
+    {
+        &quot;apiVersion&quot;: 1,
+        &quot;datasources&quot;: [
+            {
+               &quot;access&quot;:&quot;proxy&quot;,
+                &quot;editable&quot;: true,
+                &quot;name&quot;: &quot;prometheus&quot;,
+                &quot;orgId&quot;: 1,
+                &quot;type&quot;: &quot;prometheus&quot;,
+                &quot;url&quot;: &quot;http://prometheus-service.monitoring.svc:8280&quot;,
+                &quot;version&quot;: 1
+            }
+        ]
+    }
+</code></pre>
               
             </div>
           </div>

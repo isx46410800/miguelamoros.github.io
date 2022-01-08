@@ -1,4 +1,4 @@
-# Programación PYTHON
+# Intro Programación PYTHON  
 ## Shebang
 ```
 # !/usr/bin/python3
@@ -339,4 +339,49 @@ def main():
     print(date.year)
     print(date.month)
     print(date.day)
-```
+```  
+
+# AVANZADO PYTHON  
+
+## Funciones  
+
+### Funcion type  
+
++ para saber que tipo de valor es `type(valor)`  
+
+### Funcion float, int  
+
++ Transforma el valor en un decimal o entero `float(numeroint)` 
+
+### Funcion pow, sqrt, abs  
+
++ De la liberia math(from match import sqrt,pow).
++ hace una subida exponencial `pow(5,2)==5**2`  
++ Hace la raiz cuadrada `sqrt(100)`  
++ Valor absoluto de un numero `abs(-5)`  
+
+### Funciones strings  
+
++ texto.lower(), texto.upper(), texto.capitalize(), texto.title(), texto.swapcase(), texto.strip(), texto.split(' '), texto.replace(' ', 'r'), len(texto).  
+
+### Funciones booleanos  
+
++ text.isupper(),texto.islower(), texto.startswith('a'), texto.endswith('z'). Si es mayusculas, minisculas, si empieza o termina en tal.  
+
+### Funciones listas  
+
++ lista.remove,insert,pop,append,sort,reverse,count,index.  
++ lista[1:-3].  
+
+### Funciones diccionarios  
+
++ dict.pop,update,get,setdefault,copy,items,values,keys.  
+
+### Funciones conjuntos y tuplas  
+
++ conjunto.add, update, remove, discard, update, pop, clear.  
++ tupla[posicion]  
+
+
+
+

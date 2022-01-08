@@ -6,6 +6,8 @@
 
 + [Libros Ansible](https://www.ansible.com/resources/ebooks)  
 
++ [GUIA FUNCIONES ANSIBLE](https://ualmtorres.github.io/CursoAnsible/tutorial/)  
+
 + Es un software de gestión de la configuración automática y remota.  
 + Nos permite centralizar la configuración de numerosas servidores, dispositivos de red y Cloud Providers de una forma sencilla y automatizada.  
 + Podremos aprovisionar servidores en AWS, Azure o VMWARE y automatizar la configuración de dichos servidores.  

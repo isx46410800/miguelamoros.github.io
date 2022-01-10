@@ -345,6 +345,20 @@ def main():
 
 ## Funciones  
 
++ Definir una funcion:
+```
+## FUNCION TABLA MULTIPLICAR
+def TablaMultiplicar(numero, rango):
+    for i in range(rango+1):
+        print(f'{numero} X {i} = {numero+i}')
+
+TablaMultiplicar(7,2)
+TablaMultiplicar(10,3)
+```  
+> Print se pone al llamar la funcion para que te de un return, si no se pone nada, te dará los mensajes print de dentro de la funcion.  
+> Variables `global` dentro de una funcion, se puede utilizar dentro y fuera de esa funcion.  
+> Si como argumento ponemos (*argumento), devuelve una tupla.  
+
 ### Funcion type  
 
 + para saber que tipo de valor es `type(valor)`  
@@ -353,7 +367,7 @@ def main():
 
 + Transforma el valor en un decimal o entero `float(numeroint)` 
 
-### Funcion pow, sqrt, abs  
+### Funcion MATH  
 
 + De la liberia math(from match import sqrt,pow).
 + hace una subida exponencial `pow(5,2)==5**2`  
@@ -370,7 +384,7 @@ def main():
 
 ### Funciones listas  
 
-+ lista.remove,insert,pop,append,sort,reverse,count,index.  
++ lista.remove,insert,pop,append,sort,reverse,count,index,max,min,average.  
 + lista[1:-3].  
 
 ### Funciones diccionarios  
@@ -381,6 +395,27 @@ def main():
 
 + conjunto.add, update, remove, discard, update, pop, clear.  
 + tupla[posicion]  
+
+## Gestion errores  
+```
+while True:
+    try:
+        edad = int(input("Dime tu edad: "))
+        print("Tu edad es:", edad)
+        break
+    except ZeroDivisionError:
+        print("No se puede dividir entre zero")
+    except ValueError:
+        print("Numero incorrecto")
+    except KeyboardInterrupt:
+        print("Has cancelado la ejecucion")
+        break
+    finally:
+        print("codigo ejecutado correctamente")
+```  
+> Hay varios except como divisionzero, keyboardinterrupt, error value...  
+
+
 
 
 

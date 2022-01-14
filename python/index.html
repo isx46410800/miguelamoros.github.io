@@ -269,7 +269,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="programacion-python">Programación PYTHON</h1>
+                <h1 id="intro-programacion-python">Intro Programación PYTHON</h1>
 <h2 id="shebang">Shebang</h2>
 <pre><code># !/usr/bin/python3
 # -*-coding: utf-8-*-
@@ -559,6 +559,254 @@ def main():
     print(date.year)
     print(date.month)
     print(date.day)
+</code></pre>
+<h1 id="avanzado-python">AVANZADO PYTHON</h1>
+<ul>
+<li>
+<p>Todos los <a href="https://pythonbasics.org/">COMMANDOS</a> interesantes de python y utilidades que se integran con él.  </p>
+</li>
+<li>
+<p>import LIBRERIA</p>
+</li>
+<li>
+<p>from MODULO import FUNCION  </p>
+</li>
+</ul>
+<h2 id="funciones_1">FUNCIONES</h2>
+<ul>
+<li>Definir una funcion:</li>
+</ul>
+<pre><code>## FUNCION TABLA MULTIPLICAR
+def TablaMultiplicar(numero, rango):
+    for i in range(rango+1):
+        print(f'{numero} X {i} = {numero+i}')
+
+TablaMultiplicar(7,2)
+TablaMultiplicar(10,3)
+</code></pre>
+<blockquote>
+<p>Print se pone al llamar la funcion para que te de un return, si no se pone nada, te dará los mensajes print de dentro de la funcion.<br />
+Variables <code>global</code> dentro de una funcion, se puede utilizar dentro y fuera de esa funcion.<br />
+Si como argumento ponemos (*argumento), devuelve una tupla.  </p>
+</blockquote>
+<h3 id="funcion-type">Funcion type</h3>
+<ul>
+<li>para saber que tipo de valor es <code>type(valor)</code>  </li>
+</ul>
+<h3 id="funcion-float-int">Funcion float, int</h3>
+<ul>
+<li>Transforma el valor en un decimal o entero <code>float(numeroint)</code> </li>
+</ul>
+<h3 id="funcion-math">Funcion MATH</h3>
+<ul>
+<li>De la liberia math(from match import sqrt,pow).</li>
+<li>hace una subida exponencial <code>pow(5,2)==5**2</code>  </li>
+<li>Hace la raiz cuadrada <code>sqrt(100)</code>  </li>
+<li>Valor absoluto de un numero <code>abs(-5)</code>  </li>
+</ul>
+<h3 id="funciones-strings">Funciones strings</h3>
+<ul>
+<li>texto.lower(), texto.upper(), texto.capitalize(), texto.title(), texto.swapcase(), texto.strip(), texto.split(' '), texto.replace(' ', 'r'), len(texto).  </li>
+</ul>
+<h3 id="funciones-booleanos">Funciones booleanos</h3>
+<ul>
+<li>text.isupper(),texto.islower(), texto.startswith('a'), texto.endswith('z'). Si es mayusculas, minisculas, si empieza o termina en tal.  </li>
+</ul>
+<h3 id="funciones-listas">Funciones listas</h3>
+<ul>
+<li>lista.remove,insert,pop,append,sort,reverse,count,index,max,min,average.  </li>
+<li>lista[1:-3].  </li>
+</ul>
+<h3 id="funciones-diccionarios">Funciones diccionarios</h3>
+<ul>
+<li>dict.pop,update,get,setdefault,copy,items,values,keys.  </li>
+</ul>
+<h3 id="funciones-conjuntos-y-tuplas">Funciones conjuntos y tuplas</h3>
+<ul>
+<li>conjunto.add, update, remove, discard, update, pop, clear.  </li>
+<li>tupla[posicion]  </li>
+</ul>
+<h2 id="gestion-errores">GESTION ERRORES</h2>
+<pre><code>while True:
+    try:
+        edad = int(input(&quot;Dime tu edad: &quot;))
+        print(&quot;Tu edad es:&quot;, edad)
+        break
+    except ZeroDivisionError:
+        print(&quot;No se puede dividir entre zero&quot;)
+    except ValueError:
+        print(&quot;Numero incorrecto&quot;)
+    except KeyboardInterrupt:
+        print(&quot;Has cancelado la ejecucion&quot;)
+        break
+    finally:
+        print(&quot;codigo ejecutado correctamente&quot;)
+</code></pre>
+<blockquote>
+<p>Hay varios except como divisionzero, keyboardinterrupt, error value...  </p>
+</blockquote>
+<h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
+<ul>
+<li>
+<p>Es una herramienta que sirve para automatizar pruebas de testing en navegadores web.</p>
+</li>
+<li>
+<p>No se instala de manera nativa, sino en un IDE se corre como PyCharm.  </p>
+</li>
+<li>
+<p>Multiplataforma.  </p>
+</li>
+<li>
+<p>No tiene soporte, solo es para navegadores web.  </p>
+</li>
+</ul>
+<h3 id="pycharm">PyCharm</h3>
+<ul>
+<li>
+<p><a href="https://www.jetbrains.com/es-es/pycharm/">PyCharm</a> es este famoso IDE que además cuenta con una versión para las distribuciones Gnu/Linux, lo que hace que sea más sencillo aún su utilización y creación de programas con este lenguaje de programación.PyCharm es un IDE, es decir, no solo es un editor de código sino que también tiene un depurador, un interprete y otras herramientas que nos ayudarán a crear y exportar los programas que creemos. PyCharm tiene un interprete en el editor de código que nos ayudará a saber o conocer los posibles errores del código en tiempo real, algo que ha hecho que Python y PyCharm sean elegidos por muchos usuarios que comienzan a programar.  </p>
+</li>
+<li>
+<p>IDE: Un entorno de desarrollo integrado​​ o entorno de desarrollo interactivo, en inglés Integrated Development Environment, es una aplicación informática que proporciona servicios integrales para facilitarle al desarrollador o programador el desarrollo de software.  </p>
+</li>
+<li>
+<p>Instalamos pycharm desde la web indicada, extraemos el tar e inicimos desde el directorio bin con <code>./pycharm.sh</code>.  </p>
+</li>
+</ul>
+<h3 id="selenium">Selenium</h3>
+<ul>
+<li>
+<p>Para poder usar <a href="https://www.selenium.dev/documentation/">Selenium</a> en pycharm tenemos que instalarlo en la <a href="https://www.selenium.dev/downloads/">web selenium</a> y luego instalar la version de python. Instalamos con <code>pip install selenium</code> dentro de la terminal de pycharm.  </p>
+</li>
+<li>
+<p>Ahora necesitamos instalar drivers de <a href="https://www.selenium.dev/downloads/">selenium</a>. En este caso vamos a instalar el del navegador de <a href="https://chromedriver.chromium.org/">google chrome</a> pero todos se instalan del mismo modo.  </p>
+</li>
+<li>
+<p>Una vez nos bajamos el zip de chrome, descomprimimos, copiamos el chromedriver.exe, vamos a pycharm y boton derecho a nuestro proyecto y creamos un python file de prueba. Despues de nuevo creamos un package file de nombre drivers y dentro de el, boton derecho y pegamos el driver. Ya solo tendremos que descargar los navegadores que queramos y peguemos en esta carpeta los ficheros ejecutables de drivers.  </p>
+</li>
+<li>
+<p>Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador:  </p>
+</li>
+</ul>
+<h2 id="turtle">TURTLE</h2>
+<ul>
+<li>
+<p>Es un modulo de Python utilizado para enseñar programacion a través de coordenadas relativas(X,Y).  </p>
+</li>
+<li>
+<p>El objeto a programar recibe el nombre de TORTUGA.  </p>
+</li>
+</ul>
+<h3 id="comandos-basicos">Comandos basicos:</h3>
+<pre><code>#!/usr/bin/python
+# importamos la libreria turtle
+import turtle
+
+# creamos la pantalla
+s = turtle.Screen()
+
+# color de la pantalla
+s.bgcolor(&quot;red&quot;)
+# nombre de la pestaña
+s.title(&quot;Proyecto basicos turtle&quot;)
+
+# necesitamos el objeto, la tortuga a dibujar
+t = turtle.Turtle()
+# personalizamos la tortuga forma,color,tinta,etc
+t.shape(&quot;turtle&quot;) # arrow, triangle, classic, circle
+t.shapesize(2,2,1)
+t.fillcolor(&quot;orange&quot;)
+t.pencolor(&quot;white&quot;)
+t.color(&quot;green&quot;,&quot;blue&quot;) # borde y relleno
+t.pensize(5)
+
+# rellenar figuras
+t.begin_fill()
+t.color(&quot;white&quot;,&quot;blue&quot;) # borde/tinta y relleno
+t.circle(100)
+t.end_fill()
+
+# dar velocidad a la tortuga (1-10)
+t.speed(1)
+
+# dar movimientos a la tortuga
+t.backward(100)
+t.right(90)
+t.forward(100)
+t.left(90)
+t.forward(100)
+
+# dar movimiento sin pintar
+t.penup()
+t.forward(50)
+t.pendown()
+t.forward(50)
+
+# hacer un retroceso
+t.undo()
+
+# limpiar pantalla y resetear posicion
+t.clear()
+t.reset()
+
+# dejar una marca como sello y seguir
+t.forward(100)
+t.stamp()
+t.forward(100)
+
+# movimiento perpendiculares
+t.goto(100,100)
+t.goto(-100,100)
+t.goto(0,0) # == t.home())
+
+# movimientos de formas
+t.circle(50) #circulo diametro
+t.dot(30) #punto y diametro
+
+# esconder y mostrar de nuevo la tortuga dibujando
+t.hideturtle()
+t.circle(50)
+t.showturtle()
+t.circle(30)
+
+# movilizar la tortuga
+t.setx(100)
+t.sety(-10)
+
+# para que se quede la pantalla todo el rato
+turtle.done()
+
+# dar movimientos a la tortuga con un cuadrado
+t.forward(100)
+t.right(90)
+t.forward(100)
+t.right(90)
+t.forward(100)
+t.right(90)
+t.forward(100)
+
+# cuadrado automatizado
+t.color(&quot;red&quot;,&quot;blue&quot;)
+for i in range(4):
+    t.forward(100)
+    t.right(90)
+
+# dar movimientos con un circulo
+t.color(&quot;blue&quot;,&quot;yellow&quot;)
+t.circle(100)
+t.circle(80)
+t.circle(60)
+t.circle(40)
+t.circle(20)
+
+# circulo automatizado
+resultado = input(&quot;Quieres dibujar?: &quot;)
+t.color(&quot;red&quot;,&quot;blue&quot;)
+if resultado == &quot;si&quot;:
+    while i&lt;=100:
+        t.circle(i)
+        i+=20
+else:
+    print(&quot;No quieres dibujar...:(&quot;)
 </code></pre>
               
             </div>

@@ -2,6 +2,27 @@
 
 ## GUÍA AWS  
 
+### S3 (Simple Storage)  
+
++ En esta parte podemos crear los llamados cajones/cestas en la nube para guardar ciertos tipo de datos en nuestro AWS. Se llaman BUCKETS.  
+
++ En estos BUCKETS podemos meter archivos, especificar distintas medidas de almacenamiento, podemos indicarle el versioning de lo que tenemos dentro a lo actualizado, logging si se necesita loguearse para poder acceder al bucket y podemos gestionar otro tipo de medidas y seguridad para poder acceder al bucket y conectarse a el.  
+
++ Otro tipo de uso de los BUCKETS son el uso de almacenar paginas web estaticas.
+
+### IAM - SECURITY  
+
++ En esta sección podemos crear:  
+  - Usuarios
+  - Grupos
+  - Politicas de grupo
+  - Roles 
+
+### EC2 (Elastic Compute Services)
+
+
+
+
 
 
 ## IAC CLOUDFORMATION

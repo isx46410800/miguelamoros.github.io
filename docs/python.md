@@ -343,7 +343,13 @@ def main():
 
 # AVANZADO PYTHON  
 
-## Funciones  
++ Todos los [COMMANDOS](https://pythonbasics.org/) interesantes de python y utilidades que se integran con él.  
+
++ import LIBRERIA
+
++ from MODULO import FUNCION  
+
+## FUNCIONES  
 
 + Definir una funcion:
 ```
@@ -396,7 +402,7 @@ TablaMultiplicar(10,3)
 + conjunto.add, update, remove, discard, update, pop, clear.  
 + tupla[posicion]  
 
-## Gestion errores  
+## GESTION ERRORES  
 ```
 while True:
     try:
@@ -414,6 +420,156 @@ while True:
         print("codigo ejecutado correctamente")
 ```  
 > Hay varios except como divisionzero, keyboardinterrupt, error value...  
+
+## SELENIUM WEB DRIVER  
+
++ Es una herramienta que sirve para automatizar pruebas de testing en navegadores web.
+
++ No se instala de manera nativa, sino en un IDE se corre como PyCharm.  
+
++ Multiplataforma.  
+
++ No tiene soporte, solo es para navegadores web.  
+
+### PyCharm  
+
++ [PyCharm](https://www.jetbrains.com/es-es/pycharm/) es este famoso IDE que además cuenta con una versión para las distribuciones Gnu/Linux, lo que hace que sea más sencillo aún su utilización y creación de programas con este lenguaje de programación.PyCharm es un IDE, es decir, no solo es un editor de código sino que también tiene un depurador, un interprete y otras herramientas que nos ayudarán a crear y exportar los programas que creemos. PyCharm tiene un interprete en el editor de código que nos ayudará a saber o conocer los posibles errores del código en tiempo real, algo que ha hecho que Python y PyCharm sean elegidos por muchos usuarios que comienzan a programar.  
+
++ IDE: Un entorno de desarrollo integrado​​ o entorno de desarrollo interactivo, en inglés Integrated Development Environment, es una aplicación informática que proporciona servicios integrales para facilitarle al desarrollador o programador el desarrollo de software.  
+
++ Instalamos pycharm desde la web indicada, extraemos el tar e inicimos desde el directorio bin con `./pycharm.sh`.  
+
+### Selenium  
+
++ Para poder usar [Selenium](https://www.selenium.dev/documentation/) en pycharm tenemos que instalarlo en la [web selenium](https://www.selenium.dev/downloads/) y luego instalar la version de python. Instalamos con `pip install selenium` dentro de la terminal de pycharm.  
+
++ Ahora necesitamos instalar drivers de [selenium](https://www.selenium.dev/downloads/). En este caso vamos a instalar el del navegador de [google chrome](https://chromedriver.chromium.org/) pero todos se instalan del mismo modo.  
+
++ Una vez nos bajamos el zip de chrome, descomprimimos, copiamos el chromedriver.exe, vamos a pycharm y boton derecho a nuestro proyecto y creamos un python file de prueba. Despues de nuevo creamos un package file de nombre drivers y dentro de el, boton derecho y pegamos el driver. Ya solo tendremos que descargar los navegadores que queramos y peguemos en esta carpeta los ficheros ejecutables de drivers.  
+
++ Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador:  
+
+## TURTLE  
+
++ Es un modulo de Python utilizado para enseñar programacion a través de coordenadas relativas(X,Y).  
+
++ El objeto a programar recibe el nombre de TORTUGA.  
+
+### Comandos basicos:  
+```
+#!/usr/bin/python
+# importamos la libreria turtle
+import turtle
+
+# creamos la pantalla
+s = turtle.Screen()
+
+# color de la pantalla
+s.bgcolor("red")
+# nombre de la pestaña
+s.title("Proyecto basicos turtle")
+
+# necesitamos el objeto, la tortuga a dibujar
+t = turtle.Turtle()
+# personalizamos la tortuga forma,color,tinta,etc
+t.shape("turtle") # arrow, triangle, classic, circle
+t.shapesize(2,2,1)
+t.fillcolor("orange")
+t.pencolor("white")
+t.color("green","blue") # borde y relleno
+t.pensize(5)
+
+# rellenar figuras
+t.begin_fill()
+t.color("white","blue") # borde/tinta y relleno
+t.circle(100)
+t.end_fill()
+
+# dar velocidad a la tortuga (1-10)
+t.speed(1)
+
+# dar movimientos a la tortuga
+t.backward(100)
+t.right(90)
+t.forward(100)
+t.left(90)
+t.forward(100)
+
+# dar movimiento sin pintar
+t.penup()
+t.forward(50)
+t.pendown()
+t.forward(50)
+
+# hacer un retroceso
+t.undo()
+
+# limpiar pantalla y resetear posicion
+t.clear()
+t.reset()
+
+# dejar una marca como sello y seguir
+t.forward(100)
+t.stamp()
+t.forward(100)
+
+# movimiento perpendiculares
+t.goto(100,100)
+t.goto(-100,100)
+t.goto(0,0) # == t.home())
+
+# movimientos de formas
+t.circle(50) #circulo diametro
+t.dot(30) #punto y diametro
+
+# esconder y mostrar de nuevo la tortuga dibujando
+t.hideturtle()
+t.circle(50)
+t.showturtle()
+t.circle(30)
+
+# movilizar la tortuga
+t.setx(100)
+t.sety(-10)
+
+# para que se quede la pantalla todo el rato
+turtle.done()
+
+# dar movimientos a la tortuga con un cuadrado
+t.forward(100)
+t.right(90)
+t.forward(100)
+t.right(90)
+t.forward(100)
+t.right(90)
+t.forward(100)
+
+# cuadrado automatizado
+t.color("red","blue")
+for i in range(4):
+    t.forward(100)
+    t.right(90)
+
+# dar movimientos con un circulo
+t.color("blue","yellow")
+t.circle(100)
+t.circle(80)
+t.circle(60)
+t.circle(40)
+t.circle(20)
+
+# circulo automatizado
+resultado = input("Quieres dibujar?: ")
+t.color("red","blue")
+if resultado == "si":
+    while i<=100:
+        t.circle(i)
+        i+=20
+else:
+    print("No quieres dibujar...:(")
+```
+
+
 
 
 

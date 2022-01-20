@@ -447,7 +447,112 @@ while True:
 
 + Una vez nos bajamos el zip de chrome, descomprimimos, copiamos el chromedriver.exe, vamos a pycharm y boton derecho a nuestro proyecto y creamos un python file de prueba. Despues de nuevo creamos un package file de nombre drivers y dentro de el, boton derecho y pegamos el driver. Ya solo tendremos que descargar los navegadores que queramos y peguemos en esta carpeta los ficheros ejecutables de drivers.  
 
-+ Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador:  
++ Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador: 
+```
+# importamos la implementacion que crea una instancia para conectarse a un navegador
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+# importamos libreria time
+import time
+
+# llamamos al driver y su path para abrir chrome (mejor llamar desde ruta original)
+#driver = webdriver.Chrome(executable_path="Drivers/chromedriver")
+controlador = webdriver.Chrome(executable_path=r"/home/miguel/Downloads/chromedriver_linux64/chromedriver")
+
+# maximiza la ventana total del navegador
+controlador.maximize_window()
+
+# metodo get nos indica la url a la que conectarnos
+controlador.get("https://www.udemy.com/join/login-popup/?locale=es_ES&response_type=html&next=https%3A%2F%2Fwww.udemy.com%2Fjoin%2Flogin-popup%2F%3Flocale%3Des_ES%26response_type%3Dhtml%26next%3Dhttps%253A%252F%252Fwww.udemy.com%252Fes%252F%253Futm_source%253Dadwords-brand%2526utm_medium%253Dudemyads%2526utm_campaign%253DNEW-AW-PROS-Branded-Search-SP-SPA_._ci__._sl_SPA_._vi__._sd_All_._la_SP_._%2526tabei%253D7%2526utm_term%253D_._ag_53604040718_._ad_254061738916_._de_c_._dm__._pl__._ti_kwd-357002749620_._li_1005424_._pd__._%2526gclid%253DCj0KCQjw-uH6BRDQARIsAI3I-Ud3hC1QNzFFLCPuZ6H6BbB4sNh5StLf3qvjF1S-mVR0WaM8fs7gOeEaAr_HEALw_wcB%2526persist_locale%253D%2526locale%253Des_ES")
+
+# inspeccionamos el codigo fuente del udemy y vamos a la seccion de usuario/password y cppiamos el id
+usuario = controlador.find_element(By.ID, "email--1")
+password = controlador.find_element(By.ID, "id_password")
+
+# ingresaremos los datos directamente. Ponemos un tiempo para ver resultados.
+usuario.send_keys("dfdflujogramas@gmail.com")
+time.sleep(1)
+password.send_keys("12345678910")
+time.sleep(1)
+
+# ahora inspeccionamos el boton de iniciar sesion y su id. Despues clicamos
+boton = controlador.find_element(By.ID, "submit-id-submit")
+boton.click()
+time.sleep(3)
+
+# cerramos
+controlador.quit()
+```  
+
+### XPATH  
+
++ Sirve para extraer informacion xhtml en las webs a través de componentes y etiquetas segun su ubicacion.  
+
++ Añadimos la extension [CROPATH](https://chrome.google.com/webstore/detail/chropath/ljngjbnaijcbncmcnjfhigebomdlkcjo)  
+
++ Ejemplos (//etiqueta[@atributo="valor"])
+    - //div[@data-purpose='lecture-title']
+
++ Ejemplo con selenium en pycharm ruta relativa:  
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome(executable_path="Drivers/chromedriver.exe")
+driver.get("https://www.udemy.com/join/login-popup/?skip_suggest=1&locale=es_ES&next=https%3A%2F%2Fwww.udemy.com%2Fmobile%2Fipad%2F&response_type=html")
+time.sleep(1)
+
+usuario = driver.find_element(By.XPATH,"//input[@id='email--1'])
+usuario.send_keys("dfdflujogramas@gmail.com")
+time.sleep(1)
+
+clave = driver.find_element(By.XPATH,"//input[@name='password']")
+clave.send_keys("12345678910")
+time.sleep(1)
+
+boton = driver.find_element(By.XPATH,"//input[@name='submit']")
+boton.click()
+time.sleep(5)
+
+driver.quit()
+```  
+
++ Ejemplo con selenium en pycharm ruta absoluta:
+```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome(executable_path="Drivers/chromedriver.exe")
+driver.get("https://www.udemy.com/join/login-popup/?skip_suggest=1&locale=es_ES&next=https%3A%2F%2Fwww.udemy.com%2Fmobile%2Fipad%2F&response_type=html")
+time.sleep(1)
+
+usuario = driver.find_element(By.XPATH,"html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/input[1]")
+usuario.send_keys("dfdflujogramas@gmail.com")
+time.sleep(1)
+
+clave = driver.find_element(By.XPATH,"/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/form[1]/div[1]/div[2]/div[1]/input[1]")
+clave.send_keys("12345678910")
+time.sleep(1)
+
+boton = driver.find_element(By.XPATH,"//input[@name='submit']")
+boton.click()
+time.sleep(5)
+
+driver.quit()
+```  
+
++ SELECTORES DE CSS(MODO CSS EN INSPECCIONAR ELEMENTOS):  
+```
+NORMALES
+clave = driver.find_element(By.CSS_SELECTOR,"input[@name='password']")
+ID
+boton = driver.find_element(By.CSS_SELECTOR,"input#submit-id-submit")
+CLASS
+boton = driver.find_element(By.CSS_SELECTOR,"input.btn-primary")
+
+```
 
 ## TURTLE  
 

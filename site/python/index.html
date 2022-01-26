@@ -684,9 +684,119 @@ Si como argumento ponemos (*argumento), devuelve una tupla.  </p>
 <p>Una vez nos bajamos el zip de chrome, descomprimimos, copiamos el chromedriver.exe, vamos a pycharm y boton derecho a nuestro proyecto y creamos un python file de prueba. Despues de nuevo creamos un package file de nombre drivers y dentro de el, boton derecho y pegamos el driver. Ya solo tendremos que descargar los navegadores que queramos y peguemos en esta carpeta los ficheros ejecutables de drivers.  </p>
 </li>
 <li>
-<p>Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador:  </p>
+<p>Ahora hay que hacer un pequeño script para ver que todo esto funcione de pycharm con selenium en el navegador: </p>
 </li>
 </ul>
+<pre><code># importamos la implementacion que crea una instancia para conectarse a un navegador
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+# importamos libreria time
+import time
+
+# llamamos al driver y su path para abrir chrome (mejor llamar desde ruta original)
+#driver = webdriver.Chrome(executable_path=&quot;Drivers/chromedriver&quot;)
+controlador = webdriver.Chrome(executable_path=r&quot;/home/miguel/Downloads/chromedriver_linux64/chromedriver&quot;)
+
+# maximiza la ventana total del navegador
+controlador.maximize_window()
+
+# metodo get nos indica la url a la que conectarnos
+controlador.get(&quot;https://www.udemy.com/join/login-popup/?locale=es_ES&amp;response_type=html&amp;next=https%3A%2F%2Fwww.udemy.com%2Fjoin%2Flogin-popup%2F%3Flocale%3Des_ES%26response_type%3Dhtml%26next%3Dhttps%253A%252F%252Fwww.udemy.com%252Fes%252F%253Futm_source%253Dadwords-brand%2526utm_medium%253Dudemyads%2526utm_campaign%253DNEW-AW-PROS-Branded-Search-SP-SPA_._ci__._sl_SPA_._vi__._sd_All_._la_SP_._%2526tabei%253D7%2526utm_term%253D_._ag_53604040718_._ad_254061738916_._de_c_._dm__._pl__._ti_kwd-357002749620_._li_1005424_._pd__._%2526gclid%253DCj0KCQjw-uH6BRDQARIsAI3I-Ud3hC1QNzFFLCPuZ6H6BbB4sNh5StLf3qvjF1S-mVR0WaM8fs7gOeEaAr_HEALw_wcB%2526persist_locale%253D%2526locale%253Des_ES&quot;)
+
+# inspeccionamos el codigo fuente del udemy y vamos a la seccion de usuario/password y cppiamos el id
+usuario = controlador.find_element(By.ID, &quot;email--1&quot;)
+password = controlador.find_element(By.ID, &quot;id_password&quot;)
+
+# ingresaremos los datos directamente. Ponemos un tiempo para ver resultados.
+usuario.send_keys(&quot;dfdflujogramas@gmail.com&quot;)
+time.sleep(1)
+password.send_keys(&quot;12345678910&quot;)
+time.sleep(1)
+
+# ahora inspeccionamos el boton de iniciar sesion y su id. Despues clicamos
+boton = controlador.find_element(By.ID, &quot;submit-id-submit&quot;)
+boton.click()
+time.sleep(3)
+
+# cerramos
+controlador.quit()
+</code></pre>
+<h3 id="xpath">XPATH</h3>
+<ul>
+<li>
+<p>Sirve para extraer informacion xhtml en las webs a través de componentes y etiquetas segun su ubicacion.  </p>
+</li>
+<li>
+<p>Añadimos la extension <a href="https://chrome.google.com/webstore/detail/chropath/ljngjbnaijcbncmcnjfhigebomdlkcjo">CROPATH</a>  </p>
+</li>
+<li>
+<p>Ejemplos (//etiqueta[@atributo="valor"])</p>
+<ul>
+<li>//div[@data-purpose='lecture-title']</li>
+</ul>
+</li>
+<li>
+<p>Ejemplo con selenium en pycharm ruta relativa:  </p>
+</li>
+</ul>
+<pre><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome(executable_path=&quot;Drivers/chromedriver.exe&quot;)
+driver.get(&quot;https://www.udemy.com/join/login-popup/?skip_suggest=1&amp;locale=es_ES&amp;next=https%3A%2F%2Fwww.udemy.com%2Fmobile%2Fipad%2F&amp;response_type=html&quot;)
+time.sleep(1)
+
+usuario = driver.find_element(By.XPATH,&quot;//input[@id='email--1'])
+usuario.send_keys(&quot;dfdflujogramas@gmail.com&quot;)
+time.sleep(1)
+
+clave = driver.find_element(By.XPATH,&quot;//input[@name='password']&quot;)
+clave.send_keys(&quot;12345678910&quot;)
+time.sleep(1)
+
+boton = driver.find_element(By.XPATH,&quot;//input[@name='submit']&quot;)
+boton.click()
+time.sleep(5)
+
+driver.quit()
+</code></pre>
+<ul>
+<li>Ejemplo con selenium en pycharm ruta absoluta:</li>
+</ul>
+<pre><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome(executable_path=&quot;Drivers/chromedriver.exe&quot;)
+driver.get(&quot;https://www.udemy.com/join/login-popup/?skip_suggest=1&amp;locale=es_ES&amp;next=https%3A%2F%2Fwww.udemy.com%2Fmobile%2Fipad%2F&amp;response_type=html&quot;)
+time.sleep(1)
+
+usuario = driver.find_element(By.XPATH,&quot;html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/input[1]&quot;)
+usuario.send_keys(&quot;dfdflujogramas@gmail.com&quot;)
+time.sleep(1)
+
+clave = driver.find_element(By.XPATH,&quot;/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/form[1]/div[1]/div[2]/div[1]/input[1]&quot;)
+clave.send_keys(&quot;12345678910&quot;)
+time.sleep(1)
+
+boton = driver.find_element(By.XPATH,&quot;//input[@name='submit']&quot;)
+boton.click()
+time.sleep(5)
+
+driver.quit()
+</code></pre>
+<ul>
+<li>SELECTORES DE CSS(MODO CSS EN INSPECCIONAR ELEMENTOS):  </li>
+</ul>
+<pre><code>NORMALES
+clave = driver.find_element(By.CSS_SELECTOR,&quot;input[@name='password']&quot;)
+ID
+boton = driver.find_element(By.CSS_SELECTOR,&quot;input#submit-id-submit&quot;)
+CLASS
+boton = driver.find_element(By.CSS_SELECTOR,&quot;input.btn-primary&quot;)
+
+</code></pre>
 <h2 id="turtle">TURTLE</h2>
 <ul>
 <li>

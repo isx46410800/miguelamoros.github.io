@@ -1,4 +1,5 @@
 # Comandos para GIT
+
 * git add .  
 * git status  
 * git commit -m "..."  
@@ -177,3 +178,7 @@ Se recomienda subir las etiquetas al repositorio con git push –tags para tener
 
 ## Emulador CMDER  
 + [Descargar](https://cmder.net/)  
+
+## GITLAB CI/CD  
+
++ [APUNTES](https://apuntes.de/gitlab-integracion-continua/#gsc.tab=0)  

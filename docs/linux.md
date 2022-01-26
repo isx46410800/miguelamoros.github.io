@@ -1,5 +1,7 @@
 # Comandos LINUX 
 
+- [APUNTES LPIC](https://apuntes.de/linux-certificacion-lpi/#gsc.tab=0)  
+
 + Hacer un listado:  
 `ls -la`
 + Manual de un comando(1-ordenes, 5-ficheros, 8-admin):  

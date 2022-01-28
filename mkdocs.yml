@@ -21,6 +21,7 @@ nav:
         - Ansible: ansible.md
         - Devops: devops.md
         - Testing: testing.md
+        - Monitorizacion: monitorizacion.md  
         - Tomcat: tomcat.md
         - ELKS: elastic.md
         - Azure: azure.md

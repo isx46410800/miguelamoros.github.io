@@ -109,6 +109,37 @@ kubeconfig: Configured
 + Repositorio [curso Kubernetes](https://github.com/ricardoandre97/k8s-resources)  
 
 
+### DASHBOARD  
+
++ Para ver la parte grafica usamos `kubectl dashboard`.  
+
++ Si no tenemos instalado esta opcion es porque necesitamos instalar addons. La lista de addons es `minikube addons ls` e instalamos `minikube addons enable dashboard metrics-server` 
+
+### PROXY  
+
++ Issuing the kubectl proxy command, kubectl authenticates with the API server on the master node and makes the Dashboard available on a slightly different URL than the one earlier, this time through the default proxy port 8001.
+`kubectl proxy`  
+
++ curl http://localhost:8001/:  
+```
+{
+ "paths": [
+   "/api",
+   "/api/v1",
+   "/apis",
+   "/apis/apps",
+   ......
+   ......
+   "/logs",
+   "/metrics",
+   "/openapi/v2",
+   "/version"
+ ]
+}
+```  
+> Podemos explorar urls del api server con http://localhost:8001/apis/apps/v1
+
+
 ## PODS VS CONTENEDORES  
 
 ![](./images/kubernetes2.png)  
@@ -5693,7 +5724,404 @@ NAME                                           STATUS   ROLES    AGE     VERSION
 ip-192-168-38-128.eu-west-2.compute.internal   Ready    <none>   6h14m   v1.17.11-eks-cfdc40
 ```  
 
+### AUTHENTICATION AND AUTHORIZATION USUARIO
+
+```
+This exercise guide assumes the following environment, which by default uses the certificate and key from /var/lib/minikube/certs/, and RBAC mode for authorization:
+
+Minikube v1.13.1
+Kubernetes v1.19.2
+Docker 19.03.12-ce
+This exercise guide was prepared for the video demonstration following on the next page. 
+
+Start Minikube:
+
+$ minikube start
+
+View the content of the kubectl client's configuration manifest, observing the only context minikube and the only user minikube, created by default:
+
+$ kubectl config view
+
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/student/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/student/.minikube/profiles/minikube/client.crt
+    client-key: /home/student/.minikube/profiles/minikube/client.key
+
+Create lfs158 namespace:
+
+$ kubectl create namespace lfs158
+
+namespace/lfs158 created
+
+Create the rbac directory and cd into it:
+
+$ mkdir rbac
+
+$ cd rbac/
+
+Create a private key for the student user with openssl tool, then create a certificate signing request for the student user with openssl tool:
+
+~/rbac$ openssl genrsa -out student.key 2048
+
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.................................................+++++
+.........................+++++
+e is 65537 (0x010001)
+
+~/rbac$ openssl req -new -key student.key -out student.csr -subj "/CN=student/O=learner"
+
+Create a YAML manifest for a certificate signing request object, and save it with a blank value for the request field: 
+
+~/rbac$ vim signing-request.yaml
+
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: student-csr
+spec:
+  groups:
+  - system:authenticated
+  request: <assign encoded value from next cat command>
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+
+View the certificate, encode it in base64, and assign it to the request field in the signing-request.yaml file:
+
+~/rbac$ cat student.csr | base64 | tr -d '\n','%'
+
+LS0tLS1CRUd...1QtLS0tLQo=
+
+~/rbac$ vim signing-request.yaml
+
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: student-csr
+spec:
+  groups:
+  - system:authenticated
+  request: LS0tLS1CRUd...1QtLS0tLQo=
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+
+Create the certificate signing request object, then list the certificate signing request objects. It shows a pending state:
+
+~/rbac$ kubectl create -f signing-request.yaml
+
+certificatesigningrequest.certificates.k8s.io/student-csr created
+
+~/rbac$ kubectl get csr
+
+NAME          AGE   SIGNERNAME                            REQUESTOR       CONDITION
+
+student-csr   12s   kubernetes.io/kube-apiserver-client   minikube-user   Pending
+
+Approve the certificate signing request object, then list the certificate signing request objects again. It shows both approved and issued states:
+
+~/rbac$ kubectl certificate approve student-csr
+
+certificatesigningrequest.certificates.k8s.io/student-csr approved
+
+~/rbac$ kubectl get csr
+
+NAME          AGE   SIGNERNAME                            REQUESTOR       CONDITION
+
+student-csr   57s   kubernetes.io/kube-apiserver-client   minikube-user   Approved,Issued
+
+Extract the approved certificate from the certificate signing request, decode it with base64 and save it as a certificate file. Then view the certificate in the newly created certificate file:
+
+~/rbac$ kubectl get csr student-csr -o jsonpath='{.status.certificate}' | base64 --decode > student.crt
+
+~/rbac$ cat student.crt
+
+-----BEGIN CERTIFICATE-----
+MIIDGzCCA...
+...
+...NOZRRZBVunTjK7A==
+-----END CERTIFICATE-----
+
+Configure the kubectl client's configuration manifest with the student user's credentials by assigning the key and certificate: 
+
+~/rbac$ kubectl config set-credentials student --client-certificate=student.crt --client-key=student.key
+
+User "student" set.
+
+Create a new context entry in the kubectl client's configuration manifest for the student user, associated with the lfs158 namespace in the minikube cluster:
+
+~/rbac$ kubectl config set-context student-context --cluster=minikube --namespace=lfs158 --user=student
+
+Context "student-context" created.
+
+View the contents of the kubectl client's configuration manifest again, observing the new context entry student-context, and the new user entry student:
+
+~/rbac$ kubectl config view
+
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/student/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+- context:
+    cluster: minikube
+    namespace: lfs158
+    user: student
+  name: student-context
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/student/.minikube/profiles/minikube/client.crt
+    client-key: /home/student/.minikube/profiles/minikube/client.key
+- name: student
+  user:
+    client-certificate: /home/student/rbac/student.crt
+    client-key: /home/student/rbac/student.key
+
+While in the default minikube context, create a new deployment in the lfs158 namespace:
+
+~/rbac$ kubectl -n lfs158 create deployment nginx --image=nginx:alpine
+
+deployment.apps/nginx created
+
+From the new context student-context try to list pods. The attempt fails because the student user has no permissions configured for the student-context:
+
+~/rbac$ kubectl --context=student-context get pods
+
+Error from server (Forbidden): pods is forbidden: User "student" cannot list resource "pods" in API group "" in the namespace "lfs158"
+
+The following steps will assign a limited set of permissions to the student user in the student-context. 
+
+Create a YAML configuration manifest for a pod-reader Role object, which allows only get, watch, list actions in the lfs158 namespace against pod objects. Then create the role object and list it from the default minikube context, but from the lfs158 namespace:
+
+~/rbac$ vim role.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: lfs158
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+~/rbac$ kubectl create -f role.yaml
+
+role.rbac.authorization.k8s.io/pod-reader created
+
+~/rbac$ kubectl -n lfs158 get roles
+
+NAME         CREATED AT
+pod-reader   2020-10-07T03:47:45Z
+
+Create a YAML configuration manifest for a rolebinding object, which assigns the permissions of the pod-reader Role to the student user. Then create the rolebinding object and list it from the default minikube context, but from the lfs158 namespace:
+
+~/rbac$ vim rolebinding.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-read-access
+  namespace: lfs158
+subjects:
+- kind: User
+  name: student
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
+~/rbac$ kubectl create -f rolebinding.yaml 
+
+rolebinding.rbac.authorization.k8s.io/pod-read-access created
+
+~/rbac$ kubectl -n lfs158 get rolebindings
+
+NAME              ROLE              AGE
+pod-read-access   Role/pod-reader   28s
+
+Now that we have assigned permissions to the student user, we can successfully list pods from the new context student-context.
+
+~/rbac$ kubectl --context=student-context get pods
+
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-565785f75c-kl25r   1/1     Running   0          7m41s
+```  
 
 ### ELIMINAMOS TODO DE LA NUBE  
 
 + Vamos a AWS - CLOUD FORMATION y eliminamos todo.  
+
+
+### PRUEBAS DE SALUD  
+
++ LIVENES:  
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 3
+      failureThreshold: 1
+      periodSeconds: 5
+```  
+> Lo creamos con `kubectl create -f liveness.yaml` y lo vemos con `kubectl get pod liveness_pod -w` y vemos que cada rato se crea uno comprobando que está todo bien.  
+
++ LIVENESS HTTP REQUEST:  
+```
+livenessProbe:
+       httpGet:
+         path: /healthz
+         port: 8080
+         httpHeaders:
+         - name: X-Custom-Header
+           value: Awesome
+       initialDelaySeconds: 3
+       periodSeconds: 3
+```  
+> In the following example, the kubelet sends the HTTP GET request to the /healthz endpoint of the application, on port 8080. If that returns a failure, then the kubelet will restart the affected container; otherwise, it would consider the application to be alive.  
+
++ TCP LIVENESS PROBE:  
+```
+livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+```  
+> With TCP Liveness Probe, the kubelet attempts to open the TCP Socket to the container which is running the application. If it succeeds, the application is considered healthy, otherwise the kubelet would mark it as unhealthy and restart the affected container.  
+
+### ANOTACIONES  
+
++ Se pueden poner comentarios como anotaciones en los ficheros yaml:  
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  annotations:
+    description: Deployment based PoC dates 2nd May'2019
+```  
+
+## KUBEADM  
+
++ [GUÍA](https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-18-04-es) para crear un cluster con master y nodos con kubeadm.  
+
++ [INSTALAR KUBEADM](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).  
+
++ [CREAR CLUSTER KUBEADM](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).  
+
++ [LAB CLUSTERS KUBEADM](https://juanjoselo.wordpress.com/2018/02/07/instalacion-de-kubernetes-en-linux-con-kubeadm/)  
+
+
+## HELM  
+
++ [DOCS](https://docs.helm.sh/)  
+
++ [CHARTS](https://artifacthub.io/) instalables de helm para kubernetes.  
+
++ [GUIA INSTALL HELM](https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-3-package-manager-es).  
+
++ Helm es un administrador de paquetes para Kubernetes que permite a los desarrolladores y operadores configurar e implementar de forma más sencilla aplicaciones en los clústeres de Kubernetes.  
+
++ La mayoría de los sistemas operativos y de programación de lenguaje tienen su propio administrador de paquetes para la instalación y el mantenimiento de software. Helm proporciona el mismo conjunto de funciones básicas que muchos de los administradores que seguramente ya conoce, como apt de Debian o pip de Python. Helm puede:  
+  + Instalar software
+  + Instalar de manera automática dependencias de software
+  + Actualizar software
+  + Configurar implementaciones de software
+  + Obtener paquetes de software de repositorios
+
++ Helm proporciona esta funcionalidad a través de los siguientes componentes:
+  + Una herramienta de línea de comandos, helm, que proporciona la interfaz de usuario para todas las funcionalidades de Helm.
+  + Un componente de servidor complementario, tiller, que funciona en su clúster de Kubernetes, escucha los comandos de helm y gestiona la configuración e implementación de versiones de software en el clúster.
+  + El formato de empaquetado de Helm, llamado charts.
+  + Un repositorio de charts oficiales seleccionados con charts empaquetados previamente para proyectos de software de código abierto populares.
+
+### INSTALACION  
+
++ Pase a un directorio editable y descargue la secuencia de comandos del repositorio de GitHub de Helm:  
+```
+cd /tmp
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod u+x get_helm.sh
+./get_helm.sh
+```  
+
++ Instalar [Tiller](https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-package-manager-es): Tiller es un complemento del comando helm que se ejecuta en su clúster, recibe comandos de helm y se comunica directamente con la API de Kubernetes para hacer el verdadero trabajo de crear y eliminar recursos. A fin de proporcionar a Tiller los permisos que necesita para ejecutarse en el clúster, crearemos un recurso serviceaccount de Kubernetes.  
+`kubectl -n kube-system create serviceaccount tiller`  
+`kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller`  
+`helm init --service-account tiller`  
+> Vincularemos serviceaccount al rol de clúster de cluster-admin. Esto permitirá que el superusuario del servicio de tiller acceda al clúster e instale todos los tipos de recursos en todos los espacios de nombres. 
+
++ Para verificar que Tiller esté en ejecución, enumere los pods en el espacio de nombres de** kube-system**:
+`kubectl get pods --namespace kube-system`  
+
++ Instalar un chart de Helm: Los paquetes de software de Helm se llaman charts. Hay un repositorio administrado de charts llamado stable, el cual consiste principalmente en tablas comunes que puede ver en su repositorio de GitHub. Helm no lo tiene preconfigurado en Helm. Por lo tanto, tendrá que añadirlo manualmente. Luego, a modo de ejemplo, instalará Kubernetes Dashboard.  
+```
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
+helm install dashboard-demo stable/kubernetes-dashboard --set rbac.clusterAdminRole=true
+```  
+
++ Puede enumerar todas las versiones del clúster:  
+`helm list`  
+
++ Ahora, podemos usar kubectl para verificar que se haya implementado un nuevo servicio en el clúster:
+`kubectl get services`  
+
++ El comando helm upgrade puede utilizarse para actualizar una versión con un chart nuevo o actualizado, o para actualizar sus opciones de configuración (variables).  
++ Realizará un cambio sencillo en la versión de dashboard-demo para demostrar el proceso de actualización y reversión: actualizará el nombre del servicio de dashboard simplemente a kubernetes-dashboard en lugar de dashboard-demo-kubernetes-dashboard.  
++ El chart kubernetes-dashboard proporciona una opción de configuración de fullnameOverride para controlar el nombre de servicio. Para cambiar el nombre de la versión, ejecute helm upgrade con esta opción establecida:  
+`helm upgrade dashboard-demo stable/kubernetes-dashboard --set fullnameOverride="kubernetes-dashboard" --reuse-values`  
+
++ Revertir y eliminar una versión: Cuando actualizó la versión de dashboard-demo en el paso anterior, creó una segunda revisión de la versión. Helm conserva todos los detalles de las versiones anteriores en caso de que deba realizar una reversión a una configuración o un chart anterior.  
+`helm rollback dashboard-demo 1`  
+
++ Es posible eliminar versiones de helm con el comando helm delete:  
+`helm delete dashboard-demo`  
+
+

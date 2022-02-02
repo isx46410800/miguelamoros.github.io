@@ -147,6 +147,30 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#admin">ADMIN</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#soluciones-de-fallos-office-365">SOLUCIONES DE FALLOS OFFICE 365</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#inicio-de-sesion">Inicio de sesion</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#conectividad">Conectividad</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#correo-electronico">Correo electronico</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#aplicaciones-office365">Aplicaciones office365</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sharepoint">Sharepoint</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#onedrive">Onedrive</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#skypeteams">Skype/Teams</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centro-de-informes">Centro de informes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#monitoreo-de-estado-de-servicio">Monitoreo de estado de servicio</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#enterprise-mobility-security-e5">Enterprise Mobility + Security E5</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -239,6 +263,9 @@
               
                 <h1 id="office-365">OFFICE 365</h1>
 <ul>
+<li>
+<p><a href="https://docs.microsoft.com/es-es/office365/servicedescriptions/office-365-service-descriptions-technet-library">DOC OFFICE 365 Y APPS</a>  </p>
+</li>
 <li>
 <p><a href="https://docs.microsoft.com/es-es/learn/modules/what-is-m365/5-summary-resources">CURSO OFFICE 365</a>  </p>
 </li>
@@ -438,6 +465,181 @@ Yammer
 <li>
 <p>Cancelar suscripion 365: facturación - sus productos - selecionamos - tres puntos - cancelar.  </p>
 </li>
+</ul>
+<h2 id="soluciones-de-fallos-office-365">SOLUCIONES DE FALLOS OFFICE 365</h2>
+<ul>
+<li>Ventajas de adquirir una licencia:  <ul>
+<li>Siempre version actualizada  </li>
+<li>Tambien para moviles  </li>
+<li>Integracion con la nube  </li>
+<li>Versiones de escritorio de acces y publisher  </li>
+<li>1Tb en onedrive.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="inicio-de-sesion">Inicio de sesion</h3>
+<ul>
+<li>Al portal correcto de office www.office.com / www.admin.microsoft.com  </li>
+<li>Guardarselo en favoritos  </li>
+<li>
+<p>Cuenta expirada/bloqueada/olvidada  </p>
+</li>
+<li>
+<p>Soluciones:  </p>
+<ul>
+<li>Ir a usuarios del portal y ver el estado de usuarios bloequeados y darle a desbloquear.  </li>
+<li>Si olvida su contraseña vamos a usuarios y le damos a restablecer contraseña.  </li>
+<li>Puede ser que no tenga licencia, editamos usuario y le damos licencia.  </li>
+<li>Podemos bloquear tambien el inicio de sesion de alguien.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="conectividad">Conectividad</h3>
+<ul>
+<li>Herramienta de diagnostico de windows  </li>
+<li>Probar ping a un sitio  </li>
+<li>Mirar comando tracer al destino  </li>
+<li>Pathping  </li>
+<li>
+<p>nslookup para mirar el dns  </p>
+</li>
+<li>
+<p>Soluciones:  </p>
+<ul>
+<li>Damos nueva ip ipconfig /release y luego /renew  </li>
+<li>ping localhost / ping google.com  </li>
+<li>nslookup para ver nuestro dns y luego probamos poniendo direcciones(podemos poner registros set type=MX).  </li>
+<li>tracert www.linkedin.com para que nos resuelva a una ip y los saltos correctos hasta llegar correctamente al destino pasando por routers.  </li>
+<li>pathping -n www.linkedin.com para hacer lo mismo que tracer mas estadisticas extras de si falla en los saltos.  </li>
+<li>ipconfig /flushdns para liberar toda la cache de dns  </li>
+<li>ipconfig /displaydns para ver la cache del dns  </li>
+<li>ipconfig /registerdns para forzar el registro</li>
+</ul>
+</li>
+</ul>
+<h3 id="correo-electronico">Correo electronico</h3>
+<ul>
+<li>Fallos de conectividad o te pide constante la contraseña para entrar.  </li>
+<li>Tenemos que tener acceso a internet, comunicacion online con exchange, el firewall permitir trafico de office y acceso a través de puertos 443/80.  </li>
+<li>
+<p>Los servidores exchange almacenas los buzones de correo.  </p>
+</li>
+<li>
+<p>Herramientas de solucion:  </p>
+<ul>
+<li>Hacer un ping de conectividad del cliente a outlook.office365.com  </li>
+<li>Revisar la configuracion de outlook  </li>
+<li>www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo y seguimos los pasos y te dará un resumen de los fallos posibles.  </li>
+<li>www.testconnectivity.microsoft.com web con una coleccion de herramientas para ver posibles fallos de conectividad con exchange, ews, office 365, internos, etc.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="aplicaciones-office365">Aplicaciones office365</h3>
+<ul>
+<li>Aplicaciones que se detienen o bloquean  </li>
+<li>Mensaje de error al abrir office  </li>
+<li>Activacion de la licencia  </li>
+<li>
+<p>Fallo de inicio de sesion  </p>
+</li>
+<li>
+<p>Dentro de por ejemplo el word Inicio - Cuenta, se puede activar las actualizaciones  </p>
+</li>
+<li>En panel control - programas, seleccionamos y le damos a cambiar y podemos reparar en linea.  </li>
+<li>
+<p>Creamos usuario y vamos a office.com, iniciamos sesion y vamos logueando en las aplicaciones para comprobar conectividad.  </p>
+</li>
+<li>
+<p>Problemas:  </p>
+<ul>
+<li>www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  </li>
+<li>CMD: outlook/profile y podemos crear un nuevo perfil de outlook.  </li>
+<li>En mi buzon outllok darle a mi nombre email, boton derecho y mirar permisos  </li>
+<li>En inicio, informacion, confguracion de cuenta, delegar permisos a otros usuarios para hacerlo en mi nombre.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="sharepoint">Sharepoint</h3>
+<ul>
+<li>Nube para subir archivos y compartir con los otros usuarios.  </li>
+<li>
+<p>Problemas de navegador, servicio, no poder instalar el controlador ActiveX.  </p>
+</li>
+<li>
+<p>Problemas:  </p>
+<ul>
+<li>En el centro de administracion de office 365, que está al entrar en office.com, en mantenimiento - estado del servicio  </li>
+<li>En directivas de grupo, podemos incorporar sharepoint como sitio de confianza.  </li>
+<li>En los admin sí pueden restaurar papeleras de reciclaje ya eliminadas por el usuario, maximo 93 dias (SHAREPOINT - COLECCION DE SITIOS).  </li>
+<li>www.protection.office.com - gobierno de datos - retencion. Creamos una poniendo el tiempo que queremos de borrado de archivos.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="onedrive">Onedrive</h3>
+<ul>
+<li>Almacenaje en la nube.  </li>
+<li>No mas de 10GB.  </li>
+<li>
+<p>No repetir nombres, caracteres invalidos.  </p>
+</li>
+<li>
+<p>Herramientas:  </p>
+<ul>
+<li>onedrive.exe /reset en CMD para resetear la conf de onedrive</li>
+<li>www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  </li>
+<li>Actualizar version  </li>
+<li>En los admin sí pueden restaurar papeleras de reciclaje ya eliminadas por el usuario, maximo 93 dias (SHAREPOINT - COLECCION DE SITIOS).  </li>
+<li>Restaurar sitios completos eliminadors, powershell: <code>Restore-SPDeletedSite</code>  </li>
+</ul>
+</li>
+</ul>
+<h3 id="skypeteams">Skype/Teams</h3>
+<ul>
+<li>Chat de grupo, videollamadas, ficheros, etc  </li>
+<li>
+<p>Problemas de calidad sonido/video, red, firewall, puertos...  </p>
+</li>
+<li>
+<p>Herramientas:  </p>
+<ul>
+<li>Verificar conf micro/camara, cerrar otras apps, internet malo, actualizar hardware/software  </li>
+<li>Puertos por encima de 1024 skype o 80/443 y en teams 80/443 o 3478/3481.  </li>
+<li>En el centro de admin de office, en mantenimiento y estado para ver si hay fallos.  </li>
+<li>En el mismo crento de admin, ir a teams - calidad de llamada</li>
+</ul>
+</li>
+</ul>
+<h3 id="centro-de-informes">Centro de informes</h3>
+<ul>
+<li>En google: informes de actividad de office365 o en el centro de admin de 365.  </li>
+<li>centro de admin - informes - uso y veremos los informes de cada cosa. Dentro de aqui podemos ver cada aplicacion, dias, filtros de columnas, exportar,etc.  </li>
+<li>centro de admin - informes - seguridad hay dos sitios url donde ir para ver informes de exchange(admin de cumpliliemto-auditoria) y 365(informes). Mejor visualizacion y programar hora de informes.  </li>
+<li>Para ocultar los nombres de los usuarios, podemos ir a configuracion - servicio y complementos - informes y ponerlo animo, todo esto en el centro d admin 365.  </li>
+</ul>
+<h3 id="monitoreo-de-estado-de-servicio">Monitoreo de estado de servicio</h3>
+<ul>
+<li>En el centro de administracion de office 365, que está al entrar en office.com, en mantenimiento - estado del servicio. Podemos ver si hay incidencias en nuestros servicios.  </li>
+<li>En el centro de mensajes podemos personalizar los mensajes, apps, etc.  </li>
+<li>En los usuarios podemos seleccionar uno y en el apartado de roles podemos editar y darle acceso a que pueda ver los estados d servicio, mensajes etc.  </li>
+<li>OFFICE 365 MANAGEMENT PACK es una herramienta más que se puede descargar para monitorear servicios, mensajes, añadir aletar, suscripciones. Tiene que ser en windows server y tener System Center Operation managers antes.</li>
+<li>
+<p>Desde powershell con el comando de documentacion <code>Search-AdminAuditLog</code>  </p>
+</li>
+<li>
+<p>Podemos pedir ayuda en el centro d admin por preguntas o correo electronico.  </p>
+<ul>
+<li>Remote Connectivity Analyzer: www.testconnectivity.microsoft.com web con una coleccion de herramientas para ver posibles fallos de conectividad con exchange, ews, office 365, internos, etc.  </li>
+<li>En el pestaña cliente podemos descargar tambien la herramienta localmente.  </li>
+<li>En wwww.aka.ms/hybridwizard es un asistente para soluciones hibridas.  </li>
+<li>www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  </li>
+</ul>
+</li>
+</ul>
+<h3 id="enterprise-mobility-security-e5">Enterprise Mobility + Security E5</h3>
+<ul>
+<li>Enterprise Mobility + Security Suite:  Es una robusta plataforma de seguridad, basada en la identidad diseñada para ayudar a las empresas a administrar y proteger sus dispositivos, aplicaciones y datos dentro de la empresa.
+Es robusta porque se crean “líneas de defensa” virtuales que permite atrapar las incidencias en alguna de ellas.<br />
+Realmente tendrás a la mano herramientas de seguridad con las que podrás evitar el robo de información ya sea intencional o por accidente, así como evitar el robo por descuido de los empleados, entre otros.  </li>
 </ul>
               
             </div>

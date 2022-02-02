@@ -125,6 +125,8 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#go">GO</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -349,6 +351,266 @@ console.log(&quot;PostId&quot;, postId);
 <ul>
 <li><a href="https://postmanstudent.notion.site/postmanstudent/Guide-for-Postman-Student-Expert-Program-7a03387662c14c23b687f1952c82d6d3">tutorial</a>  </li>
 </ul>
+<h2 id="go">GO</h2>
+<ul>
+<li>Ejemplo de prueba testing en GO:  </li>
+</ul>
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {
+    suma := Suma(2, 2)
+    fmt.Println(&quot;El resultado de la suma es: &quot;, suma)
+
+    resta := Resta(2, 2)
+    fmt.Println(&quot;El resultado de la resta es: &quot;, resta)
+
+    multiplicacion := Multiplicacion(2, 2)
+    fmt.Println(&quot;El resultado de la multiplicacion es: &quot;, multiplicacion)
+
+    division := Division(2, 2)
+    fmt.Println(&quot;El resultado de la division es: &quot;, division)
+}
+
+func Suma(numero1, numero2 int) (resultado int) {
+    resultado = numero1 + numero2
+    return
+}
+
+func Resta(numero1, numero2 int) (resultado int) {
+    resultado = numero1 - numero2
+    return
+}
+
+func Multiplicacion(numero1, numero2 int) (resultado int) {
+    resultado = numero1 * numero2
+    return
+}
+
+func Division(numero1, numero2 int) (resultado int) {
+    resultado = numero1 / numero2
+    return
+}
+</code></pre>
+<blockquote>
+<p>Lo probamos con <code>go run calculadora.go</code>  </p>
+</blockquote>
+<ul>
+<li>Creamos un fichero de pruebas con las funciones donde se debe llamar file_test.go:  </li>
+</ul>
+<pre><code>package main
+
+import &quot;testing&quot;
+import &quot;fmt&quot;
+
+func TestSuma(t *testing.T) {
+    suma := Suma(7, 7)
+    if suma != 14 {
+        t.Error(&quot;Se esperaba 30 y se obtuvo&quot;, suma)
+    }
+
+    fmt.Println(&quot;Prueba de suma exitosa&quot;)
+}
+
+func TestResta(t *testing.T) {
+    resta := Resta(7, 7)
+    if resta != 0 {
+        t.Error(&quot;Se esperaba 30 y se obtuvo&quot;, resta)
+    }
+
+    fmt.Println(&quot;Prueba de resta exitosa&quot;)
+}
+
+func TestMultiplicacion(t *testing.T) {
+    multiplicacion := Multiplicacion(7, 7)
+    if multiplicacion != 49 {
+        t.Error(&quot;Se esperaba 30 y se obtuvo&quot;, multiplicacion)
+    }
+
+    fmt.Println(&quot;Prueba de multiplicacion exitosa&quot;)
+}
+
+func TestDivision(t *testing.T) {
+    division := Division(7, 7)
+    if division != 1 {
+        t.Error(&quot;Se esperaba 30 y se obtuvo&quot;, division)
+    }
+
+    fmt.Println(&quot;Prueba de division exitosa&quot;)
+}
+</code></pre>
+<blockquote>
+<p>Se prueba con <code>go test/go test -cover</code>  </p>
+</blockquote>
+<ul>
+<li>Desarrollando Pruebas de Integración:  </li>
+<li>Script:  </li>
+</ul>
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {
+            suma := Suma(2, 2)
+            fmt.Println(&quot;El resultado de la suma es: &quot;, suma)
+
+            resta := Resta(2, 2)
+            fmt.Println(&quot;El resultado de la resta es: &quot;, resta)
+
+            multiplicacion := Multiplicacion(2, 2)
+            fmt.Println(&quot;El resultado de la multiplicacion es: &quot;, multiplicacion)
+
+            division := Division(2, 2)
+            fmt.Println(&quot;El resultado de la division es: &quot;, division)
+
+            promedio  := Promedio(2, 2, 2, 2, 2)
+            fmt.Println(&quot;El resultado del promedio es: &quot;, promedio)
+}
+
+func Suma(numero1, numero2 int) (resultado int) {
+            resultado = numero1 + numero2
+            return
+}
+
+func Resta(numero1, numero2 int) (resultado int) {
+            resultado = numero1 - numero2
+            return
+}
+
+func Multiplicacion(numero1, numero2 int) (resultado int) {
+            resultado = numero1 * numero2
+            return
+}
+
+func Division(numero1, numero2 int) (resultado int) {
+            resultado = numero1 / numero2
+            return
+}
+
+func Promedio(numero1, numero2, numero3, numero4, numero5 int) (resultado int) {
+            resultado = (numero1 + numero2 + numero3 + numero4 + numero5) / 5
+            return
+}
+</code></pre>
+<ul>
+<li>Funciones de prueba:  </li>
+</ul>
+<pre><code>package main
+
+import &quot;testing&quot;
+import &quot;fmt&quot;
+
+func TestSuma(t *testing.T) {
+            suma := Suma(7, 7)
+            if suma != 14 {
+                        t.Error(&quot;Se esperaba 14 y se obtuvo&quot;, suma)
+            }
+
+            fmt.Println(&quot;Prueba de suma exitosa&quot;)
+}
+
+func TestResta(t *testing.T) {
+            resta := Resta(7, 7)
+            if resta != 0 {
+                        t.Error(&quot;Se esperaba 0 y se obtuvo&quot;, resta)
+            }
+
+            fmt.Println(&quot;Prueba de resta exitosa&quot;)
+}
+
+func TestMultiplicacion(t *testing.T) {
+            multiplicacion := Multiplicacion(7, 7)
+            if multiplicacion != 49 {
+                        t.Error(&quot;Se esperaba 49 y se obtuvo&quot;, multiplicacion)
+            }
+
+            fmt.Println(&quot;Prueba de multiplicacion exitosa&quot;)
+}
+
+func TestDivision(t *testing.T) {
+            division := Division(7, 7)
+            if division != 1 {
+                        t.Error(&quot;Se esperaba 1 y se obtuvo&quot;, division)
+            }
+
+            fmt.Println(&quot;Prueba de division exitosa&quot;)
+}
+
+func TestPromedio(t *testing.T) {
+            promedio := Promedio(7, 7, 7, 7, 7)
+            if promedio != 7 {
+                        t.Error(&quot;Se esperaba 7 y se obtuvo&quot;, promedio)
+            }
+
+            fmt.Println(&quot;Prueba del promedio exitosa&quot;)
+}
+</code></pre>
+<ul>
+<li>Integracion de test:  </li>
+</ul>
+<pre><code>// +build integration
+
+package main
+
+import &quot;testing&quot;
+import &quot;fmt&quot;
+
+func TestIntegrationCalculadora(t *testing.T) {
+            suma := Suma(8, 8)
+            resta := Resta(8, 8)     
+            multiplicacion := Multiplicacion(8, 8)
+            division := Division(8, 8)
+            promedio := Promedio(8, 8, 8, 8, 8)
+
+            promediototal := Promedio(suma, resta, multiplicacion, division, promedio)
+
+            if promediototal != 17 {
+                        t.Error(&quot;Se esperaba 17 y se obtuvo&quot;, promediototal)
+            }
+
+            fmt.Println(&quot;Prueba de integracion del promedio total fue exitosa&quot;)
+}
+</code></pre>
+<blockquote>
+<p>Probamos con go test -tags=integration  </p>
+</blockquote>
+<ul>
+<li>Pruebas de rendimiento:<br />
+Supongamos que deseamos almacenar el valor de un string que se va construyendo a través de un loop. Para ello probaremos 3 formas diferentes de implementar dicha funcionalidad.
+A continuación creamos el archivo "longstring.go", con el siguiente contenido:</li>
+</ul>
+<pre><code>package longstring
+
+import (
+    &quot;bytes&quot;
+    &quot;strings&quot;
+)
+
+func MedianteConcatenacion(longitud int) string {
+    var s string
+    for i := 0; i &lt; longitud; i++ {
+        s += &quot;texto&quot;
+    }
+    return s
+}
+
+func MedianteArreglo(longitud int) string {
+    s := []string{}
+    for i := 0; i &lt; longitud; i++ {
+        s = append(s, &quot;texto&quot;)
+    }
+    return strings.Join(s, &quot;&quot;)
+}
+
+func MedianteBuffer(longitud int) string {
+    var buffer bytes.Buffer
+    for i := 0; i &lt; longitud; i++ {
+        buffer.WriteString(&quot;texto&quot;)
+    }
+    return buffer.String()
+}
+</code></pre>
               
             </div>
           </div>

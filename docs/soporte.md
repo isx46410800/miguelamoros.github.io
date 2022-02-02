@@ -1183,3 +1183,79 @@ iptables -A OUTPUT -o eth1 -d 192.168.1.0/24 -j DROP
     #
     # fin.
 ```  
+
+# GESTION DE ACCESO REMOTO  
+
+## CREAR VPN  
+
++ Esquina abajo derecha - VPN: Agregar nueva conexion VPN, proveedor windows, nombre de conexion, nombre del servidor(vpn.ejemplo.com), tipo de vpn(automatico) y tipo de inicio de sesion(nombre/pass).  
+
++ Tambien podemos modificarla y en opciones avanzadas, boton derecho propiedades. Podemos crear otra de manera mas clasica dando a centro de redes y recursos compartidos, nueva conexion vpn y ponemos nombre e ip.  
+
++ En seguridad de propiedades avanzadas en ikev2 si está activa la opcion de MODALIDAD sirve para reconectar automaticamente si se pierde la conexion de esta vpn.  
+
+## ESCRITORIO REMOTO  
+
++ En simbolo de sistema poniendo `mstsc` o en la barra de inicio poniendo ESCRITORIO REMOTO nos sale la ventana para conectarnos. Tenemos que tener activada la opcion de escritorio remoto de nuestro pc.  
+
++ Con `mstsc /?` vemos todas las opciones que podemos hacer. Como ejemplo `mstsc /v: ip`.  
+
++ En mas opciones, podemos poner nombre, usuario, colores, tamaño, recursos, rendimiento...Tmabien si tenemos un fichero RDP de la maquina virtual u otro equipo a conectarse para conectarse directamente.  
+
+![](./images/remoto.png)  
+
++ `mstsc /v:server :3389` para ver como estan los puertos o `netstat -A`.  
+
++ En windows defender tambien salen cositas para que no nos de problemas de conexion remotas. En reglas de salida, podemos poner nueva regla - puerto - tipo de conexion y puerto que queremos usar - permitir conexion - dominio/privado/publico - nombre de la regla.  
+
++ La herramienta RDC de windows te permite la conexion remota. Hay que descargar esta herramienta.  
+
++ Hay tipo de conexiones para empresas en conexion remoto: BranchCache(reduce el ancho de banda) y DirectAcess, podemos conectarnos desde casa como si fuesemos el admin de server.  
+
+## OPCIONES ENERGIA  
+
++ Panel de control - energia.  
+
++ Por comando como administrador ponemos en c `powercfg /?`  
+
++ En directivas de grupo en la barra de busqueda: conf equipo - plantillas admin - sistema - admin energia y ahi podemos activar o desactivas directivas.  
+
+
+## CENTRO DE CONEXION  
+
++ En el panel de control hay centro de sincronizacion para poder poner carpetas compartidas antes de usar sin conexion, por si falla algo poder acceder.  
+
++ Con el comando gpedit tenemos en usuario - plantillas admin - red - archivos de conexion, directivas de grupo para el tema de archivos de conexion. Como por ejemplo habilitar la sincronizaacion dd archivos en redes estimadas.  
+
++ Las carpetas de trabajo se hace el admin habilitando en las directivas de grupo local para que el cliente pueda conectarse a estas carpetas.  
+
+
+
+# ACTUALIZACION Y RECUPERACION  
+
++ En SISTEMA , propiedades del sistema, selecionamos la unidad C configurar y activamos la proteccion del sistema para poder hacer cambios, restaurar sistema, etc.  
+
++ En Sistema, propiedades - proteccion del sistema, podemos crear un punto de restauracion. Igualmente, windows crea automaticamente tambien puntos de restauraciones.  
+
++ Podemos eliminar los puntos de restauracion eliminando la proteccion del sistema o en la opcion mas abajo que pone eliminar. Tambien en la herramienta de liberacion de espacio en disco en la barra de inicio y seleccionamos la unidad y lo que queremos limpiar.  
+
++ Con la tecla SHIFT Y REINICIAR nos sale opciones diferentes de apagado y solucionar problemas para poder restaurar sistema, formatear, etc.  
+
++ RECOMENDACION DE DESACTIVAR LOS ANTIVIRUS AL HACER RESTAURACIONES.  
+
++ Cuando restablecemos equipo manteniendo los archivos nos saldrá en la unidad C una carpeta de windows.old con lo viejo de la otra copia y en el escritorio un fichero con los programas desintalados.  
+
++ WINRE es un entorno de recuperacion de windows. Accedemos a este menu avanzado en Configuracion - actualizacion - recuperacion y reiniciar ahora en el avanzado. Tambien con SHIFT y reiniciar y solcionar problemas - opciones avanzadas.  
+
++ En opciones de recuperacion tambien podemos crear copias de seguridad o crear imagen del sistema para poder luego restaurar desde esa imagen desde inicio avanazado de windows. En copia de seguridad podemos agregar dispositivo externo por ejemplo, y seleccionarlo para meterlas ahi.  
+
++ En configuracion - seguridad - copias de seguridad la tenemos que tener activada y en más opciones, configurar cuando se hacen y personalizarla. Tambien esta recuperar archivos desde historial y vemos las diferents versiones de archivos en carpetas y poder restaurar el archivo.  
+
++ En panel de control - historial de archivos - excluir archivos, podemos poner aqui las carpetas que no queremos que se hagan en las copias de seguridad.  
+
++ En windows Update podemos configurar cuando instalar en opciones avanzadas. En cambiar las horas activas podemos configurar que horas no queremos que el sistema operativo no se reinicie para instalar nada. Podemos programar una hora para instalarlas.  
+
++ En el historial de actualizaciones podemos ver recomendaciones y desintalar actualizaciones.  
+
++ En opciones de entrega podemos ver el monitor de actividad para ver como va el consumo de las actualizaciones.  
+

@@ -288,3 +288,33 @@ dsadd agregar objetos, cuentas...
 `Import-Module / Import-Module addsdeployment`  
 
 
+## MICROSOFT INTUNE  
+
++ [Microsoft Intune](https://docs.microsoft.com/es-es/mem/intune/fundamentals/what-is-intune) es un servicio basado en la nube que se centra en la administración de dispositivos móviles (MDM) y en la administración de aplicaciones móviles (MAM). Puede controlar cómo se usan los dispositivos de la organización, incluidos los teléfonos móviles, las tabletas y los equipos portátiles. También puede configurar directivas específicas para controlar las aplicaciones. Por ejemplo, puede evitar que se envíen mensajes de correo electrónico a personas ajenas a la organización. Intune también permite que las personas de la organización usen sus dispositivos personales para la escuela o el trabajo. En los dispositivos personales, Intune ayuda a que los datos de la organización permanezcan protegidos y puede aislar los datos de la organización de los datos personales:  
+    + Elegir estar al 100 % en una nube con Intune, o aplicar una administración conjunta con Configuration Manager e Intune.  
+    + Establecer reglas y configurar opciones en dispositivos personales y de propiedad de la organización para que obtengan acceso a los datos y las redes.  
+    + Implementar y autenticar aplicaciones en dispositivos, locales y móviles.  
+    + Proteger la información de la empresa controlando la forma en que los usuarios acceden a la información y la comparten.  
+    + Asegurarse de que los dispositivos y las aplicaciones cumplan los requisitos de seguridad.
+
+
++ [TUTORIAL Microsoft Intune](https://docs.microsoft.com/es-es/mem/intune/fundamentals/tutorial-walkthrough-endpoint-manager), que forma parte de Microsoft Endpoint Manager, proporciona la infraestructura en la nube, la administración de dispositivos móviles (MDM) basada en la nube, la administración de aplicaciones móviles (MAM) basada en la nube y la administración de equipos basada en la nube para su organización. Intune ayuda a asegurarse de que los dispositivos, aplicaciones y datos empresariales cumplen los requisitos de seguridad de la empresa. Tiene el control para establecer qué requisitos se deben comprobar y qué sucede cuando no se cumplen. En el Centro de administración de Microsoft Endpoint Manager puede encontrar el servicio Microsoft Intune, así como otras opciones relacionadas con la administración de dispositivos. Comprender las características disponibles en Intune le ayudará a realizar diferentes tareas de administración de dispositivos móviles (MDM) y administración de aplicaciones móviles (MAM).  
+
++ Podemos acceder desde:  
+    - Microsoft azure - intune
+    - En devicemanagement.microsoft.com  
+    - En portal.manage.microsoft.com (en usuarios finales)  
+
++ MICROSOFT AZURE ACTIVE DIRECTORY CONNECT es la herramienta para vincular la sincronizacion de AD con Intune para que los usuarios puedan acceder a los recursos locales y de la nube.  
+
++ [AUTOPILOT](https://docs.microsoft.com/es-es/mem/autopilot/)  es un conjunto de tecnologías que se utilizan para configurar y preconfigurar nuevos dispositivos, preparándolos para un uso productivo. Windows Autopilot se puede usar para implementar Windows equipos o HoloLens 2 dispositivos. Para obtener más información acerca de cómo implementar HoloLens 2 con Autopilot, vea Windows Autopilot for HoloLens 2.
+
++ También se puede usar Windows Autopilot para restablecer, reasignar y recuperar dispositivos. Esta solución permite a un departamento de TI lograr lo anterior con poca o ninguna infraestructura que administrar, con un proceso fácil y sencillo.
+
++ Windows Autopilot simplifica el ciclo de vida Windows dispositivo, tanto para ti como para usuarios finales, desde la implementación inicial hasta el final de la vida útil. Con servicios basados en la nube, Windows Autopilot:  
+    - reduce el tiempo que IT dedica a implementar, administrar y retirar dispositivos.
+    - reduce la infraestructura necesaria para mantener los dispositivos.
+    - maximiza la facilidad de uso para todos los tipos de usuarios finales.
+
+
+

@@ -92,6 +92,12 @@
     <li class="toctree-l2"><a class="reference internal" href="#arquitectura">ARQUITECTURA</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#instalacion-minikubekubectl">INSTALACIÓN MINIKUBE/KUBECTL</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dashboard">DASHBOARD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#proxy">PROXY</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#pods-vs-contenedores">PODS VS CONTENEDORES</a>
     </li>
@@ -385,7 +391,21 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#cluster-autoscaler">CLUSTER AUTOSCALER</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#authentication-and-authorization-usuario">AUTHENTICATION AND AUTHORIZATION USUARIO</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#eliminamos-todo-de-la-nube">ELIMINAMOS TODO DE LA NUBE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pruebas-de-salud">PRUEBAS DE SALUD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#anotaciones">ANOTACIONES</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kubeadm">KUBEADM</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#helm">HELM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#instalacion">INSTALACION</a>
     </li>
         </ul>
     </li>
@@ -418,6 +438,10 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../monitorizacion/">Monitorizacion</a>
                     </li>
                 </ul>
                 <ul>
@@ -667,6 +691,43 @@ kubeconfig: Configured
 <p>Repositorio <a href="https://github.com/ricardoandre97/k8s-resources">curso Kubernetes</a>  </p>
 </li>
 </ul>
+<h3 id="dashboard">DASHBOARD</h3>
+<ul>
+<li>
+<p>Para ver la parte grafica usamos <code>kubectl dashboard</code>.  </p>
+</li>
+<li>
+<p>Si no tenemos instalado esta opcion es porque necesitamos instalar addons. La lista de addons es <code>minikube addons ls</code> e instalamos <code>minikube addons enable dashboard metrics-server</code> </p>
+</li>
+</ul>
+<h3 id="proxy">PROXY</h3>
+<ul>
+<li>
+<p>Issuing the kubectl proxy command, kubectl authenticates with the API server on the master node and makes the Dashboard available on a slightly different URL than the one earlier, this time through the default proxy port 8001.
+<code>kubectl proxy</code>  </p>
+</li>
+<li>
+<p>curl http://localhost:8001/:  </p>
+</li>
+</ul>
+<pre><code>{
+ &quot;paths&quot;: [
+   &quot;/api&quot;,
+   &quot;/api/v1&quot;,
+   &quot;/apis&quot;,
+   &quot;/apis/apps&quot;,
+   ......
+   ......
+   &quot;/logs&quot;,
+   &quot;/metrics&quot;,
+   &quot;/openapi/v2&quot;,
+   &quot;/version&quot;
+ ]
+}
+</code></pre>
+<blockquote>
+<p>Podemos explorar urls del api server con http://localhost:8001/apis/apps/v1</p>
+</blockquote>
 <h2 id="pods-vs-contenedores">PODS VS CONTENEDORES</h2>
 <p><img alt="" src="../images/kubernetes2.png" />  </p>
 <ul>
@@ -6393,9 +6454,432 @@ php-apache-79544c9bd9-pzz4w   1/1     Running   0          5m47s
 NAME                                           STATUS   ROLES    AGE     VERSION
 ip-192-168-38-128.eu-west-2.compute.internal   Ready    &lt;none&gt;   6h14m   v1.17.11-eks-cfdc40
 </code></pre>
+<h3 id="authentication-and-authorization-usuario">AUTHENTICATION AND AUTHORIZATION USUARIO</h3>
+<pre><code>This exercise guide assumes the following environment, which by default uses the certificate and key from /var/lib/minikube/certs/, and RBAC mode for authorization:
+
+Minikube v1.13.1
+Kubernetes v1.19.2
+Docker 19.03.12-ce
+This exercise guide was prepared for the video demonstration following on the next page. 
+
+Start Minikube:
+
+$ minikube start
+
+View the content of the kubectl client's configuration manifest, observing the only context minikube and the only user minikube, created by default:
+
+$ kubectl config view
+
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/student/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/student/.minikube/profiles/minikube/client.crt
+    client-key: /home/student/.minikube/profiles/minikube/client.key
+
+Create lfs158 namespace:
+
+$ kubectl create namespace lfs158
+
+namespace/lfs158 created
+
+Create the rbac directory and cd into it:
+
+$ mkdir rbac
+
+$ cd rbac/
+
+Create a private key for the student user with openssl tool, then create a certificate signing request for the student user with openssl tool:
+
+~/rbac$ openssl genrsa -out student.key 2048
+
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.................................................+++++
+.........................+++++
+e is 65537 (0x010001)
+
+~/rbac$ openssl req -new -key student.key -out student.csr -subj &quot;/CN=student/O=learner&quot;
+
+Create a YAML manifest for a certificate signing request object, and save it with a blank value for the request field: 
+
+~/rbac$ vim signing-request.yaml
+
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: student-csr
+spec:
+  groups:
+  - system:authenticated
+  request: &lt;assign encoded value from next cat command&gt;
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+
+View the certificate, encode it in base64, and assign it to the request field in the signing-request.yaml file:
+
+~/rbac$ cat student.csr | base64 | tr -d '\n','%'
+
+LS0tLS1CRUd...1QtLS0tLQo=
+
+~/rbac$ vim signing-request.yaml
+
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: student-csr
+spec:
+  groups:
+  - system:authenticated
+  request: LS0tLS1CRUd...1QtLS0tLQo=
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+
+Create the certificate signing request object, then list the certificate signing request objects. It shows a pending state:
+
+~/rbac$ kubectl create -f signing-request.yaml
+
+certificatesigningrequest.certificates.k8s.io/student-csr created
+
+~/rbac$ kubectl get csr
+
+NAME          AGE   SIGNERNAME                            REQUESTOR       CONDITION
+
+student-csr   12s   kubernetes.io/kube-apiserver-client   minikube-user   Pending
+
+Approve the certificate signing request object, then list the certificate signing request objects again. It shows both approved and issued states:
+
+~/rbac$ kubectl certificate approve student-csr
+
+certificatesigningrequest.certificates.k8s.io/student-csr approved
+
+~/rbac$ kubectl get csr
+
+NAME          AGE   SIGNERNAME                            REQUESTOR       CONDITION
+
+student-csr   57s   kubernetes.io/kube-apiserver-client   minikube-user   Approved,Issued
+
+Extract the approved certificate from the certificate signing request, decode it with base64 and save it as a certificate file. Then view the certificate in the newly created certificate file:
+
+~/rbac$ kubectl get csr student-csr -o jsonpath='{.status.certificate}' | base64 --decode &gt; student.crt
+
+~/rbac$ cat student.crt
+
+-----BEGIN CERTIFICATE-----
+MIIDGzCCA...
+...
+...NOZRRZBVunTjK7A==
+-----END CERTIFICATE-----
+
+Configure the kubectl client's configuration manifest with the student user's credentials by assigning the key and certificate: 
+
+~/rbac$ kubectl config set-credentials student --client-certificate=student.crt --client-key=student.key
+
+User &quot;student&quot; set.
+
+Create a new context entry in the kubectl client's configuration manifest for the student user, associated with the lfs158 namespace in the minikube cluster:
+
+~/rbac$ kubectl config set-context student-context --cluster=minikube --namespace=lfs158 --user=student
+
+Context &quot;student-context&quot; created.
+
+View the contents of the kubectl client's configuration manifest again, observing the new context entry student-context, and the new user entry student:
+
+~/rbac$ kubectl config view
+
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/student/.minikube/ca.crt
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+- context:
+    cluster: minikube
+    namespace: lfs158
+    user: student
+  name: student-context
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/student/.minikube/profiles/minikube/client.crt
+    client-key: /home/student/.minikube/profiles/minikube/client.key
+- name: student
+  user:
+    client-certificate: /home/student/rbac/student.crt
+    client-key: /home/student/rbac/student.key
+
+While in the default minikube context, create a new deployment in the lfs158 namespace:
+
+~/rbac$ kubectl -n lfs158 create deployment nginx --image=nginx:alpine
+
+deployment.apps/nginx created
+
+From the new context student-context try to list pods. The attempt fails because the student user has no permissions configured for the student-context:
+
+~/rbac$ kubectl --context=student-context get pods
+
+Error from server (Forbidden): pods is forbidden: User &quot;student&quot; cannot list resource &quot;pods&quot; in API group &quot;&quot; in the namespace &quot;lfs158&quot;
+
+The following steps will assign a limited set of permissions to the student user in the student-context. 
+
+Create a YAML configuration manifest for a pod-reader Role object, which allows only get, watch, list actions in the lfs158 namespace against pod objects. Then create the role object and list it from the default minikube context, but from the lfs158 namespace:
+
+~/rbac$ vim role.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: lfs158
+rules:
+- apiGroups: [&quot;&quot;]
+  resources: [&quot;pods&quot;]
+  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;]
+
+~/rbac$ kubectl create -f role.yaml
+
+role.rbac.authorization.k8s.io/pod-reader created
+
+~/rbac$ kubectl -n lfs158 get roles
+
+NAME         CREATED AT
+pod-reader   2020-10-07T03:47:45Z
+
+Create a YAML configuration manifest for a rolebinding object, which assigns the permissions of the pod-reader Role to the student user. Then create the rolebinding object and list it from the default minikube context, but from the lfs158 namespace:
+
+~/rbac$ vim rolebinding.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-read-access
+  namespace: lfs158
+subjects:
+- kind: User
+  name: student
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
+~/rbac$ kubectl create -f rolebinding.yaml 
+
+rolebinding.rbac.authorization.k8s.io/pod-read-access created
+
+~/rbac$ kubectl -n lfs158 get rolebindings
+
+NAME              ROLE              AGE
+pod-read-access   Role/pod-reader   28s
+
+Now that we have assigned permissions to the student user, we can successfully list pods from the new context student-context.
+
+~/rbac$ kubectl --context=student-context get pods
+
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-565785f75c-kl25r   1/1     Running   0          7m41s
+</code></pre>
 <h3 id="eliminamos-todo-de-la-nube">ELIMINAMOS TODO DE LA NUBE</h3>
 <ul>
 <li>Vamos a AWS - CLOUD FORMATION y eliminamos todo.  </li>
+</ul>
+<h3 id="pruebas-de-salud">PRUEBAS DE SALUD</h3>
+<ul>
+<li>LIVENES:  </li>
+</ul>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 3
+      failureThreshold: 1
+      periodSeconds: 5
+</code></pre>
+<blockquote>
+<p>Lo creamos con <code>kubectl create -f liveness.yaml</code> y lo vemos con <code>kubectl get pod liveness_pod -w</code> y vemos que cada rato se crea uno comprobando que está todo bien.  </p>
+</blockquote>
+<ul>
+<li>LIVENESS HTTP REQUEST:  </li>
+</ul>
+<pre><code>livenessProbe:
+       httpGet:
+         path: /healthz
+         port: 8080
+         httpHeaders:
+         - name: X-Custom-Header
+           value: Awesome
+       initialDelaySeconds: 3
+       periodSeconds: 3
+</code></pre>
+<blockquote>
+<p>In the following example, the kubelet sends the HTTP GET request to the /healthz endpoint of the application, on port 8080. If that returns a failure, then the kubelet will restart the affected container; otherwise, it would consider the application to be alive.  </p>
+</blockquote>
+<ul>
+<li>TCP LIVENESS PROBE:  </li>
+</ul>
+<pre><code>livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+</code></pre>
+<blockquote>
+<p>With TCP Liveness Probe, the kubelet attempts to open the TCP Socket to the container which is running the application. If it succeeds, the application is considered healthy, otherwise the kubelet would mark it as unhealthy and restart the affected container.  </p>
+</blockquote>
+<h3 id="anotaciones">ANOTACIONES</h3>
+<ul>
+<li>Se pueden poner comentarios como anotaciones en los ficheros yaml:  </li>
+</ul>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  annotations:
+    description: Deployment based PoC dates 2nd May'2019
+</code></pre>
+<h2 id="kubeadm">KUBEADM</h2>
+<ul>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-18-04-es">GUÍA</a> para crear un cluster con master y nodos con kubeadm.  </p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">INSTALAR KUBEADM</a>.  </p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">CREAR CLUSTER KUBEADM</a>.  </p>
+</li>
+<li>
+<p><a href="https://juanjoselo.wordpress.com/2018/02/07/instalacion-de-kubernetes-en-linux-con-kubeadm/">LAB CLUSTERS KUBEADM</a>  </p>
+</li>
+</ul>
+<h2 id="helm">HELM</h2>
+<ul>
+<li>
+<p><a href="https://docs.helm.sh/">DOCS</a>  </p>
+</li>
+<li>
+<p><a href="https://artifacthub.io/">CHARTS</a> instalables de helm para kubernetes.  </p>
+</li>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-3-package-manager-es">GUIA INSTALL HELM</a>.  </p>
+</li>
+<li>
+<p>Helm es un administrador de paquetes para Kubernetes que permite a los desarrolladores y operadores configurar e implementar de forma más sencilla aplicaciones en los clústeres de Kubernetes.  </p>
+</li>
+<li>
+<p>La mayoría de los sistemas operativos y de programación de lenguaje tienen su propio administrador de paquetes para la instalación y el mantenimiento de software. Helm proporciona el mismo conjunto de funciones básicas que muchos de los administradores que seguramente ya conoce, como apt de Debian o pip de Python. Helm puede:  </p>
+</li>
+<li>Instalar software</li>
+<li>Instalar de manera automática dependencias de software</li>
+<li>Actualizar software</li>
+<li>Configurar implementaciones de software</li>
+<li>
+<p>Obtener paquetes de software de repositorios</p>
+</li>
+<li>
+<p>Helm proporciona esta funcionalidad a través de los siguientes componentes:</p>
+</li>
+<li>Una herramienta de línea de comandos, helm, que proporciona la interfaz de usuario para todas las funcionalidades de Helm.</li>
+<li>Un componente de servidor complementario, tiller, que funciona en su clúster de Kubernetes, escucha los comandos de helm y gestiona la configuración e implementación de versiones de software en el clúster.</li>
+<li>El formato de empaquetado de Helm, llamado charts.</li>
+<li>Un repositorio de charts oficiales seleccionados con charts empaquetados previamente para proyectos de software de código abierto populares.</li>
+</ul>
+<h3 id="instalacion">INSTALACION</h3>
+<ul>
+<li>Pase a un directorio editable y descargue la secuencia de comandos del repositorio de GitHub de Helm:  </li>
+</ul>
+<pre><code>cd /tmp
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod u+x get_helm.sh
+./get_helm.sh
+</code></pre>
+<ul>
+<li>
+<p>Instalar <a href="https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-package-manager-es">Tiller</a>: Tiller es un complemento del comando helm que se ejecuta en su clúster, recibe comandos de helm y se comunica directamente con la API de Kubernetes para hacer el verdadero trabajo de crear y eliminar recursos. A fin de proporcionar a Tiller los permisos que necesita para ejecutarse en el clúster, crearemos un recurso serviceaccount de Kubernetes.<br />
+<code>kubectl -n kube-system create serviceaccount tiller</code><br />
+<code>kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller</code><br />
+<code>helm init --service-account tiller</code>  </p>
+<blockquote>
+<p>Vincularemos serviceaccount al rol de clúster de cluster-admin. Esto permitirá que el superusuario del servicio de tiller acceda al clúster e instale todos los tipos de recursos en todos los espacios de nombres. </p>
+</blockquote>
+</li>
+<li>
+<p>Para verificar que Tiller esté en ejecución, enumere los pods en el espacio de nombres de<strong> kube-system</strong>:
+<code>kubectl get pods --namespace kube-system</code>  </p>
+</li>
+<li>
+<p>Instalar un chart de Helm: Los paquetes de software de Helm se llaman charts. Hay un repositorio administrado de charts llamado stable, el cual consiste principalmente en tablas comunes que puede ver en su repositorio de GitHub. Helm no lo tiene preconfigurado en Helm. Por lo tanto, tendrá que añadirlo manualmente. Luego, a modo de ejemplo, instalará Kubernetes Dashboard.  </p>
+</li>
+</ul>
+<pre><code>helm repo add stable https://kubernetes-charts.storage.googleapis.com
+helm install dashboard-demo stable/kubernetes-dashboard --set rbac.clusterAdminRole=true
+</code></pre>
+<ul>
+<li>
+<p>Puede enumerar todas las versiones del clúster:<br />
+<code>helm list</code>  </p>
+</li>
+<li>
+<p>Ahora, podemos usar kubectl para verificar que se haya implementado un nuevo servicio en el clúster:
+<code>kubectl get services</code>  </p>
+</li>
+<li>
+<p>El comando helm upgrade puede utilizarse para actualizar una versión con un chart nuevo o actualizado, o para actualizar sus opciones de configuración (variables).  </p>
+</li>
+<li>Realizará un cambio sencillo en la versión de dashboard-demo para demostrar el proceso de actualización y reversión: actualizará el nombre del servicio de dashboard simplemente a kubernetes-dashboard en lugar de dashboard-demo-kubernetes-dashboard.  </li>
+<li>
+<p>El chart kubernetes-dashboard proporciona una opción de configuración de fullnameOverride para controlar el nombre de servicio. Para cambiar el nombre de la versión, ejecute helm upgrade con esta opción establecida:<br />
+<code>helm upgrade dashboard-demo stable/kubernetes-dashboard --set fullnameOverride="kubernetes-dashboard" --reuse-values</code>  </p>
+</li>
+<li>
+<p>Revertir y eliminar una versión: Cuando actualizó la versión de dashboard-demo en el paso anterior, creó una segunda revisión de la versión. Helm conserva todos los detalles de las versiones anteriores en caso de que deba realizar una reversión a una configuración o un chart anterior.<br />
+<code>helm rollback dashboard-demo 1</code>  </p>
+</li>
+<li>
+<p>Es posible eliminar versiones de helm con el comando helm delete:<br />
+<code>helm delete dashboard-demo</code>  </p>
+</li>
 </ul>
               
             </div>

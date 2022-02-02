@@ -9,7 +9,7 @@
   <meta name="author" content="Miguel Amorós">
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>BashScripting - Miguel's Notes</title>
+  <title>Monitorizacion - Miguel's Notes</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "BashScripting";
-    var mkdocs_page_input_path = "bash_scripting.md";
+    var mkdocs_page_name = "Monitorizacion";
+    var mkdocs_page_input_path = "monitorizacion.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -70,34 +70,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">BashScripting</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#validar-argumentos">validar argumentos</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#validar-help">validar help</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#comparadores">comparadores</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#conficional-if">conficional if</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#bucle-for">bucle for</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#bucle-while">bucle while</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#bucle-esac">bucle esac</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#leer-por-entrada-standard">leer por entrada standard</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#separar-opciones-con-shift">separar opciones con shift</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#mirar-si-es-directorio-regular-file">mirar si es directorio, regular file...</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#mayusculas-copiar-buscar-ordenar">Mayusculas , copiar , buscar , ordenar</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#funciones">Funciones</a>
-    </li>
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
                     </li>
                 </ul>
                 <ul>
@@ -144,8 +118,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../monitorizacion/">Monitorizacion</a>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Monitorizacion</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
                 <ul>
@@ -237,10 +213,10 @@
     
       
     
-    <li>BashScripting</li>
+    <li>Monitorizacion</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/bash_scripting.md"> Edit on isx46410800/python</a>
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/monitorizacion.md"> Edit on isx46410800/python</a>
       
     </li>
   </ul>
@@ -251,272 +227,38 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="comandos-para-bash-scripting">Comandos para Bash Scripting</h1>
-<p><code>#! /bin/bash</code></p>
-<h2 id="validar-argumentos">validar argumentos</h2>
-<pre><code># indica el numero de argumentos pasados
-echo $#
-# si no tiene 2 args, plegar
-if [ $# -ne 2 ]
-then
-    echo &quot;Num de args incorrecte&quot;
-    echo &quot;USAGE: prog.sh arg1 arg2&quot;
-    exit 1
-fi
-# mostrar los args
-echo &quot;Los argumentos son $1 y $2&quot;
-exit 0
-</code></pre>
-<h2 id="validar-help">validar help</h2>
-<pre><code>#help
-if [ $1 == &quot;--help&quot; -o $1 == &quot;-h&quot; ]
-then
-    echo &quot;mostramos ayuda&quot;
-    exit 0
-fi
-</code></pre>
-<h2 id="comparadores">comparadores</h2>
+                <h1 id="zabbix">ZABBIX</h1>
 <ul>
-<li>-lt / -gt / -eq / -ne / -ge / -le <em>más grande, menor que...</em></li>
-<li>-d / -f / -h <em>directorio, file, link</em></li>
-<li>-n <em>mientras sea nulo</em></li>
-<li>$? <em>estatus level de error</em></li>
 <li>
-<blockquote>
-<blockquote>
-<p>/dev/stderr / &gt;&gt;/dev/null</p>
-</blockquote>
-</blockquote>
+<p>Zabbix es un software de monitorización de código abierto para redes y aplicaciones. Ofrece monitorización en tiempo real de miles de métricas recogidas de servidores, equipos virtuales, dispositivos de red y aplicaciones web. Estas métricas pueden ayudarle a determinar el estado actual de su infraestructura TI y a detectar problemas con los componentes de hardware o software antes de que los clientes se quejen. La información útil se almacena en una base de datos para que pueda analizar datos a lo largo del tiempo y mejorar la calidad de los servicios proporcionados o planificar mejoras de su equipo.  </p>
+</li>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-zabbix-to-securely-monitor-remote-servers-on-ubuntu-20-04-es">INSTALACION PASO A PASO</a>  </p>
+</li>
+<li>
+<p>Zabbix usa varias opciones para recoger métricas, incluyendo la monitorización sin agente de los servicios del usuario y de la arquitectura cliente-servidor. Para recoger métricas del servidor, utiliza un agente pequeño en el cliente monitorizado para recopilar datos y enviarlos al servidor Zabbix. Zabbix admite la comunicación cifrada entre el servidor y los clientes conectados, de forma que sus datos están protegidos mientras recorren redes inseguras.</p>
+</li>
+<li>
+<p>El servidor Zabbix almacena sus datos en una base de datos relacional alimentada con MySQL o PostgreSQL. También puede almacenar datos históricos en bases de datos NoSQL como Elasticsearch y TimescaleDB. Zabbix ofrece una interfaz web para que pueda ver los datos y configurar los ajustes del sistema.  </p>
+</li>
+<li>
+<p>En este tutorial, configurará Zabbix en dos equipos Ubuntu 20.04. Uno será configurado como el servidor Zabbix y el otro como un cliente que monitorizará. El servidor Zabbix usará una base de datos MySQL para registrar los datos de monitorización y utilizará Nginx para presentar la interfaz web.  </p>
 </li>
 </ul>
-<pre><code>if [ $# -eq 3 ]
-then
-    if ! [ &quot;$1&quot; == &quot;-b&quot; -a &quot;$2&quot; == &quot;-a&quot; ]
-    then
-        echo &quot;ERROR: format args incorrecte&quot;
-        echo &quot;USAGE: prog arg -h / prog -a arg / prog -b -a arg&quot;
-        exit $ERR_NARGS
-        fi
-fi
-</code></pre>
-<h2 id="conficional-if">conficional if</h2>
-<pre><code>edad=$1
-echo $edad
-if [ $edad -lt 18 ]
-then
-    echo &quot;Es menor de edat&quot;
-elif [ $edad -eq 18 ]
-then
-    echo &quot;18 recien cumplidos&quot;
-else
-    echo &quot;Ya es mayor de edad&quot;
-fi
-</code></pre>
-<h2 id="bucle-for">bucle for</h2>
-<pre><code>count=0
-for arg in $*
-do
-    count=$((count+1))
-    echo &quot;$count: $arg&quot;
-done
-exit 0
-</code></pre>
-<h2 id="bucle-while">bucle while</h2>
-<pre><code>cont=0
-MAX=$1
-while [ $cont -le $MAX ]
-do
-    echo $cont
-    cont=$((cont+1))
-done
-exit 0
-</code></pre>
-<h2 id="bucle-esac">bucle esac</h2>
-<pre><code>for mes in $*
-do
-    case $mes in
-        '2')
-            echo &quot;$mes tiene 28 dias&quot;;;
-        '1'|'3'|'5'|'7'|'8'|'10'|'12')
-            echo &quot;$mes tiene 31 dias&quot;;;
-        '2'|'4'|'6'|'9'|'11')
-            echo &quot;$mes tiene 30 dias&quot;;;
-        *)
-            echo &quot;$mes no es un mes correcto&quot;
-    esac
-done
-exit 0
-</code></pre>
-<h2 id="leer-por-entrada-standard">leer por entrada standard</h2>
-<pre><code>count=0
-while read -r line
-do
-    count=$((count+1))
-    echo &quot;$count: $line&quot;
-done
-exit 0
-</code></pre>
-<pre><code>MAX=$1
-cont=1
-while read -r line &amp;&amp; [ $cont -le $MAX ]
-do
-    echo &quot;$cont: $line&quot;
-    cont=$((cont+1))
-
-done
-exit 0
-</code></pre>
-<h2 id="separar-opciones-con-shift">separar opciones con shift</h2>
-<pre><code>opciones=''
-argumentos=''
-numeros=''
-files=''
-while [ -n &quot;$1&quot; ]
-do
-    case $1 in
-        '-a') 
-            files=$2
-            shift;;
-        '-c'|'-b'|'-e') 
-            opciones=&quot;$opciones $1&quot;;;
-        '-d') 
-            numeros=$2
-            shift;;
-        *)  
-            argumentos=&quot;$argumentos $1&quot;;;
-    esac
-    shift
-done
-echo &quot;opciones: $opciones&quot;
-echo &quot;argumentos: $argumentos&quot;
-echo &quot;numeros: $numeros&quot;
-echo &quot;files: $files&quot;
-exit 0
-</code></pre>
-<h2 id="mirar-si-es-directorio-regular-file">mirar si es directorio, regular file...</h2>
-<pre><code>#files y dir a copiar
-llistafiles=$(echo $* | cut -d' ' -f1-$(($#-1)))
-dirdesti=$(echo $* | cut -d' ' -f$#)
-#comprobar que sea un directorio
-if ! [ -d $dirdesti ]
-then
-    echo &quot;error, no es un dir desti correcto&quot;
-    exit 2
-fi
-# para cada file validada lo copiamos al dir
-for file in $llistafiles
-do 
-    if ! [ -f $file ]
-    then
-        echo &quot;error, no es un file&quot; &gt;&gt; /dev/stderr
-        exit 3
-    fi
-    cp $file $dirdesti/.
-done
-exit 0
-</code></pre>
-<pre><code>for dir in $*
-do
-    # miramos si es un help
-    if [ $dir == &quot;--help&quot; -o $dir == &quot;-h&quot; ]
-    then
-        echo &quot;mostramos ayuda&quot;
-        exit 0
-    fi
-    # verificar que es un dir
-    if ! [ -d $dir ]
-    then
-        echo &quot;error arg no es un dir&quot;
-        echo &quot;USAGE: prog.sh arg[dir]&quot;
-        exit 2
-    fi
-    llistadir=$(ls $dir)
-    count=1
-    for file in $llistadir
-    do
-    #de cada cosa que imprime decir si es un regular file, dir, link o altre cosa
-        if [ -d $dir/$file ]
-        then
-            echo &quot;es un directorio&quot;
-            echo &quot;$count: $file&quot;
-        elif [ -f $dir/$file ]
-        then
-            echo &quot;es un file&quot;
-            echo &quot;$count: $file&quot;
-        elif [ -d $dir/$file ]
-        then
-            echo &quot;es una altra cosa&quot;
-            echo &quot;$count: $file&quot;
-        fi
-        count=$((count+1))
-    done
-done
-exit 0
-</code></pre>
-<h2 id="mayusculas-copiar-buscar-ordenar">Mayusculas , copiar , buscar , ordenar</h2>
-<p><code>tr</code><br />
-echo "hola" | tr -s '[a-z]' '[A-Z]'<br />
-echo "hola" | tr -s '[:blank:]' ' '  #'\t' tabulador</p>
-<p><code>cut</code><br />
-+ cut -d' ' -f1-5</p>
-<blockquote>
-<p>corta por campos y delimitador
-+ cut -c1-50
-corta por caracteres
-llistafiles=$(echo $<em> | cut -d' ' -f1-$(($#-1)))<br />
-dirdesti=$(echo $</em> | cut -d' ' -f$#)<br />
-uid=$(echo $loginLine | cut -d: -f3)</p>
-</blockquote>
-<p><code>grep/egrep</code><br />
-+ egrep "^[^ ]{10,}"</p>
-<blockquote>
-<p>busca de lo que se pase o line algo que tenga mas de 10 chars
-+ echo $arg | egrep ".{4,}"
-busca de lo que se pase que tenga mas de 4 chars
-+ egrep "^$user:" /etc/passwd
-buscar el campo user del /etc/passwd
-+ egrep "^[^:]<em>:[^:]</em>:[^:]*:$gid:" /etc/passwd 
-+ sort -u 2&gt; /dev/null)
-ordenar unico y quita los repetidos
-+ listshells=$(cut -d: -f7 /etc/passwd | sort -u 2&gt; /dev/null)</p>
-</blockquote>
-<h2 id="funciones">Funciones</h2>
-<p>function nombreFuncion(){
-    return xxxxx
-}</p>
-<pre><code>function showUser(){
-    ERR_NARGS=1
-    ERR_NOLOGIN=2
-    OK=0
-    #validar args
-    if [ $# -ne 1 ]
-    then
-        echo &quot;ERR: num args incorrecte&quot;
-        echo &quot;USAGE: $0 login&quot;
-        return $ERR_NARGS
-    fi
-    #validar si existe el login
-    login=$1
-    userLine=$(egrep &quot;^$login:&quot; /etc/passwd 2&gt; /dev/null)
-    if [ $? -ne 0 ]
-    then
-        echo &quot;ERR: el login $login no existe&quot;
-        return $ERR_NOLOGIN
-    fi
-    #mostrar
-    uid=$(echo $userLine | cut -d: -f3)
-    gid=$(echo $userLine | cut -d: -f4)
-    gecos=$(echo $userLine | cut -d: -f5)
-    home=$(echo $userLine | cut -d: -f6)
-    shell=$(echo $userLine | cut -d: -f7)
-    echo &quot;uid: $uid&quot;
-    echo &quot;gid: $gid&quot;
-    echo &quot;gecos: $gecos&quot;
-    echo &quot;home: $home&quot;
-    echo &quot;shell: $shell&quot;
-    return $OK
-}
-</code></pre>
+<h1 id="naggios">NAGGIOS</h1>
+<h1 id="grafana">GRAFANA</h1>
+<ul>
+<li>
+<p>Grafana es una herramienta de visualización y monitoreo de datos de código abierto que se integra con datos complejos de fuentes como Prometheus, InfluxDB, Graphite y ElasticSearch. Grafana le permite crear alertas, notificaciones y filtros ad-hoc para sus datos, a la vez que facilita la colaboración con los compañeros de equipo mediante características de uso compartido integradas.  </p>
+</li>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-grafana-on-ubuntu-20-04-es">INSTALACION</a>  </p>
+</li>
+<li>
+<p>En este tutorial, instalará Grafana y la protegerá con un certificado SSL y un proxy inverso de Nginx. Una vez que haya configurado Grafana, tendrá la opción de configurar la autenticación del usuario a través de GitHub, lo que le permitirá organizar mejor los permisos de su equipo.  </p>
+</li>
+</ul>
+<h1 id="prometheus">PROMETHEUS</h1>
               
             </div>
           </div>
@@ -524,10 +266,10 @@ ordenar unico y quita los repetidos
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../powershell/" class="btn btn-neutral float-right" title="PowerShell/CMD">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../tomcat/" class="btn btn-neutral float-right" title="Tomcat">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../python/" class="btn btn-neutral" title="Python"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testing/" class="btn btn-neutral" title="Testing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -553,10 +295,10 @@ ordenar unico y quita los repetidos
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../python/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../testing/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../powershell/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../tomcat/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

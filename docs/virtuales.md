@@ -58,3 +58,82 @@
 
 + [CONFIGURAR](https://www.fpgenred.es/VirtualBox/crear_una_mquina_virtual_a_partir_del_disco_de_otra.html)  
 
+
+# KVM  
+
++ En linux podemos usar el [virt-manager](https://vidatecno.net/como-usar-kvm-con-virtual-machine-manager/) para crear una maquina virtual.  
+
+
+## VAGRANT  
+
++ [DOCUMENTACION VAGRANT](https://www.vagrantup.com/docs) es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.  
+
++ El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  
+```
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ 
+Vagrant.configure("2") do |config|
+      # Every Vagrant development environment requires a box. 
+      # You can search for boxes at 
+      # https://app.vagrantup.com/boxes/search
+      config.vm.box = "ubuntu/focal64"
+ 
+      # Set the HOSTNAME of the guest VM
+      config.vm.hostname = "vagrant-host"
+ 
+      # Create a private network, which allows host-only access 
+      # to the machine using a specific IP
+      config.vm.network "private_network", ip: "192.168.56.100"
+ 
+      # Vagrant VirtualBox provider specific VM properties
+      config.vm.provider "virtualbox" do |vb|
+           # Set VM name to be displayed in the VirtualBox VM Manager window
+           vb.name = "vagrant-vm"
+           # Customize the amount of CPUs on the VM
+           vb.cpus = 2
+           # Customize the amount of memory (2GB RAM) on the VM
+           vb.memory = 2048
+      end
+ 
+      # Share an additional folder to the guest VM. The first argument is
+      # the path on the host to the actual folder. The second argument is
+      # the path on the guest to mount the folder. And the optional third
+      # argument is a set of non-required options.
+      # config.vm.synced_folder "../data", "/vagrant_data"
+ 
+      # Vagrant shell provisioner to automatically
+      # install packages 'vim', 'curl', 'podman' 
+      config.vm.provision "shell", inline: <<-SCRIPT
+           sudo apt update
+           sudo apt install -y vim curl
+           . /etc/os-release
+           echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+           curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key" | sudo apt-key add -
+           sudo apt update
+           sudo apt -y upgrade
+           sudo apt install -y podman
+           echo NGINX PODMAN CONTAINER RUNNING ON VIRTUALBOX VM > /vagrant-demo
+           echo Provisioned at: >> /vagrant-demo
+           date >> /vagrant-demo
+      SCRIPT
+ 
+      # Vagrant Podman provisioner automatically installs Podman
+      # and then runs the 'nginx' image in a container
+      # (We have pre-installed Podman because of provisioner bugs)
+      config.vm.provision "podman" do |p|
+           p.run "nginx"
+      end
+end
+```  
+> comando `vagrant up` para subir el fichero Vagrantfile.  
+> `vagrant status` para ver el estado  
+> `vagrant ssh` para conectarte a la maquina virtual por consola directamente.  
+> `cat /etc/os-release` ver la versiones  
+> `cat /vagrant-demo`ver cosas de las caracteristicas del nombre de la VM.  
+> `sudo podman container ls` para ver el pod creado  
+> `vagrant destroy` para eliminar la maquina.  
+
+
+
+

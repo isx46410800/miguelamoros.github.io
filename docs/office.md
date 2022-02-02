@@ -1,5 +1,7 @@
 # OFFICE 365  
 
++ [DOC OFFICE 365 Y APPS](https://docs.microsoft.com/es-es/office365/servicedescriptions/office-365-service-descriptions-technet-library)  
+
 + [CURSO OFFICE 365](https://docs.microsoft.com/es-es/learn/modules/what-is-m365/5-summary-resources)  
 
 + Microsoft 365 ayuda a los usuarios con la innovación más reciente en experiencias de productividad nuevas y familiares, como Teams, Word, Excel, PowerPoint, Outlook y Windows. A diferencia de otros servicios de productividad, Microsoft 365 aprende de los usuarios y recopila información valiosa a través de Microsoft Graph para ofrecer experiencias mejoradas que mejoran continuamente a lo largo del tiempo y mantienen protegidos a los usuarios. 
@@ -193,3 +195,147 @@ Yammer
 + Habilitar usuarios invitados: configuracion - conf de la organizacion - servicios - grupos de 365 y activar las dos pestañas. La otra opcion: ir al a teams - portal teams - configuracion de toda la org - acceso de invitado y activado. La otra es ir al portal de Azure AD - azure AD - informacion general - external identities - conf de coloboracion externa y activamos lo que toque. Sharepoint - directivas - uso comportido - activar lo primero.  
 
 + Cancelar suscripion 365: facturación - sus productos - selecionamos - tres puntos - cancelar.  
+
+
+
+## SOLUCIONES DE FALLOS OFFICE 365  
+
++ Ventajas de adquirir una licencia:  
+    - Siempre version actualizada  
+    - Tambien para moviles  
+    - Integracion con la nube  
+    - Versiones de escritorio de acces y publisher  
+    - 1Tb en onedrive.  
+
+
+### Inicio de sesion  
+
++ Al portal correcto de office www.office.com / www.admin.microsoft.com  
++ Guardarselo en favoritos  
++ Cuenta expirada/bloqueada/olvidada  
+
++ Soluciones:  
+    - Ir a usuarios del portal y ver el estado de usuarios bloequeados y darle a desbloquear.  
+    - Si olvida su contraseña vamos a usuarios y le damos a restablecer contraseña.  
+    - Puede ser que no tenga licencia, editamos usuario y le damos licencia.  
+    - Podemos bloquear tambien el inicio de sesion de alguien.  
+
+
+### Conectividad  
+
++ Herramienta de diagnostico de windows  
++ Probar ping a un sitio  
++ Mirar comando tracer al destino  
++ Pathping  
++ nslookup para mirar el dns  
+
++ Soluciones:  
+    - Damos nueva ip ipconfig /release y luego /renew  
+    - ping localhost / ping google.com  
+    - nslookup para ver nuestro dns y luego probamos poniendo direcciones(podemos poner registros set type=MX).  
+    - tracert www.linkedin.com para que nos resuelva a una ip y los saltos correctos hasta llegar correctamente al destino pasando por routers.  
+    - pathping -n www.linkedin.com para hacer lo mismo que tracer mas estadisticas extras de si falla en los saltos.  
+    - ipconfig /flushdns para liberar toda la cache de dns  
+    - ipconfig /displaydns para ver la cache del dns  
+    - ipconfig /registerdns para forzar el registro
+
+
+### Correo electronico  
+
++ Fallos de conectividad o te pide constante la contraseña para entrar.  
++ Tenemos que tener acceso a internet, comunicacion online con exchange, el firewall permitir trafico de office y acceso a través de puertos 443/80.  
++ Los servidores exchange almacenas los buzones de correo.  
+
++  Herramientas de solucion:  
+    - Hacer un ping de conectividad del cliente a outlook.office365.com  
+    - Revisar la configuracion de outlook  
+    - www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo y seguimos los pasos y te dará un resumen de los fallos posibles.  
+    + www.testconnectivity.microsoft.com web con una coleccion de herramientas para ver posibles fallos de conectividad con exchange, ews, office 365, internos, etc.  
+
+### Aplicaciones office365  
+
++ Aplicaciones que se detienen o bloquean  
++ Mensaje de error al abrir office  
+- Activacion de la licencia  
++ Fallo de inicio de sesion  
+
++ Dentro de por ejemplo el word Inicio - Cuenta, se puede activar las actualizaciones  
++ En panel control - programas, seleccionamos y le damos a cambiar y podemos reparar en linea.  
++ Creamos usuario y vamos a office.com, iniciamos sesion y vamos logueando en las aplicaciones para comprobar conectividad.  
+
++ Problemas:  
+    - www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  
+    - CMD: outlook/profile y podemos crear un nuevo perfil de outlook.  
+    - En mi buzon outllok darle a mi nombre email, boton derecho y mirar permisos  
+    - En inicio, informacion, confguracion de cuenta, delegar permisos a otros usuarios para hacerlo en mi nombre.  
+
+
+### Sharepoint  
+
++ Nube para subir archivos y compartir con los otros usuarios.  
++ Problemas de navegador, servicio, no poder instalar el controlador ActiveX.  
+
++ Problemas:  
+    + En el centro de administracion de office 365, que está al entrar en office.com, en mantenimiento - estado del servicio  
+    + En directivas de grupo, podemos incorporar sharepoint como sitio de confianza.  
+    + En los admin sí pueden restaurar papeleras de reciclaje ya eliminadas por el usuario, maximo 93 dias (SHAREPOINT - COLECCION DE SITIOS).  
+    + www.protection.office.com - gobierno de datos - retencion. Creamos una poniendo el tiempo que queremos de borrado de archivos.  
+
+
+### Onedrive  
+
++ Almacenaje en la nube.  
++ No mas de 10GB.  
++ No repetir nombres, caracteres invalidos.  
+
++ Herramientas:  
+    + onedrive.exe /reset en CMD para resetear la conf de onedrive
+    + www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  
+    + Actualizar version  
+    + En los admin sí pueden restaurar papeleras de reciclaje ya eliminadas por el usuario, maximo 93 dias (SHAREPOINT - COLECCION DE SITIOS).  
+    + Restaurar sitios completos eliminadors, powershell: `Restore-SPDeletedSite`  
+
+
+
+### Skype/Teams  
+
++ Chat de grupo, videollamadas, ficheros, etc  
++ Problemas de calidad sonido/video, red, firewall, puertos...  
+
++ Herramientas:  
+    + Verificar conf micro/camara, cerrar otras apps, internet malo, actualizar hardware/software  
+    + Puertos por encima de 1024 skype o 80/443 y en teams 80/443 o 3478/3481.  
+    + En el centro de admin de office, en mantenimiento y estado para ver si hay fallos.  
+    + En el mismo crento de admin, ir a teams - calidad de llamada
+
+
+### Centro de informes  
+
++ En google: informes de actividad de office365 o en el centro de admin de 365.  
++ centro de admin - informes - uso y veremos los informes de cada cosa. Dentro de aqui podemos ver cada aplicacion, dias, filtros de columnas, exportar,etc.  
++ centro de admin - informes - seguridad hay dos sitios url donde ir para ver informes de exchange(admin de cumpliliemto-auditoria) y 365(informes). Mejor visualizacion y programar hora de informes.  
++ Para ocultar los nombres de los usuarios, podemos ir a configuracion - servicio y complementos - informes y ponerlo animo, todo esto en el centro d admin 365.  
+
+
+
+### Monitoreo de estado de servicio  
+
++ En el centro de administracion de office 365, que está al entrar en office.com, en mantenimiento - estado del servicio. Podemos ver si hay incidencias en nuestros servicios.  
++ En el centro de mensajes podemos personalizar los mensajes, apps, etc.  
++ En los usuarios podemos seleccionar uno y en el apartado de roles podemos editar y darle acceso a que pueda ver los estados d servicio, mensajes etc.  
++ OFFICE 365 MANAGEMENT PACK es una herramienta más que se puede descargar para monitorear servicios, mensajes, añadir aletar, suscripciones. Tiene que ser en windows server y tener System Center Operation managers antes.
++ Desde powershell con el comando de documentacion `Search-AdminAuditLog`  
+
++ Podemos pedir ayuda en el centro d admin por preguntas o correo electronico.  
+    - Remote Connectivity Analyzer: www.testconnectivity.microsoft.com web con una coleccion de herramientas para ver posibles fallos de conectividad con exchange, ews, office 365, internos, etc.  
+    + En el pestaña cliente podemos descargar tambien la herramienta localmente.  
+    + En wwww.aka.ms/hybridwizard es un asistente para soluciones hibridas.  
+    + www.diagnostics.outllok.com herramienta diagnostico para descargar y de ahi miraremos la opcion de si es outlook, office, diagnostico avanzado... seleccionamos el motivo como por ejemplo Outlook, problema de conectar y seguimos los pasos y te dará un resumen de los fallos posibles.  
+
+
+### Enterprise Mobility + Security E5  
+
++ Enterprise Mobility + Security Suite:  Es una robusta plataforma de seguridad, basada en la identidad diseñada para ayudar a las empresas a administrar y proteger sus dispositivos, aplicaciones y datos dentro de la empresa.
+Es robusta porque se crean “líneas de defensa” virtuales que permite atrapar las incidencias en alguna de ellas.  
+Realmente tendrás a la mano herramientas de seguridad con las que podrás evitar el robo de información ya sea intencional o por accidente, así como evitar el robo por descuido de los empleados, entre otros.  
+

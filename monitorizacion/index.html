@@ -259,6 +259,32 @@
 </li>
 </ul>
 <h1 id="prometheus">PROMETHEUS</h1>
+<ul>
+<li>
+<p><a href="https://prometheus.io/">Prometheus</a> es otra herramienta de metricas y alertas en tiempo real.  </p>
+</li>
+<li>
+<p>Se suele conectar con grafana para una mejor visualizacion y mejor grafica.  </p>
+</li>
+</ul>
+<h1 id="cadvisor">cADVISOR</h1>
+<ul>
+<li>Sirve para monitoreo de estadisticas.  </li>
+<li>Ejemplo en docker:  </li>
+</ul>
+<pre><code>sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:latest
+</code></pre>
+<blockquote>
+<p>Por defecto puerto 8080  </p>
+</blockquote>
               
             </div>
           </div>

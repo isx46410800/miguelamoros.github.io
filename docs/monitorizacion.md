@@ -21,3 +21,26 @@
 + En este tutorial, instalará Grafana y la protegerá con un certificado SSL y un proxy inverso de Nginx. Una vez que haya configurado Grafana, tendrá la opción de configurar la autenticación del usuario a través de GitHub, lo que le permitirá organizar mejor los permisos de su equipo.  
 
 # PROMETHEUS
+
++ [Prometheus](https://prometheus.io/) es otra herramienta de metricas y alertas en tiempo real.  
+
++ Se suele conectar con grafana para una mejor visualizacion y mejor grafica.  
+
+
+# cADVISOR  
+
++ Sirve para monitoreo de estadisticas.  
++ Ejemplo en docker:  
+```
+sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:latest
+```  
+> Por defecto puerto 8080  
+

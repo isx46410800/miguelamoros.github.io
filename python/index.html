@@ -119,6 +119,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
                     </li>
                 </ul>
@@ -630,6 +634,12 @@ Si como argumento ponemos (*argumento), devuelve una tupla.  </p>
 <li>conjunto.add, update, remove, discard, update, pop, clear.  </li>
 <li>tupla[posicion]  </li>
 </ul>
+<h2 id="modulos_1">MODULOS</h2>
+<ul>
+<li>Es un fichero con conjunto de funciones que podemos importar en otros ficheros.  </li>
+<li>Todas enteras <code>import modulo.py</code>  </li>
+<li>En concreto <code>from modulo.py import funcion1.py</code>  </li>
+</ul>
 <h2 id="gestion-errores">GESTION ERRORES</h2>
 <pre><code>while True:
     try:
@@ -649,6 +659,270 @@ Si como argumento ponemos (*argumento), devuelve una tupla.  </p>
 <blockquote>
 <p>Hay varios except como divisionzero, keyboardinterrupt, error value...  </p>
 </blockquote>
+<h2 id="gestion-de-ficheros">GESTION DE FICHEROS</h2>
+<ul>
+<li>Leer un fichero:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+# leer un fichero en modo read y texto y lo guardamos en una variable
+fichero = open(&quot;./texto.txt&quot;, &quot;rt&quot;)
+# ver los datos
+datos_fichero = fichero.read()
+print(datos_fichero)
+</code></pre>
+<ul>
+<li>Crear un fichero poniendo texto:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+# creamos un fichero y metodo write y texto para que escriba
+fichero = open(&quot;./texto2.txt&quot;, &quot;wt&quot;)
+# escribir los datos
+texto = &quot;Esto es un ejemplo para\nescribir en un fichero\nque vamos a grabar.\n&quot;
+fichero.write(texto)
+# cerramos dichero
+fichero.close()
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+</code></pre>
+<ul>
+<li>Añadir texto a un fichero:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+# creamos un fichero y metodo append y texto para que añada cosas al file
+fichero = open(&quot;./texto3.txt&quot;, &quot;at&quot;)
+# escribir los datos
+texto = &quot;\nEsto es un ejemplo para\nañadir texto\n&quot;
+fichero.write(texto)
+# cerramos dichero
+fichero.close()
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+</code></pre>
+<ul>
+<li>Borrar un fichero:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos un modulo para usar el metodo de borrar fichero del sistema
+import os
+# creamos un fichero y metodo append y texto para que añada cosas al file
+os.remove(&quot;./texto3.txt&quot;)
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+</code></pre>
+<ul>
+<li>Creamos un modulo de objeto Fichero y tratamos estas funciones en un programa:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+class Fichero:
+    def __init__(self,nombre):
+        self.nombre = nombre
+    def grabar_fichero(self,texto):
+        fichero = open(self.nombre, &quot;wt&quot;)
+        fichero.write(texto)
+        fichero.close()
+    def incluir_fichero(self,texto):
+        fichero = open(self.nombre, &quot;at&quot;)
+        fichero.write(texto)
+        fichero.close()
+    def leer_fichero(self):
+        fichero = open(self.nombre, &quot;rt&quot;)
+        texto = fichero.read()
+        return texto
+</code></pre>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo
+import ficheros_modulo
+
+# creamos nombre del fichero
+nombre_fichero = &quot;fichero1.txt&quot;
+fichero = ficheros_modulo.Fichero(nombre_fichero)
+# en el fichero que vamos a crear, tiene este texto
+texto = &quot;Esta es la linea para añadir.\nEsta la segunda linea.\n&quot;
+fichero.grabar_fichero(texto)
+# añadimos al fichero este texto
+texto = &quot;Esta es la linea para añadir.\n&quot;
+fichero.incluir_fichero(texto)
+# leemos lo que tenemos de fichero
+leer_texto = fichero.leer_fichero()
+print(leer_texto)
+</code></pre>
+<ul>
+<li>Tratamiento de binarios en python:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo para ficheros binarios
+import pickle
+
+# leer en modo binarios
+fichero = open(&quot;binarios_colores.pckl&quot;, &quot;rb&quot;)
+lista_colores = pickle.load(fichero)
+print(lista_colores)
+</code></pre>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo para ficheros binarios
+import pickle
+
+# añadimos a un fichero una lista de colores en modo binarios
+colores = [&quot;azul&quot;, &quot;amarillo&quot;, &quot;verde&quot;]
+fichero = open(&quot;binarios_colores.pckl&quot;, &quot;wb&quot;)
+
+pickle.dump(colores, fichero)
+fichero.close()
+</code></pre>
+<h2 id="expresiones-regulares">EXPRESIONES REGULARES</h2>
+<ul>
+<li>Expresiones regulares con el modulo RE:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo de expresiones regulares
+import re
+
+texto = &quot;Hola me llamo miguel&quot;
+
+# SEARCH
+# buscamos ese patron dentro del texto
+resultado = re.search(&quot;llamo&quot;,texto)
+# que acabe en miguel$, que empiece en ^miguel 
+# que haya algo entre me.*miguel
+
+if resultado:
+    print(&quot;OK&quot;)
+else:
+    print(&quot;No encontado&quot;)
+
+# FINDALL
+texto2 = '''
+el coche de miguel es rojo
+el coche de natalia es blanco
+'''
+resultado = re.findall(&quot;coche.*rojo&quot;, texto2)
+
+if resultado:
+    print(&quot;OK&quot;)
+else:
+    print(&quot;No encontado&quot;)
+
+# SPLIT
+texto3 = &quot;La silla es blanca y vale 80&quot;
+resultado = re.split(&quot;\s&quot;, texto3)
+
+if resultado:
+    print(resultado)
+else:
+    print(&quot;No encontado&quot;)
+
+# SUB
+texto4 = &quot;La silla es blanca y vale 80&quot;
+resultado = re.sub(&quot;blanca&quot;, &quot;roja&quot;, texto4)
+
+if resultado:
+    print(resultado)
+else:
+    print(&quot;No encontado&quot;)
+</code></pre>
+<h2 id="convert-json">CONVERT JSON</h2>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo de json
+import _json
+
+producto1 = {&quot;nombre&quot;:&quot;miguel&quot;, &quot;apellido&quot;:&quot;amoros&quot;}
+
+estructura_json = _json.dumps(producto1)
+print(estructura_json)
+
+producto2 = _json.loads(estructura_json)
+print(producto2)
+</code></pre>
+<h2 id="fecha-y-hora">FECHA Y HORA</h2>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo de json
+from datetime import datetime
+
+fechayhora = datetime.now()
+print(fechayhora)
+
+año = fechayhora.year
+mes = fechayhora.month
+dia = fechayhora.day
+
+hora = fechayhora.hour
+minutos = fechayhora.minute
+segundos = fechayhora.second
+microsegundos = fechayhora.microsecond
+
+print(f&quot;La hora es {hora} : {minutos}&quot;)
+print(f&quot;La fecha es {dia} {mes} {año}&quot;)
+</code></pre>
+<h2 id="sqlite">SQLite</h2>
+<ul>
+<li>
+<p>Crear base de datos con python con el modulo sqlite:  </p>
+</li>
+<li>
+<p><a href="https://likegeeks.com/es/tutorial-de-python-sqlite3/#SQLite3_Cursor">TUTORIAL</a>  </p>
+</li>
+<li>
+<p>Podemos descargar la <a href="https://sqlitebrowser.org/dl/">herramienta</a> para visualizar las cosas y manejar la bd.  </p>
+</li>
+<li>
+<p>Ejemplo de creacion de bbdd:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos el modulo de bd sqlite
+import sqlite3  
+
+# creamos/existente bbdd
+conexion = sqlite3.connect(&quot;bbdd1.db&quot;)
+
+# sirve para poder hacer sentencias sql dentro
+cursor = conexion.cursor()
+
+# creamos una tabla
+cursor.execute(&quot;CREATE TABLE PERSONAS (nombre TEXT, apellido1 TEXT, apellido2 TEXT, edad INTEGER)&quot;)
+# creamos fila
+cursor.execute(&quot;INSERT INTO PERSONAS VALUES ('Antonio', 'Perez', 'Gomez', 35)&quot;)
+# creamos varias filas
+lista_personas = [('Miguel', 'Amoros', 'Moret', 28), ('Natalia', 'Sendra', 'Soler', 26)]
+cursor.executemany(&quot;INSERT INTO PERSONAS VALUES (?,?,?,?)&quot;, lista_personas)
+
+# consulta de datos
+cursor.execute(&quot;SELECT * FROM PERSONAS&quot;)
+personas = cursor.fetchall()
+for persona in personas:
+    print(persona)
+
+# consulta datos con WHERE
+cursor.execute(&quot;SELECT * FROM PERSONAS WHERE edad &gt; 28&quot;)
+personas_edad = cursor.fetchall()
+for persona in personas_edad:
+    print(persona)
+
+# consulta datos con WHERE y ordenado
+cursor.execute(&quot;SELECT * FROM PERSONAS WHERE edad &lt;= 28 ORDER BY edad DESC&quot;)
+personas_edad = cursor.fetchall()
+for persona in personas_edad:
+    print(persona)
+
+# borrar datos
+cursor.execute(&quot;DELETE FROM PERSONAS WHERE nombre = 'Antonio'&quot;)
+
+# actualizar datos
+cursor.execute(&quot;UPDATE PERSONAS SET nombre = 'Miguelito' where edad = 28&quot;)
+
+
+# mantener el registro guardado
+conexion.commit()
+
+# cerramos bdd
+conexion.close()
+</code></pre>
 <h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
 <ul>
 <li>
@@ -929,7 +1203,7 @@ else:
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../bash_scripting/" class="btn btn-neutral float-right" title="BashScripting">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../java/" class="btn btn-neutral float-right" title="Java">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../gitlab/" class="btn btn-neutral" title="Gitlab"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -961,7 +1235,7 @@ else:
       <span><a href="../gitlab/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../bash_scripting/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../java/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

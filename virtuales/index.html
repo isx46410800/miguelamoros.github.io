@@ -71,6 +71,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
                     </li>
                 </ul>
@@ -322,11 +326,23 @@
 <h1 id="vagrant">VAGRANT</h1>
 <ul>
 <li>
-<p><a href="https://www.vagrantup.com/docs">DOCUMENTACION VAGRANT</a> es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.  </p>
+<p><a href="https://www.vagrantup.com/docs">DOCUMENTACION VAGRANT</a> es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.   </p>
 </li>
 <li>
-<p>El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  </p>
+<p>Instalacion:  </p>
 </li>
+</ul>
+<pre><code>lsmod | grep kvm
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install vagrant
+vagrant init hashicorp/bionic64
+vagrant up
+vagrant ssh
+vagrant destroy
+</code></pre>
+<ul>
+<li>El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  </li>
 </ul>
 <pre><code># -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -385,7 +401,8 @@ Vagrant.configure(&quot;2&quot;) do |config|
 end
 </code></pre>
 <blockquote>
-<p>comando <code>vagrant up</code> para subir el fichero Vagrantfile.<br />
+<p>Estoy crea una maquina virtual en virtualbox con ubuntu y las caracteristicas que se especifican.<br />
+comando <code>vagrant up</code> para subir el fichero Vagrantfile.<br />
 <code>vagrant status</code> para ver el estado<br />
 <code>vagrant ssh</code> para conectarte a la maquina virtual por consola directamente.<br />
 <code>cat /etc/os-release</code> ver la versiones<br />

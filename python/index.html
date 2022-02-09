@@ -923,6 +923,186 @@ conexion.commit()
 # cerramos bdd
 conexion.close()
 </code></pre>
+<h2 id="tkinter">TKINTER</h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3.9/library/tkinter.html">TKINTER</a> Es un modulo de python que sirve para crear una interfaz grafica.</p>
+</li>
+<li>
+<p>Ejemplo de lo que se puede hacer:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# tkinter - componente raiz
+import tkinter
+from tkinter import filedialog
+
+# definimos la ventana de la aplicacion
+raiz = tkinter.Tk()
+raiz.title(&quot;Mi programa&quot;)
+
+# definimos aspecto de la ventana
+frame = tkinter.Frame(raiz)
+frame.config(fg=&quot;blue&quot;,width=400,height=300)
+frame.pack()
+
+# construimos un label
+texto = &quot;Hola mundo&quot;
+label = tkinter.Label(raiz,text=texto)
+label.config(fg=&quot;green&quot;,bg=&quot;grey&quot;,font=(&quot;Cortana&quot;,30))
+label.pack()
+
+# construimos una entrada por teclado
+entrada = tkinter.Entry(raiz)
+entrada.config(justify=&quot;center&quot;, show=&quot;*&quot;)
+entrada.pack()
+
+# construimos una box de texto
+box = tkinter.Text(raiz)
+box.config(width=20,height=10,font=(&quot;Verdana&quot;,15),padx=10,pady=10,fg=&quot;green&quot;,selectbackground=&quot;yellow&quot;)
+box.pack()
+
+# construimos una boton que salte mensaje
+def accion():
+    print(&quot;Hola mundo&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Ejecutar&quot;,command=accion)
+boton.config(fg=&quot;green&quot;)
+boton.pack()
+
+# construimos un multiseleccion
+def accion():
+    print(f&quot;La opcion es {opcion.get()}&quot;)
+
+seleccion1 = tkinter.Radiobutton(raiz,text=&quot;Opcion 1&quot;,variable=opcion,command=accion)
+seleccion1.pack()
+seleccion2 = tkinter.Radiobutton(raiz,text=&quot;Opcion 2&quot;,variable=opcion,command=accion)
+seleccion2.pack()
+
+# construimos un checkbutton
+def verificar():
+    valor = check1.get()
+    if valor == 1:
+        print(&quot;La opcion está activada&quot;)
+    else:
+        print(&quot;La opcion está activada&quot;)
+
+check1 = tkinter.IntVar()
+boton1 = tkinter.Checkbutton(raiz,text=&quot;Opcion 1&quot;,variable=check1,onvalue=1,offvalue=0,command=verificar)
+boton1.pack()
+
+# construimos boton con popup
+def avisar():
+    tkinter.messagebox.showinfo(&quot;Titulo&quot;,&quot;Mensaje con la info&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para aviso&quot;,command=avisar)
+boton.pack()
+
+# construimos boton con popup para responder si o no
+def preguntar():
+    tkinter.messagebox.askquestion(&quot;Titulo&quot;,&quot;Quieres borrar la info?&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para preguntar&quot;,command=preguntar)
+boton.pack()
+
+# construimos boton para añadir fichero
+from tkinter import filedialog
+def abrirfichero():
+    rutafichero = filedialog.askopenfilename(title=&quot;Abrir un fichero&quot;)
+    print(rutafichero)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para abrir fichero&quot;,command=abrirfichero)
+boton.pack()
+
+# para que siga ejecutandose
+raiz.mainloop()
+</code></pre>
+<h2 id="pydoc">PYDOC</h2>
+<ul>
+<li>Es un comando que sirve para generar documentacion de una clase y sus funciones:<br />
+<code>pydoc /ruta/programa.py</code><br />
+<code>pydoc -w /ruta/programa.py</code> para tenerla en html.  </li>
+</ul>
+<h2 id="doctest">DOCTEST</h2>
+<ul>
+<li>Sirve para hacer pruebas en los docstrings de las funciones:  </li>
+</ul>
+<pre><code># DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    &quot;&quot;&quot;
+    Esto es una funcion para sumar numeros
+    &gt;&gt;&gt; sumar(4,3)
+    7
+    &gt;&gt;&gt; sumar(4,3)
+    8
+    &gt;&gt;&gt; sumar(2,3)
+    5
+    &quot;&quot;&quot;
+    return num1+num2
+print(sumar(2,2))
+# se importa al final la libreria para hacer las pruebas
+import doctest
+doctest.testmod()
+</code></pre>
+<pre><code>4
+**********************************************************************
+File &quot;/home/miguel/Documents/curso_python2022/prueba_doctest.py&quot;, line 9, in __main__.sumar
+Failed example:
+    sumar(4,3)
+Expected:
+    8
+Got:
+    7
+**********************************************************************
+1 items had failures:
+   1 of   3 in __main__.sumar
+***Test Failed*** 1 failures.
+</code></pre>
+<h2 id="unistest">UNISTEST</h2>
+<ul>
+<li>Modulo que sirve para hacer <a href="https://docs.python.org/3/library/unittest.html">test</a>.  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    &quot;&quot;&quot;
+    Esto es una funcion para sumar numeros
+    &quot;&quot;&quot;
+    return num1+num2
+
+print(sumar(2,2))
+
+# se importa al final la libreria para hacer las pruebas
+import unittest
+class pruebas(unittest.TestCase):
+    def test(self):
+        self.assertEqual(sumar(4,5),9)
+        self.assertEqual(sumar(4,5),19)
+
+# prueba
+if __name__ == '__main__':
+    unittest.main()
+</code></pre>
+<pre><code>4
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+OK
+</code></pre>
+<h2 id="numpy">NUMPY</h2>
+<ul>
+<li>
+<p><a href="https://aprendeconalf.es/docencia/python/manual/numpy/">NUMPY</a> s una librería de Python especializada en el cálculo numérico y el análisis de datos, especialmente para un gran volumen de datos.  </p>
+</li>
+<li>
+<p>Incorpora una nueva clase de objetos llamados arrays que permite representar colecciones de datos de un mismo tipo en varias dimensiones, y funciones muy eficientes para su manipulación.  </p>
+</li>
+<li>
+<p>Instalamos libreria con <code>pip3 install numpy</code>  </p>
+</li>
+</ul>
 <h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
 <ul>
 <li>

@@ -402,6 +402,12 @@ TablaMultiplicar(10,3)
 + conjunto.add, update, remove, discard, update, pop, clear.  
 + tupla[posicion]  
 
+## MODULOS  
+
++ Es un fichero con conjunto de funciones que podemos importar en otros ficheros.  
++ Todas enteras `import modulo.py`  
++ En concreto `from modulo.py import funcion1.py`  
+
 ## GESTION ERRORES  
 ```
 while True:
@@ -420,6 +426,473 @@ while True:
         print("codigo ejecutado correctamente")
 ```  
 > Hay varios except como divisionzero, keyboardinterrupt, error value...  
+
+
+## GESTION DE FICHEROS  
+
++ Leer un fichero:  
+```
+#!/usr/bin/python3
+# leer un fichero en modo read y texto y lo guardamos en una variable
+fichero = open("./texto.txt", "rt")
+# ver los datos
+datos_fichero = fichero.read()
+print(datos_fichero)
+```  
+
++ Crear un fichero poniendo texto:  
+```
+#!/usr/bin/python3
+# creamos un fichero y metodo write y texto para que escriba
+fichero = open("./texto2.txt", "wt")
+# escribir los datos
+texto = "Esto es un ejemplo para\nescribir en un fichero\nque vamos a grabar.\n"
+fichero.write(texto)
+# cerramos dichero
+fichero.close()
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+```  
+
++ Añadir texto a un fichero:  
+```
+#!/usr/bin/python3
+# creamos un fichero y metodo append y texto para que añada cosas al file
+fichero = open("./texto3.txt", "at")
+# escribir los datos
+texto = "\nEsto es un ejemplo para\nañadir texto\n"
+fichero.write(texto)
+# cerramos dichero
+fichero.close()
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+```  
+
++ Borrar un fichero:  
+```
+#!/usr/bin/python3
+
+# importamos un modulo para usar el metodo de borrar fichero del sistema
+import os
+# creamos un fichero y metodo append y texto para que añada cosas al file
+os.remove("./texto3.txt")
+# al ejecutarlo se nos crea un fichero con ese nombre y ese texto.
+```  
+
++ Creamos un modulo de objeto Fichero y tratamos estas funciones en un programa:  
+```
+#!/usr/bin/python3
+
+class Fichero:
+    def __init__(self,nombre):
+        self.nombre = nombre
+    def grabar_fichero(self,texto):
+        fichero = open(self.nombre, "wt")
+        fichero.write(texto)
+        fichero.close()
+    def incluir_fichero(self,texto):
+        fichero = open(self.nombre, "at")
+        fichero.write(texto)
+        fichero.close()
+    def leer_fichero(self):
+        fichero = open(self.nombre, "rt")
+        texto = fichero.read()
+        return texto
+```
+
+```
+#!/usr/bin/python3
+
+# importamos el modulo
+import ficheros_modulo
+
+# creamos nombre del fichero
+nombre_fichero = "fichero1.txt"
+fichero = ficheros_modulo.Fichero(nombre_fichero)
+# en el fichero que vamos a crear, tiene este texto
+texto = "Esta es la linea para añadir.\nEsta la segunda linea.\n"
+fichero.grabar_fichero(texto)
+# añadimos al fichero este texto
+texto = "Esta es la linea para añadir.\n"
+fichero.incluir_fichero(texto)
+# leemos lo que tenemos de fichero
+leer_texto = fichero.leer_fichero()
+print(leer_texto)
+```  
+
++ Tratamiento de binarios en python:  
+```
+#!/usr/bin/python3
+
+# importamos el modulo para ficheros binarios
+import pickle
+
+# leer en modo binarios
+fichero = open("binarios_colores.pckl", "rb")
+lista_colores = pickle.load(fichero)
+print(lista_colores)
+```  
+
+```
+#!/usr/bin/python3
+
+# importamos el modulo para ficheros binarios
+import pickle
+
+# añadimos a un fichero una lista de colores en modo binarios
+colores = ["azul", "amarillo", "verde"]
+fichero = open("binarios_colores.pckl", "wb")
+
+pickle.dump(colores, fichero)
+fichero.close()
+```  
+
+## EXPRESIONES REGULARES  
+
++ Expresiones regulares con el modulo RE:  
+```
+#!/usr/bin/python3
+
+# importamos el modulo de expresiones regulares
+import re
+
+texto = "Hola me llamo miguel"
+
+# SEARCH
+# buscamos ese patron dentro del texto
+resultado = re.search("llamo",texto)
+# que acabe en miguel$, que empiece en ^miguel 
+# que haya algo entre me.*miguel
+
+if resultado:
+    print("OK")
+else:
+    print("No encontado")
+
+# FINDALL
+texto2 = '''
+el coche de miguel es rojo
+el coche de natalia es blanco
+'''
+resultado = re.findall("coche.*rojo", texto2)
+
+if resultado:
+    print("OK")
+else:
+    print("No encontado")
+
+# SPLIT
+texto3 = "La silla es blanca y vale 80"
+resultado = re.split("\s", texto3)
+
+if resultado:
+    print(resultado)
+else:
+    print("No encontado")
+
+# SUB
+texto4 = "La silla es blanca y vale 80"
+resultado = re.sub("blanca", "roja", texto4)
+
+if resultado:
+    print(resultado)
+else:
+    print("No encontado")
+```  
+
+## CONVERT JSON  
+
+```
+#!/usr/bin/python3
+
+# importamos el modulo de json
+import _json
+
+producto1 = {"nombre":"miguel", "apellido":"amoros"}
+
+estructura_json = _json.dumps(producto1)
+print(estructura_json)
+
+producto2 = _json.loads(estructura_json)
+print(producto2)
+```  
+
+## FECHA Y HORA  
+
+```
+#!/usr/bin/python3
+
+# importamos el modulo de json
+from datetime import datetime
+
+fechayhora = datetime.now()
+print(fechayhora)
+
+año = fechayhora.year
+mes = fechayhora.month
+dia = fechayhora.day
+
+hora = fechayhora.hour
+minutos = fechayhora.minute
+segundos = fechayhora.second
+microsegundos = fechayhora.microsecond
+
+print(f"La hora es {hora} : {minutos}")
+print(f"La fecha es {dia} {mes} {año}")
+```  
+
+## SQLite  
+
++ Crear base de datos con python con el modulo sqlite:  
+
++ [TUTORIAL](https://likegeeks.com/es/tutorial-de-python-sqlite3/#SQLite3_Cursor)  
+
++ Podemos descargar la [herramienta](https://sqlitebrowser.org/dl/) para visualizar las cosas y manejar la bd.  
+
++ Ejemplo de creacion de bbdd:  
+```
+#!/usr/bin/python3
+
+# importamos el modulo de bd sqlite
+import sqlite3  
+
+# creamos/existente bbdd
+conexion = sqlite3.connect("bbdd1.db")
+
+# sirve para poder hacer sentencias sql dentro
+cursor = conexion.cursor()
+
+# creamos una tabla
+cursor.execute("CREATE TABLE PERSONAS (nombre TEXT, apellido1 TEXT, apellido2 TEXT, edad INTEGER)")
+# creamos fila
+cursor.execute("INSERT INTO PERSONAS VALUES ('Antonio', 'Perez', 'Gomez', 35)")
+# creamos varias filas
+lista_personas = [('Miguel', 'Amoros', 'Moret', 28), ('Natalia', 'Sendra', 'Soler', 26)]
+cursor.executemany("INSERT INTO PERSONAS VALUES (?,?,?,?)", lista_personas)
+
+# consulta de datos
+cursor.execute("SELECT * FROM PERSONAS")
+personas = cursor.fetchall()
+for persona in personas:
+    print(persona)
+
+# consulta datos con WHERE
+cursor.execute("SELECT * FROM PERSONAS WHERE edad > 28")
+personas_edad = cursor.fetchall()
+for persona in personas_edad:
+    print(persona)
+
+# consulta datos con WHERE y ordenado
+cursor.execute("SELECT * FROM PERSONAS WHERE edad <= 28 ORDER BY edad DESC")
+personas_edad = cursor.fetchall()
+for persona in personas_edad:
+    print(persona)
+
+# borrar datos
+cursor.execute("DELETE FROM PERSONAS WHERE nombre = 'Antonio'")
+
+# actualizar datos
+cursor.execute("UPDATE PERSONAS SET nombre = 'Miguelito' where edad = 28")
+
+
+# mantener el registro guardado
+conexion.commit()
+
+# cerramos bdd
+conexion.close()
+```  
+
+## TKINTER  
+
++ [TKINTER](https://docs.python.org/3.9/library/tkinter.html) Es un modulo de python que sirve para crear una interfaz grafica.
+
++ Ejemplo de lo que se puede hacer:  
+```
+#!/usr/bin/python3
+
+# tkinter - componente raiz
+import tkinter
+from tkinter import filedialog
+
+# definimos la ventana de la aplicacion
+raiz = tkinter.Tk()
+raiz.title("Mi programa")
+
+# definimos aspecto de la ventana
+frame = tkinter.Frame(raiz)
+frame.config(fg="blue",width=400,height=300)
+frame.pack()
+
+# construimos un label
+texto = "Hola mundo"
+label = tkinter.Label(raiz,text=texto)
+label.config(fg="green",bg="grey",font=("Cortana",30))
+label.pack()
+
+# construimos una entrada por teclado
+entrada = tkinter.Entry(raiz)
+entrada.config(justify="center", show="*")
+entrada.pack()
+
+# construimos una box de texto
+box = tkinter.Text(raiz)
+box.config(width=20,height=10,font=("Verdana",15),padx=10,pady=10,fg="green",selectbackground="yellow")
+box.pack()
+
+# construimos una boton que salte mensaje
+def accion():
+    print("Hola mundo")
+
+boton = tkinter.Button(raiz,text="Ejecutar",command=accion)
+boton.config(fg="green")
+boton.pack()
+
+# construimos un multiseleccion
+def accion():
+    print(f"La opcion es {opcion.get()}")
+
+seleccion1 = tkinter.Radiobutton(raiz,text="Opcion 1",variable=opcion,command=accion)
+seleccion1.pack()
+seleccion2 = tkinter.Radiobutton(raiz,text="Opcion 2",variable=opcion,command=accion)
+seleccion2.pack()
+
+# construimos un checkbutton
+def verificar():
+    valor = check1.get()
+    if valor == 1:
+        print("La opcion está activada")
+    else:
+        print("La opcion está activada")
+
+check1 = tkinter.IntVar()
+boton1 = tkinter.Checkbutton(raiz,text="Opcion 1",variable=check1,onvalue=1,offvalue=0,command=verificar)
+boton1.pack()
+
+# construimos boton con popup
+def avisar():
+    tkinter.messagebox.showinfo("Titulo","Mensaje con la info")
+
+boton = tkinter.Button(raiz,text="Pulsar para aviso",command=avisar)
+boton.pack()
+
+# construimos boton con popup para responder si o no
+def preguntar():
+    tkinter.messagebox.askquestion("Titulo","Quieres borrar la info?")
+
+boton = tkinter.Button(raiz,text="Pulsar para preguntar",command=preguntar)
+boton.pack()
+
+# construimos boton para añadir fichero
+from tkinter import filedialog
+def abrirfichero():
+    rutafichero = filedialog.askopenfilename(title="Abrir un fichero")
+    print(rutafichero)
+
+boton = tkinter.Button(raiz,text="Pulsar para abrir fichero",command=abrirfichero)
+boton.pack()
+
+# para que siga ejecutandose
+raiz.mainloop()
+```  
+
+## PYDOC  
+
++ Es un comando que sirve para generar documentacion de una clase y sus funciones:  
+`pydoc /ruta/programa.py`  
+`pydoc -w /ruta/programa.py` para tenerla en html.  
+
+
+## DOCTEST  
+
++ Sirve para hacer pruebas en los docstrings de las funciones:  
+```
+# DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    """
+    Esto es una funcion para sumar numeros
+    >>> sumar(4,3)
+    7
+    >>> sumar(4,3)
+    8
+    >>> sumar(2,3)
+    5
+    """
+    return num1+num2
+print(sumar(2,2))
+# se importa al final la libreria para hacer las pruebas
+import doctest
+doctest.testmod()
+```  
+
+```
+4
+**********************************************************************
+File "/home/miguel/Documents/curso_python2022/prueba_doctest.py", line 9, in __main__.sumar
+Failed example:
+    sumar(4,3)
+Expected:
+    8
+Got:
+    7
+**********************************************************************
+1 items had failures:
+   1 of   3 in __main__.sumar
+***Test Failed*** 1 failures.
+```  
+
+## UNISTEST  
+
++ Modulo que sirve para hacer [test](https://docs.python.org/3/library/unittest.html).  
+```
+#!/usr/bin/python3
+
+# DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    """
+    Esto es una funcion para sumar numeros
+    """
+    return num1+num2
+
+print(sumar(2,2))
+
+# se importa al final la libreria para hacer las pruebas
+import unittest
+class pruebas(unittest.TestCase):
+    def test(self):
+        self.assertEqual(sumar(4,5),9)
+        self.assertEqual(sumar(4,5),19)
+
+# prueba
+if __name__ == '__main__':
+    unittest.main()
+```  
+
+```
+4
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+OK
+```  
+
+
+## NUMPY  
+
++ [NUMPY](https://aprendeconalf.es/docencia/python/manual/numpy/) s una librería de Python especializada en el cálculo numérico y el análisis de datos, especialmente para un gran volumen de datos.  
+
++ Incorpora una nueva clase de objetos llamados arrays que permite representar colecciones de datos de un mismo tipo en varias dimensiones, y funciones muy eficientes para su manipulación.  
+
++ Instalamos libreria con `pip3 install numpy`  
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## SELENIUM WEB DRIVER  
 

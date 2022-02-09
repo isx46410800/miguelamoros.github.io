@@ -20,6 +20,11 @@
 
 + En este tutorial, instalará Grafana y la protegerá con un certificado SSL y un proxy inverso de Nginx. Una vez que haya configurado Grafana, tendrá la opción de configurar la autenticación del usuario a través de GitHub, lo que le permitirá organizar mejor los permisos de su equipo.  
 
++ Podemos instalar plugins en grafana. Un caso muy usado es instalar Telegraf que es un motor que envia datos de monitorizacion a una base de datos InfluxDB para poder mostrar los datos de esta bbdd en grafana.  
+
++ Se pueden crear paneles y alertas.  
+
+
 # PROMETHEUS
 
 + [Prometheus](https://prometheus.io/) es otra herramienta de metricas y alertas en tiempo real.  

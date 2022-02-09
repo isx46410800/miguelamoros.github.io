@@ -9,6 +9,7 @@ nav:
         - VSCode: vscode.md
         - Gitlab: gitlab.md
         - Python: python.md
+        - Java: java.md
         - BashScripting: bash_scripting.md
         - PowerShell/CMD: powershell.md
         - M.Virtuales: virtuales.md  

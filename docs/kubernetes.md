@@ -6084,13 +6084,41 @@ metadata:
 
 ### INSTALACION  
 
-+ Pase a un directorio editable y descargue la secuencia de comandos del repositorio de GitHub de Helm:  
++ [INSTALACION Y PASO A PASO EXPLICACION INICIAL](https://helm.sh/es/docs/intro/using_helm/)  
+
++ Iniciamos helm:  
+`kubectl apply -f helm-rbac.yml` 
+`helm init --service-account helm-tiller`  
+`kubectl get pods -n kube-system` 
 ```
-cd /tmp
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod u+x get_helm.sh
-./get_helm.sh
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+ name: helm-tiller
+ namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+ name: helm-tiller
+roleRef:
+ apiGroup: rbac.authorization.k8s.io
+ kind: ClusterRole
+ name: cluster-admin
+subjects:
+ - kind: ServiceAccount
+ name: helm-tiller
+ namespace: kube-system
 ```  
+> NOTA: YA NO SE USA TILLER  
+
++ Podemos buscar charts instalables como por ejemplo:  
+`helm search hub/repo nginx` 
+
++ Instalamos cualquier chart que salga con:  
+`helm install nginx-redi (--name nuevo_name)`  
+`helm install my-releasr nginx-stable/nginx-ingress` 
+`helm ls`  
 
 + Instalar [Tiller](https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-package-manager-es): Tiller es un complemento del comando helm que se ejecuta en su clúster, recibe comandos de helm y se comunica directamente con la API de Kubernetes para hacer el verdadero trabajo de crear y eliminar recursos. A fin de proporcionar a Tiller los permisos que necesita para ejecutarse en el clúster, crearemos un recurso serviceaccount de Kubernetes.  
 `kubectl -n kube-system create serviceaccount tiller`  

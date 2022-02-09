@@ -66,7 +66,19 @@
 
 # VAGRANT  
 
-+ [DOCUMENTACION VAGRANT](https://www.vagrantup.com/docs) es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.  
++ [DOCUMENTACION VAGRANT](https://www.vagrantup.com/docs) es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.   
+
++ Instalacion:  
+```
+lsmod | grep kvm
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install vagrant
+vagrant init hashicorp/bionic64
+vagrant up
+vagrant ssh
+vagrant destroy
+```  
 
 + El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  
 ```
@@ -126,6 +138,7 @@ Vagrant.configure("2") do |config|
       end
 end
 ```  
+> Estoy crea una maquina virtual en virtualbox con ubuntu y las caracteristicas que se especifican.  
 > comando `vagrant up` para subir el fichero Vagrantfile.  
 > `vagrant status` para ver el estado  
 > `vagrant ssh` para conectarte a la maquina virtual por consola directamente.  

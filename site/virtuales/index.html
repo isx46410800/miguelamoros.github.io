@@ -71,6 +71,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
                     </li>
                 </ul>
@@ -319,14 +323,26 @@
 <ul>
 <li>En linux podemos usar el <a href="https://vidatecno.net/como-usar-kvm-con-virtual-machine-manager/">virt-manager</a> para crear una maquina virtual.  </li>
 </ul>
-<h2 id="vagrant">VAGRANT</h2>
+<h1 id="vagrant">VAGRANT</h1>
 <ul>
 <li>
-<p><a href="https://www.vagrantup.com/docs">DOCUMENTACION VAGRANT</a> es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.  </p>
+<p><a href="https://www.vagrantup.com/docs">DOCUMENTACION VAGRANT</a> es otro entorno de maquina virtuales que nos permite desplegar de manera mas rapida diferentes maquinas virtuales y probar distintos entornos.   </p>
 </li>
 <li>
-<p>El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  </p>
+<p>Instalacion:  </p>
 </li>
+</ul>
+<pre><code>lsmod | grep kvm
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install vagrant
+vagrant init hashicorp/bionic64
+vagrant up
+vagrant ssh
+vagrant destroy
+</code></pre>
+<ul>
+<li>El vagrantfile es el fichero que describe como seran configuradas y provisionadas las maquinas virtuales. Este fichero está escrito en Ruby. Ejemplo:  </li>
 </ul>
 <pre><code># -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -385,13 +401,213 @@ Vagrant.configure(&quot;2&quot;) do |config|
 end
 </code></pre>
 <blockquote>
-<p>comando <code>vagrant up</code> para subir el fichero Vagrantfile.<br />
+<p>Estoy crea una maquina virtual en virtualbox con ubuntu y las caracteristicas que se especifican.<br />
+comando <code>vagrant up</code> para subir el fichero Vagrantfile.<br />
 <code>vagrant status</code> para ver el estado<br />
 <code>vagrant ssh</code> para conectarte a la maquina virtual por consola directamente.<br />
 <code>cat /etc/os-release</code> ver la versiones<br />
 <code>cat /vagrant-demo</code>ver cosas de las caracteristicas del nombre de la VM.<br />
 <code>sudo podman container ls</code> para ver el pod creado<br />
 <code>vagrant destroy</code> para eliminar la maquina.  </p>
+</blockquote>
+<h1 id="digital-ocean">DIGITAL OCEAN</h1>
+<ul>
+<li>
+<p><a href="https://www.digitalocean.com/">DIGITAL OCEAN</a> Es una plataforma de la nube como aws y azure que te permite crear maquinas virtuales.  </p>
+</li>
+<li>
+<p>Un <a href="https://marketplace.digitalocean.com/">droplet</a> no es más que una máquina virtual en la nube con todas las características de un servidor, totalmente escalable de acuerdo a las necesidades del negocio, es decir si tienes un droplet con un disco duro de por ejemplo 10 gb.  </p>
+</li>
+</ul>
+<h1 id="podman">PODMAN</h1>
+<ul>
+<li>
+<p><a href="https://docs.podman.io/en/latest/">Podman</a> es como Docker y lo que se diferencia es que para interactuar docker primero pasa por el demonio de docker y luego al cli y podman es serveless.  </p>
+</li>
+<li>
+<p>As a result of the CLI similarities, to preserve the developers experience when transitioning from Docker to Podman, simply set the following alias docker=podman. While not an exhaustive list, the basic Podman operations are enumerated below:  </p>
+</li>
+</ul>
+<pre><code>List images available in the local cache:
+$ podman image ls
+Pulling an alpine image from the Docker Hub registry into the local cache:
+$ podman image pull docker.io/library/alpine 
+Run a container from an image (if the image is not found in local cache it will be pulled from the registry). The run command is the equivalent of podman container create followed by podman container &lt;id&gt; start:
+$ podman container run -it alpine sh
+Run a container in the background (-d option) from an nginx image from the Docker Hub registry:
+$ podman container run -d docker.io/library/nginx 
+List only running containers:
+$ podman container ls 
+List all containers: 
+$ podman container ls -a
+Inject a process inside a running container. This will start a bash shell in interactive (-i option) terminal (-t option) mode inside the container:
+$ podman container exec -it &lt;container_id/name&gt; bash
+Stop a running container:
+$ podman container stop &lt;container id/name&gt; 
+Delete a stopped container:
+$ podman container rm  &lt;container id/name&gt;
+</code></pre>
+<ul>
+<li>Podman network operations allow us to list networks, create custom networks, inspect them, attach containers to them, and finally remove them when no longer needed. Podman supports the creation of CNI-compliant container networks. To create container networks, Podman supports drivers for various network types. Default is the bridge driver, usable in both rootless and rooted modes. However, in rooted mode, additional two drivers can be used, the macvlan and ipvlan drivers with options such as parent to designate a host device and the mode to be set on the interface. The macvlan and ipvlan drivers are only available in rooted mode because they require access to the host network interfaces, otherwise the rootless networking needs a separate network namespace:  </li>
+</ul>
+<pre><code>A mix of rootless ($) and rooted (#) network operations are provided below: 
+$ podman network ls
+$ podman network create --subnet 192.168.20.0/24 --gateway 192.168.20.3 bridgenet
+$ podman network inspect bridgenet
+# podman network create -d macvlan -o parent=eth0 macvnet
+# podman network inspect macvnet
+</code></pre>
+<h1 id="pupet">PUPET</h1>
+<ul>
+<li>
+<p><a href="https://puppet.com/docs/">PUPPET</a> Es una herramienta de gestion de configuracion que usa el modelo cliente/servidor. El puppet agent tiene que estar instalado en cada maquina a la que se quiera acceder y el server solo en un LINUX.  </p>
+</li>
+<li>
+<p>Se crea en un archivo manifiesto los <a href="https://puppet.com/docs/puppet/7/resource_types.html">recursos</a> que se quieran crear:  </p>
+</li>
+</ul>
+<pre><code>user { 'student':
+  ensure     =&gt; present,
+  uid        =&gt; '1001',
+  gid        =&gt; '1001',
+  shell      =&gt; '/bin/bash',
+  home       =&gt; '/home/student'
+}
+</code></pre>
+<h1 id="chef">CHEF</h1>
+<ul>
+<li>
+<p><a href="https://www.chef.io/">CHEF</a> Es otra herramienta de gestion cliente/servidor donde el cliente tambien tiene que ser instalado en cada maquina.  </p>
+</li>
+<li>
+<p>Los manifiestos son llamados <a href="https://docs.chef.io/cookbooks/">cookbooks</a> para instalar cosas:  </p>
+</li>
+</ul>
+<pre><code>package &quot;apache2&quot; do
+  action :install
+end
+
+service &quot;apache2&quot; do
+  action [:enable, :start]
+end
+</code></pre>
+<blockquote>
+<p>Son llamados recipes  </p>
+</blockquote>
+<ul>
+<li>Knife es la herramienta de conexion entre las maquinas.  </li>
+</ul>
+<h1 id="packer">PACKER</h1>
+<ul>
+<li>
+<p><a href="https://www.packer.io/docs">PACKER</a> es una herramienta de software libre desarrollada por Hashicorp que nos permite crear imágenes de sistema operativo de forma automatizada y utilizando archivos de configuración para tal efecto y sirve para diferentes plataformas a la vez.</p>
+</li>
+<li>
+<p>Una vez creada la configuración (que veremos en próximas entradas) Packer se conectará a la infraestructura de destino, creará la máquina virtual y aplicará todas las configuraciones que hayamos definido en nuestros archivos. Todo esto mientras nos tomamos un rico café.</p>
+</li>
+<li>
+<p>Una vez hemos creado la plantilla, Packer permite crear automáticamente tantas máquinas virtuales como necesitemos. Lógicamente, cuantas más máquinas virtuales creemos a partir de una plantilla, más rentabilizaremos el tiempo empleado en la elaboración de la plantilla, pero, aún en el caso de que sólo creemos una vez la máquina virtual, la plantilla nos servirá como documentación y especificación del proceso.  </p>
+</li>
+<li>
+<p>Packer incluye la funcionalidad necesaria para trabajar con las grandes plataformas del mercado sin la necesidad de instalar ningún plugin adicional:</p>
+<ul>
+<li>Aws.</li>
+<li>Azure.</li>
+<li>DigitalOcean.</li>
+<li>Docker.</li>
+<li>Google Cloud Platform.</li>
+<li>Hyper-V.</li>
+<li>VMware.  </li>
+</ul>
+</li>
+<li>
+<p>La generación automatizada de plantillas con Packer puede aportarnos muchos beneficios a nuestro flujo de trabajo:</p>
+<ul>
+<li>Velocidad de aprovisionado: Con Packer nuestras plantillas pueden disponer siempre de las últimas versiones de sistema operativo y de aplicaciones, con lo que podemos desplegar una plantilla siempre lista para su uso en cuestión de segundos o pocos minutos.</li>
+<li>Consistencia: Utilizando Packer nos aseguramos de que todas las máquinas virtuales que despleguemos partirán de la misma configuración.</li>
+<li>Consistencia multiplataforma: Siguiendo con el punto anterior, con Packer podemos partir de imágenes idénticas si disponemos de entornos híbridos. En todo momento estaremos seguros que nuestra instancia de Compute Engine de GCP es identica a nuestra máquina virtual de VMware vSphere.</li>
+<li>Versionado de configuración: Tener nuestras configuraciones en archivos de texto nos permite versionarlas de forma muy sencilla, por ejemplo, con Git, con lo que siempre podremos echar la vista atrás a la hora de hacer troubleshooting de nuestras máquinas.</li>
+</ul>
+</li>
+<li>
+<p>Packer utiliza templates en formato JSON con los que definiremos las distintas configuraciones necesarias para el despliegue, configuración y post procesado de nuestras plantillas.  </p>
+</li>
+<li>
+<p><a href="https://www.packer.io/downloads">Instalacion</a>  </p>
+</li>
+<li>
+<p>Ejemplo de template:  </p>
+</li>
+</ul>
+<pre><code>{
+    &quot;variables&quot;: {
+    &quot;aws_access_key&quot;: &quot;YOUR_AWS_ACCESS_KEY&quot;,
+    &quot;aws_secret_key&quot;: &quot;YOUR_AWS_SECRET_KEY&quot;
+    },
+    &quot;builders&quot;: [{
+        &quot;type&quot;: &quot;amazon-ebs&quot;,
+        &quot;access_key&quot;: &quot;{{user `aws_access_key`}}&quot;,
+        &quot;secret_key&quot;: &quot;{{user `aws_secret_key`}}&quot;,
+        &quot;region&quot;: &quot;us-east-1&quot;,
+        &quot;source_ami_filter&quot;: {
+            &quot;filters&quot;: {
+                &quot;virtualization-type&quot;: &quot;hvm&quot;,
+                &quot;name&quot;: &quot;ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*&quot;,
+                &quot;root-device-type&quot;: &quot;ebs&quot;
+            },
+            &quot;owners&quot;: [&quot;099720109477&quot;],
+            &quot;most_recent&quot;: true
+        },
+        &quot;instance_type&quot;: &quot;t2.micro&quot;,
+        &quot;ssh_username&quot;: &quot;ubuntu&quot;,
+        &quot;ami_name&quot;: &quot;packer-example {{timestamp}}&quot;
+    }]
+}
+</code></pre>
+<ul>
+<li>Ejemplo 2:  </li>
+</ul>
+<pre><code>{
+  &quot;builders&quot;: [{
+    &quot;type&quot;: &quot;azure-arm&quot;,
+
+    &quot;client_id&quot;: &quot;f5b6a5cf-fbdf-4a9f-b3b8-3c2cd00225a4&quot;,
+    &quot;client_secret&quot;: &quot;0e760437-bf34-4aad-9f8d-870be799c55d&quot;,
+    &quot;tenant_id&quot;: &quot;72f988bf-86f1-41af-91ab-2d7cd011db47&quot;,
+    &quot;subscription_id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx&quot;,
+
+    &quot;managed_image_resource_group_name&quot;: &quot;myResourceGroup&quot;,
+    &quot;managed_image_name&quot;: &quot;myPackerImage&quot;,
+
+    &quot;os_type&quot;: &quot;Linux&quot;,
+    &quot;image_publisher&quot;: &quot;Canonical&quot;,
+    &quot;image_offer&quot;: &quot;UbuntuServer&quot;,
+    &quot;image_sku&quot;: &quot;16.04-LTS&quot;,
+
+    &quot;azure_tags&quot;: {
+        &quot;dept&quot;: &quot;Engineering&quot;,
+        &quot;task&quot;: &quot;Image deployment&quot;
+    },
+
+    &quot;location&quot;: &quot;East US&quot;,
+    &quot;vm_size&quot;: &quot;Standard_DS2_v2&quot;
+  }],
+  &quot;provisioners&quot;: [{
+    &quot;execute_command&quot;: &quot;chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'&quot;,
+    &quot;inline&quot;: [
+      &quot;apt-get update&quot;,
+      &quot;apt-get upgrade -y&quot;,
+      &quot;apt-get -y install nginx&quot;,
+
+      &quot;/usr/sbin/waagent -force -deprovision+user &amp;&amp; export HISTSIZE=0 &amp;&amp; sync&quot;
+    ],
+    &quot;inline_shebang&quot;: &quot;/bin/sh -x&quot;,
+    &quot;type&quot;: &quot;shell&quot;
+  }]
+}
+</code></pre>
+<blockquote>
+<p>Lo construimos con <code>packer build template.json</code>  </p>
 </blockquote>
               
             </div>

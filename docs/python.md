@@ -882,11 +882,1035 @@ OK
 
 + Instalamos libreria con `pip3 install numpy`  
 
++ Ejemplos de uso:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import numpy as np
+
+# creamos arrays
+lista1 = [1,2,3,4]
+lista2 = [5,6,7,8]
+
+print(np.zeros(4)) # crea array de 4 ceros
+print(np.ones(5)) # crea array de 5 unos
+np.arange(5) # crea array de 0 a 4
+np.arange(2,10)
+
+array1 = np.array(lista1)
+array2 = np.array([1,2,3,4,5,6])
+print(array1)
+
+# array de dos dimensiones
+lista_doble = (lista1,lista2,lista2,lista1)
+print(lista_doble)
+
+array_doble = np.array(lista_doble)
+print(array_doble)
+
+# formas que tiene el array
+print(array_doble.shape) # 4 filas y 4 columnas
+print(array_doble.dtype) # numeros int
 
 
+# operaciones con arrays
+print(array1 + 4) # multiplica todo lo de dentro por 4 pero no queda asignado
+array_multiplicado = array1 * 3
+print(array_multiplicado)
+
+# indexacion / slicing
+array3 = np.arange(10)
+print(array3)
+print(array3[0:3])
+array4 = np.copy(array3)
+array4[0:4] = 20
+print(array3,array4)
+
+# matrices
+array5 = np.arange(15).reshape(3,5) # 3 filas y 5 columnas
+print(array5)
+print(array5[1][1])
+array6 = array5.T # cambio el orden de filas y columnas
+print(array6)
+
+# entrada / salida de arrays
+array7 = np.arange(6)
+np.save("array7", array7) # guarda ese array con ese nombre
+print(np.load("array7.npy")) # carga el archivo con el nombre del array
+array8 = np.arange(8)
+np.savez("arrayxy", x=array7, y=array8) # guarda en tipo coordenadas x y
+array_xy = np.load("arrayxy.npz")
+print(array_xy)
+print(array_xy["x"])
+print(array_xy["y"])
+np.savetxt("mifilearray.txt", array8, delimiter=",") # guarda en un file txt
+print(np.loadtxt("mifilearray.txt", delimiter=","))
+
+# funciones
+print(np.sqrt(array1)) #raiz cuadrada
+print(np.random(5)) # 5 numeros aleatorios
+print(np.add(array1, array2)) # suma las dos
+print(np.maxium(array1,array2)) # elije el maximo de entre las dos arrays
+
+# funcion par e impar
+def pares(inicio,fin):
+    if inicio % 2 == 0:
+        array10 = np.arange(inicio,fin,2)
+    else:
+        inicio +=1
+        array10 = np.arange(inicio,fin)
+    return array10
+print(pares(0,21))
+```  
+
+## PANDAS  
+
++ [PANDAS](https://aprendeconalf.es/docencia/python/manual/pandas/) es una librería de Python especializada en el manejo y análisis de estructuras de datos.  
+
++ Las principales características de esta librería son:  
+    - Define nuevas estructuras de datos basadas en los arrays de la librería NumPy pero con nuevas funcionalidades.
+    - Permite leer y escribir fácilmente ficheros en formato CSV, Excel y bases de datos SQL.
+    - Permite acceder a los datos mediante índices o nombres para filas y columnas.
+    - Ofrece métodos para reordenar, dividir y combinar conjuntos de datos.
+    - Permite trabajar con series temporales.
+    - Realiza todas estas operaciones de manera muy eficiente.
+
++ PARA QUE QUEDE EL CAMBIO HECHO SIEMPRE HAY QUE ASIGNAR LA FUNCION QUE SE HAGA A LA SERIE O DATAFRAME DEL CUAL SE HACE ALGO.  
+
++ Metodo SERIES para crear indices:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+from logging.config import dictConfig
+import pandas as pd
+
+## INDICES
+
+# te crea una serie de indices #0 1
+serie1 = pd.Series([1,5,7])    #1 5
+print(serie1)
+# ver un indice
+print(serie1[1]) #5
+# crear un indice
+asignaturas = ["mates", "sociales", "fisica"]
+notas = [8,9,5]
+serie_notas_miguel = pd.Series(notas,asignaturas)
+print(serie_notas_miguel)
+print(serie_notas_miguel["mates"])
+#condiciones
+print(serie_notas_miguel[serie_notas_miguel>7])
+#asignamos nombres
+serie_notas_miguel.name = "Notas de Miguel"
+serie_notas_miguel.index.name = "Asignaturas de Bachiller"
+print(serie_notas_miguel)
+# convertir la serie en un diccionario
+diccionario = serie_notas_miguel.to_dict()
+print(diccionario)
+serie = pd.Series(diccionario)
+print(serie)
+#operaciones con indices con las series
+notas2 = [1,5,3]
+serie_notas_natalia = pd.Series(notas2,asignaturas)
+print(serie_notas_natalia)
+notas_medias = (serie_notas_miguel+serie_notas_natalia)/2
+print(notas_medias)
+```  
+
++ Metodo DATAFRAMES:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import webbrowser # sirve para paginas web
+## DATAFRAMES
+# sirve para abrir esta web
+website = "https://es.wikipedia.org/wiki/Anexo:Campeones_de_la_NBA"
+webbrowser.open(website)
+# copiamos algo al portapapeles de esa web y lo asignamos a un dataframe
+dataframe_nba = pd.read_clipboard()
+print(dataframe_nba)
+# te dice el nombre de las columnas
+print(dataframe_nba.columns)
+print(dataframe_nba.columns["Campeón del Oeste"])
+# ver la info por el indice
+print(dataframe_nba.loc[5])
+# ver los 5 primeros con head o especificos
+print(dataframe_nba.head())
+print(dataframe_nba.head(7))
+print(dataframe_nba.tail())
+print(dataframe_nba.tail(4))
+
+# dataframe con un diccionario
+asignaturas = ["Mates", "Reli", "Sociales", "Natus"]
+notas = [8,5,7,8]
+diccionario = { "Asignaturas": asignaturas, "Notas": notas}
+print(diccionario)
+# a raiz del diccionario te crea un dataframe con los nombres, notas e indices
+dataframe_notas = pd.DataFrame(diccionario)
+print(dataframe_notas)
+```  
 
 
++ Metodo INDICES:  
+```
+#!/usr/bin/python3
 
+# importamos la liberia
+import pandas as pd
+
+# INDICES
+lista_valores = [1,2,3]
+lista_indices = ["a", "b", "c"]
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie) # a 1 b 2 c 3
+print(serie.index) # a b c
+print(serie.index[0]) # a
+
+lista_valores2 = [[1,2,3], [8,9,10], [3,5,6]]
+lista_indices2 = ["Mates", "Natus", "Fisica"]
+lista_nombres = ["Miguel","Natalia", "Cristina"]
+# creamos el dataframe indicando indices, columnas y datos
+dataframe = pd.DataFrame(lista_valores2, index=lista_indices2, columns=lista_nombres)
+print(dataframe)
+print(dataframe.index)
+print(dataframe.index[2])
+```  
+> Si se crea mas indices que valores, se crean subindices y si usamos `serie.unstack()` convierte los otros indices en columnas. Para deshacer o el proceso inverso seria `dataframe.stack()`.  
+
++ Metodo BORRAR DATOS:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# ELIMINAR DATOS
+
+## INDICES
+print(np.arange(4))
+# creamos una serie a partir de un array de numpy y ponemos los indices
+serie = pd.Series(np.arange(4), index=["a","b","c","d"])
+print(serie)
+
+# eliminamos indices
+serie.drop("c")
+
+## DATAFRAMES
+print(np.arange(9).reshape(3,3))
+lista_valores = np.arange(9).reshape(3,3)
+lista_indices = ["a","b","c"]
+lista_columnas = ["c1","c2","c3"]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices,columns=lista_columnas)
+print(dataframe)
+dataframe.drop("b")
+dataframe.drop("c2", axis=1)
+```  
+
++ Metodo SELECCIONAR DATOS:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# SELECCIONAR DATOS
+# en series
+lista_valores = np.arange(3) # 0 1 2
+lista_indices = ["i1","i2","i3"]
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+# multiplica los datos
+serie = serie *2
+print(serie)
+# seleccionar datos
+print(serie["i1"])
+print(serie[1])
+print(serie[0:2])
+print(serie[serie>2])
+serie[serie>2] = 6
+print(serie)
+
+# en datafranes
+lista_valores2 = np.arange(25).reshape(5,5)
+lista_indices2 = ["i1","i2","i3","i4","i5"]
+lista_columnas2 = ["c1","c2","c3","c4","c5"]
+
+dataframe = pd.DataFrame(lista_valores2,index=lista_indices2,columns=lista_columnas2)
+print(dataframe)
+print(dataframe["c2"]) # todo lo de la c2
+print(dataframe["c2"]["i2"]) # valor concreto
+print(dataframe[dataframe["c2"]>15]) # los datos de donde la columnas2
+print(dataframe>20) # muestra cada valor si es true o false
+print(dataframe.loc["i2"]) # fila i2
+```  
+
++ Metodo ORGANIZAR Y CLASIFICAR ESTADISTICAS:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# ORDENAR Y CLASIFICAR
+lista_valores = range(4)
+lista_indices = list("bcad")
+lista_columnas = list("wxyz")
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+
+print(serie.sort_index())
+print(serie.sort_values())
+print(serie.rank()) # ordena ppor ranking de clasificaciones
+# esto crea una sserie con 10 datos randoms
+serie2 = pd.Series(np.random.randn(10))
+print(serie2)
+print(serie2.rank())
+
+# CLASIFICAR DATOS
+lista_indices2 = list("abc")
+lista_columnas2 = list("xyz")
+dataframe = pd.DataFrame(np.arange(9).reshape(3,3),index=lista_indices2, columns=lista_columnas2)
+print(dataframe)
+print(dataframe.describe())
+print(dataframe.sum())
+print(dataframe.max())
+print(dataframe.max(axis=1))
+print(dataframe.min())
+print(dataframe.idxmin())
+```  
+
++ Metodo para ver los VALORES NULOS:  
+```
+#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# VALORES NULOS
+lista_valores = [1,2,np.nan,4]
+lista_indices = list("abcd")
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+print(serie.isnull()) # ver booleanos los nulos
+print(serie.dropna()) # borrar los nulos
+
+lista_valores2 = [[1,2,1],[1,np.nan,2],[1,2,np.nan]]
+lista_indices2 = list("123")
+lista_columnas2 = list("abc")
+dataframe = pd.DataFrame(lista_valores2,index=lista_indices2,columns=lista_columnas2)
+print(dataframe)
+print(dataframe.isnull())
+print(dataframe.dropna())
+print(dataframe.fillna(0)) # rellena los nulos con 0
+```  
+
++ Metodo en HTML:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+
+# TRATAMIENTO DE DATOS EN URL HTML
+url = "https://es.wikipedia.org/wiki/Anexo:Finales_de_la_Copa_Mundial_de_F%C3%BAtbol"
+
+# cogemos los datos de la url
+dataframe_futbol = pd.io.html.read_html(url)
+
+
+# cambiamos los campos de columnas por los que queremos
+print(dataframe_futbol.loc[0])
+# creamos un diccionario con los nombres de las columnas
+diccionario = dict(dataframe_futbol.loc[0])
+print(diccionario)
+# lo asignamos al nuevo dataframe
+dataframe_futbol = dataframe_futbol.rename(columns=diccionario)
+# ahora borramos la fila 1 que se repite y borramos la columna notas
+dataframe_futbol = dataframe_futbol.drop(0)
+dataframe_futbol = dataframe_futbol.drop("Notas",axis=1)
+print(dataframe_futbol)
+```  
+
++ Metodo en EXCEL:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+
+# TRATAMIENTO DE DATOS EN FILE EXCELL
+
+# cogemos los datos deL FICHERO
+file_excell = pd.ExcelFile("/home/miguel/Documents/curso_python2022/pandas/poblacion.xlsx")
+# en csv seria:
+# file_csv = pd.read_csv("/home/miguel/Documents/curso_python2022/pandas/poblacion.xlsx")
+
+# parseamos en que hoja está
+dataframe = file_excell.parse("Hoja1")
+
+print(dataframe)
+```  
+
+## TRATAMIENTO DATOS DATAFRAMES  
+
++ UNION DE DATAFRAMES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+
+dataframe1 = pd.DataFrame({"c1" : ["1","2","3"], "clave" : ["a","b","c"]})
+dataframe2 = pd.DataFrame({"c2" : ["4","5","6"], "clave" : ["c","b","e"]})
+
+# hacer una union de datafames segun columna. Une por claves iguales
+dataframe3 = pd.DataFrame.merge(dataframe1,dataframe2,on="clave")
+print(dataframe3)
+# une igual pero manteniendo los datos del de la izquierda
+dataframe4 = pd.DataFrame.merge(dataframe1,dataframe2,on="clave",how="left")
+print(dataframe4)
+# une igual pero manteniendo los datos del de la derecha
+dataframe5 = pd.DataFrame.merge(dataframe1,dataframe2,on="clave",how="right")
+print(dataframe5)
+```  
+
++ CONCATENAR Y COMBINAR DATAFRAMES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# concatenamos los dos arrays
+array1 = np.arange(9).reshape(3,3)
+array_concatenado = np.concatenate([array1,array1])
+print(array_concatenado)
+
+# concatenamos series poniendo los campos de serie
+serie1 = pd.Series([1,2,3], index=["a","b","c"])
+serie2 = pd.Series([4,5,6], index=["d","e","f"])
+serie_concatenada = pd.concat([serie1,serie2], keys=["serie1","serie2"])
+print(serie_concatenada)
+
+# concatenamos datafranes
+dataframe1 = pd.DataFrame(np.random.rand(3,3), columns=["a","b","c"]) #3 filas 3 columnas
+dataframe2 = pd.DataFrame(np.random.rand(2,3), columns=["a","b","c"])
+dataframe3 = pd.concat([dataframe1,dataframe2],keys=["dataframe1","dataframe2"])
+print(dataframe3)
+
+# combinar serie y dataframes
+serie_combinada = serie1.combine_first(serie2)
+print(serie_combinada)
+dataframe_combinado = dataframe1.combine_first(dataframe2)
+print(dataframe_combinado)
+```  
+
++ DUPLICAR DATAFRAMES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+
+lista_valores = [[1,2],[1,2],[5,6],[5,8]]
+lista_indices = list("mnop")
+lista_columnas = ["columna1","columna2"]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices, columns=lista_columnas)
+print(dataframe)
+
+# BORRAR LOS DUPLICADOS
+dataframe_duplicado = dataframe.drop_duplicates()
+print(dataframe_duplicado)
+
+# BORRAR LOS DUPLICADOS PARA SOLO VALORES UNICOS EN UNA COLUMNA Y MANTENER EL ULTIMO VALOR
+dataframe_duplicado_columna = dataframe_duplicado.drop_duplicates(["columna1"], keep="last")
+print(dataframe_duplicado_columna)
+```  
+
++ METODO REEMPLAZAR SERIES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# REEMPLAZAR SERIES
+serie = pd.Series([1,2,3,4,5,6])
+print(serie)
+# reemplaza el 1 por el 10
+serie1 = serie.replace(1,10)
+print(serie1)
+serie2 = serie.replace({1:10,2:20})
+print(serie2)
+```  
+
++ METODO PARA RENOMBRAR INDICES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = np.arange(9).reshape(3,3)
+lista_indices = list("abc")
+lista_columnas = ["columna1","columna2","columna3"]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices, columns=lista_columnas)
+print(dataframe)
+# REEMPLAZAMOS LOS INDICES
+# POR MAYUSCULAS
+nuevos_indices = dataframe.index.map(str.upper)
+dataframe.index = nuevos_indices
+print(dataframe)
+# POR RENAME
+dataframe = dataframe.rename(index=str.lower)
+print(dataframe)
+# NUEVOS INDICES
+indices_nuevos = {"a":"f","b":"w","c":"z"}
+dataframe = dataframe.rename(index=indices_nuevos)
+print(dataframe)
+# O SOLO UNO DE LOS QUE HAY
+indices_uno = {"f":"xxx"}
+dataframe = dataframe.rename(index=indices_uno)
+print(dataframe)
+```  
+
++ METODO PARA AGRUPAR CATEGORIAS:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+precio = [42,50,45,23,5,21,88,34,26]
+rango = [10,20,30,40,50,60,70,80,90,100]
+
+# AGRUPAR CATEGORIAS
+# te sale en que rango está cada precio de la lista de rangos
+precio_con_rango = pd.cut(precio,rango)
+print(precio_con_rango)
+# cuenta cuantos hay para cada rango de precios
+print(pd.value_counts(precio_con_rango))
+```  
+
++ METODO PARA FILTRAR INDICES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# 10 filas por 3 columnas
+lista_valores = np.random.rand(10,3)
+# creamos un dataframe
+dataframe = pd.DataFrame(lista_valores)
+print(dataframe)
+# filtramos por columna y valor
+columna0 = dataframe[0]
+print(columna0)
+print(columna0[columna0>0.40])
+# tmb por dataframe se puede
+print(dataframe[dataframe>0.40])
+```  
+
++ METODO PARA COMBINAR ELEMENTOS:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = np.arange(25).reshape(5,5)
+
+dataframe = pd.DataFrame(lista_valores)
+
+# cambiamos los indices por una combinacion aleatoria
+combinacion = np.random.permutation(5)
+print(combinacion)
+
+# ahora ordena los valores segun el indice de la combinacion
+print(dataframe.take(combinacion))
+```  
+
++ METODO PARA AGRUPAR POR COLUMNAS GROUPBY:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = {"clave1": ["x","x","y","y","z"],"clave2": ["a","b","a","b","a"], "datos1": np.random.rand(5), "datos2": np.random.rand(5)}
+
+dataframe = pd.DataFrame(lista_valores)
+print(dataframe)
+# queremos agrupar datos1 con clave1
+agrupacion = dataframe["datos1"].groupby(dataframe["clave1"])
+print(agrupacion)
+# te hace una media de x y z
+print(agrupacion.mean())
+```  
+
++ METODO PARA AGREGACIONES EN DATAFRAMES:  
+```
+#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = [[1,2,3],[4,5,6],[7,8,9],[np.nan,np.nan,np.nan]]
+lista_columnas = list("abc")
+dataframe = pd.DataFrame(lista_valores,columns=lista_columnas)
+print(dataframe)
+
+# agregaciones de suma, minimo sobre los datos
+print(dataframe.agg(["sum","min"]))
+# por fila
+print(dataframe.agg("sum",axis=1))
+```  
+
+## SEABORN  
+
++ [SEABORN](https://interactivechaos.com/es/manual/tutorial-de-seaborn/presentacion#:~:text=seaborn%20es%20una%20librer%C3%ADa%20de,para%20Python%20desarrollada%20sobre%20matplotlib%20.&text=Adem%C3%A1s%2C%20est%C3%A1%20%C3%ADntimamente%20integrada%20con,de%20las%20funciones%20de%20visualizaci%C3%B3n.) es una librería para Python que permite generar fácilmente elegantes gráficos. Seaborn esta basada en matplotlib y proporciona una interfaz de alto nivel que es realmente sencilla de aprender. Dada su gran popularidad se encuentra instalada por defecto en la distribución Anaconda.  
+
++ La representación de datos es una tarea clave del análisis de datos. La utilización de una gráfica adecuada puede hacer que los resultados y conclusiones se comuniquen de una forma adecuada o no. Conocer y manejar diferentes herramientas es clave para poder seleccionar la gráfica adecua en cada ocasión. En esta entrada se va a repasar básicamente las funciones que ofrece la librería Seaborn.  
+
++ INSTALACION `pip3 install seaborn`  
+
++ Para usarlo en el [VS CODE - JUPYTER](https://code.visualstudio.com/docs/python/jupyter-support-py) y tenemos que crear una ventana interactiva de jupyter para usarlo dentro de vscode `pip3 install jupyter`  
+
++ PODEMOS CREAR HISTOGRAMAS CON DATOS (VIA INTERACTIVO JUPYTER):  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import seaborn as sns
+
+# para que se cree luego el histograma(en web interactiva~Jupyter)
+#print(%matplotlib inline)
+datos1 = np.random.randn(100)
+print(datos1)
+
+# crea un histograma
+print(mpl.pyplot.hist(datos1))
+print(sns.displot(datos1))
+
+# podemos cambiar el color y oscuridad
+print(sns.displot(datos1, color="green"))
+print(mpl.pyplot.hist(datos1, color="green", alpha=0.8))
+
+# creamos otros datos
+datos2 = np.random.randn(80)
+print(sns.displot(datos2, color="yellow"))
+print(mpl.pyplot.hist(datos2, color="yellow", alpha=0.8))
+
+# juntamos los dos datos / bin=barras a mostrar
+print(mpl.pyplot.hist(datos1, color="yellow", alpha=0.8, bins=20, density=True))
+print(mpl.pyplot.hist(datos2, color="blue", alpha=0.8, bins=20, density=True))
+
+# juntamos con seaborn
+datos3 = np.random.randn(100)
+datos4 = np.random.randn(100)
+print(sns.jointplot(datos3,datos4))
+print(sns.jointplot(datos3,datos4, kind="hex"))
+```  
+> [TUTOTIAL HISTOGRAMAS](https://interactivechaos.com/es/manual/tutorial-de-seaborn/presentacion)  
+> [INSTALACION](https://stackabuse.com/seaborn-library-for-data-visualization-in-python-part-1/)  
+> [TIPOS HISTOGRAMA](https://www.python-graph-gallery.com/)
+
+![](./images/histograma.png)
+![](./images/histograma2.png)
+
+
++ CREAMOS HISTOGRAMAS DE DIFERENTES DISTRIBUCIONES:  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+datos = np.random.randn(100)
+
+# DIFERENTES DISTRIBUCIONES DEL HISTOGRAMA
+print(sns.distplot(datos))
+print(sns.distplot(datos, color="green", hist=False))
+# creamos poniendo un color la linea y otro las barras
+argumentos_curva = {"color":"black", "label":"Curva"}
+argumentos_histograma = {"color":"grey", "label":"Histograma"}
+print(sns.distplot(datos, kde_kws=argumentos_curva, hist_kws=argumentos_histograma))
+
+# desde una serie creamos el histograma
+serie = pd.Series(datos)
+print(sns.distplot(serie, bins=25, color="green"))
+```  
+
+![](./images/histograma3.png)
+
+
++ DIAGRAMA DE CAJA:  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+datos = np.random.randn(100)
+
+# DIAGRAMA DE CAJA
+print(sns.boxplot(datos))
+```  
+
+![](./images/histograma4.png)
+
+
++ DIAGRAMA DE REGRESIONES LINEALES:  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# regresiones lineales que sirven respecto una variable
+# respecto a otras
+# nos carga una preguardado de gente dejando propinas
+propinas = sns.load_dataset("tips")
+print(propinas.head(10))
+
+# creamos un grafico de regresion lineal
+# compara la media con las propinas
+print(sns.lmplot(x="total_bill",y="tip",data=propinas))
+print(sns.lmplot(x="total_bill",y="tip",data=propinas, scatter_kws={"marker": "o","color":"green"},line_kws={"color":"blue"}))
+
+# agreamos otra columna mas a la tabla de propinas
+propinas["porcentaje"]= 100*propinas["tip"]/propinas["total_bill"]
+print(propinas.head())
+# creamos diagrama
+print(sns.lmplot(x="size",y="porcentaje",data=propinas))
+print(sns.lmplot(x="total_bill",y="porcentaje",data=propinas,hue="sex",markers=["x","o"]))
+```  
+
+![](./images/histograma5.png)  
+![](./images/histograma6.png)  
+![](./images/histograma7.png)  
+
+
++ DIAGRAMA MAPA DE CALOR:  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# MAPAS DE CALOR
+vuelos = sns.load_dataset("flights")
+print(vuelos.head())
+
+# creamos una matriz con los datos:indice,columnas, valor
+vuelos = vuelos.pivot("month","year","passengers")
+
+# representacion sin o con valores
+print(sns.heatmap(vuelos))
+print(sns.heatmap(vuelos,annot=True,fmt="d"))
+
+# mirar un valor concreto
+print(vuelos.loc["May"][1956])#318
+# hacer un mapa de calor ref valor concreto
+valor = vuelos.loc["May"][1956]
+print(sns.heatmap(vuelos,center=valor,annot=True,fmt="d",cbar_kws={"orientation":"horizontal"}))
+```  
+
+![](./images/histograma8.png)  
+![](./images/histograma9.png)  
+
+
++ EJERCICIO:  
+```
+#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# CREAR UN ARRAY DE 100 NUMEROS ALEATORIOS DE 0-500
+# CREAR UN DIAGRAMA DE CAJA
+lista_valores = np.random.randint(0,500,100)
+print(lista_valores)
+
+print(sns.boxplot(data=lista_valores))
+```  
+
+## PROYECTOS LIBRERIAS  
+
+### SUBASTA  
+
+```
+#!/usr/bin/python3
+
+# GESTIONAR UNA SUBASTA
+
+# preguntar nombre y precio apuesta
+# añadirlo a un diccionario
+# borrar la pantalla
+# preguntar si hay mas personas para esta apuesta (bucle hasta no)
+# SI: repetir misma preguntas y añadir
+# NO: mostrar la apuesta ganadora y fin del programa
+
+# libreria para limpiar la pantalla
+import os 
+
+print("Bienvenidos a la SUBASTA de MIGUEL")
+
+# creamos el diccionario
+diccionario = {}
+
+# funcionar calcular el ganador
+def calcular_ganador(diccionario):
+    max = 0
+    ganador = ""
+    for nombre in diccionario:
+        precio = diccionario[nombre]
+        if precio > max:
+            max = precio
+            ganador = nombre
+    print(f"El ganador es {ganador} con apuesta de {max}")
+
+# bucle para que mientras haya mas apuestas, siga preguntando y añadiendo
+mas_subastas = True
+while mas_subastas:
+    precio = float(input("Escribe tu apuesta: "))
+    nombre = input("Escribe nombre: ")
+    diccionario[nombre]=precio
+
+    pregunta = input("Hay mas apuesta? Escribe 'si' o 'no'").lower()
+    if pregunta == "si":
+        os.system("clear")
+    elif pregunta == "no":
+        mas_subastas = False
+    else:
+        print("Eleccion incorrecta")
+
+# decimos ganador
+os.system("clear")
+calcular_ganador(diccionario)
+```  
+
+### CALCULO BOTES DE PINTURA  
+
+```
+#!/usr/bin/python3
+
+import random
+import math
+# CALCULO DE BOTES DE PINTA PARA PINTAR UNA PARED
+
+# alto de la pared 
+# ancho de la pared 
+# cuantos metros cuadrados cubre un bote de pintura 
+# calculo de (alto*ancho)/m2 que cubre cada bote 
+
+
+print("Bienvenidos al calculo de botes de pintura")
+
+# CON FUNCION
+def calculo_pared(alto,ancho,superficie):
+    botes = (alto*ancho)/superficie
+    # redondea hacia arriba
+    numero_botes = math.ceil(botes)
+    return numero_botes
+
+print(calculo_pared(3,4.5,1))
+
+alto = float(input("Escribe cuanto tiene de alto la pared: "))
+ancho = float(input("Escribe cuantos tiene de ancho la pared: "))
+superficie = float(input("Escribe cuantos metros cuadrados cubre un bote de pintura: "))
+
+# botes = (alto*ancho)/superficie
+numero_botes = calculo_pared(alto,ancho,superficie)
+print(f"Necesitas {numero_botes} botes de pintura para tu pared")
+```  
+
+### CALCULADORA PROPINAS  
+
+```
+#!/usr/bin/python3
+
+# JUEGO PARA CALCULADORA DE PROPINAS
+# precio de la factura
+# porcentaje de propina
+# personas a repartir
+
+print("Bienvenido a la calculadora de propinas")
+factura = float(input("precio de la factura?"))
+propina = int(input("Cual es el porcentaje de propina a dejar?"))
+personas = int(input("Entre cuantas personas hay que repatir la factura?"))
+
+importe_propina = (factura*propina)/100
+factura_total = round(factura + importe_propina,2)
+reparto = factura_total/personas
+
+print("El importe por persona es: ", reparto)
+```  
+
+### GENERADOR CONTRASEÑAS  
+
+```
+#!/usr/bin/python3
+
+import random
+# GENERADOR DE CONTRASEÑAS
+
+# Pedir cuantas letras, numeros y simbolos necesitas
+
+letras = ["A","B","C","D","E"]
+numeros = ["1","2","3","4","5"]
+simbolos = ["!","#","@","$","&"]
+
+print("Bienvenidos al generador de contraseñas")
+numero_letras = int(input("Escribe cuantas letras quieres: "))
+numero_numeros = int(input("Escribe cuantos numeros quieres: "))
+numero_simbolos = int(input("Escribe cuantos simbolos quieres: "))
+
+lista = []
+
+# por cada caracter que quiera, lo añadimos a la lista 
+for letra in range(1, numero_letras+1):
+    lista.append(random.choice(letras))
+
+for letra in range(1, numero_numeros+1):
+    lista.append(random.choice(numeros))
+
+for letra in range(1, numero_simbolos+1):
+    lista.append(random.choice(simbolos))   
+
+# resultado de la lista
+print(lista)
+
+# ponemos la lista aleatoria
+random.shuffle(lista)
+print(lista)
+
+# creamos la contraseña
+password = ""
+for caracter in lista:
+    password = password + caracter
+
+print(password)
+```  
+
+### JUEGO DE PREGUNTAS  
+
+```
+#!/usr/bin/python3
+
+# JUEGO DE PREGUNTAS
+
+print("Bienvenidos al juego de las preguntas")
+respuesta1 = input("Quieres ir a la izquierda o derecha. Escribe 'izquieda' o 'derecha'. ").lower()
+
+if respuesta1 == "izquierda":
+    print("Respuesta fallida, has perdido. Vuelvelo a intentar")
+elif respuesta1 != "derecha":
+    print("Has fallado, respuesta introducida invalida")
+else:
+    respuesta2 = input("Quieres ir a nadando o caminar. Escribe 'nadar' o 'caminar'. ").lower()
+    if respuesta2 == "nadar":
+        print("Respuesta fallida, has perdido. Vuelvelo a intentar")
+    elif respuesta1 != "caminar":
+        print("Has fallado, respuesta introducida invalida")
+    else:
+        respuesta3 = input("Has llegado a una casa con tres puertas. Escribe 'rojo', 'verde' o 'azul'. ").lower()
+        if respuesta3 == "rojo" or respuesta3 == "verde":
+            print("Respuesta fallida, has perdido. Vuelvelo a intentar")
+        elif respuesta1 != "azul":
+            print("Has fallado, respuesta introducida invalida")
+        else:
+            print("Enhorabuena, has ganado el juego!")
+```  
+
+### PIEDRA, PAPEL Y TIJERA  
+
+```
+#!/usr/bin/python3
+
+# JUEGO DE PIEDRA PAPEL Y TIJERA
+
+# El usuario elije una opcion
+# el ordenador una aleatoria
+
+# resultado
+# tijera gana a papel
+# papel gana a piedra
+# piedra gana a tijera
+
+from random import randrange
+
+
+print("Bienvenidos al juego de piedra, papel y tijera")
+usuario = int(input("Escribe '0' piedra, '1' papel o '2' tijera: "))
+if usuario not in range(0,3):
+    print("Numero no valido, vuelve a intentarlo..!")
+else:
+    ordenador = randrange(0,3)
+
+print("El usuario ha elegido: ", usuario)
+print("El ordenador ha elegido: ", ordenador)
+
+if (usuario > ordenador) or (usuario == 0 and ordenador == 2):
+    print("El usuario ha ganado!!")
+elif usuario == ordenador:
+    print("ui...empate!")
+else:
+    print("El ordenador ha ganado, has perdido...!!")
+```  
+
+### 
 
 
 

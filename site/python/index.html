@@ -923,6 +923,800 @@ conexion.commit()
 # cerramos bdd
 conexion.close()
 </code></pre>
+<h2 id="tkinter">TKINTER</h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3.9/library/tkinter.html">TKINTER</a> Es un modulo de python que sirve para crear una interfaz grafica.</p>
+</li>
+<li>
+<p>Ejemplo de lo que se puede hacer:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# tkinter - componente raiz
+import tkinter
+from tkinter import filedialog
+
+# definimos la ventana de la aplicacion
+raiz = tkinter.Tk()
+raiz.title(&quot;Mi programa&quot;)
+
+# definimos aspecto de la ventana
+frame = tkinter.Frame(raiz)
+frame.config(fg=&quot;blue&quot;,width=400,height=300)
+frame.pack()
+
+# construimos un label
+texto = &quot;Hola mundo&quot;
+label = tkinter.Label(raiz,text=texto)
+label.config(fg=&quot;green&quot;,bg=&quot;grey&quot;,font=(&quot;Cortana&quot;,30))
+label.pack()
+
+# construimos una entrada por teclado
+entrada = tkinter.Entry(raiz)
+entrada.config(justify=&quot;center&quot;, show=&quot;*&quot;)
+entrada.pack()
+
+# construimos una box de texto
+box = tkinter.Text(raiz)
+box.config(width=20,height=10,font=(&quot;Verdana&quot;,15),padx=10,pady=10,fg=&quot;green&quot;,selectbackground=&quot;yellow&quot;)
+box.pack()
+
+# construimos una boton que salte mensaje
+def accion():
+    print(&quot;Hola mundo&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Ejecutar&quot;,command=accion)
+boton.config(fg=&quot;green&quot;)
+boton.pack()
+
+# construimos un multiseleccion
+def accion():
+    print(f&quot;La opcion es {opcion.get()}&quot;)
+
+seleccion1 = tkinter.Radiobutton(raiz,text=&quot;Opcion 1&quot;,variable=opcion,command=accion)
+seleccion1.pack()
+seleccion2 = tkinter.Radiobutton(raiz,text=&quot;Opcion 2&quot;,variable=opcion,command=accion)
+seleccion2.pack()
+
+# construimos un checkbutton
+def verificar():
+    valor = check1.get()
+    if valor == 1:
+        print(&quot;La opcion está activada&quot;)
+    else:
+        print(&quot;La opcion está activada&quot;)
+
+check1 = tkinter.IntVar()
+boton1 = tkinter.Checkbutton(raiz,text=&quot;Opcion 1&quot;,variable=check1,onvalue=1,offvalue=0,command=verificar)
+boton1.pack()
+
+# construimos boton con popup
+def avisar():
+    tkinter.messagebox.showinfo(&quot;Titulo&quot;,&quot;Mensaje con la info&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para aviso&quot;,command=avisar)
+boton.pack()
+
+# construimos boton con popup para responder si o no
+def preguntar():
+    tkinter.messagebox.askquestion(&quot;Titulo&quot;,&quot;Quieres borrar la info?&quot;)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para preguntar&quot;,command=preguntar)
+boton.pack()
+
+# construimos boton para añadir fichero
+from tkinter import filedialog
+def abrirfichero():
+    rutafichero = filedialog.askopenfilename(title=&quot;Abrir un fichero&quot;)
+    print(rutafichero)
+
+boton = tkinter.Button(raiz,text=&quot;Pulsar para abrir fichero&quot;,command=abrirfichero)
+boton.pack()
+
+# para que siga ejecutandose
+raiz.mainloop()
+</code></pre>
+<h2 id="pydoc">PYDOC</h2>
+<ul>
+<li>Es un comando que sirve para generar documentacion de una clase y sus funciones:<br />
+<code>pydoc /ruta/programa.py</code><br />
+<code>pydoc -w /ruta/programa.py</code> para tenerla en html.  </li>
+</ul>
+<h2 id="doctest">DOCTEST</h2>
+<ul>
+<li>Sirve para hacer pruebas en los docstrings de las funciones:  </li>
+</ul>
+<pre><code># DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    &quot;&quot;&quot;
+    Esto es una funcion para sumar numeros
+    &gt;&gt;&gt; sumar(4,3)
+    7
+    &gt;&gt;&gt; sumar(4,3)
+    8
+    &gt;&gt;&gt; sumar(2,3)
+    5
+    &quot;&quot;&quot;
+    return num1+num2
+print(sumar(2,2))
+# se importa al final la libreria para hacer las pruebas
+import doctest
+doctest.testmod()
+</code></pre>
+<pre><code>4
+**********************************************************************
+File &quot;/home/miguel/Documents/curso_python2022/prueba_doctest.py&quot;, line 9, in __main__.sumar
+Failed example:
+    sumar(4,3)
+Expected:
+    8
+Got:
+    7
+**********************************************************************
+1 items had failures:
+   1 of   3 in __main__.sumar
+***Test Failed*** 1 failures.
+</code></pre>
+<h2 id="unistest">UNISTEST</h2>
+<ul>
+<li>Modulo que sirve para hacer <a href="https://docs.python.org/3/library/unittest.html">test</a>.  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# DOCTEST PARA PODER HACER PRUEBAS EN EL DOCSTRING
+def sumar(num1,num2):
+    &quot;&quot;&quot;
+    Esto es una funcion para sumar numeros
+    &quot;&quot;&quot;
+    return num1+num2
+
+print(sumar(2,2))
+
+# se importa al final la libreria para hacer las pruebas
+import unittest
+class pruebas(unittest.TestCase):
+    def test(self):
+        self.assertEqual(sumar(4,5),9)
+        self.assertEqual(sumar(4,5),19)
+
+# prueba
+if __name__ == '__main__':
+    unittest.main()
+</code></pre>
+<pre><code>4
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+OK
+</code></pre>
+<h2 id="numpy">NUMPY</h2>
+<ul>
+<li>
+<p><a href="https://aprendeconalf.es/docencia/python/manual/numpy/">NUMPY</a> s una librería de Python especializada en el cálculo numérico y el análisis de datos, especialmente para un gran volumen de datos.  </p>
+</li>
+<li>
+<p>Incorpora una nueva clase de objetos llamados arrays que permite representar colecciones de datos de un mismo tipo en varias dimensiones, y funciones muy eficientes para su manipulación.  </p>
+</li>
+<li>
+<p>Instalamos libreria con <code>pip3 install numpy</code>  </p>
+</li>
+<li>
+<p>Ejemplos de uso:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import numpy as np
+
+# creamos arrays
+lista1 = [1,2,3,4]
+lista2 = [5,6,7,8]
+
+print(np.zeros(4)) # crea array de 4 ceros
+print(np.ones(5)) # crea array de 5 unos
+np.arange(5) # crea array de 0 a 4
+np.arange(2,10)
+
+array1 = np.array(lista1)
+array2 = np.array([1,2,3,4,5,6])
+print(array1)
+
+# array de dos dimensiones
+lista_doble = (lista1,lista2,lista2,lista1)
+print(lista_doble)
+
+array_doble = np.array(lista_doble)
+print(array_doble)
+
+# formas que tiene el array
+print(array_doble.shape) # 4 filas y 4 columnas
+print(array_doble.dtype) # numeros int
+
+
+# operaciones con arrays
+print(array1 + 4) # multiplica todo lo de dentro por 4 pero no queda asignado
+array_multiplicado = array1 * 3
+print(array_multiplicado)
+
+# indexacion / slicing
+array3 = np.arange(10)
+print(array3)
+print(array3[0:3])
+array4 = np.copy(array3)
+array4[0:4] = 20
+print(array3,array4)
+
+# matrices
+array5 = np.arange(15).reshape(3,5) # 3 filas y 5 columnas
+print(array5)
+print(array5[1][1])
+array6 = array5.T # cambio el orden de filas y columnas
+print(array6)
+
+# entrada / salida de arrays
+array7 = np.arange(6)
+np.save(&quot;array7&quot;, array7) # guarda ese array con ese nombre
+print(np.load(&quot;array7.npy&quot;)) # carga el archivo con el nombre del array
+array8 = np.arange(8)
+np.savez(&quot;arrayxy&quot;, x=array7, y=array8) # guarda en tipo coordenadas x y
+array_xy = np.load(&quot;arrayxy.npz&quot;)
+print(array_xy)
+print(array_xy[&quot;x&quot;])
+print(array_xy[&quot;y&quot;])
+np.savetxt(&quot;mifilearray.txt&quot;, array8, delimiter=&quot;,&quot;) # guarda en un file txt
+print(np.loadtxt(&quot;mifilearray.txt&quot;, delimiter=&quot;,&quot;))
+
+# funciones
+print(np.sqrt(array1)) #raiz cuadrada
+print(np.random(5)) # 5 numeros aleatorios
+print(np.add(array1, array2)) # suma las dos
+print(np.maxium(array1,array2)) # elije el maximo de entre las dos arrays
+
+# funcion par e impar
+def pares(inicio,fin):
+    if inicio % 2 == 0:
+        array10 = np.arange(inicio,fin,2)
+    else:
+        inicio +=1
+        array10 = np.arange(inicio,fin)
+    return array10
+print(pares(0,21))
+</code></pre>
+<h2 id="pandas">PANDAS</h2>
+<ul>
+<li>
+<p><a href="https://aprendeconalf.es/docencia/python/manual/pandas/">PANDAS</a> es una librería de Python especializada en el manejo y análisis de estructuras de datos.  </p>
+</li>
+<li>
+<p>Las principales características de esta librería son:  </p>
+<ul>
+<li>Define nuevas estructuras de datos basadas en los arrays de la librería NumPy pero con nuevas funcionalidades.</li>
+<li>Permite leer y escribir fácilmente ficheros en formato CSV, Excel y bases de datos SQL.</li>
+<li>Permite acceder a los datos mediante índices o nombres para filas y columnas.</li>
+<li>Ofrece métodos para reordenar, dividir y combinar conjuntos de datos.</li>
+<li>Permite trabajar con series temporales.</li>
+<li>Realiza todas estas operaciones de manera muy eficiente.</li>
+</ul>
+</li>
+<li>
+<p>PARA QUE QUEDE EL CAMBIO HECHO SIEMPRE HAY QUE ASIGNAR LA FUNCION QUE SE HAGA A LA SERIE O DATAFRAME DEL CUAL SE HACE ALGO.  </p>
+</li>
+<li>
+<p>Metodo SERIES para crear indices:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+from logging.config import dictConfig
+import pandas as pd
+
+## INDICES
+
+# te crea una serie de indices #0 1
+serie1 = pd.Series([1,5,7])    #1 5
+print(serie1)
+# ver un indice
+print(serie1[1]) #5
+# crear un indice
+asignaturas = [&quot;mates&quot;, &quot;sociales&quot;, &quot;fisica&quot;]
+notas = [8,9,5]
+serie_notas_miguel = pd.Series(notas,asignaturas)
+print(serie_notas_miguel)
+print(serie_notas_miguel[&quot;mates&quot;])
+#condiciones
+print(serie_notas_miguel[serie_notas_miguel&gt;7])
+#asignamos nombres
+serie_notas_miguel.name = &quot;Notas de Miguel&quot;
+serie_notas_miguel.index.name = &quot;Asignaturas de Bachiller&quot;
+print(serie_notas_miguel)
+# convertir la serie en un diccionario
+diccionario = serie_notas_miguel.to_dict()
+print(diccionario)
+serie = pd.Series(diccionario)
+print(serie)
+#operaciones con indices con las series
+notas2 = [1,5,3]
+serie_notas_natalia = pd.Series(notas2,asignaturas)
+print(serie_notas_natalia)
+notas_medias = (serie_notas_miguel+serie_notas_natalia)/2
+print(notas_medias)
+</code></pre>
+<ul>
+<li>Metodo DATAFRAMES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import webbrowser # sirve para paginas web
+## DATAFRAMES
+# sirve para abrir esta web
+website = &quot;https://es.wikipedia.org/wiki/Anexo:Campeones_de_la_NBA&quot;
+webbrowser.open(website)
+# copiamos algo al portapapeles de esa web y lo asignamos a un dataframe
+dataframe_nba = pd.read_clipboard()
+print(dataframe_nba)
+# te dice el nombre de las columnas
+print(dataframe_nba.columns)
+print(dataframe_nba.columns[&quot;Campeón del Oeste&quot;])
+# ver la info por el indice
+print(dataframe_nba.loc[5])
+# ver los 5 primeros con head o especificos
+print(dataframe_nba.head())
+print(dataframe_nba.head(7))
+print(dataframe_nba.tail())
+print(dataframe_nba.tail(4))
+
+# dataframe con un diccionario
+asignaturas = [&quot;Mates&quot;, &quot;Reli&quot;, &quot;Sociales&quot;, &quot;Natus&quot;]
+notas = [8,5,7,8]
+diccionario = { &quot;Asignaturas&quot;: asignaturas, &quot;Notas&quot;: notas}
+print(diccionario)
+# a raiz del diccionario te crea un dataframe con los nombres, notas e indices
+dataframe_notas = pd.DataFrame(diccionario)
+print(dataframe_notas)
+</code></pre>
+<ul>
+<li>Metodo INDICES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+
+# INDICES
+lista_valores = [1,2,3]
+lista_indices = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie) # a 1 b 2 c 3
+print(serie.index) # a b c
+print(serie.index[0]) # a
+
+lista_valores2 = [[1,2,3], [8,9,10], [3,5,6]]
+lista_indices2 = [&quot;Mates&quot;, &quot;Natus&quot;, &quot;Fisica&quot;]
+lista_nombres = [&quot;Miguel&quot;,&quot;Natalia&quot;, &quot;Cristina&quot;]
+# creamos el dataframe indicando indices, columnas y datos
+dataframe = pd.DataFrame(lista_valores2, index=lista_indices2, columns=lista_nombres)
+print(dataframe)
+print(dataframe.index)
+print(dataframe.index[2])
+</code></pre>
+<blockquote>
+<p>Si se crea mas indices que valores, se crean subindices y si usamos <code>serie.unstack()</code> convierte los otros indices en columnas. Para deshacer o el proceso inverso seria <code>dataframe.stack()</code>.  </p>
+</blockquote>
+<ul>
+<li>Metodo BORRAR DATOS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# ELIMINAR DATOS
+
+## INDICES
+print(np.arange(4))
+# creamos una serie a partir de un array de numpy y ponemos los indices
+serie = pd.Series(np.arange(4), index=[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;])
+print(serie)
+
+# eliminamos indices
+serie.drop(&quot;c&quot;)
+
+## DATAFRAMES
+print(np.arange(9).reshape(3,3))
+lista_valores = np.arange(9).reshape(3,3)
+lista_indices = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+lista_columnas = [&quot;c1&quot;,&quot;c2&quot;,&quot;c3&quot;]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices,columns=lista_columnas)
+print(dataframe)
+dataframe.drop(&quot;b&quot;)
+dataframe.drop(&quot;c2&quot;, axis=1)
+</code></pre>
+<ul>
+<li>Metodo SELECCIONAR DATOS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# SELECCIONAR DATOS
+# en series
+lista_valores = np.arange(3) # 0 1 2
+lista_indices = [&quot;i1&quot;,&quot;i2&quot;,&quot;i3&quot;]
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+# multiplica los datos
+serie = serie *2
+print(serie)
+# seleccionar datos
+print(serie[&quot;i1&quot;])
+print(serie[1])
+print(serie[0:2])
+print(serie[serie&gt;2])
+serie[serie&gt;2] = 6
+print(serie)
+
+# en datafranes
+lista_valores2 = np.arange(25).reshape(5,5)
+lista_indices2 = [&quot;i1&quot;,&quot;i2&quot;,&quot;i3&quot;,&quot;i4&quot;,&quot;i5&quot;]
+lista_columnas2 = [&quot;c1&quot;,&quot;c2&quot;,&quot;c3&quot;,&quot;c4&quot;,&quot;c5&quot;]
+
+dataframe = pd.DataFrame(lista_valores2,index=lista_indices2,columns=lista_columnas2)
+print(dataframe)
+print(dataframe[&quot;c2&quot;]) # todo lo de la c2
+print(dataframe[&quot;c2&quot;][&quot;i2&quot;]) # valor concreto
+print(dataframe[dataframe[&quot;c2&quot;]&gt;15]) # los datos de donde la columnas2
+print(dataframe&gt;20) # muestra cada valor si es true o false
+print(dataframe.loc[&quot;i2&quot;]) # fila i2
+</code></pre>
+<ul>
+<li>Metodo ORGANIZAR Y CLASIFICAR ESTADISTICAS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# ORDENAR Y CLASIFICAR
+lista_valores = range(4)
+lista_indices = list(&quot;bcad&quot;)
+lista_columnas = list(&quot;wxyz&quot;)
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+
+print(serie.sort_index())
+print(serie.sort_values())
+print(serie.rank()) # ordena ppor ranking de clasificaciones
+# esto crea una sserie con 10 datos randoms
+serie2 = pd.Series(np.random.randn(10))
+print(serie2)
+print(serie2.rank())
+
+# CLASIFICAR DATOS
+lista_indices2 = list(&quot;abc&quot;)
+lista_columnas2 = list(&quot;xyz&quot;)
+dataframe = pd.DataFrame(np.arange(9).reshape(3,3),index=lista_indices2, columns=lista_columnas2)
+print(dataframe)
+print(dataframe.describe())
+print(dataframe.sum())
+print(dataframe.max())
+print(dataframe.max(axis=1))
+print(dataframe.min())
+print(dataframe.idxmin())
+</code></pre>
+<ul>
+<li>Metodo para ver los VALORES NULOS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la liberia
+import pandas as pd
+import numpy as np
+
+# VALORES NULOS
+lista_valores = [1,2,np.nan,4]
+lista_indices = list(&quot;abcd&quot;)
+
+serie = pd.Series(lista_valores,index=lista_indices)
+print(serie)
+print(serie.isnull()) # ver booleanos los nulos
+print(serie.dropna()) # borrar los nulos
+
+lista_valores2 = [[1,2,1],[1,np.nan,2],[1,2,np.nan]]
+lista_indices2 = list(&quot;123&quot;)
+lista_columnas2 = list(&quot;abc&quot;)
+dataframe = pd.DataFrame(lista_valores2,index=lista_indices2,columns=lista_columnas2)
+print(dataframe)
+print(dataframe.isnull())
+print(dataframe.dropna())
+print(dataframe.fillna(0)) # rellena los nulos con 0
+</code></pre>
+<ul>
+<li>Metodo en HTML:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+
+# TRATAMIENTO DE DATOS EN URL HTML
+url = &quot;https://es.wikipedia.org/wiki/Anexo:Finales_de_la_Copa_Mundial_de_F%C3%BAtbol&quot;
+
+# cogemos los datos de la url
+dataframe_futbol = pd.io.html.read_html(url)
+
+
+# cambiamos los campos de columnas por los que queremos
+print(dataframe_futbol.loc[0])
+# creamos un diccionario con los nombres de las columnas
+diccionario = dict(dataframe_futbol.loc[0])
+print(diccionario)
+# lo asignamos al nuevo dataframe
+dataframe_futbol = dataframe_futbol.rename(columns=diccionario)
+# ahora borramos la fila 1 que se repite y borramos la columna notas
+dataframe_futbol = dataframe_futbol.drop(0)
+dataframe_futbol = dataframe_futbol.drop(&quot;Notas&quot;,axis=1)
+print(dataframe_futbol)
+</code></pre>
+<ul>
+<li>Metodo en EXCEL:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+
+# TRATAMIENTO DE DATOS EN FILE EXCELL
+
+# cogemos los datos deL FICHERO
+file_excell = pd.ExcelFile(&quot;/home/miguel/Documents/curso_python2022/pandas/poblacion.xlsx&quot;)
+# en csv seria:
+# file_csv = pd.read_csv(&quot;/home/miguel/Documents/curso_python2022/pandas/poblacion.xlsx&quot;)
+
+# parseamos en que hoja está
+dataframe = file_excell.parse(&quot;Hoja1&quot;)
+
+print(dataframe)
+</code></pre>
+<h2 id="tratamiento-datos-dataframes">TRATAMIENTO DATOS DATAFRAMES</h2>
+<ul>
+<li>UNION DE DATAFRAMES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+
+dataframe1 = pd.DataFrame({&quot;c1&quot; : [&quot;1&quot;,&quot;2&quot;,&quot;3&quot;], &quot;clave&quot; : [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]})
+dataframe2 = pd.DataFrame({&quot;c2&quot; : [&quot;4&quot;,&quot;5&quot;,&quot;6&quot;], &quot;clave&quot; : [&quot;c&quot;,&quot;b&quot;,&quot;e&quot;]})
+
+# hacer una union de datafames segun columna. Une por claves iguales
+dataframe3 = pd.DataFrame.merge(dataframe1,dataframe2,on=&quot;clave&quot;)
+print(dataframe3)
+# une igual pero manteniendo los datos del de la izquierda
+dataframe4 = pd.DataFrame.merge(dataframe1,dataframe2,on=&quot;clave&quot;,how=&quot;left&quot;)
+print(dataframe4)
+# une igual pero manteniendo los datos del de la derecha
+dataframe5 = pd.DataFrame.merge(dataframe1,dataframe2,on=&quot;clave&quot;,how=&quot;right&quot;)
+print(dataframe5)
+</code></pre>
+<ul>
+<li>CONCATENAR Y COMBINAR DATAFRAMES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# concatenamos los dos arrays
+array1 = np.arange(9).reshape(3,3)
+array_concatenado = np.concatenate([array1,array1])
+print(array_concatenado)
+
+# concatenamos series poniendo los campos de serie
+serie1 = pd.Series([1,2,3], index=[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;])
+serie2 = pd.Series([4,5,6], index=[&quot;d&quot;,&quot;e&quot;,&quot;f&quot;])
+serie_concatenada = pd.concat([serie1,serie2], keys=[&quot;serie1&quot;,&quot;serie2&quot;])
+print(serie_concatenada)
+
+# concatenamos datafranes
+dataframe1 = pd.DataFrame(np.random.rand(3,3), columns=[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]) #3 filas 3 columnas
+dataframe2 = pd.DataFrame(np.random.rand(2,3), columns=[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;])
+dataframe3 = pd.concat([dataframe1,dataframe2],keys=[&quot;dataframe1&quot;,&quot;dataframe2&quot;])
+print(dataframe3)
+
+# combinar serie y dataframes
+serie_combinada = serie1.combine_first(serie2)
+print(serie_combinada)
+dataframe_combinado = dataframe1.combine_first(dataframe2)
+print(dataframe_combinado)
+</code></pre>
+<ul>
+<li>DUPLICAR DATAFRAMES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+
+lista_valores = [[1,2],[1,2],[5,6],[5,8]]
+lista_indices = list(&quot;mnop&quot;)
+lista_columnas = [&quot;columna1&quot;,&quot;columna2&quot;]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices, columns=lista_columnas)
+print(dataframe)
+
+# BORRAR LOS DUPLICADOS
+dataframe_duplicado = dataframe.drop_duplicates()
+print(dataframe_duplicado)
+
+# BORRAR LOS DUPLICADOS PARA SOLO VALORES UNICOS EN UNA COLUMNA Y MANTENER EL ULTIMO VALOR
+dataframe_duplicado_columna = dataframe_duplicado.drop_duplicates([&quot;columna1&quot;], keep=&quot;last&quot;)
+print(dataframe_duplicado_columna)
+</code></pre>
+<ul>
+<li>METODO REEMPLAZAR SERIES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# REEMPLAZAR SERIES
+serie = pd.Series([1,2,3,4,5,6])
+print(serie)
+# reemplaza el 1 por el 10
+serie1 = serie.replace(1,10)
+print(serie1)
+serie2 = serie.replace({1:10,2:20})
+print(serie2)
+</code></pre>
+<ul>
+<li>METODO PARA RENOMBRAR INDICES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = np.arange(9).reshape(3,3)
+lista_indices = list(&quot;abc&quot;)
+lista_columnas = [&quot;columna1&quot;,&quot;columna2&quot;,&quot;columna3&quot;]
+
+dataframe = pd.DataFrame(lista_valores, index=lista_indices, columns=lista_columnas)
+print(dataframe)
+# REEMPLAZAMOS LOS INDICES
+# POR MAYUSCULAS
+nuevos_indices = dataframe.index.map(str.upper)
+dataframe.index = nuevos_indices
+print(dataframe)
+# POR RENAME
+dataframe = dataframe.rename(index=str.lower)
+print(dataframe)
+# NUEVOS INDICES
+indices_nuevos = {&quot;a&quot;:&quot;f&quot;,&quot;b&quot;:&quot;w&quot;,&quot;c&quot;:&quot;z&quot;}
+dataframe = dataframe.rename(index=indices_nuevos)
+print(dataframe)
+# O SOLO UNO DE LOS QUE HAY
+indices_uno = {&quot;f&quot;:&quot;xxx&quot;}
+dataframe = dataframe.rename(index=indices_uno)
+print(dataframe)
+</code></pre>
+<ul>
+<li>METODO PARA AGRUPAR CATEGORIAS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+precio = [42,50,45,23,5,21,88,34,26]
+rango = [10,20,30,40,50,60,70,80,90,100]
+
+# AGRUPAR CATEGORIAS
+# te sale en que rango está cada precio de la lista de rangos
+precio_con_rango = pd.cut(precio,rango)
+print(precio_con_rango)
+# cuenta cuantos hay para cada rango de precios
+print(pd.value_counts(precio_con_rango))
+</code></pre>
+<ul>
+<li>METODO PARA FILTRAR INDICES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+# 10 filas por 3 columnas
+lista_valores = np.random.rand(10,3)
+# creamos un dataframe
+dataframe = pd.DataFrame(lista_valores)
+print(dataframe)
+# filtramos por columna y valor
+columna0 = dataframe[0]
+print(columna0)
+print(columna0[columna0&gt;0.40])
+# tmb por dataframe se puede
+print(dataframe[dataframe&gt;0.40])
+</code></pre>
+<ul>
+<li>METODO PARA COMBINAR ELEMENTOS:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = np.arange(25).reshape(5,5)
+
+dataframe = pd.DataFrame(lista_valores)
+
+# cambiamos los indices por una combinacion aleatoria
+combinacion = np.random.permutation(5)
+print(combinacion)
+
+# ahora ordena los valores segun el indice de la combinacion
+print(dataframe.take(combinacion))
+</code></pre>
+<ul>
+<li>METODO PARA AGRUPAR POR COLUMNAS GROUPBY:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = {&quot;clave1&quot;: [&quot;x&quot;,&quot;x&quot;,&quot;y&quot;,&quot;y&quot;,&quot;z&quot;],&quot;clave2&quot;: [&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;], &quot;datos1&quot;: np.random.rand(5), &quot;datos2&quot;: np.random.rand(5)}
+
+dataframe = pd.DataFrame(lista_valores)
+print(dataframe)
+# queremos agrupar datos1 con clave1
+agrupacion = dataframe[&quot;datos1&quot;].groupby(dataframe[&quot;clave1&quot;])
+print(agrupacion)
+# te hace una media de x y z
+print(agrupacion.mean())
+</code></pre>
+<ul>
+<li>METODO PARA AGREGACIONES EN DATAFRAMES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import pandas as pd
+import numpy as np
+
+lista_valores = [[1,2,3],[4,5,6],[7,8,9],[np.nan,np.nan,np.nan]]
+lista_columnas = list(&quot;abc&quot;)
+dataframe = pd.DataFrame(lista_valores,columns=lista_columnas)
+print(dataframe)
+
+# agregaciones de suma, minimo sobre los datos
+print(dataframe.agg([&quot;sum&quot;,&quot;min&quot;]))
+# por fila
+print(dataframe.agg(&quot;sum&quot;,axis=1))
+</code></pre>
+<h2 id="seaborn">SEABORN</h2>
+<ul>
+<li>
+<p><a href="https://interactivechaos.com/es/manual/tutorial-de-seaborn/presentacion#:~:text=seaborn%20es%20una%20librer%C3%ADa%20de,para%20Python%20desarrollada%20sobre%20matplotlib%20.&amp;text=Adem%C3%A1s%2C%20est%C3%A1%20%C3%ADntimamente%20integrada%20con,de%20las%20funciones%20de%20visualizaci%C3%B3n.">SEABORN</a> es una librería para Python que permite generar fácilmente elegantes gráficos. Seaborn esta basada en matplotlib y proporciona una interfaz de alto nivel que es realmente sencilla de aprender. Dada su gran popularidad se encuentra instalada por defecto en la distribución Anaconda.  </p>
+</li>
+<li>
+<p>La representación de datos es una tarea clave del análisis de datos. La utilización de una gráfica adecuada puede hacer que los resultados y conclusiones se comuniquen de una forma adecuada o no. Conocer y manejar diferentes herramientas es clave para poder seleccionar la gráfica adecua en cada ocasión. En esta entrada se va a repasar básicamente las funciones que ofrece la librería Seaborn.  </p>
+</li>
+<li>
+<p>INSTALACION <code>pip3 install seaborn</code>  </p>
+</li>
+</ul>
 <h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
 <ul>
 <li>

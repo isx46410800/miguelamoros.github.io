@@ -97,6 +97,16 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#condicionales">CONDICIONALES</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bucles">BUCLES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clases-java">CLASES JAVA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#objetos">OBJETOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#metodos">METODOS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#constructores">CONSTRUCTORES</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -292,11 +302,13 @@ Podemos instalar plugins en my Netbeans - available plugins.  </p>
 </ul>
 <h2 id="helloworld">HELLOWORLD</h2>
 <ul>
+<li>CONTROL + E borra comentarios.  </li>
+<li>CONTROL + SHIFT + F ajusta bien el codigo.  </li>
 <li>Creamos un proyecto nuevo de Helloworld con las caracteristicas que le digamos.  </li>
 <li>En pom.xml nos indica las caracteristicas de java.  </li>
 <li>En source package hacemos boton derecho y nueva clase con el mismo nombre,siempre se empieza por mayusculas.  </li>
 </ul>
-<pre><code>//Mi clase en Java
+<pre><code class="language-java">//Mi clase en Java
 public class HelloWorld {  
     public static void main(String args[]){
         System.out.println(&quot;Hola Mundo desde Java&quot;); 
@@ -312,7 +324,7 @@ Si se pone solo <code>print</code> y no <code>println</code> no lo imprime en ot
 <ul>
 <li>Se puede poner el tipo como String, int, float, chart... o var en las nuevas versiones:  </li>
 </ul>
-<pre><code>public class HelloWorld {  
+<pre><code class="language-java">public class HelloWorld {  
     public static void main(String args[]){
         String saludar = &quot;Saludos!&quot;;
         System.out.println(&quot;Hola Mundo desde Java&quot;); 
@@ -337,8 +349,7 @@ Si se pone solo <code>print</code> y no <code>println</code> no lo imprime en ot
 <ul>
 <li>Short,int,long,byte:  </li>
 </ul>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 /*
 Esto es un comentario
@@ -387,8 +398,7 @@ public class HelloWorld {
 }
 </code></pre>
 <h3 id="flotantes">Flotantes</h3>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -417,8 +427,7 @@ public class HelloWorld {
 <ul>
 <li>Solo soporta un caracter.  </li>
 </ul>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -445,8 +454,7 @@ public class HelloWorld {
 <ul>
 <li>True o False:  </li>
 </ul>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -474,8 +482,7 @@ public class HelloWorld {
 }
 </code></pre>
 <h3 id="conversion-de-variables">Conversion de variables</h3>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -511,8 +518,7 @@ public class HelloWorld {
 <ul>
 <li>Aritmeticos:  </li>
 </ul>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -555,7 +561,7 @@ public class HelloWorld {
 <ul>
 <li>De asignacion:  </li>
 </ul>
-<pre><code>import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -582,8 +588,7 @@ public class HelloWorld {
 <ul>
 <li>Unarios:  </li>
 </ul>
-<pre><code>
-import java.util.Scanner;
+<pre><code class="language-java">import java.util.Scanner;
 
 public class HelloWorld {
 
@@ -628,7 +633,7 @@ public class HelloWorld {
 <ul>
 <li>De comparacion:  </li>
 </ul>
-<pre><code>
+<pre><code class="language-java">
 import java.util.Scanner;
 
 public class HelloWorld {
@@ -668,7 +673,7 @@ public class HelloWorld {
 <ul>
 <li>Booleanos:  </li>
 </ul>
-<pre><code>
+<pre><code class="language-java">
 import java.util.Scanner;
 
 public class HelloWorld {
@@ -693,7 +698,7 @@ public class HelloWorld {
 <ul>
 <li>Ternario:  </li>
 </ul>
-<pre><code>
+<pre><code class="language-java">
 import java.util.Scanner;
 
 public class HelloWorld {
@@ -713,7 +718,7 @@ public class HelloWorld {
 <ul>
 <li>Prioridad de operaciones:  </li>
 </ul>
-<pre><code>
+<pre><code class="language-java">
 import java.util.Scanner;
 
 public class HelloWorld {
@@ -737,8 +742,410 @@ public class HelloWorld {
 </code></pre>
 <h2 id="condicionales">CONDICIONALES</h2>
 <ul>
-<li></li>
+<li>
+<p>Cuando es una linea de sentencia se pueden ahorrar las llaves:  </p>
+</li>
+<li>
+<p>COndicion basica:  </p>
+</li>
 </ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        var condition = true;
+        if (condition) {
+            System.out.println(&quot;Es verdadera&quot;);
+        } else {
+            System.out.println(&quot;Es falsa&quot;);
+        }
+
+        var numero = 12;
+        var texto = &quot;Numero desconocido&quot;
+        if (numero == 1) {
+            texto = &quot;Numero 1&quot;;
+            //System.out.println(&quot;Numero igual a 1&quot;);
+        } else if (numero == 2) {
+            texto = &quot;Numero 2&quot;;
+            //System.out.println(&quot;No es igual a 2&quot;);
+        } else {
+            texto = &quot;Numero desconocido&quot;;
+            //System.out.println(&quot;No es igual a 1 ni 2&quot;);
+        }
+        System.out.println(texto);
+    }
+}
+</code></pre>
+<ul>
+<li>Ejemplo con mas condiciones y entrada input:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        var scanner = new Scanner(System.in);
+        System.out.println(&quot;Proporciona el mes del año:&quot;);
+        var mes = scanner.nextInt();//mes del año
+
+        String estacion = null;
+
+        if (mes == 1 || mes == 2 || mes == 12) {
+            estacion = &quot;Invierno&quot;;
+        } else if (mes == 3 || mes == 4 || mes == 5) {
+            estacion = &quot;Primavera&quot;;
+        } else if (mes == 6 || mes == 7 || mes == 8) {
+            estacion = &quot;Verano&quot;;
+        } else if (mes == 9 || mes == 10 || mes == 11) {
+            estacion = &quot;Otoño&quot;;
+        } else {
+            estacion = &quot;Mes incorrecto&quot;;
+        }
+        System.out.println(&quot;estacion:&quot; + estacion + &quot; para el mes: &quot; + mes);
+    }
+}
+</code></pre>
+<ul>
+<li>ESTRUCTURA SWITCH para diferentes opciones:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        var numero = 1;
+        var numeroTexto = &quot;numero desconocido&quot;;
+
+        switch (numero) {
+            case 1:
+                numeroTexto = &quot;numero uno&quot;;
+                break;
+            case 2:
+                numeroTexto = &quot;numero dos&quot;;
+                break;
+            case 3:
+                numeroTexto = &quot;numero tres&quot;;
+                break;
+            default:
+                numeroTexto = &quot;numero desconocido&quot;;
+        }
+        System.out.println(&quot;numero texto:&quot; + numeroTexto + &quot; para el numero proporcionado:&quot; + numero);
+    }
+}
+</code></pre>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+
+    public static void main(String args[]) {
+        var scanner = new Scanner(System.in);
+        System.out.println(&quot;Proporcionar el valor del mes&quot;);
+        var mes = scanner.nextInt();
+        String estacion = null;
+
+        switch ( mes ){
+            case 1: case 2: case 12:
+                estacion = &quot;Invierno&quot;;
+                break;
+            case 3: case 4: case 5:
+                estacion = &quot;Primavera&quot;;
+                break;
+            case 6: case 7: case 8:
+                estacion = &quot;Verano&quot;;
+                break;
+            case 9: case 10: case 11:
+                estacion = &quot;Otoño&quot;;
+                break;
+            default:
+                estacion = &quot;Mes incorrecto&quot;;
+        }
+
+        System.out.println(&quot;estacion: &quot; + estacion + &quot; para el mes:&quot; + mes);
+    }
+}
+</code></pre>
+<blockquote>
+<p>Para varios case a la vez.  </p>
+</blockquote>
+<h2 id="bucles">BUCLES</h2>
+<ul>
+<li>BUCLE WHILE / DO WHILE:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        var contador = 0;
+        while (contador &lt; 3) {
+            System.out.println(&quot;contador = &quot; + contador);
+            contador++; //PARA QUE INCREMENTE 1
+        }
+        do {
+            System.out.println(&quot;contador = &quot; + contador);
+            contador++;
+        } while (contador &lt; 3);
+    }
+}
+</code></pre>
+<ul>
+<li>BUCLE FOR:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        for (var i = 0; i &lt; 3; i++) {
+            System.out.println(&quot;i = &quot; + i);
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p>Iniciar, condicion, incremento.  </p>
+</blockquote>
+<ul>
+<li>BUCLES CON BREAK/CONTINUE:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        for (var i = 0; i &lt; 3; i++) {
+           //Imprimimos solo numeros pares
+           if (i % 2 == 0) {
+               System.out.println(&quot;i = &quot; + i);
+               break;
+           }
+       }
+
+        for (var i = 0; i &lt; 3; i++) {
+            //Imprimimos solo numeros pares
+            if (i % 2 != 0) {
+                continue;
+            }
+            System.out.println(&quot;i = &quot; + i);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>LABELS en los bucles:  </li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+public class HelloWorld {
+    public static void main(String args[]) {
+        Inicio:
+        for (var i = 0; i &lt; 3; i++) {
+           //Imprimimos solo numeros pares
+           if (i % 2 == 0) {
+               System.out.println(&quot;i = &quot; + i);
+               break Inicio;
+           }
+       }
+    }
+}
+</code></pre>
+<blockquote>
+<p>Se le pone una etiqueta antes del bucle y para hacer break/continue se llama al label.  </p>
+</blockquote>
+<h2 id="clases-java">CLASES JAVA</h2>
+<ul>
+<li>
+<p>Una clase es una plantilla que sirven para crear objetos. Tienen nombre, atributos y metodos.  </p>
+</li>
+<li>
+<p>Una clase debe terminar en .java y empieza en mayusculas.  </p>
+</li>
+<li>
+<p>Creamos un nuevo proyecto - nombre - maven - java app.  </p>
+</li>
+<li>
+<p>Una vez creado vamos a source package - new java class y ponemos un nombre de la clase, ejemplo "Persona".  </p>
+</li>
+<li>
+<p>El nombre de la clase a rellenar tiene que ser mismo nombre que al crear java class.  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code class="language-java">public class Persona {
+    //atributos de nuesta clase
+    string nombre;
+    string apellido;
+
+    //metodos de la clase
+    //lo usuaran los objetos de esta clase
+    public void desplegarNombre(){
+    // se pone void porque no regresa ningun dato, sino seria int,etc
+        System.out.println(&quot;nombre: &quot;, nombre);
+        System.out.println(&quot;apellido; &quot;, apellido);
+    }
+}
+</code></pre>
+<h2 id="objetos">OBJETOS</h2>
+<ul>
+<li>
+<p>Cuando creamos un objeto o una clase, se reserva en memoria espacio para futuros objetos con sus atributos.  </p>
+</li>
+<li>
+<p>la clase string para crear variables y objetos puede ser:<br />
+<code>String saludo = "Hola mundo"</code><br />
+<code>saludo = new String("Hola Mundo")</code>  </p>
+</li>
+<li>
+<p>Creamos una nueva clase java class en source packages de "PruebaPersonas".  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code class="language-java">public class PruebaPersonas {
+    public static void main(String[] args) {
+        // creacion de un objeto de tipo persona
+
+        // definimos la variable de tipo Persona en ref class Persona
+        Persona persona1;
+
+        // creando un objeto de la clase Persona
+        persona1 = new Persona();
+
+        // accedemos al objeto y llamamos a los metodos y atributos de clase Persona
+        persona1.desplegarNombre();
+
+        // asignamos valores de los atributos del objeto Persona
+        persona1.nombre = &quot;Miguel&quot;;
+        persona1.apellido = &quot;Amoros&quot;;
+        persona1.desplegarNombre();
+
+        // creamos otro objeto
+        Persona persona2 = new Persona();
+        persona2.nombre = &quot;Natalia&quot;;
+        persona2.apellido = &quot;Sendra&quot;;
+        persona2.desplegarNombre();
+    }
+}
+</code></pre>
+<h2 id="metodos">METODOS</h2>
+<ul>
+<li>Son funciones dentro de una clase.  </li>
+<li>Creamos un nuevo proyecto "ProyectoAritmetica" y creamos una nueva clase "Aritmetica".   </li>
+</ul>
+<pre><code class="language-java">public class Aritmetica {
+    // si ponemos argumentos, no son las variables de los atributos
+    public int sumar(int a, int b){
+        //cuerpo de creacion de nuestro metodo
+        int resultado = a + b;
+        return resultado; //el valor debe ser mismo tipo que sintaxi de public    
+    }
+}
+</code></pre>
+<ul>
+<li>Despues creamos otra java class "PruebaAritmetica para llamar a nuestro metodo creado a través de la creacion de un objeto con la clase Aritmetica:  </li>
+</ul>
+<pre><code class="language-java">public class PruebaAritmetica {
+    public static void main(String[] args) {
+        // creamos un objeto de tipo Aritmetica
+        Aritmetica mates = new Aritmetica();
+
+        //llamamos al metodo para nuestra variable del objeto
+        //mismo tipo guardado que creacion de metodo &quot;int&quot; ejemplo
+        int resultado = mates.sumar(5, 3);
+        System.out.println(&quot;El resultado es: &quot;+ resultado);
+    }
+}
+</code></pre>
+<h2 id="constructores">CONSTRUCTORES</h2>
+<ul>
+<li>
+<p>Son como los metodos pero ya se inician a la creacion del objeto.  </p>
+</li>
+<li>
+<p>Tiene que tener el mismo nombre que la clase.  </p>
+</li>
+<li>
+<p>Los constructores vacíos se agregan solos al compilar si no son llamados.  </p>
+</li>
+<li>
+<p>Los constructores solo son llamados cuando creamos el objeto, no se pueden llamar como los metodos:  </p>
+</li>
+</ul>
+<pre><code class="language-java">public class Aritmetica {
+    //definimos un constructor vacio y se llama como la clase
+    public Aritmetica(){
+        System.out.println(&quot;Ejecutando constructor vacio&quot;);
+    }
+    // si ponemos argumentos, no son las variables de los atributos
+    public int sumar(int a, int b){
+        //cuerpo de creacion de nuestro metodo
+        int resultado = a + b;
+        return resultado; //el valor debe ser mismo tipo que sintaxi de public    
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class PruebaAritmetica {
+    public static void main(String[] args) {
+        // creamos un objeto de tipo Aritmetica
+        Aritmetica mates = new Aritmetica();
+
+        //llamamos al metodo para nuestra variable del objeto
+        //mismo tipo guardado que creacion de metodo &quot;int&quot; ejemplo
+        int resultado = mates.sumar(5, 3);
+        System.out.println(&quot;El resultado es: &quot;+ resultado);
+    }
+}
+</code></pre>
+<blockquote>
+<p>Ejecutando constructor vacio<br />
+El resultado es: 8  </p>
+</blockquote>
+<ul>
+<li>Constructor con argumentos, ya no agrega el vacio, solo el de argumentos:  </li>
+</ul>
+<pre><code class="language-java">public class Aritmetica {
+    // atributos de la clase. Por defecto es 0
+    int a;
+    int b;
+
+    //definimos un constructor vacio y se llama como la clase
+    public Aritmetica(){
+        //a = 2;
+        //b = 5; //llamariamos al metodo de suma sin argumentos
+        System.out.println(&quot;Ejecutando constructor vacio&quot;);
+    }
+
+    //definimos un constructor de tipo publico con argumentos
+    public Aritmetica(int arg1, int arg2){
+        a = arg1;
+        b = arg2;
+        System.out.println(&quot;Ejecutando constuctor con argumentos&quot;);
+    }
+
+    // creacion de un metodo
+    // si ponemos argumentos, no son las variables de los atributos
+    public int sumar(){
+        //cuerpo de creacion de nuestro metodo
+        int resultado = a + b;
+        return resultado; //el valor debe ser mismo tipo que sintaxi de public    
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class PruebaAritmetica {
+    public static void main(String[] args) {
+        // creamos un objeto de tipo Aritmetica
+        Aritmetica mates = new Aritmetica();
+
+        //podemos dar valores accediendo a atributos de nuestra clase
+        mates.a = 3;
+        mates.b = 5;
+        //llamamos al metodo para nuestra variable del objeto
+        //mismo tipo guardado que creacion de metodo &quot;int&quot; ejemplo
+        int resultado = mates.sumar();
+        System.out.println(&quot;El resultado es: &quot;+ resultado);
+
+        // creacion de otro objeto de tipo Aritmetica
+        Aritmetica mates2 = new Aritmetica(4, 3);
+        System.out.println(&quot;El resultado es: &quot;+ mates2.sumar());
+    }
+}
+</code></pre>
+<blockquote>
+<p>Ejecutando constructor vacio
+El resultado es: 8
+Ejecutando constuctor con argumentos
+El resultado es: 7</p>
+</blockquote>
               
             </div>
           </div>

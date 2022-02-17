@@ -1716,7 +1716,406 @@ print(dataframe.agg(&quot;sum&quot;,axis=1))
 <li>
 <p>INSTALACION <code>pip3 install seaborn</code>  </p>
 </li>
+<li>
+<p>Para usarlo en el <a href="https://code.visualstudio.com/docs/python/jupyter-support-py">VS CODE - JUPYTER</a> y tenemos que crear una ventana interactiva de jupyter para usarlo dentro de vscode <code>pip3 install jupyter</code>  </p>
+</li>
+<li>
+<p>PODEMOS CREAR HISTOGRAMAS CON DATOS (VIA INTERACTIVO JUPYTER):  </p>
+</li>
 </ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import seaborn as sns
+
+# para que se cree luego el histograma(en web interactiva~Jupyter)
+#print(%matplotlib inline)
+datos1 = np.random.randn(100)
+print(datos1)
+
+# crea un histograma
+print(mpl.pyplot.hist(datos1))
+print(sns.displot(datos1))
+
+# podemos cambiar el color y oscuridad
+print(sns.displot(datos1, color=&quot;green&quot;))
+print(mpl.pyplot.hist(datos1, color=&quot;green&quot;, alpha=0.8))
+
+# creamos otros datos
+datos2 = np.random.randn(80)
+print(sns.displot(datos2, color=&quot;yellow&quot;))
+print(mpl.pyplot.hist(datos2, color=&quot;yellow&quot;, alpha=0.8))
+
+# juntamos los dos datos / bin=barras a mostrar
+print(mpl.pyplot.hist(datos1, color=&quot;yellow&quot;, alpha=0.8, bins=20, density=True))
+print(mpl.pyplot.hist(datos2, color=&quot;blue&quot;, alpha=0.8, bins=20, density=True))
+
+# juntamos con seaborn
+datos3 = np.random.randn(100)
+datos4 = np.random.randn(100)
+print(sns.jointplot(datos3,datos4))
+print(sns.jointplot(datos3,datos4, kind=&quot;hex&quot;))
+</code></pre>
+<blockquote>
+<p><a href="https://interactivechaos.com/es/manual/tutorial-de-seaborn/presentacion">TUTOTIAL HISTOGRAMAS</a><br />
+<a href="https://stackabuse.com/seaborn-library-for-data-visualization-in-python-part-1/">INSTALACION</a><br />
+<a href="https://www.python-graph-gallery.com/">TIPOS HISTOGRAMA</a></p>
+</blockquote>
+<p><img alt="" src="../images/histograma.png" />
+<img alt="" src="../images/histograma2.png" /></p>
+<ul>
+<li>CREAMOS HISTOGRAMAS DE DIFERENTES DISTRIBUCIONES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+datos = np.random.randn(100)
+
+# DIFERENTES DISTRIBUCIONES DEL HISTOGRAMA
+print(sns.distplot(datos))
+print(sns.distplot(datos, color=&quot;green&quot;, hist=False))
+# creamos poniendo un color la linea y otro las barras
+argumentos_curva = {&quot;color&quot;:&quot;black&quot;, &quot;label&quot;:&quot;Curva&quot;}
+argumentos_histograma = {&quot;color&quot;:&quot;grey&quot;, &quot;label&quot;:&quot;Histograma&quot;}
+print(sns.distplot(datos, kde_kws=argumentos_curva, hist_kws=argumentos_histograma))
+
+# desde una serie creamos el histograma
+serie = pd.Series(datos)
+print(sns.distplot(serie, bins=25, color=&quot;green&quot;))
+</code></pre>
+<p><img alt="" src="../images/histograma3.png" /></p>
+<ul>
+<li>DIAGRAMA DE CAJA:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+datos = np.random.randn(100)
+
+# DIAGRAMA DE CAJA
+print(sns.boxplot(datos))
+</code></pre>
+<p><img alt="" src="../images/histograma4.png" /></p>
+<ul>
+<li>DIAGRAMA DE REGRESIONES LINEALES:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# regresiones lineales que sirven respecto una variable
+# respecto a otras
+# nos carga una preguardado de gente dejando propinas
+propinas = sns.load_dataset(&quot;tips&quot;)
+print(propinas.head(10))
+
+# creamos un grafico de regresion lineal
+# compara la media con las propinas
+print(sns.lmplot(x=&quot;total_bill&quot;,y=&quot;tip&quot;,data=propinas))
+print(sns.lmplot(x=&quot;total_bill&quot;,y=&quot;tip&quot;,data=propinas, scatter_kws={&quot;marker&quot;: &quot;o&quot;,&quot;color&quot;:&quot;green&quot;},line_kws={&quot;color&quot;:&quot;blue&quot;}))
+
+# agreamos otra columna mas a la tabla de propinas
+propinas[&quot;porcentaje&quot;]= 100*propinas[&quot;tip&quot;]/propinas[&quot;total_bill&quot;]
+print(propinas.head())
+# creamos diagrama
+print(sns.lmplot(x=&quot;size&quot;,y=&quot;porcentaje&quot;,data=propinas))
+print(sns.lmplot(x=&quot;total_bill&quot;,y=&quot;porcentaje&quot;,data=propinas,hue=&quot;sex&quot;,markers=[&quot;x&quot;,&quot;o&quot;]))
+</code></pre>
+<p><img alt="" src="./images/histograma5.png" /><br />
+<img alt="" src="../images/histograma6.png" /><br />
+<img alt="" src="../images/histograma7.png" />  </p>
+<ul>
+<li>DIAGRAMA MAPA DE CALOR:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# MAPAS DE CALOR
+vuelos = sns.load_dataset(&quot;flights&quot;)
+print(vuelos.head())
+
+# creamos una matriz con los datos:indice,columnas, valor
+vuelos = vuelos.pivot(&quot;month&quot;,&quot;year&quot;,&quot;passengers&quot;)
+
+# representacion sin o con valores
+print(sns.heatmap(vuelos))
+print(sns.heatmap(vuelos,annot=True,fmt=&quot;d&quot;))
+
+# mirar un valor concreto
+print(vuelos.loc[&quot;May&quot;][1956])#318
+# hacer un mapa de calor ref valor concreto
+valor = vuelos.loc[&quot;May&quot;][1956]
+print(sns.heatmap(vuelos,center=valor,annot=True,fmt=&quot;d&quot;,cbar_kws={&quot;orientation&quot;:&quot;horizontal&quot;}))
+</code></pre>
+<p><img alt="" src="../images/histograma8.png" /><br />
+<img alt="" src="../images/histograma9.png" />  </p>
+<ul>
+<li>EJERCICIO:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# importamos la libreria
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# para crear el grafico en estas pruebas
+#%matplotlib inline
+
+# CREAR UN ARRAY DE 100 NUMEROS ALEATORIOS DE 0-500
+# CREAR UN DIAGRAMA DE CAJA
+lista_valores = np.random.randint(0,500,100)
+print(lista_valores)
+
+print(sns.boxplot(data=lista_valores))
+</code></pre>
+<h2 id="proyectos-librerias">PROYECTOS LIBRERIAS</h2>
+<h3 id="subasta">SUBASTA</h3>
+<pre><code>#!/usr/bin/python3
+
+# GESTIONAR UNA SUBASTA
+
+# preguntar nombre y precio apuesta
+# añadirlo a un diccionario
+# borrar la pantalla
+# preguntar si hay mas personas para esta apuesta (bucle hasta no)
+# SI: repetir misma preguntas y añadir
+# NO: mostrar la apuesta ganadora y fin del programa
+
+# libreria para limpiar la pantalla
+import os 
+
+print(&quot;Bienvenidos a la SUBASTA de MIGUEL&quot;)
+
+# creamos el diccionario
+diccionario = {}
+
+# funcionar calcular el ganador
+def calcular_ganador(diccionario):
+    max = 0
+    ganador = &quot;&quot;
+    for nombre in diccionario:
+        precio = diccionario[nombre]
+        if precio &gt; max:
+            max = precio
+            ganador = nombre
+    print(f&quot;El ganador es {ganador} con apuesta de {max}&quot;)
+
+# bucle para que mientras haya mas apuestas, siga preguntando y añadiendo
+mas_subastas = True
+while mas_subastas:
+    precio = float(input(&quot;Escribe tu apuesta: &quot;))
+    nombre = input(&quot;Escribe nombre: &quot;)
+    diccionario[nombre]=precio
+
+    pregunta = input(&quot;Hay mas apuesta? Escribe 'si' o 'no'&quot;).lower()
+    if pregunta == &quot;si&quot;:
+        os.system(&quot;clear&quot;)
+    elif pregunta == &quot;no&quot;:
+        mas_subastas = False
+    else:
+        print(&quot;Eleccion incorrecta&quot;)
+
+# decimos ganador
+os.system(&quot;clear&quot;)
+calcular_ganador(diccionario)
+</code></pre>
+<h3 id="calculo-botes-de-pintura">CALCULO BOTES DE PINTURA</h3>
+<pre><code>#!/usr/bin/python3
+
+import random
+import math
+# CALCULO DE BOTES DE PINTA PARA PINTAR UNA PARED
+
+# alto de la pared 
+# ancho de la pared 
+# cuantos metros cuadrados cubre un bote de pintura 
+# calculo de (alto*ancho)/m2 que cubre cada bote 
+
+
+print(&quot;Bienvenidos al calculo de botes de pintura&quot;)
+
+# CON FUNCION
+def calculo_pared(alto,ancho,superficie):
+    botes = (alto*ancho)/superficie
+    # redondea hacia arriba
+    numero_botes = math.ceil(botes)
+    return numero_botes
+
+print(calculo_pared(3,4.5,1))
+
+alto = float(input(&quot;Escribe cuanto tiene de alto la pared: &quot;))
+ancho = float(input(&quot;Escribe cuantos tiene de ancho la pared: &quot;))
+superficie = float(input(&quot;Escribe cuantos metros cuadrados cubre un bote de pintura: &quot;))
+
+# botes = (alto*ancho)/superficie
+numero_botes = calculo_pared(alto,ancho,superficie)
+print(f&quot;Necesitas {numero_botes} botes de pintura para tu pared&quot;)
+</code></pre>
+<h3 id="calculadora-propinas">CALCULADORA PROPINAS</h3>
+<pre><code>#!/usr/bin/python3
+
+# JUEGO PARA CALCULADORA DE PROPINAS
+# precio de la factura
+# porcentaje de propina
+# personas a repartir
+
+print(&quot;Bienvenido a la calculadora de propinas&quot;)
+factura = float(input(&quot;precio de la factura?&quot;))
+propina = int(input(&quot;Cual es el porcentaje de propina a dejar?&quot;))
+personas = int(input(&quot;Entre cuantas personas hay que repatir la factura?&quot;))
+
+importe_propina = (factura*propina)/100
+factura_total = round(factura + importe_propina,2)
+reparto = factura_total/personas
+
+print(&quot;El importe por persona es: &quot;, reparto)
+</code></pre>
+<h3 id="generador-contrasenas">GENERADOR CONTRASEÑAS</h3>
+<pre><code>#!/usr/bin/python3
+
+import random
+# GENERADOR DE CONTRASEÑAS
+
+# Pedir cuantas letras, numeros y simbolos necesitas
+
+letras = [&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;]
+numeros = [&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;]
+simbolos = [&quot;!&quot;,&quot;#&quot;,&quot;@&quot;,&quot;$&quot;,&quot;&amp;&quot;]
+
+print(&quot;Bienvenidos al generador de contraseñas&quot;)
+numero_letras = int(input(&quot;Escribe cuantas letras quieres: &quot;))
+numero_numeros = int(input(&quot;Escribe cuantos numeros quieres: &quot;))
+numero_simbolos = int(input(&quot;Escribe cuantos simbolos quieres: &quot;))
+
+lista = []
+
+# por cada caracter que quiera, lo añadimos a la lista 
+for letra in range(1, numero_letras+1):
+    lista.append(random.choice(letras))
+
+for letra in range(1, numero_numeros+1):
+    lista.append(random.choice(numeros))
+
+for letra in range(1, numero_simbolos+1):
+    lista.append(random.choice(simbolos))   
+
+# resultado de la lista
+print(lista)
+
+# ponemos la lista aleatoria
+random.shuffle(lista)
+print(lista)
+
+# creamos la contraseña
+password = &quot;&quot;
+for caracter in lista:
+    password = password + caracter
+
+print(password)
+</code></pre>
+<h3 id="juego-de-preguntas">JUEGO DE PREGUNTAS</h3>
+<pre><code>#!/usr/bin/python3
+
+# JUEGO DE PREGUNTAS
+
+print(&quot;Bienvenidos al juego de las preguntas&quot;)
+respuesta1 = input(&quot;Quieres ir a la izquierda o derecha. Escribe 'izquieda' o 'derecha'. &quot;).lower()
+
+if respuesta1 == &quot;izquierda&quot;:
+    print(&quot;Respuesta fallida, has perdido. Vuelvelo a intentar&quot;)
+elif respuesta1 != &quot;derecha&quot;:
+    print(&quot;Has fallado, respuesta introducida invalida&quot;)
+else:
+    respuesta2 = input(&quot;Quieres ir a nadando o caminar. Escribe 'nadar' o 'caminar'. &quot;).lower()
+    if respuesta2 == &quot;nadar&quot;:
+        print(&quot;Respuesta fallida, has perdido. Vuelvelo a intentar&quot;)
+    elif respuesta1 != &quot;caminar&quot;:
+        print(&quot;Has fallado, respuesta introducida invalida&quot;)
+    else:
+        respuesta3 = input(&quot;Has llegado a una casa con tres puertas. Escribe 'rojo', 'verde' o 'azul'. &quot;).lower()
+        if respuesta3 == &quot;rojo&quot; or respuesta3 == &quot;verde&quot;:
+            print(&quot;Respuesta fallida, has perdido. Vuelvelo a intentar&quot;)
+        elif respuesta1 != &quot;azul&quot;:
+            print(&quot;Has fallado, respuesta introducida invalida&quot;)
+        else:
+            print(&quot;Enhorabuena, has ganado el juego!&quot;)
+</code></pre>
+<h3 id="piedra-papel-y-tijera">PIEDRA, PAPEL Y TIJERA</h3>
+<pre><code>#!/usr/bin/python3
+
+# JUEGO DE PIEDRA PAPEL Y TIJERA
+
+# El usuario elije una opcion
+# el ordenador una aleatoria
+
+# resultado
+# tijera gana a papel
+# papel gana a piedra
+# piedra gana a tijera
+
+from random import randrange
+
+
+print(&quot;Bienvenidos al juego de piedra, papel y tijera&quot;)
+usuario = int(input(&quot;Escribe '0' piedra, '1' papel o '2' tijera: &quot;))
+if usuario not in range(0,3):
+    print(&quot;Numero no valido, vuelve a intentarlo..!&quot;)
+else:
+    ordenador = randrange(0,3)
+
+print(&quot;El usuario ha elegido: &quot;, usuario)
+print(&quot;El ordenador ha elegido: &quot;, ordenador)
+
+if (usuario &gt; ordenador) or (usuario == 0 and ordenador == 2):
+    print(&quot;El usuario ha ganado!!&quot;)
+elif usuario == ordenador:
+    print(&quot;ui...empate!&quot;)
+else:
+    print(&quot;El ordenador ha ganado, has perdido...!!&quot;)
+</code></pre>
+<h3 id="_1"></h3>
 <h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
 <ul>
 <li>

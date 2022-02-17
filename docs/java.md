@@ -870,3 +870,333 @@ public class PruebaAritmetica {
 > Ejecutando constuctor con argumentos
 > El resultado es: 7
 
+
+## OPERANDO THIS  
+
++ El operando THIS sirve para quitar la ambiguedad de variables o argumentos que sean iguales al nombre de estas variables, ejemplo a=a, sería this.a = a:  
+
++ Ejemplo del laboratotio de crear una clase de una caja, calcular volumen de la caja y crear una clase de prueba creando el objeto y pritando el volumen:  
+```java
+public class Caja {
+
+    private int ancho;
+    private int alto;
+    private int profundo;
+
+    public Caja() {
+    }
+
+    public Caja(int ancho, int alto, int profundo) {
+        this.ancho = ancho;
+        this.alto = alto;
+        this.profundo = profundo;
+    }
+
+    public int calcularVolumen() {
+        return ancho * alto * profundo;
+    }
+
+    public int calcularVolumen(int ancho, int alto, int profundo) {
+        return ancho * alto * profundo;
+    }
+}
+```  
+
+```java
+public class PruebaCaja {
+
+    public static void main(String args[]) {
+
+        int medidaAncho = 3;
+        int medidaAlto = 2;
+        int medidaProf = 6;
+
+        Caja caja1 = new Caja();
+        int resultado = caja1.calcularVolumen(medidaAncho, medidaAlto, medidaProf);
+
+        System.out.println("resultado de caja 1:" + resultado);
+
+        Caja caja2 = new Caja(2, 4, 6);
+        System.out.println("resultado de caja 2:" + caja2.calcularVolumen());
+    }
+}
+```  
+
++ This tambien puede hacer referencia asi mismo donde esté:  
+```java
+public class PalabraThis {
+    //metodo
+    public static void main(String[] args) {
+        Persona persona = new Persona("Miguel");
+    }
+}
+
+class Persona{
+    String nombre;
+    
+    //constructor
+    Persona(String nombre){
+        this.nombre = nombre;//this apunta a un objeto tipo persona
+        // creamos objeto
+        Imprimir imprimir = new Imprimir();
+        imprimir.imprimir(this);//contiene ref al objeto persona
+        
+    }
+}
+
+class Imprimir{
+    //metodo
+    public void imprimir(Persona p1) {
+        //valor del objeto persona
+        System.out.println("Impresion argumento persona; " + p1);
+        // this apunta a un objeto de tipo imprimir
+        System.out.println("Impresion objeto actual(this); " + this);
+    }
+}
+```  
+
+## PASO POR VALOR Y REFERENCIA  
+
++ El paso por valor son de valores de tipo primitivo. Se pasa una copia del valor iriginal de la variable.  
++ Ejemplo en un nuevo proyecto:  
+```java
+
+public class PasoPorValor {
+
+    public static void main(String[] args) {
+        // valor primitivo
+        var x = 10;
+        System.out.println("x = " + x);
+
+        // metodo
+        // vemos que se le pasa la copia pero no cambia el valor de x despues
+        cambiarValor(x); //click a la alerta y se crea el metodo debajo
+
+        //vuelve a tener x su valor
+        System.out.println("x = " + x);
+    }
+
+    //privado significa que solo se puede usar en esta clase
+    private static void cambiarValor(int arg) {
+        arg = 20;
+        System.out.println("x = " + arg);
+    }
+}
+```  
+
++ El paso por referencia se aplica en objetos cuando se pasa argumentos y se pasa dirrectamente la referencia de la variable y no una copia.  
++ Ejemplo en un nuevo proyecto:  
+```java
+public class Persona {
+    //atributo
+    String nombre;
+    
+    //metodo
+    public String obtenerNombre(){
+        return this.nombre;
+    }
+    //metodo
+    public void cambiarNombre(String nuevoNombre) {
+        this.nombre = nuevoNombre;
+    }
+}
+```  
+
+```java
+public class PasoPorReferencia {
+    public static void main(String[] args) {
+        // objeto
+        Persona persona = new Persona();
+        
+        //usamos los metodos para cambiar el nombre
+        persona.cambiarNombre("Miguel");
+        System.out.println("Nombre: "+ persona.obtenerNombre());
+        
+        //metodo
+        modificarPersona(persona);
+        
+        System.out.println("Nombre: "+ persona.obtenerNombre());
+
+    }
+    //metodo modificarPersona (cambiamos nombre de arg)
+    private static void modificarPersona(Persona personaArg) {
+        personaArg.cambiarNombre("Miguelito");
+    }
+}
+```  
+
+## RETURN  
+
++ Se usa para retornar un resultado de una variable, ejemplo `return resultado`.  
+```java
+public class ReturnTipoPrimitivo {
+    public static void main(String[] args) {
+        sumarSinRetornarValor(3,9);
+        int resultado = sumarRetornarValor(5,5);
+        System.out.println("Return retornar valor: "+ resultado);
+    }
+
+    private static void sumarSinRetornarValor(int a, int b) {
+        System.out.println("Return sin retornar valor: "+ (a+b));
+        //return; es opcional, si es tipo void no retorna nada
+    }
+
+    private static int sumarRetornarValor(int a, int b) {
+        if (a==0 && b==0){
+            return 0; //si llega a este return no llega al otro.
+        }
+        return a+b; //obligatorio al poner tipo int y no void
+    }
+}
+```  
+
++ Se encuentra en tipo objeto:  
+```java
+public class ReturnClases {
+    public static void main(String[] args) {
+        // crea el objeto indirectamente con el metodo
+        Suma s = creaObjetoSuma();
+        
+        //objeto con los metodos
+        System.out.println("Resultado metodo sumar: "+ s.sumar());
+    }
+    
+    //metodo
+    private static Suma creaObjetoSuma(){
+        Suma suma = new Suma(3,2);
+        return suma;
+    }
+}
+
+class Suma {
+    //atributos
+    int a;
+    int b;
+    
+    //constructor
+    public Suma(int a, int b){
+        this.a = a;
+        this.b = b;
+    }
+    
+    //metodo
+    public int sumar(){
+        return this.a + this.b;
+    }
+}
+```  
+
+## NULL  
+
++ Cuando una variable no tiene asignado nada.  
+
++ Ejemplo:  
+```java
+public class PalabraNull {
+    public static void main(String[] args) {
+        // crear objeto y llamar al metodo de la clase Persona
+        Persona persona1 = new Persona("Miguel");
+        System.out.println("Nombre: "+ persona1.ObtenerNombre());
+        
+        Persona persona2 = persona1;
+        System.out.println("Nombre: "+ persona2.ObtenerNombre());
+        
+        persona1 = null;
+        if (persona1!=null){
+            System.out.println("Nombre: "+ persona1.ObtenerNombre());
+        } else {
+            System.out.println("Nombre: nulo");
+        }
+    }
+}
+
+class Persona{
+    String nombre;
+    //constructor
+    Persona(String nombre){
+        this.nombre = nombre;
+    }
+    //metodo
+    public String ObtenerNombre(){
+        return this.nombre;
+    }
+}
+```  
+
+## ENCAPSULAMIENTO  
+
++ MODIFICADORES DE ACCESO:  
+    - PRIVATE: permite acceder solo desde la misma clase al metodo o atributo marcado con este modificador.  
+    - PUBLIC: perimite acceder desde cualquier clase a cualquier metodo o atributo definido con este modificador.  
+> Metodo GET siempre para obtener y metodo SET para modificar.  
+
++ Ejemplo classe Persona:  
+```java
+public class Persona {
+    //atributos
+    private String nombre;
+    private double sueldo;
+    private boolean eliminado;
+    
+    public Persona(String nombre, double sueldo, boolean eliminado){
+        this.nombre = nombre;
+        this.sueldo = sueldo;
+        this.eliminado = eliminado;
+    }
+    //metodo get para retornar solo en nombre en privado y este metodo será llamado desde otros
+    public String getNombre(){
+        return this.nombre;
+    }
+    //metodo publico de la variable private nombre
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    // al poner privado la variable se puede insertar automaticamente set/get
+    public double getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+    // para no imprimir tantas veces la linea de print para cada variable
+    //metodo DOSTRING
+    public String toString(){
+        return "Nombre: "+ nombre+ " " + "Sueldo: " + sueldo + " "+ "Eliminado: "+ eliminado;   
+    }       
+}
+```  
+> Podemos generar directamente con private el codigo de los SET/GET/TOSTRING con boton derecho INSERT CODE.  
+
++ Ejemplo de pruebaPersona:  
+```java
+public class PruebaPersona {
+    public static void main(String[] args) {
+        Persona persona = new Persona("Miguel",5000, false);
+        // cuando la variable es publica
+        //System.out.println("Nombre: "+ persona.nombre);
+        // cuando la variable es privada de otra clase, se llama al metodo publico GET/SET
+        System.out.println("Nombre: "+ persona.getNombre());
+        //llamamos al metodo set de moficiar nombre
+        persona.setNombre("MIguelito");
+        System.out.println("Nombre: "+ persona.getNombre());
+        System.out.println("Sueldo: "+ persona.getSueldo());
+        System.out.println("Eliminado?: "+ persona.isEliminado());
+        persona.setSueldo(2000);
+        persona.setEliminado(true);
+        System.out.println("Sueldo: "+ persona.getSueldo());
+        System.out.println("Eliminado?: "+ persona.isEliminado());
+        // IMPRIMIR TODO EN UNO CON METODO TOSTRING
+        System.out.println("persona: "+ persona.toString());
+        System.out.println("persona: "+ persona);//default es tostring
+    }
+}
+```  

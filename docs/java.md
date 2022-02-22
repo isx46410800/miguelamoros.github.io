@@ -1200,3 +1200,313 @@ public class PruebaPersona {
     }
 }
 ```  
+
+## STATIC  
+
++ Van relacionado con las clases.  
++ No se usa THIS en un metodo STATIC.  
++ Los atributos estaticos hacen referencia ala clase y no cambia d valor mientras que los no staticos se asocian al objeto y se puede asignar el que quiera.  
+
++ Ejemplo:  
+```java
+public class Persona {
+    
+    private int idPersona;//se asocia con un objeto (instancia)
+    private String nombre;//se asocia con un objeto (instancia)
+    private static int contadorPersonas;//se asocia con la clase
+    
+    public Persona(String nombre){
+        this.idPersona = ++contadorPersonas;
+        this.nombre = nombre;
+    }
+    
+    public int getIdPersona(){
+        return this.idPersona;
+    }
+    
+//    public void setIdPersona(int idPersona){
+//        this.idPersona = idPersona;
+//    }
+    
+    public String getNombre(){
+        return this.nombre;
+    }
+    
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    
+    public static int getContadorPersonas(){
+        return contadorPersonas;
+    }
+    
+    @Override
+    public String toString(){
+        return "idPersona: " + idPersona + ", nombre: " + nombre + ", contadorPersonas:" + contadorPersonas; 
+    }
+}
+```  
+
++ Prueba:  
+```java
+
+public class EjemploEstatico {
+
+    public static void main(String[] args) {
+        Persona persona1 = new Persona("Juan");
+        System.out.println(persona1);
+        
+        Persona persona2 = new Persona("Karla");
+        System.out.println(persona2);
+        
+        Persona persona3 = new Persona("Carlos");
+        System.out.println(persona3);
+        
+        System.out.println("contadorPersonas:" + Persona.getContadorPersonas());
+    }
+}
+```   
+
+## HERENCIA  
+
++ Hay una clase padre y todos suss hijos heredas todos sus atributos y metodos publicos.  
++ Se utiliza EXTENDS para heredar del padre.  
++ Se utiliza SUPER para llamar a un atributo padre.  
+
++ Ejemplo clase padre:  
+```java
+public class Persona {
+    //atributos
+    private String nombre;
+    private char genero;
+    private int edad;
+    private String direccion;
+    
+    //constructor vacio
+    public Persona(){
+    
+    }
+    
+    //constructor con argumento
+    public Persona(String nombre){
+        this.nombre = nombre;
+    }
+    
+    //constructor completo
+    public Persona(String nombre,char genero,int edad,String direccion){
+        this.nombre = nombre;
+        this.genero = genero;
+        this.edad = edad;
+        this.direccion = direccion;
+    }
+    
+    //metodos get/set con boton derecho insert code
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    //metodo tostring boton derecho insert code
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", genero=" + genero + ", edad=" + edad + ", direccion=" + direccion + '}';
+    }
+}
+```  
+
++ Ejemplo clase hijos:  
+```java
+public class Empleado extends Persona {
+    //al poner extends hereda todos las class public de Persona
+    //atributos
+    private int idEmpleado;
+    private double sueldo;
+    private static int contadorEmpleado;
+    
+    //constructor
+    //se utiliza super para llamar a un atributo de la clase padre
+    //ha de ser siempre la primera linea SUPER
+    public Empleado(String nombre,double sueldo){
+        super(nombre);
+        this.idEmpleado = ++contadorEmpleado;
+        this.sueldo = sueldo;
+    }
+    //metodos get /set
+
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public double getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    public static int getContadorEmpleado() {
+        return contadorEmpleado;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Empleado{" + "idEmpleado=" + idEmpleado + ", sueldo=" + sueldo + '}';
+    }   
+}
+```  
+
++ Ejemplo clase hijos:  
+```java
+
+import java.util.Date;
+
+public class Cliente extends Persona {
+    //al poner extends hereda todos las class public de Persona
+    //atributos
+    private int idCliente;
+    private Date fechaRegistro;
+    private boolean vip;
+    private static int contadorClientes;
+    //constructor
+    //se utiliza super para llamar a un atributo de la clase padre
+    public Cliente(Date fechaRegistro, boolean vip){
+        this.idCliente = idCliente;
+        this.idCliente = ++contadorClientes;
+        this.vip = vip;
+    }
+    //metodos get /set
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
+    }
+
+    public static int getContadorClientes() {
+        return contadorClientes;
+    }
+    //metodo to string
+    @Override
+    public String toString() {
+        return super.toString() + "Cliente{" + "idCliente=" + idCliente + ", fechaRegistro=" + fechaRegistro + ", vip=" + vip + '}';
+    }   
+}
+```  
+
++ Ejemplo prueba clases padre/hijos:  
+```java
+
+import java.util.Date;
+
+
+public class EjemploHerencia {
+
+    public static void main(String[] args) {
+        //creamos objeto
+        Empleado empleado1 = new Empleado("Miguel", 2000);
+        //podemos llamarlo porque hereda del padre este atributo
+        empleado1.setEdad(28);
+        empleado1.setDireccion("Agudells 66");
+        System.out.println(empleado1);
+        
+        //creamos objeto
+        Cliente cliente1 = new Cliente(new Date(),true);
+        System.out.println(cliente1);
+    }
+}
+```  
+
+## PAQUETES JAVA  
+
++ Son carpetas que agrupan clases,etc.  
++ Estandar de paquetes:  
+    - Todo en minisculas.  
+    - si es web, dominio nombre invertido: `mx.com.globalmentoring` 
+    - nombre de un proyecto: `mx.com.globalmentoring.miproyecto`  
+    - subpaquetes: `mx.com.globalmentoring.contabilidad.miproyecto`  
++ Definimos paquete con `package com.gm;`  
++ Importamos paquete con `import static com.gm.Utileria.imprimir`  
++ Mas usados:  
+    - java.lang: clases esenciales  
+    - java.util: clases de utilerias como date  
+    - java.io: datos input/output  
+    - java.net: leer/escribir datos en la red  
+    - java.applet: para crear applets en la ventana navegador  
+    - java.awt: para crear aplicacion GUI
++ Crear new package.  
++ Por cada punto en el nombre del paquete, se crea una carpeta.  
++ Despues creamos un java class dentro de esta direccion del paquete.  
+
++ Ejemplo:  
+```java
+package com.gm;
+
+public class Utileria {
+    public static void imprimir(String g){
+        System.out.println(g);
+    }
+}
+```  
+
++ Prueba paquete:  
+```java
+//importamos con.gm.utileria o todas con com.gm.*
+import com.gm.Utileria;
+//import com.gm.*;
+//import static com.gm.utileria.imprimir
+
+public class EjemploPaquetesPrueba {
+    public static void main(String[] args) {
+        //importamos paquete con el nombre de la clase completo
+        com.gm.Utileria.imprimir("Hola Miguel!");
+        
+        //import de la clase(se agrega automaticamente arriba)
+        Utileria.imprimir("Holaaaa");
+        //imprimit("holaaa); si importamos `import static com.gm.utileria.imprimir
+    }
+}
+```  
+
+

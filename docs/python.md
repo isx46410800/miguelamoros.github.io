@@ -2010,7 +2010,202 @@ ventana.mainloop()
 
 ![](./images/calculadora.png)  
 
+### ANALISIS DATOS SQLLITE
 
++ cogemos un fichero zip, lo descomprimimos y analisis de datos con sqlLite y hacemos consultas:  
+```
+#!/usr/bin/python3
+
+# ANALISIS DE DATOS CON SQLLITE
+# cogemos un fichero zip, lo descomprimimos y analisis de datos con sqlLite y hacemos consultas
+
+# IMPORTAMOS LIBRERIAS
+import sys
+from zipfile import ZipFile
+import pandas as pd
+import numpy as np
+import sqlite3  
+from os import remove
+
+# VARIABLES
+basedatos = "coches.bd"
+
+
+# FUNCIONES
+
+# consulta de datos en la bbdd
+def consulta_coches(conexion):
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM coches LIMIT 20")
+    filas = cursor.fetchall()
+    for fila in filas:
+        print(fila)
+
+def consulta_coches2(conexion):
+    cursor = conexion.cursor()
+    cursor.execute("SELECT COUNT(*) FROM coches")
+    numero_coches = cursor.fetchall()
+    return numero_coches[0][0]
+
+def consulta_coches3(conexion):
+    cursor = conexion.cursor()
+    cursor.execute("SELECT SUM(precio) FROM coches")
+    numero_coches = cursor.fetchall()
+    return numero_coches[0][0]
+
+# borrar datos
+def borrar_datos():
+    try:
+        remove(basedatos)
+    except FileNotFoundError:
+        pass
+
+# insertar tabla
+def insertar_tabla_coches(conexion,coche):
+    cursor = conexion.cursor()
+    cursor.execute('INSERT INTO coches(marca,modelo,combustible,transmision,estado,matriculacion,kilometraje,potencia,precio) VALUES(?,?,?,?,?,?,?,?,?)',coche)
+    conexion.commit()
+
+# funcion para meter el contenido dentro de la tabla
+def crear_informacion(conexion,datos):
+    for fila in datos.itertuples():
+        marca = fila[1]
+        modelo = fila[2]
+        combustible = fila[3]
+        transmision = fila[4]
+        estado = fila[5]
+        matriculacion = fila[6]
+        kilometraje = fila[7]
+        potencia = fila[8]
+        precio = fila[9]
+        # crea tupla
+        coche = (marca,modelo,combustible,transmision,estado,matriculacion,kilometraje,potencia,precio)
+        insertar_tabla_coches(conexion,coche)
+
+# metodo para descomprimir un fichero
+def descomprimir_fichero(file):
+    with ZipFile(file,'r') as zip:
+        zip.extractall()
+
+# datos csv en pandas para poder leer
+def leer_datos(file):
+    datos = pd.read_csv(file,sep=";")
+    return datos
+
+# crear tabla en sqllite con los nombres de columnas tabla
+def crear_tabla(conexion):
+    cursor = conexion.cursor()
+    cursor.execute("CREATE TABLE coches (marca TEXT, modelo TEXT, combustible TEXT, transmision TEXT, estado TEXT, matriculacion TEXT, kilometraje INT, potencia REAL, precio REAL)")
+    conexion.commit()
+
+# crear conexion bbdd sql
+def crear_conexion_bd():
+    try:
+        conexion = sqlite3.connect(basedatos)
+        return conexion
+    except:
+        print("Error!!")
+
+# PROGRAMA
+# verificar que estamos en el principal
+if __name__ == '__main__':
+    # verificamos numero de argumentos:
+    if len(sys.argv) !=2:
+        print("Error, numero de parametros. USAGE: prog.py arg")
+    else:
+        # nombre del fichero
+        nombre_fichero = sys.argv[1]
+        print(nombre_fichero)
+        # descomprimimos zip
+        descomprimir_fichero(nombre_fichero)
+        # borramos la bbdd si se ha creado por pruebas
+        borrar_datos()
+        # leemos los datos del fichero csv
+        datos = leer_datos(nombre_fichero)
+        print(datos)
+        # creamos bbdd y nos conectamos
+        conexion = crear_conexion_bd()
+        # creamos la tabla
+        crear_tabla(conexion)
+        # creamos el contenido de la tabla
+        crear_informacion(conexion,datos)
+        # hacemos una consulta de la tabla
+        consulta_coches(conexion)
+        # consulta de numero de coches
+        numero = consulta_coches2(conexion)
+        print("numero total de coches es de: ",numero)
+        # consulta suma total de precios
+        precio = consulta_coches3(conexion)
+        print("precio total es de: ",precio)
+```  
+
++ Hacemos un test de prueba de nuestro programa:  
+```
+#!/usr/bin/python3
+
+# libreria para test automatizados
+import unittest
+from analisis_datosSQL import *
+
+# fichero a testear
+nombre_fichero = "coches.csv"
+
+# creamos la prueba del numero total de coches que hay en la tabla
+class test_numero_coches_tabla(unittest.TestCase):
+    def test(self):
+        borrar_datos()
+        datos = leer_datos(nombre_fichero)
+        # creamos bbdd y nos conectamos
+        conexion = crear_conexion_bd()
+        # creamos la tabla
+        crear_tabla(conexion)
+        # creamos el contenido de la tabla
+        crear_informacion(conexion,datos)
+        # consulta de numero de coches
+        numero = consulta_coches2(conexion)
+        self.assertEqual(2780,numero)
+
+class test_numero_precio_total(unittest.TestCase):
+    def test2(self):
+        borrar_datos()
+        datos = leer_datos(nombre_fichero)
+        # creamos bbdd y nos conectamos
+        conexion = crear_conexion_bd()
+        # creamos la tabla
+        crear_tabla(conexion)
+        # creamos el contenido de la tabla
+        crear_informacion(conexion,datos)
+        # consulta de numero de coches
+        precio = consulta_coches3(conexion)
+        self.assertEqual(38997136.0,precio)
+
+
+# ejecutar en modo principal
+if __name__ == '__main__':
+    unittest.main()
+```  
+
++ Resultados:  
+```
+[miguel@fedora proyectos]$ python3 test_coches.py 
+..
+----------------------------------------------------------------------
+Ran 2 tests in 18.003s
+
+OK
+```  
+
+
+### BIBLIOTECA  
+
+
+
+
+
+
+
+
+### BLACKJACK
 
 
 

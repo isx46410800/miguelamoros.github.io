@@ -1510,3 +1510,589 @@ public class EjemploPaquetesPrueba {
 ```  
 
 
+## ARREGLOS  
+
++ Ejemplo:  
+```
+package arreglos;
+
+public class Persona {
+    private String nombre;
+
+    public Persona(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + '}';
+    }
+    
+}
+```  
+
++ Prueba:  
+```
+package arreglos;
+
+public class EjemploArreglos {
+    public static void main(String[] args) {
+        //1. Declaramos una variable de tipo arreglo, un arreglo de int
+        int edades[];
+        
+        //2. Instanciamos el arreglo de int
+        edades = new int[3];
+        
+        //3. Inicializamos los valores de los elementos del arreglo
+        edades[0] = 30;
+        edades[1] = 15;
+        edades[2] = 20;
+        
+        //4.imprimimos los valores del arreglo
+        System.out.println("arreglo enteros indice 0:" + edades[0]);
+        System.out.println("arreglo enteros indice 1:" + edades[1]);
+        System.out.println("arreglo enteros indice 2:" + edades[2]);
+        //System.out.println("arreglo enteros indice 0:" + edades[3]);
+        
+        //1. Declarar e instanciar un arreglo de tipos object
+        Persona personas[] = new Persona[4];
+        //2. Inicializar los valores del arreglo
+        personas[0] = new Persona("Juan");
+        personas[2] = new Persona("Karla");
+        
+        System.out.println("Arreglo personas indice 0:" + personas[0]);
+        System.out.println("Arreglo personas indice 1:" + personas[1]);
+        System.out.println("Arreglo personas indice 2:" + personas[2]);
+        System.out.println("Arreglo personas indice 3:" + personas[3]);
+        //System.out.println("Arreglo personas indice 4:" + personas[4]);
+        
+        //Arreglo utilizando notacion simplificada
+        String nombres[] = {"Sara","Laura","Carlos","Carmen"};
+        //imprimir los elementos de un arreglo
+        for(int i=0; i < nombres.length ; i++){
+            System.out.println("Arreglo String indice:" + i + ": " + nombres[i]);
+        }
+        
+    }
+}
+```  
+
+## MATRICES  
+
++ Ejemplo de iniciar matriz, asiñarla e iterar segun su longitud asignada a un objeto persona:  
+```java
+package matrices;
+
+public class EjemploMatricesPrueba {
+    public static void main(String[] args) {
+        //1. Declaramos una matriz de int
+        int edades[][];
+        //2. Instanciamos la matriz de int
+        edades = new int[3][2];
+        //3. instanciar los valores de la matriz
+        edades[0][0] = 30;
+        edades[0][1] = 15;
+        edades[1][0] = 20;
+        edades[1][1] = 45;
+        edades[2][0] = 5;
+        edades[2][1] = 38;
+        
+        //4.imprimir
+        System.out.println("Matriz enteros indice 0 0:" + edades[0][0]);
+        System.out.println("Matriz enteros indice 2 0:" + edades[2][0]);
+        
+        //1. declara e instanciar una matriz de objetos de tipo persona
+        Persona personas[][] = new Persona[1][2];
+        
+        //2.inicializamos valores
+        personas[0][0] = new Persona("Juan");
+        personas[0][1] = new Persona("Karla");
+        
+        //3.imprimimos valores
+        System.out.println("Matriz persona indice 0 0:" + personas[0][0]);
+        System.out.println("Matriz personas indice 0 1:" + personas[0][1]);
+        
+        for(int renglon = 0; renglon < personas.length; renglon++){
+            for(int columna = 0; columna < personas[renglon].length; columna++){
+                System.out.println("Matriz personas indice:" + renglon + " - " + columna + ": " + personas[renglon][columna]);
+            }
+        }
+    }
+}
+```  
+
+```java
+package matrices;
+
+public class Persona {
+    private String nombre;
+
+    public Persona(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + '}';
+    }
+    
+}
+```  
+
+## DISEÑO DE CLASES  
+
+![](./images/clases.png)  
+
++ Diseño de clases donde hay un paquete que engloba orden y producto y otro ventas:  
+```java
+package gm.com.ventas;
+
+public class Producto {
+    //atributos
+    private int idProducto;
+    private String nombre;
+    private double precio;
+    private static int contadorProductos;
+    //constructor vacio
+    public Producto(){
+        this.idProducto = ++contadorProductos;
+    }
+    //constructor con 2 argumentos
+    public Producto(String nombre, double precio){
+        this();
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+    //metodos get/set
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public static int getContadorProductos() {
+        return contadorProductos;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", precio=" + precio + '}';
+    }
+    
+}
+```  
+
+```java
+package gm.com.ventas;
+
+public class Orden {
+    //atributos
+    private int idOrden;
+    private Producto productos[];//es un arreglo referencia a producto
+    private static int contadorOrdenes;
+    private int contadorProductos;
+    private static final int MAX_PRODUCTOS = 10;//constante sin poder modificar
+    
+    // constructor vacio
+    public Orden(){
+        this.idOrden = ++contadorOrdenes;
+        //inicializamos el arreglo
+        productos = new Producto[MAX_PRODUCTOS];
+    }
+    // metodo agregamos producto
+    public void agregarProducto(Producto producto){
+        if (this.contadorProductos < MAX_PRODUCTOS) {
+            productos[this.contadorProductos++] = producto;
+        } else {
+            System.out.println("Se ha superado el maximo de productos: "+ MAX_PRODUCTOS);
+        }
+    }
+    // metodo calcular total
+    public double calcularTotal(){
+        double total = 0;
+        for(int i=0; i < this.contadorProductos;i++){
+            Producto producto = this.productos[i];
+            total += producto.getPrecio();
+        }
+        return total;
+    }
+    //mostrar orden
+    public void mostrarOrden(){
+        System.out.println("Orden: "+ this.idOrden);
+        double totalOrden = this.calcularTotal();
+        System.out.println("Total de la orden: "+ totalOrden);
+        System.out.println("Productos de la orden: ");
+        for(int i=0;i < this.contadorProductos++;i++){
+            Producto producto = productos[i];
+            System.out.println(productos[i]);
+        }
+    }
+}
+```  
+
+```java
+package ventas;
+
+import gm.com.ventas.*;
+
+public class Ventas {
+    public static void main(String[] args) {
+        //crear varios objetos de tipo producto
+        Producto producto1 = new Producto("Camisa",50);
+        Producto producto2 = new Producto("Pantalon",100);
+        
+        // crear objetos de tipo orden
+        Orden orden1 = new Orden();
+        //agregamos los productos a la orden
+        orden1.agregarProducto(producto1);
+        orden1.agregarProducto(producto2);
+        
+        //imprimir esta orden
+        orden1.mostrarOrden();
+    }
+}
+```  
+
++ Resultados:  
+```
+Orden: 1
+Total de la orden: 150.0
+Productos de la orden: 
+Producto{idProducto=1, nombre=Camisa, precio=50.0}
+Producto{idProducto=2, nombre=Pantalon, precio=100.0}
+```  
+
+## LABORATORIO FINAL  
+
+![](./images/lab.png)  
+
++ PAQUETE `com.gm.mundopc`:  
+`COMPUTADORA`  
+```java
+package com.gm.mundopc;
+
+public class Computadora {
+
+    private int idComputadora;
+    private String nombre;
+    private Monitor monitor;
+    private Teclado teclado;
+    private Raton raton;
+    private static int contadorComputadoras;
+
+    //constructor vacio
+    private Computadora() {
+        idComputadora = ++contadorComputadoras;
+    }
+
+    //constructor que inicializa variables
+    public Computadora(String nombre, Monitor monitor, Teclado teclado, Raton raton) {
+        this();
+        this.nombre = nombre;
+        this.monitor = monitor;
+        this.raton = raton;
+        this.teclado = teclado;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Monitor getMonitor() {
+        return monitor;
+    }
+
+    public void setMonitor(Monitor monitor) {
+        this.monitor = monitor;
+    }
+
+    public Teclado getTeclado() {
+        return teclado;
+    }
+
+    public void setTeclado(Teclado teclado) {
+        this.teclado = teclado;
+    }
+
+    public Raton getRaton() {
+        return raton;
+    }
+
+    public void setRaton(Raton raton) {
+        this.raton = raton;
+    }
+
+    @Override
+    public String toString() {
+        return "Computadora{ idComputadora=" + idComputadora + ", nombre=" + nombre + ", monitor=" + monitor + ", teclado=" + teclado + ", raton=" + raton + '}';
+    }
+}
+```  
+
+`MONITOR`  
+```java
+package com.gm.mundopc;
+
+//Creación de la clase
+public class Monitor {
+    //Declaración de variables
+    private final int idMonitor;
+    private String marca;
+    private double tamaño;
+    private static int contadorMonitores;
+
+    private Monitor(){
+         idMonitor = ++contadorMonitores;
+   }
+    
+    //Constructor que inicializa las variables
+    public Monitor(String marca, double tamaño) {
+        this();
+        this.marca = marca;
+        this.tamaño = tamaño;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+    
+      public double getTamaño() {
+        return tamaño;
+    }
+
+    public void setTamaño(double tamaño) {
+        this.tamaño = tamaño;
+    }
+
+    //Método que concatena las variables y regresa una cadena
+    @Override
+    public String toString() {
+        return "Monitor{" + " idMonitor=" + idMonitor + ", marca=" + marca + ", tamaño=" + tamaño + '}';
+    }
+}
+```  
+
+`ORDEN`  
+```java
+package com.gm.mundopc;
+
+public class Orden {
+
+    private final int idOrden;
+    //Declaracion del arreglo de computadoras
+    private final Computadora computadoras[];
+    private static int contadorOrdenes;
+    private int contadorComputadoras;
+    //Definimos el maximo elementos del arreglo
+    private static final int maxComputadoras = 10;
+
+    public Orden() {
+        this.idOrden = ++contadorOrdenes;
+        //Se instancia el arreglo de computadoras
+        computadoras = new Computadora[maxComputadoras];
+    }
+
+    public void agregarComputadora(Computadora computadora) {
+        //Si las computadoras agregadas no superan al máximo de computadoras
+        //agregamos la nueva computadora
+        if (contadorComputadoras < maxComputadoras) {
+            //Agregamos la nueva computadora al arreglo
+            //e incrementamos el contador de computadoras
+            computadoras[contadorComputadoras++] = computadora;
+        }
+        else{
+            System.out.println("Se ha superado el maximo de productos: " + maxComputadoras);
+        }
+    }
+
+    public void mostrarOrden() {
+        System.out.println("Orden #:" + idOrden);
+        System.out.println("Computadoras de la orden #" + idOrden + ":");
+        for (int i = 0; i < contadorComputadoras; i++) {
+            System.out.println(computadoras[i]);
+        }
+    }
+}
+```  
+
+`DISPOSITIVO DE ENTRADA`  
+```java
+package com.gm.mundopc;
+
+public class DispositivoEntrada {
+
+    private String tipoDeEntrada;
+    private String marca;
+
+    //constructor que inicializa las variables
+    public DispositivoEntrada(String tipoDeEntrada, String marca) {
+        this.tipoDeEntrada = tipoDeEntrada;
+        this.marca = marca;
+    }
+
+    public String getTipoDeEntrada() {
+        return tipoDeEntrada;
+    }
+
+    public void setTipoDeEntrada(String tipoDeEntrada) {
+        this.tipoDeEntrada = tipoDeEntrada;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    @Override
+    public String toString() {
+        return "DispositivoEntrada{ marca=" + marca + ", tipoDeEntrada=" + tipoDeEntrada + "}";
+    }
+}
+```  
+
+`RATON`(HIJO DISPOS ENTRADA)  
+```java
+package com.gm.mundopc;
+
+public class Raton extends DispositivoEntrada {
+
+    private final int idRaton;
+    private static int contadorRatones;
+
+    //constructor que inicializa las variables
+    public Raton(String tipoEntrada, String marca) {
+        super(tipoEntrada, marca);
+        idRaton = ++contadorRatones;
+    }
+
+    @Override
+    public String toString() {
+        return "Raton{" + "idRaton=" + idRaton + ", " + super.toString();
+    }
+}
+```  
+
+`TECLADO`(HIJO DISPOS ENTRADA)  
+```java
+package com.gm.mundopc;
+
+public class Teclado extends DispositivoEntrada {
+
+    private final int idTeclado;
+    private static int contadorTeclado;
+
+    //constructor que inicializa las variables
+    public Teclado(String tipoEntrada, String marca) {
+        super(tipoEntrada, marca);
+        idTeclado = ++contadorTeclado;
+    }
+
+    @Override
+    public String toString() {
+        return "Teclado{" + "idTeclado=" + idTeclado + ", " + super.toString();
+    }
+}
+```  
+
++ PAQUETE `mundopc`:  
+```java
+package mundopc;
+
+import com.gm.mundopc.*;
+
+public class MundoPC {
+
+    public static void main(String args[]) {
+
+        //creacion de computadora Toshiba
+        Monitor monitorToshi = new Monitor("Toshiba", 13);
+        Teclado tecladoToshi = new Teclado("bluetooth", "Toshiba");
+        Raton ratonToshi = new Raton("bluetooth", "Toshiba");
+        Computadora compuToshiba = new Computadora("Computadora Toshiba", monitorToshi, tecladoToshi, ratonToshi);
+
+        //creacion de computadora dell
+        Monitor monitorDell = new Monitor("Dell", 15);
+        Teclado tecladoDell = new Teclado("usb", "Dell");
+        Raton ratonDell = new Raton("usb", "Dell");
+        Computadora compuDell = new Computadora("Computadora Dell", monitorDell, tecladoDell, ratonDell);
+
+        //creacion de computadora armada
+        Computadora compuArmada = new Computadora("Computadora Armada", monitorDell, tecladoToshi, ratonToshi);
+
+        //Agregamos las computadoras a la orden 
+        Orden orden1 = new Orden();
+        orden1.agregarComputadora(compuToshiba);
+        orden1.agregarComputadora(compuDell);
+        orden1.agregarComputadora(compuArmada);
+        //Imprimimos la orden
+        orden1.mostrarOrden();
+        
+        //Agregamos una segunda orden
+        Orden orden2 = new Orden();
+        orden2.agregarComputadora(compuArmada);
+        orden2.agregarComputadora(compuDell);
+        System.out.println("");
+        orden2.mostrarOrden();
+    }
+}
+```  
+
++ RESULTADOS:  
+```
+Orden #:1
+Computadoras de la orden #1:
+Computadora{ idComputadora=1, nombre=Computadora Toshiba, monitor=Monitor{ idMonitor=1, marca=Toshiba, tamaño=13.0}, teclado=Teclado{idTeclado=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}, raton=Raton{idRaton=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}}
+Computadora{ idComputadora=2, nombre=Computadora Dell, monitor=Monitor{ idMonitor=2, marca=Dell, tamaño=15.0}, teclado=Teclado{idTeclado=2, DispositivoEntrada{ marca=Dell, tipoDeEntrada=usb}, raton=Raton{idRaton=2, DispositivoEntrada{ marca=Dell, tipoDeEntrada=usb}}
+Computadora{ idComputadora=3, nombre=Computadora Armada, monitor=Monitor{ idMonitor=2, marca=Dell, tamaño=15.0}, teclado=Teclado{idTeclado=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}, raton=Raton{idRaton=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}}
+
+Orden #:2
+Computadoras de la orden #2:
+Computadora{ idComputadora=3, nombre=Computadora Armada, monitor=Monitor{ idMonitor=2, marca=Dell, tamaño=15.0}, teclado=Teclado{idTeclado=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}, raton=Raton{idRaton=1, DispositivoEntrada{ marca=Toshiba, tipoDeEntrada=bluetooth}}
+Computadora{ idComputadora=2, nombre=Computadora Dell, monitor=Monitor{ idMonitor=2, marca=Dell, tamaño=15.0}, teclado=Teclado{idTeclado=2, DispositivoEntrada{ marca=Dell, tipoDeEntrada=usb}, raton=Raton{idRaton=2, DispositivoEntrada{ marca=Dell, tipoDeEntrada=usb}}
+------------------------------------------------------------------------
+BUILD SUCCESS
+```  
+
+
+

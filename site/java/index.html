@@ -117,6 +117,12 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#encapsulamiento">ENCAPSULAMIENTO</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#static">STATIC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#herencia">HERENCIA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#paquetes-java">PAQUETES JAVA</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -1489,6 +1495,324 @@ class Persona{
         // IMPRIMIR TODO EN UNO CON METODO TOSTRING
         System.out.println(&quot;persona: &quot;+ persona.toString());
         System.out.println(&quot;persona: &quot;+ persona);//default es tostring
+    }
+}
+</code></pre>
+<h2 id="static">STATIC</h2>
+<ul>
+<li>Van relacionado con las clases.  </li>
+<li>No se usa THIS en un metodo STATIC.  </li>
+<li>
+<p>Los atributos estaticos hacen referencia ala clase y no cambia d valor mientras que los no staticos se asocian al objeto y se puede asignar el que quiera.  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code class="language-java">public class Persona {
+
+    private int idPersona;//se asocia con un objeto (instancia)
+    private String nombre;//se asocia con un objeto (instancia)
+    private static int contadorPersonas;//se asocia con la clase
+
+    public Persona(String nombre){
+        this.idPersona = ++contadorPersonas;
+        this.nombre = nombre;
+    }
+
+    public int getIdPersona(){
+        return this.idPersona;
+    }
+
+//    public void setIdPersona(int idPersona){
+//        this.idPersona = idPersona;
+//    }
+
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+
+    public static int getContadorPersonas(){
+        return contadorPersonas;
+    }
+
+    @Override
+    public String toString(){
+        return &quot;idPersona: &quot; + idPersona + &quot;, nombre: &quot; + nombre + &quot;, contadorPersonas:&quot; + contadorPersonas; 
+    }
+}
+</code></pre>
+<ul>
+<li>Prueba:  </li>
+</ul>
+<pre><code class="language-java">
+public class EjemploEstatico {
+
+    public static void main(String[] args) {
+        Persona persona1 = new Persona(&quot;Juan&quot;);
+        System.out.println(persona1);
+
+        Persona persona2 = new Persona(&quot;Karla&quot;);
+        System.out.println(persona2);
+
+        Persona persona3 = new Persona(&quot;Carlos&quot;);
+        System.out.println(persona3);
+
+        System.out.println(&quot;contadorPersonas:&quot; + Persona.getContadorPersonas());
+    }
+}
+</code></pre>
+<h2 id="herencia">HERENCIA</h2>
+<ul>
+<li>Hay una clase padre y todos suss hijos heredas todos sus atributos y metodos publicos.  </li>
+<li>Se utiliza EXTENDS para heredar del padre.  </li>
+<li>
+<p>Se utiliza SUPER para llamar a un atributo padre.  </p>
+</li>
+<li>
+<p>Ejemplo clase padre:  </p>
+</li>
+</ul>
+<pre><code class="language-java">public class Persona {
+    //atributos
+    private String nombre;
+    private char genero;
+    private int edad;
+    private String direccion;
+
+    //constructor vacio
+    public Persona(){
+
+    }
+
+    //constructor con argumento
+    public Persona(String nombre){
+        this.nombre = nombre;
+    }
+
+    //constructor completo
+    public Persona(String nombre,char genero,int edad,String direccion){
+        this.nombre = nombre;
+        this.genero = genero;
+        this.edad = edad;
+        this.direccion = direccion;
+    }
+
+    //metodos get/set con boton derecho insert code
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    //metodo tostring boton derecho insert code
+    @Override
+    public String toString() {
+        return &quot;Persona{&quot; + &quot;nombre=&quot; + nombre + &quot;, genero=&quot; + genero + &quot;, edad=&quot; + edad + &quot;, direccion=&quot; + direccion + '}';
+    }
+}
+</code></pre>
+<ul>
+<li>Ejemplo clase hijos:  </li>
+</ul>
+<pre><code class="language-java">public class Empleado extends Persona {
+    //al poner extends hereda todos las class public de Persona
+    //atributos
+    private int idEmpleado;
+    private double sueldo;
+    private static int contadorEmpleado;
+
+    //constructor
+    //se utiliza super para llamar a un atributo de la clase padre
+    //ha de ser siempre la primera linea SUPER
+    public Empleado(String nombre,double sueldo){
+        super(nombre);
+        this.idEmpleado = ++contadorEmpleado;
+        this.sueldo = sueldo;
+    }
+    //metodos get /set
+
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public double getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    public static int getContadorEmpleado() {
+        return contadorEmpleado;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + &quot;Empleado{&quot; + &quot;idEmpleado=&quot; + idEmpleado + &quot;, sueldo=&quot; + sueldo + '}';
+    }   
+}
+</code></pre>
+<ul>
+<li>Ejemplo clase hijos:  </li>
+</ul>
+<pre><code class="language-java">
+import java.util.Date;
+
+public class Cliente extends Persona {
+    //al poner extends hereda todos las class public de Persona
+    //atributos
+    private int idCliente;
+    private Date fechaRegistro;
+    private boolean vip;
+    private static int contadorClientes;
+    //constructor
+    //se utiliza super para llamar a un atributo de la clase padre
+    public Cliente(Date fechaRegistro, boolean vip){
+        this.idCliente = idCliente;
+        this.idCliente = ++contadorClientes;
+        this.vip = vip;
+    }
+    //metodos get /set
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
+    }
+
+    public static int getContadorClientes() {
+        return contadorClientes;
+    }
+    //metodo to string
+    @Override
+    public String toString() {
+        return super.toString() + &quot;Cliente{&quot; + &quot;idCliente=&quot; + idCliente + &quot;, fechaRegistro=&quot; + fechaRegistro + &quot;, vip=&quot; + vip + '}';
+    }   
+}
+</code></pre>
+<ul>
+<li>Ejemplo prueba clases padre/hijos:  </li>
+</ul>
+<pre><code class="language-java">
+import java.util.Date;
+
+
+public class EjemploHerencia {
+
+    public static void main(String[] args) {
+        //creamos objeto
+        Empleado empleado1 = new Empleado(&quot;Miguel&quot;, 2000);
+        //podemos llamarlo porque hereda del padre este atributo
+        empleado1.setEdad(28);
+        empleado1.setDireccion(&quot;Agudells 66&quot;);
+        System.out.println(empleado1);
+
+        //creamos objeto
+        Cliente cliente1 = new Cliente(new Date(),true);
+        System.out.println(cliente1);
+    }
+}
+</code></pre>
+<h2 id="paquetes-java">PAQUETES JAVA</h2>
+<ul>
+<li>Son carpetas que agrupan clases,etc.  </li>
+<li>Estandar de paquetes:  <ul>
+<li>Todo en minisculas.  </li>
+<li>si es web, dominio nombre invertido: <code>mx.com.globalmentoring</code> </li>
+<li>nombre de un proyecto: <code>mx.com.globalmentoring.miproyecto</code>  </li>
+<li>subpaquetes: <code>mx.com.globalmentoring.contabilidad.miproyecto</code>  </li>
+</ul>
+</li>
+<li>Definimos paquete con <code>package com.gm;</code>  </li>
+<li>Importamos paquete con <code>import static com.gm.Utileria.imprimir</code>  </li>
+<li>Mas usados:  <ul>
+<li>java.lang: clases esenciales  </li>
+<li>java.util: clases de utilerias como date  </li>
+<li>java.io: datos input/output  </li>
+<li>java.net: leer/escribir datos en la red  </li>
+<li>java.applet: para crear applets en la ventana navegador  </li>
+<li>java.awt: para crear aplicacion GUI</li>
+</ul>
+</li>
+<li>Crear new package.  </li>
+<li>Por cada punto en el nombre del paquete, se crea una carpeta.  </li>
+<li>
+<p>Despues creamos un java class dentro de esta direccion del paquete.  </p>
+</li>
+<li>
+<p>Ejemplo:  </p>
+</li>
+</ul>
+<pre><code class="language-java">package com.gm;
+
+public class Utileria {
+    public static void imprimir(String g){
+        System.out.println(g);
+    }
+}
+</code></pre>
+<ul>
+<li>Prueba paquete:  </li>
+</ul>
+<pre><code class="language-java">//importamos con.gm.utileria o todas con com.gm.*
+import com.gm.Utileria;
+//import com.gm.*;
+//import static com.gm.utileria.imprimir
+
+public class EjemploPaquetesPrueba {
+    public static void main(String[] args) {
+        //importamos paquete con el nombre de la clase completo
+        com.gm.Utileria.imprimir(&quot;Hola Miguel!&quot;);
+
+        //import de la clase(se agrega automaticamente arriba)
+        Utileria.imprimir(&quot;Holaaaa&quot;);
+        //imprimit(&quot;holaaa); si importamos `import static com.gm.utileria.imprimir
     }
 }
 </code></pre>

@@ -2398,7 +2398,314 @@ Ran 2 tests in 18.003s
 OK
 </code></pre>
 <h3 id="biblioteca">BIBLIOTECA</h3>
+<p><img alt="" src="../images/libros.png" />  </p>
+<ul>
+<li>
+<p>Se puede generar un ejecutable del programa con <code>pip3 install pyinstaller</code> y lo hacemos con <code>pyinstaller biblioteca.py --onefile --windowed</code> </p>
+</li>
+<li>
+<p>Parte visual con tkinter:  </p>
+</li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# librerias
+import random
+from tkinter import *
+import biblioteca_bbdd
+
+# BIBLIOTECA
+# AÑADIR A UNA BASE DE DATOS LIBROS Y PODER CONSULTARLOS
+
+# funciones para los botones
+def comando_visualizar():
+    lista.delete(0,END)
+    lista_libros = biblioteca_bbdd.visualizar()
+    for libro in lista_libros:
+        lista.insert(END,libro)
+
+def comando_buscar():
+    lista.delete(0,END)
+    lista_libros = biblioteca_bbdd.buscar(titulo.get(),autor.get(),year.get(),isbn.get())
+    for libro in lista_libros:
+        lista.insert(END,libro)
+
+def comando_insertar():
+    biblioteca_bbdd.insertar(titulo.get(),autor.get(),year.get(),isbn.get())
+    lista.delete(0,END)
+    lista.insert(END,(titulo.get(),autor.get(),year.get(),isbn.get()))
+
+
+def recoger_fila_seleccionada(event):
+    try:
+        global libro_seleccionado
+        indice = lista.curselection()[0]
+        # cogemeos del libro seleccionado los campos menos el indice
+        libro_seleccionado = lista.get(indice)
+        entrada1.delete(0,END)
+        entrada1.insert(END,libro_seleccionado[1])
+        entrada2.delete(0,END)
+        entrada2.insert(END,libro_seleccionado[2])
+        entrada3.delete(0,END)
+        entrada3.insert(END,libro_seleccionado[3])
+        entrada4.delete(0,END)
+        entrada4.insert(END,libro_seleccionado[4])
+    except IndexError:
+        pass
+
+def comando_actualizar():
+    biblioteca_bbdd.actualizar(titulo.get(),autor.get(),year.get(),isbn.get(),libro_seleccionado[0])
+    lista.delete(0,END)
+    lista.insert(END,&quot;Libro actualizado correctamente&quot;)
+
+
+def comando_borrar():
+    biblioteca_bbdd.borrar(libro_seleccionado[0])
+    lista.delete(0,END)
+    lista.insert(END,&quot;Libro actualizado correctamente&quot;)
+
+def comando_cerrar():
+    ventana.destroy()
+
+# creamos la ventana general
+ventana = Tk()
+ventana.title(&quot;Almacen de libros&quot;)
+
+# creamos las etiquetas
+etiqueta1 = Label(ventana,text=&quot;Titulo&quot;)
+etiqueta1.grid(row=0,column=0)
+etiqueta2 = Label(ventana,text=&quot;Autor&quot;)
+etiqueta2.grid(row=0,column=2)
+etiqueta3 = Label(ventana,text=&quot;Año&quot;)
+etiqueta3.grid(row=1,column=0)
+etiqueta4 = Label(ventana,text=&quot;ISBN&quot;)
+etiqueta4.grid(row=1,column=2)
+
+# creamos los campos de datos de las etiquetas
+titulo = StringVar()
+entrada1 = Entry(ventana,textvariable=titulo)
+entrada1.grid(row=0,column=1)
+autor = StringVar()
+entrada2 = Entry(ventana,textvariable=autor)
+entrada2.grid(row=0,column=3)
+year = StringVar()
+entrada3 = Entry(ventana,textvariable=year)
+entrada3.grid(row=1,column=1)
+isbn = StringVar()
+entrada3 = Entry(ventana,textvariable=isbn)
+entrada3.grid(row=1,column=3)
+
+# lista y scrollbar
+lista =Listbox(ventana,height=8,width=25)
+lista.grid(row=2,column=0,rowspan=6) #rowspan aumenta 6 filas la expansion de la caja de texto
+scrollbar = Scrollbar(ventana)
+scrollbar.grid(row=2,column=2,rowspan=6)
+# colocamos el borde de la caja
+lista.configure(yscrollcommand=scrollbar.set)
+scrollbar.configure(command=lista.yview)
+
+
+# incluimos un evento a la lista
+lista.bind('&lt;&lt;ListboxSelect&gt;&gt;',recoger_fila_seleccionada)
+
+# creamos los botones
+boton1 = Button(ventana,text=&quot;Visualizar&quot;,width=12,command=comando_visualizar)
+boton1.grid(row=2,column=3)
+boton2 = Button(ventana,text=&quot;Buscar&quot;,width=12,command=comando_buscar)
+boton2.grid(row=3,column=3)
+boton3 = Button(ventana,text=&quot;Añadir&quot;,width=12,command=comando_insertar)
+boton3.grid(row=4,column=3)
+boton4 = Button(ventana,text=&quot;Actualizar&quot;,width=12,command=comando_actualizar)
+boton4.grid(row=5,column=3)
+boton5 = Button(ventana,text=&quot;Borrar&quot;,width=12,command=comando_borrar)
+boton5.grid(row=6,column=3)
+boton6 = Button(ventana,text=&quot;Cerrar&quot;,width=12,command=comando_cerrar)
+boton6.grid(row=7,column=3)
+
+# se guarde todo
+ventana.mainloop()
+</code></pre>
+<ul>
+<li>Parte base de datos con sqllite:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+import sqlite3
+
+# funcion para conectar y crear bbdd y su tabla
+def conectar():
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;CREATE TABLE IF NOT EXISTS libros(id INTEGER PRIMARY KEY, titulo TEXT, autor TEXT, year INTEGER, isbn INTEGER)&quot;)
+    conexion.commit()
+    conexion.close()
+
+
+# funcionar para insertar datos
+def insertar(titulo,autor,year,isbn):
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;INSERT INTO libros VALUES(NULL,?,?,?,?)&quot;,(titulo,autor,year,isbn))
+    conexion.commit()
+    conexion.close()
+
+# visualizar los parametros
+def visualizar():
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;SELECT * FROM libros&quot;)
+    consulta = cursor.fetchall()
+    conexion.close()
+    return consulta
+
+# funcion para buscar libro
+def buscar(titulo=&quot;&quot;,autor=&quot;&quot;,year=0,isbn=0):
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;SELECT * FROM libros WHERE titulo=? OR autor=? OR year=? OR isbn=?&quot;,(titulo,autor,year,isbn))
+    consulta = cursor.fetchall()
+    conexion.close()
+    return consulta
+
+# borrar un libro
+def borrar(id):
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;DELETE FROM libros WHERE id=?&quot;,(id,))
+    conexion.commit()
+    conexion.close()
+
+# actualizar un libro
+def actualizar(titulo,autor,year,isbn,id):
+    conexion = sqlite3.connect(&quot;libros.db&quot;)
+    cursor = conexion.cursor()
+    cursor.execute(&quot;UPDATE libros SET titulo=?, autor=?, year=?, isbn=? WHERE id=?&quot;,(titulo,autor,year,isbn,id))
+    conexion.commit()
+    conexion.close()
+
+# PRUEBAS
+conectar()
+# insertar(&quot;titulo1&quot;,&quot;autor1&quot;,2001,1111111111)
+# insertar(&quot;titulo2&quot;,&quot;autor2&quot;,2002,2222222222)
+# insertar(&quot;titulo3&quot;,&quot;autor3&quot;,2003,3333333333)
+print(&quot;VISUALIZAR&quot;)
+consultas = visualizar()
+for consulta in consultas:
+    print(consulta)
+print(&quot;BUSQUEDA POR TITULO&quot;)
+busqueda = buscar(titulo=&quot;titulo1&quot;)
+for x in busqueda:
+    print(x)
+print(&quot;BORRAR POR TITULO&quot;)
+#borrar(3)
+print(&quot;VISUALIZAR&quot;)
+consultas = visualizar()
+for consulta in consultas:
+    print(consulta)
+print(&quot;ACTUALIZAR UN LIBRO&quot;)
+actualizar(titulo=&quot;titulo5&quot;,autor=&quot;autor5&quot;,year=2005,isbn=5555555,id=2)
+consultas = visualizar()
+for consulta in consultas:
+    print(consulta)
+</code></pre>
 <h3 id="blackjack">BLACKJACK</h3>
+<ul>
+<li>Juego de blackjack donde se reparten dos cartas y han de sumar 21:  </li>
+</ul>
+<pre><code>#!/usr/bin/python3
+
+# librerias
+import random
+import replit
+
+# PROGRAMA BLACKJACK
+## llegar a 21
+
+# FUNCIONES
+
+def generar_carta():
+    cartas = [11,2,3,4,5,6,7,8,9,10,10,10]
+    carta = random.choice(cartas)
+    return carta
+
+print(generar_carta())
+
+def calcular_suma(cartas):
+    # sum suma los valores de la lista
+    if sum(cartas) == 21 and len(cartas) == 2:
+        return 0
+    if 11 in cartas and sum(cartas) &gt; 21:
+        cartas.remove(11)
+        cartas.append(1)
+    return sum(cartas)
+
+print(calcular_suma([4,5,6]))
+
+def mostrar_ganador(marcador_usuario,marcador_ordenador):
+    if marcador_usuario == marcador_ordenador:
+        texto = &quot;Empate&quot;
+    elif marcador_ordenador == 0:
+        texto = &quot;Has perdido, el PC tiene 21 - Blackjack&quot;
+    elif marcador_usuario == 0:
+        texto = &quot;Has ganado, tienes 21 - Blackjack&quot;
+    elif marcador_usuario &gt; 21:
+        texto = &quot;Has perdido, tus cartas suman mas de 21&quot;
+    elif marcador_ordenador &gt; 21:
+        texto = &quot;Has ganado, las cartas del PC suman mas de 21&quot;
+    elif marcador_usuario &gt; marcador_ordenador:
+        texto = &quot;Has ganado!&quot;
+    else:
+        texto = &quot;Has perdido&quot;
+    return texto
+
+print(mostrar_ganador(21,20))
+
+def jugar():
+    print(&quot;Estamos jugando...&quot;)
+    cartas_usuario = []
+    cartas_ordenador = []
+    finalizado = False
+    # hacemos el reparto de dos cartas para jugar
+    for reparto in range(2):
+        carta = generar_carta()
+        cartas_usuario.append(carta)
+        carta2 = generar_carta()
+        cartas_ordenador.append(carta2)
+    print(f&quot;Cartas usuario: {cartas_usuario}&quot;)
+    print(f&quot;Cartas pc: {cartas_ordenador}&quot;)
+
+    while not finalizado:
+        marcador_usuario = calcular_suma(cartas_usuario)
+        marcador_ordenador = calcular_suma(cartas_ordenador)
+        print(f&quot;Cartas usuario: {marcador_usuario}&quot;)
+        print(f&quot;Cartas pc: {marcador_ordenador}&quot;)
+        # miramos resultados para finalizar juego
+        if marcador_usuario == 0 or marcador_ordenador == 0 or marcador_usuario&gt;21:
+            finalizado = True
+        else:
+            mas_cartas = input(&quot;Quieres mas cartas? Escribe si o no: &quot;)
+            if mas_cartas == 'si':
+                carta = generar_carta()
+                cartas_usuario.append(carta)
+            else:
+                finalizado = True
+    while marcador_ordenador !=0 and marcador_ordenador &lt; 17:
+        carta_extra = generar_carta()
+        cartas_ordenador.append(carta_extra)
+        marcador_ordenador = calcular_suma(cartas_ordenador)
+    print(f&quot;Cartas usuario: {cartas_usuario}&quot;)
+    print(f&quot;Cartas pc: {cartas_ordenador}&quot;)
+    print(f&quot;Cartas usuario: {marcador_usuario}&quot;)
+    print(f&quot;Cartas pc: {marcador_ordenador}&quot;)
+    # mostramos ganador
+    ganador = mostrar_ganador(marcador_usuario,marcador_ordenador)
+    print(ganador)
+
+# Programa
+while input(&quot;¿Quieres jugar al Blacjack? Escribre 'si' o 'no': &quot;).lower() == 'si':
+    replit.clear()
+    jugar()
+</code></pre>
 <h2 id="selenium-web-driver">SELENIUM WEB DRIVER</h2>
 <ul>
 <li>

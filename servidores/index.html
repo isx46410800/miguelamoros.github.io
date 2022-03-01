@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Miguel Amorós">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Servidores - Miguel's Notes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Servidores";
+    var mkdocs_page_input_path = "servidores.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Miguel's Notes</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">MkDocs</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../soporte/">Soporte TI</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">VSCode</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../gitlab/">Gitlab</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../python/">Python</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../java/">Java</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bash_scripting/">BashScripting</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../powershell/">PowerShell/CMD</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../virtuales/">M.Virtuales</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../openshift/">Openshift</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../terraform/">Terraform</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../aws/">AWS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../jenkins/">Jenkins</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../devops/">Devops</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../monitorizacion/">Monitorizacion</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tomcat/">Tomcat</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../elastic/">ELKS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../azure/">Azure</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../office/">Office 365</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../markdown/">Markdown</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../bbdd/">Base de datos</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../sap/">SAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pam/">PAM</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../samba/">SAMBA</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kerberos/">KERBEROS</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../lvm/">LVM/RAID</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backup/">Backup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing/">Routing</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../files/">Archivos Destacados</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows/">Windows</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Servidores</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#conexiones-ssh-a-servidores">CONEXIONES SSH A SERVIDORES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware-servidores">HARDWARE SERVIDORES</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#nas-server">NAS SERVER</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vpn-servidores">VPN SERVIDORES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mantenimiento-servidores">MANTENIMIENTO SERVIDORES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clonacion-imagenes">CLONACION IMAGENES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#windows-server">WINDOWS SERVER</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#monitorizar-servidores">MONITORIZAR SERVIDORES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inventario">INVENTARIO</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../taller/">Taller</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Miguel's Notes</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Servidores</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/isx46410800/miguelamoros.github.io/edit/master/docs/servidores.md"> Edit on isx46410800/python</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="servidores">SERVIDORES</h1>
+<h2 id="conexiones-ssh-a-servidores">CONEXIONES SSH A SERVIDORES</h2>
+<ul>
+<li>
+<p><a href="https://www.profesionalreview.com/2018/11/30/ssh-windows-10/">SSH</a>  </p>
+</li>
+<li>
+<p><a href="https://ayuda-cloud-servers.donweb.com/preguntas-frecuentes/como-conectarme-por-acceso-remoto-via-ssh-desde-mi-pc-windows">SSH CLOUD</a>  </p>
+</li>
+</ul>
+<h2 id="hardware-servidores">HARDWARE SERVIDORES</h2>
+<h3 id="nas-server">NAS SERVER</h3>
+<ul>
+<li>
+<p>NAS SERVER: Un servidor NAS es un dispositivo de almacenamiento conectado a la red. Su función es la de hacer copias de seguridad de los archivos que tú le indiques en la configuración, tanto los de tu ordenador personal como los de cualquier otro dispositivo móvil, aunque también tiene muchas otras funcionalidades. Lo único que necesitarás es utilizar las diferentes aplicaciones que tiene cada fabricante.  </p>
+</li>
+<li>
+<p>Un NAS es un ordenador con su propio sistema operativo y que está adaptado para estar todo el día funcionando. En ellos puedes distinguir dos conjuntos de componentes, estando por una parte lo que es el NAS en sí con su RAM, su procesador y toda su circuitería, y por otra parte los discos duros que puedes añadir a sus ranuras. Dependiendo del modelo o el fabricante, estos discos duros pueden venir incluidos cuando los compres o tendrás que comprarlos aparte.  </p>
+</li>
+<li>
+<p>A las ranuras que tiene el NAS para los discos duros se les llama bahías, y también es importante decidir cuántas quieres tener.  </p>
+</li>
+<li>
+<p>Por lo general, cada fabricante cuenta con su propio sistema operativo para sus NAS, por lo que la interfaz y tu experiencia a la hora de moverte por sus menús y configuraciones dependerá en gran medida de la marca por la que apuestes. </p>
+</li>
+<li>
+<p>De nada sirve tener el NAS más potente del mercado si los discos que tiene en su interior no rinden a la medida. Algunos NAS vienen directamente con discos duros en el interior, pero en la mayoría de ocasiones deberás ser tú quien los compre por separado. Es básico fijarse no tanto en la capacidad como en la velocidad de lectura y escritura. En el mercado actual quien mejores discos duros ofrece para dispositivos NAS es Western Digital con su gama Red. Son discos duros preparados para rendir correctamente en dispositivos NAS y seguramente la mejor elección. Pero aún así, es recomendable informarte sobre los diferentes modelos de cada fabricante.  </p>
+</li>
+<li>
+<p><a href="https://www.xataka.com/basics/configurar-nas-synology-paso-a-paso-configuracion-inicial">CONFIGURAR/INSTALAR NAS</a>  </p>
+</li>
+<li>Hay una ip publica y otra interna. Desde el exterior tenemos que hacer un <a href="https://www.youtube.com/watch?v=PxfgkNzc0PA&amp;ab_channel=Qloudea">redireccionamiento de puertos</a> para poder conectarnos. Sabiendo la ip podemos conectarnos por el navegador, por putty por ssh y establecemos la <a href="https://www.ionos.es/digitalguide/servidores/configuracion/como-conectar-un-nas-a-internet/">conexion</a>  </li>
+</ul>
+<h2 id="vpn-servidores">VPN SERVIDORES</h2>
+<ul>
+<li>
+<p>Una VPN (o Virtual Private Network, «Red Privada Virtual») es una forma de conectarse a una red local a través de Internet. Por ejemplo, suponga que quiere conectarse a la red local de su trabajo mientras está en un viaje de negocios. Tendrá que buscar una conexión a Internet en alguna parte (como en un hotel) y luego conectarse a la VPN de su trabajo. Sería como si se estuviera conectando directamente a la red de su trabajo, pero la conexión de red real sería a través de la conexión a Internet del hotel. Las conexiones VPN normalmente van cifradas para evitar que la gente pueda acceder a la red local a la que está conectándose sin autenticarse.</p>
+</li>
+<li>
+<p>Hay diferentes tipos de VPN. Puede que tenga que instalar algún software adicional dependiendo de a qué tipo de VPN se conecta. Busque los detalles de conexión de quien está a cargo de la VPN y consulte qué cliente VPN tiene que usar. Luego, vaya al instalador de software y busque el paquete NetworkManager que funciona con su VPN (si lo hay) e instálelo.  </p>
+</li>
+<li>
+<p>Para configurar una conexión VPN:  </p>
+</li>
+</ul>
+<pre><code>Abra la vista de Actividades y empiece a escribir Red.
+Pulse en Red para abrir el panel.
+En la parte inferior de la lista, a la izquierda, pulse el botón + para añadir una conexión nueva.
+Elija VPN en la lista de interfaces.
+Seleccione qué tipo de conexión VPN tiene.
+Rellene los detalles de la conexión VPN y pulse Añadir cuando haya terminado.
+Cuando termine de configurar la VPN, abra el menú del sistema en la parte derecha de la barra superior, pulse en VPN apagada y seleccione Conectar. Es posible que deba introducir una contraseña antes de establecer la conexión. Cuando la conexión se establezca, verá un icono de un candado en la barra superior.
+Si todo va bien, se conectará correctamente a la VPN. De lo contrario, puede que necesite volver a comprobar la configuración VPN que introdujo. Puede hacerlo pulsando desde el panel de Red que usó para crear la conexión, seleccionando la conexión VPN en la lista y pulsando el botón configuración para revisar la configuración.
+Para desconectarse de la VPN, pulse en el menú del sistema en la barra superior y pulse Apagar bajo el nombre de su conexión VPN.
+</code></pre>
+<ul>
+<li><a href="https://support.microsoft.com/es-es/windows/conectar-a-una-vpn-en-windows-3d29aeb1-f497-f6b7-7633-115722c1009c">CONEXION VPN WINDOWS</a>  </li>
+<li><a href="https://www.profesionalreview.com/2018/11/23/crear-vpn-windows-10/">CONFIGURACION VPN WINDOWS</a>  </li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=5wyR4iBZyCA&amp;ab_channel=ACADENAS">CONEXION VPN</a>  </p>
+</li>
+<li>
+<p><a href="https://www.hostinger.es/tutoriales/como-configurar-vpn-linux-con-openvpn">CONEXION VPN LINUX</a>  </p>
+</li>
+<li>
+<p><a href="https://vidatecno.net/como-conectarse-a-una-vpn-automaticamente-en-linux/">CONFIGURACION VPN LINUX</a>  </p>
+</li>
+<li>
+<p><a href="https://www.xataka.com/basics/como-crear-paso-a-paso-tu-propio-vpn-gratis-windows-necesidad-ningun-programa">CREAR VPN DOMESTICA</a>  </p>
+</li>
+<li>
+<p><a href="https://www.xataka.com/basics/vpn-gratis-mejores-que-conectarte-ocultando-tu-ip-otro-pais">SOFTWARES DE VPN</a>  </p>
+</li>
+<li>
+<p><a href="https://www.xataka.com/basics/que-servidor-dlna-como-configurar-uno-tu-pc-para-ver-tus-archivos-otros-dispositivos">COMPARTIR ARCHIVOS EN CASA SERVER DLNA</a>  </p>
+</li>
+</ul>
+<h2 id="mantenimiento-servidores">MANTENIMIENTO SERVIDORES</h2>
+<h2 id="clonacion-imagenes">CLONACION IMAGENES</h2>
+<ul>
+<li>
+<p>El software de creación de imágenes de espejo crea un único archivo comprimido que se puede utilizar con fines de copia de seguridad y recuperación ante desastres. Si algo le sucede a su sistema, use el software para restaurar su sistema usando ese archivo de imagen. Puede programar actualizaciones periódicas para ese archivo para asegurarse de capturar nuevos datos o cambios de archivo, y puede almacenar varios archivos de copia de seguridad de imágenes en una sola unidad.</p>
+</li>
+<li>
+<p>Clonar un disco simplemente copia el contenido de un disco duro a otro disco duro. Como resultado, tanto el disco de origen como el de destino tienen exactamente los mismos datos. Esta función le permite transferir toda la información (incluido el sistema operativo y los programas instalados) de un disco duro pequeño a uno grande sin tener que reinstalar y reconfigurar todo su software. Pero solo puede crear un clon en un disco, y no capturará cambios en sus datos, a menos que haga un nuevo clon.</p>
+</li>
+<li>
+<p><a href="https://es.phhsnews.com/5-free-disk-imaging-cloning-utilities">SOFTWARES CLONACION IMAGENES</a>  </p>
+</li>
+<li>
+<p><a href="https://www.iperiusbackup.net/es/sysprep-clonacion-y-despliegue-de-instalaciones-de-windows/">SYSPREP PARA CLONAR</a>. Para <a href="https://www.sysadmit.com/2014/11/windows-sysprep-sid.html">cambiar el ssid</a>.</p>
+</li>
+</ul>
+<pre><code>Ejecutas sysprep en modo OOBE y seleccionas la opción generalizar, y también que se apague cuando termine.
+Luego de que termine y se apague, creas la imagen y la despliegas a todos los equipos que necesites, con esto windows iniciará en modo bienvenida y generará un SID nuevo.
+</code></pre>
+<ul>
+<li>
+<p><a href="https://eltallerdelbit.com/sysprep-windows/">Ejemplo clonacion sysprep</a>  </p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=z0tOAOXpMPE&amp;ab_channel=AdministradoresIT">CLONAR</a> Y <a href="https://www.youtube.com/watch?v=ujDbpij2x40&amp;ab_channel=pantallazos.es">CAMBIAR SSID</a></p>
+</li>
+<li>
+<p><a href="https://drbl.org/download/download-sf.php?branch=stable">DESCARGA CLONEZILLA</a>  </p>
+</li>
+<li>
+<p><a href="https://blog.redigit.es/clonezilla-clonar-varios-ordenadores-multicast-tutorial-parte-3/">TUTORIAL CLONEZILLA</a>  </p>
+</li>
+<li>
+<p><a href="https://docplayer.es/94823707-Practica-clonacion-en-red-con-clonezilla-server.html">Ejemplo clonacion con clonezilla</a> y otro <a href="https://weblinus.com/clonacion-de-equipos-por-multicasting-drbl-y-clonezilla/">ejemplo 2</a>  </p>
+</li>
+<li>
+<p>PRACTICA CLONEZILLA: <a href="https://www.youtube.com/watch?v=huVhDH7nE1M&amp;ab_channel=DIEGOLITTLELION">VIDEO</a>: <a href="https://peredafp.files.wordpress.com/2010/10/sesion1czserver.pdf">1</a>, <a href="https://peredafp.files.wordpress.com/2010/10/sesion1czlocal.pdf">2</a> Y <a href="https://peredafp.files.wordpress.com/2010/10/sesion2czlocal.pdf">3</a> Y EN <a href="https://www.youtube.com/watch?v=ZbHJUVuv10Y&amp;ab_channel=Inform%C3%A1ticoForever">WINDOWS</a>  </p>
+</li>
+<li>
+<p><a href="https://www.drive-image.com/es/clonacion-de-disco.html">CLONACION DE DISCOS</a>  </p>
+</li>
+<li>
+<p><a href="https://riunet.upv.es/bitstream/handle/10251/127678/Olmeda%20-%20Despliegue%20de%20im%C3%A1genes%20del%20sistema%20operativo%20en%20aulas%20departamentales%20con%20OpenGnsys%20y%20posterior%20automatizaci%C3%B3n%20de%20procesos%20mediante%20Powershell.pdf?sequence=1">PRACTICA DE CLONADO AULA</a></p>
+</li>
+</ul>
+<h2 id="windows-server">WINDOWS SERVER</h2>
+<h2 id="monitorizar-servidores">MONITORIZAR SERVIDORES</h2>
+<ul>
+<li>
+<p><a href="https://www.udemy.com/course/monitoreo-con-nagios/?referralCode=1484E2700013380FDEE9">curso nagios</a>  </p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/playlist?list=PLf0g2cV4iCkE9vRbsSoe5f428zMNlasKd">NAGIOS</a>  </p>
+</li>
+<li>
+<p>INSTALACION:  </p>
+<ul>
+<li>cambiar a disabled o permissive el selinux</li>
+<li>abrir puertos <code>firewall-cmd --permanent --add-port=80-443/tcp</code>  </li>
+<li>firewall-cmd --reload  </li>
+<li>instalar paquetes como gcc glibc glibc-common openssl openssl-devel perl make</li>
+<li>useradd nagios // usermod -aG nagios apache  </li>
+<li>wget https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-4.4.6/nagios-4.4.6.tar.gz en root home.  </li>
+<li>tar -xvf nagios.tar.gz // cd nagios</li>
+<li>./configure // make all // make install // make install-init // make install-commandmode // make install-config // make install-webconf  </li>
+<li>systemctl enable nagios </li>
+<li>htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin y ponemos passwd  </li>
+<li>systemctl start nagios  </li>
+</ul>
+</li>
+<li>
+<p>DEPENDENCIAS Y PLUGINS:  </p>
+<ul>
+<li>En root home wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.0/nagios-plugins-2.4.0.tar.gz  </li>
+<li>tar -xvf plugins_nagios.tar.gz // cd plugins  </li>
+<li>./configure // make install</li>
+<li>systemctl restart nagios  </li>
+<li>Se instalan en /usr/local/nagios/libexec  </li>
+<li>plugin help te dice como se usa  </li>
+</ul>
+</li>
+<li>
+<p>NRPE(Nagios Remote Plugin Executor) es un módulo que permite realizar una monitorización activa empleando un agente instalado en los recursos.:</p>
+<ul>
+<li>wget https://github.com/NagiosEnterprises/nrpe/releases/tag/nrpe-4.0.3 en root home  </li>
+<li>tar -xvf nrpe.tar.gz // cd nrpe  </li>
+<li>./configure // nos da el puerto 5666 que tiene que ser abierto en los clientes  </li>
+<li>make check_nrpe // make install-plugin</li>
+<li>creamos un comando para que nagios use nrpe -&gt;/usr/local/nagios/etc/objects/</li>
+<li>vim commands.cfg // abajo del todo:<br />
+<code>define command {
+    command_name check_nrpe
+    command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}</code><blockquote>
+<p>user1 = /usr/local/nagios/libexec  </p>
+</blockquote>
+</li>
+<li>cd .. / cat resource.cfg nos especifica los parametros de varibles  </li>
+</ul>
+</li>
+<li>
+<p>PREPARAR HOST LINUX:  </p>
+<ul>
+<li>EN EL CLIENTE</li>
+<li>cambiar a disabled o permissive el selinux</li>
+<li>abrir puertos <code>firewall-cmd --permanent --add-port=80-443/tcp</code>  </li>
+<li>firewall-cmd --reload  </li>
+<li>instalar paquetes como gcc glibc glibc-common openssl openssl-devel perl make</li>
+<li>useradd nagios</li>
+<li>En root user home wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.0/nagios-plugins-2.4.0.tar.gz  </li>
+<li>tar -xvf plugins_nagios.tar.gz // cd plugins  </li>
+<li>./configure // make install</li>
+<li>wget https://github.com/NagiosEnterprises/nrpe/releases/tag/nrpe-4.0.3 en root home  </li>
+<li>tar -xvf nrpe.tar.gz // cd nrpe  </li>
+<li>./configure // nos da el puerto 5666 que tiene que ser abierto en los clientes  </li>
+<li>make all // make install // make install-config // make install-init  </li>
+<li>vim /usr/local/nagios/etc/nrpe.cfg -&gt; allowed_host:,ip del server  </li>
+<li>systemctl enabled nrpe // systemctl start nrpe  </li>
+<li>ahora estará listo para poder ser monitorizado  </li>
+<li>en el server /usr/local/nagios/libexec ./check_nrpe -H ipcliente y si devuelve la version es que sí hay comunicacion.  </li>
+</ul>
+</li>
+<li>
+<p>AGREGAR HOST LINUX:  </p>
+<ul>
+<li>En el server /usr/local/nagios/etc/objects/ añadimos un fichero parecido a las plantillas(template.cfg) donde vamos a poner los linux que queremos agregar a nagios <code>linux.cfg</code><br />
+<code>define host{
+    use     linux-server #en las plantillas veremos lo que viene de este nombre
+    host_name cliente_linux
+    alias cliente_linux
+    check_interval 1 # lo podemos poner en nagios grafico y ahorramos esta linea
+    address 10.20.30.201
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Hard disk
+    check_command check_nrpe!check_sda1
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Uptime
+    check_command check_nrpe!check_uptime
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Current load
+    check_command check_nrpe!check_load
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Swap
+    check_command check_nrpe!check_swap
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Ping
+    check_command check_ping!500.0,20%!800.0,60% #warning-critical
+}
+define service{
+    use  generic-service
+    host_name cliente_linux
+    service_description Usuarios activos
+    check_command check_nrpe!check_users
+}</code>  </li>
+<li>En /urs/local/nagios/etc/nagios.cfg editamos y añadimos este fichero para que lo cargue en el servidor nagios <code>cfg_file=/usr/local/nagios/etc/objects/linux.cfg</code></li>
+<li>Para verificar este fichero <code>/usr/local/nagios/bin/nagios -v /urs/local/nagios/etc/nagios.cfg</code>  </li>
+<li>.bash_rc creamos dos alias: alias nagioscheck=<code>/usr/local/nagios/bin/nagios -v /urs/local/nagios/etc/nagios.cfg</code> y alias nagiosrestart=<code>systemctl restart nagios</code></li>
+<li>si hay plugins que no detecta nagios, en el cliente editamos el fichero /usr/local/nagios/etc/nrpe.cfg y añadimos la linea de command[check_swap]=/usr/local/nagios/libexec/check_swap -w 20% -c 10% y despues systemctl restart nrpe</li>
+<li>Podemos hacer consultas por consola en el server como por ejemplo en libexec <code>./check_nrpe -H ip cliente -c check_swap</code>  </li>
+</ul>
+</li>
+<li>
+<p>AGREGAR HOST WINDOWS:  </p>
+<ul>
+<li>En windows cliente se instala el <code>nsclient</code> para poder comunicar nagios con un windows y poder monitorizar. Descargamos en <a href="https://nsclient.org/download/">nsclient</a>  </li>
+<li>Instalamos - complete - direccion ip del server - sin pass, insecure y todo enabled</li>
+<li>vamos a firewall de windows y que esté permitido el nsclient</li>
+<li>vamos a services.msc y buscamos nsclient monitoring y esté ejcutandose y luego en inicar sesion permitimos el escritorio  </li>
+<li>en el server nagios en el template de windows.cfg podemos ver como comunicar con windows y los distintos plugins. Luego lo agregamos a nagios.cfg  </li>
+<li>creamos una nueva norma en firewall de entrada de ping por si falla la conexion.  </li>
+<li>editamos el fichero de archivos de programa -nsclient si da errores.</li>
+</ul>
+</li>
+</ul>
+<h2 id="inventario">INVENTARIO</h2>
+<ul>
+<li>El inventario de hardware usará el sistema clásico de inventarios, los diferentes campos de la tabla de Excel incluirá:  </li>
+</ul>
+<pre><code>Id del producto. Cada producto estará marcado o señalizado para poder identificarlo. También sirve para que los empleados conozcan la procedencia del aparato.
+Tipo de producto: Ordenador de sobre mesa, portátil, teclado, ratón, tableta gráfica, móvil de empresa, pantalla o videowall, impresora ....
+Marca: Marca del producto
+Garantía: Fecha de validez de la garantía
+Características: Descripción de cómo es el producto
+Estado: en servicio, reparada, fuera de servicio
+Ubicación: Departamento RRHH, Producción, Dirección...
+Cantidad de productos. Número de productos que se poseen con esas características
+</code></pre>
+<ul>
+<li>Algunos programas de inventario:  </li>
+</ul>
+<pre><code>1. PartKeepr
+2. Inventory Manager de Suru Tech Perfect Inventory Manager
+3. Magento Inventory Project (MSI)
+II. Sistemas de gestión de inventarios unidos a un ERP
+4. OpenBoxes Plan Self-Hosted
+5. ERPNext Self Hosted
+6. Odoo ERP Community Edition
+</code></pre>
+<ul>
+<li>
+<p><a href="https://github.com/magento/inventory">MAGENTO INVENTORY</a> y su <a href="https://www.hiberus.com/crecemos-contigo/como-controlar-gestionar-stock-magento/">CONFIGURACION</a>  </p>
+</li>
+<li>
+<p><a href="https://negokai.com/los-mejores-software-de-gestion-de-inventarios.html?utm_source=justexw.com&amp;utm_medium=content&amp;utm_campaign=seo_sp&amp;utm_term=plantilla_498">INVENTARIOS</a>  </p>
+</li>
+<li>
+<p><a href="https://www.network-inventory-advisor.com/es/best-hardware-inventory-software.html">SOFTWARES DE INVENTARIO DE RED</a>  </p>
+</li>
+<li>
+<p><a href="https://es.ccm.net/aplicaciones-e-internet/profesional/1388-los-mejores-programas-gratuitos-de-inventario-de-equipos-informaticos/">SOFTWARE GRATIS INVENTARIO RED</a>  </p>
+</li>
+<li>
+<p><a href="https://www.it-asset-tool.com/es/descarga-rapida/it-asset-tool">ASSET TOOL INVENTARIO</a>  </p>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../taller/" class="btn btn-neutral float-right" title="Taller">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../windows/" class="btn btn-neutral" title="Windows"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../windows/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../taller/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

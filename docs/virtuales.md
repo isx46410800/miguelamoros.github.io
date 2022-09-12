@@ -10,8 +10,16 @@
 
 + Añadimos el Hyper-V en panel de control - programas - activar o desactivar caracteristicas y añadimos todo lo de HyperV. Con powershell lo hacemos con `Enable-WindowsOptionalFeature -Online - FeatureName:Microsift-Hyper-V -All`.  
 
++ Activar características HYPER-V con CMD/DISM:
+    - `DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V`  
+
++ Habilitar HyperV o Vmware segun lo que se vaya a usar:  
+    - `bcdedit /set hypervisorlaunchtype off` (habilita vmware)  
+    - `bcdedit /set hypervisorlaunchtype auto` (habilita hyper-v)  
+
 + Acciones configuración de Hyper-V nos sirve para indicar en que carpeta se guardarán los discos duros y las maquinas virtuales.  
 
++ Podemos crear una MV rápida en el menu de busqueda "Creación rapida de hyper-V".  
 + Crear MV: nuevo - maquina virtual y ponemos nombre, generacion, donde guardala, asignar memoria, la red, el disco duro y el SO. También en creacion rapida - nombre - iso y red. Luego te saldrán configuracion predeterminadas que se pueden cambiar en configuración.  
 
 + Tipos de redes:  
@@ -24,10 +32,6 @@
 
 + Conectar dispositivos USB de fuera a la maquina virtual: cuando le damos a conectar - le damos a mostrar - recursos locales - mas y selecionamos.  
 
-+ Habilitar HyperV o Vmware segun lo que se vaya a usar:  
-    - `bcedit /set hypervisorlaunchtype off` (habilita vmware)  
-    - `bcedit /set hypervisorlaunchtype auto` (habilita vmware)  
-
 + Cuando da error de PING entre maquinas puede ser que haya que desactivar el firewall o en las reglas de firewall en la seguridad de windows, activar el protocolo ICMP entrantes.  
 
 + El error de PXE que no deja el modo seguro arrancar la maquina virtual se soluciona yendo a la condiguración - seguridad y desactivar el arranque seguro.  
@@ -37,9 +41,11 @@
     - Dentro de una maquina, en el estado que ya queremos que se haga luego la copia, vamos a Equipo - unidad C - system32 - sysprep y ejecutamos y elegimos iniciar y habilitamos opcion y apagado. Una vez apagado, vamos a la MV , boton derecho exportar y la guardamos donde queramos. También podemos copiar el disco duro de la MV para también hacer una plantilla del disco duro y asi seleccionamos ese disco al crear la nueva MV. Luego importar maquina en acciones - selecionamos donde la otra, nueva identificador.  
 
 
-+ Para poder tener HyperV dentro de una maquina virtual (virtualizacion anidada) se ha de indicar en la maquina fisica: `Set-VMProcessor -VMName DC01 -ExposeVirtualizationExtensions $true`  
++ Para poder tener HyperV como característica dentro de una maquina virtual (virtualizacion anidada) se ha de indicar en la maquina fisica: `Set-VMProcessor -VMName DC01 -ExposeVirtualizationExtensions $true`  
 
 + Se puede migrar toda la maquina virtual de dentro de una maquina virtual a otro servidor de maquina virtual para meterle dentro esta maquina virtual (Shared Nothing Live Migration), se hace en caliente y en funcionamiento sin perder tiempo ni información. Vamos a la MV - boton derecho - mover - mover MV y seleccionar donde - y selecionamos el host a mover - mover todos los elementos y elegimos la carpeta de destino.  
+
++ Se pueden crear puntos de control/check points en la máquina virtual, botón derecho y seleccionamos el apartado de checkpoints.  
 
 
 # VMWARE  
@@ -49,6 +55,30 @@
 + [NUBE](https://docs.microsoft.com/es-es/azure/vmware-cloudsimple/quickstart-create-private-cloud-vmware-virtual-machine)  
 
 + [CONFIGURAR](https://docs.vmware.com/es/VMware-Fusion/12/com.vmware.fusion.using.doc/GUID-7705D72C-9D90-4363-8A05-7DC3B2CAFE80.html)  
+
++ [ERROR PROCESADOR AL ENCENDER MV](https://www.youtube.com/watch?v=apGG1Kicit8)  
+
+## PRACTICA VMWARE SPHERE
+
++ __VMware vSphere__ es la solución por excelencia para virtualizar centros de datos (CPDs).  
++ Mediante un servidor anfitrión al que desde ahora llamaremos hypervisor o host, ejecutando una serie de máquinas virtuales (VM o virtual machines) que son las que contienen los sistemas operativos instalados. Vmware Vsphere es el paquete completo que facilita la administración total de todo nuestro entorno virtual y para ello consta de 2 partes muy bien diferenciadas: Vmware ESXi (ESX en versiones antiguas) y Vmware vCenter Server.  
++ __VMware ESXi__ es el sistema operativo que lleva el servidor físico que va a ejecutar las máquinas virtuales, el que hace la magia vamos. Esto también se conoce como hypervisor. VMware ESXi es el sistema operativo que permite correr otros sistemas operativos dentro de él. Pero no confundir con VMware Workstation que es una aplicación, no un sistema operativo como tal. El ESXI no emula el hardware, entrega el hardware donde está instalado a las máquinas virtuales con una serie de procesos complejos que hace que se pueda compartir la memoria entre varias máquinas virtuales y la CPU, entre otras cosas. Y además lo hace mejor que ningún otro hypervisor del mercado (KVM, QEMU, HyperV…).  [Descargar EXSI](https://docs.vmware.com/es/VMware-vSphere/6.5/com.vmware.vsphere.install.doc/GUID-016E39C1-E8DB-486A-A235-55CAB242C351.html)  
+
+![](./images/vmware1.jpg)  
+
++ __vCenter o VCSA__ es la herramienta que permite manejar todos nuestros ESXi y nuestras máquinas virtuales de la manera más eficiente. No es necesario tenerlo para que nuestras máquinas virtuales se ejecuten, y de hecho si solo tienes un ESXi, el vCenter no tiene ningún sentido.  
++ Una vez que hayamos configurando los ESXi dentro de nuestro vCenter (por ejemplo creando Clusters de ESXi), podremos conectarnos a este vCenter Server y tendremos la visibilidad de todo nuestro entorno virtual presentado de una manera clara, sencilla e intuitiva. ¿Y como podemos conectarnos a este vCenter Server? Pues con el vClient que es una aplicación de escritorio para versiones antiguas o también llamado cliente pesado, o mediante el web client, es decir a través del navegador.  
+
+![](./images/vmware2.jpg)  
++ Desde la versión 6.5, el vClient es a través de navegador también con un cliente web por HTML5. En las últimas versiones de VMware vSphere, este vCenter se instala como un Appliance y se le conoce como VCSA, así que si ves que alguien nombra al VCSA, que sepas que es lo mismo que el vCenter (vCenter Server Appliance). [Descargar vcenter](https://customerconnect.vmware.com/downloads/details?downloadGroup=VC70U3G&productId=974&rPId=91914)  
+
++ __VMWARE VSHPERE VMOTION para hacer migraciones de máquinas.
+
+## CLUSTER VMWARE SHPERE EXSI  
+
++ Para crear un cluster vmware exsi se necesitan varios hosts EXSI(con sus máquinas virtuales) y se necesita tener instalado un Vmware vcenter server. Estos hosts ofrecen recursos de computación, memoria y red al entorno del cluster en su conjunto.  
++ Una vez se crea el cluster se ha de habilitar las caracteristicas de solo cluster como HA (alta disponibilidad) y DRS (programador de recursos distribuidos).  
+
 
 
 

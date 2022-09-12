@@ -1,3 +1,55 @@
+# PANDORA FMS  
+
++ Pandora FMS es una de las herramientas de monitorización de sistemas más flexibles y completas del mercado. Con una única herramienta on-premise puede monitorizar todos los elementos de su negocio (dispositivos, infraestructura, aplicaciones, servicios y procesos de negocio) y obtener la información relevante que precise de ellos para gestionarla.
+
+## INSTALACIÓN  
+
++ Instalamos en la web de [descargas](https://pandorafms.com/es/descargas-pandora-fms/)  
+
++ También podemos seguir los pasos de descarga e instalación en [github](https://github.com/pandorafms/pandorafms)  
+
++ Entramos con la ip + /pandora_console.  
+
+## CONFIGURACION
+
+- IPAM: gestor de direcciones ip tanto ipv4 como ipv6. Para utilizarlo se tiene que ir a Extensiones - IPAM y escanear la red que queramos
+
+
+links
+
+pandora
+https://www.youtube.com/watch?v=ormUhtEsWdw&list=PL6mKJc2MIsOUnMGhfK3sC-VsjPtvIXkdN&index=6
+
+guias
+https://pandorafms.com/manual/es/documentation/02_installation/01_installing
+
+https://pandorafms.com/manual/es/quickguides/general_quick_guide
+
+https://pandorafms.com/downloads/guias_rapidas.pdf
+
+https://pandorafms.com/manual/es/quickguides/general_quick_guide_cloud
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ZABBIX  
 
 + Zabbix es un software de monitorización de código abierto para redes y aplicaciones. Ofrece monitorización en tiempo real de miles de métricas recogidas de servidores, equipos virtuales, dispositivos de red y aplicaciones web. Estas métricas pueden ayudarle a determinar el estado actual de su infraestructura TI y a detectar problemas con los componentes de hardware o software antes de que los clientes se quejen. La información útil se almacena en una base de datos para que pueda analizar datos a lo largo del tiempo y mejorar la calidad de los servicios proporcionados o planificar mejoras de su equipo.  
